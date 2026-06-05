@@ -459,7 +459,8 @@ body {
     <span class="pin-dot"></span>
   </div>
   <div class="pin-error" id="pinError"></div>
-  <div class="pin-hint">输入 4 位数字</div>
+  <div class="pin-hint">点此输入 4 位数字</div>
+  <input type="text" inputmode="numeric" maxlength="4" autocomplete="off" id="pinInput" style="position:absolute;opacity:0;height:0;width:0;pointer-events:none;" />
 </div>
 
 <!-- Side Drawer -->
@@ -500,7 +501,6 @@ body {
 // ═══════════════════════════════════════
 
 const CORRECT_PIN = '0114';
-let pinInput = '';
 
 function setupPinLock() {
   // If already unlocked this session, skip
@@ -511,54 +511,65 @@ function setupPinLock() {
   }
   document.body.style.overflow = 'hidden';
 
-  document.addEventListener('keydown', handlePinKey);
-  // Touch/click on the lock screen to focus for virtual keyboard
-  document.getElementById('pinLock').addEventListener('click', () => {
-    // On mobile, this brings focus - the keydown listener handles input
+  const overlay = document.getElementById('pinLock');
+  const input = document.getElementById('pinInput');
+
+  // Click anywhere on lock screen to focus hidden input → shows virtual keyboard on tablet
+  overlay.addEventListener('click', () => {
+    input.focus();
+    // Prevent keyboard from scrolling the page on mobile
+    window.scrollTo(0, 0);
+  });
+
+  // Auto-focus after a short delay
+  setTimeout(() => {
+    input.focus();
+    window.scrollTo(0, 0);
+  }, 500);
+
+  // Listen for input changes
+  input.addEventListener('input', () => {
+    // Filter non-numeric characters
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 4);
+    const val = input.value;
+    updatePinDots(val.length);
+    clearError();
+
+    if (val.length === 4) {
+      checkPin(val);
+    }
+  });
+
+  // Also handle keydown for physical keyboard users
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      // Let input event handle the change naturally
+      setTimeout(() => updatePinDots(input.value.length), 50);
+    }
   });
 }
 
-function handlePinKey(e) {
-  const overlay = document.getElementById('pinLock');
-  if (overlay.style.display === 'none') return;
-
-  if (e.key >= '0' && e.key <= '9') {
-    if (pinInput.length < 4) {
-      pinInput += e.key;
-      updatePinDots();
-      if (pinInput.length === 4) {
-        checkPin();
-      }
-    }
-  } else if (e.key === 'Backspace' || e.key === 'Delete') {
-    pinInput = pinInput.slice(0, -1);
-    updatePinDots();
-    clearError();
-  }
-}
-
-function updatePinDots() {
+function updatePinDots(count) {
   const dots = document.querySelectorAll('#pinDots .pin-dot');
   dots.forEach((d, i) => {
-    d.classList.toggle('filled', i < pinInput.length);
+    d.classList.toggle('filled', i < count);
     d.classList.remove('error');
   });
 }
 
-function checkPin() {
+function checkPin(val) {
   const dots = document.querySelectorAll('#pinDots .pin-dot');
-  if (pinInput === CORRECT_PIN) {
+  if (val === CORRECT_PIN) {
     sessionStorage.setItem('pin_unlocked', 'true');
     document.getElementById('pinLock').style.display = 'none';
     document.body.style.overflow = '';
-    document.removeEventListener('keydown', handlePinKey);
     render();
     initNotifications();
     checkNotifications();
   } else {
     dots.forEach(d => d.classList.add('error'));
     document.getElementById('pinError').textContent = '密码错误，请重试';
-    pinInput = '';
+    document.getElementById('pinInput').value = '';
     setTimeout(() => {
       dots.forEach(d => d.classList.remove('error', 'filled'));
       document.getElementById('pinError').textContent = '';
