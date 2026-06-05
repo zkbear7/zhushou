@@ -400,41 +400,6 @@ body {
 .main::-webkit-scrollbar, .drawer-body::-webkit-scrollbar { width: 4px; }
 .main::-webkit-scrollbar-thumb, .drawer-body::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 4px; }
 
-/* ── PIN Lock Screen ── */
-.pin-overlay {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  font-family: var(--font);
-}
-.pin-icon { font-size: 52px; }
-.pin-title { font-size: 20px; font-weight: 600; color: var(--text); }
-.pin-sub { font-size: 14px; color: var(--text2); }
-.pin-dots {
-  display: flex; gap: 14px;
-  margin: 8px 0;
-}
-.pin-dot {
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  border: 2px solid var(--divider);
-  transition: var(--transition);
-}
-.pin-dot.filled { background: var(--accent); border-color: var(--accent); }
-.pin-dot.error { background: #d48585; border-color: #d48585; animation: shake 0.4s ease; }
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-.pin-hint { font-size: 13px; color: var(--text3); }
-.pin-error { font-size: 13px; color: #c06060; min-height: 20px; }
-
 /* ── Responsive for tablet ── */
 @media (min-width: 768px) {
   .main { padding: 20px 32px 32px; }
@@ -448,20 +413,6 @@ body {
 <body>
 
 <!-- PIN Lock Screen -->
-<div class="pin-overlay" id="pinLock">
-  <div class="pin-icon">🔐</div>
-  <div class="pin-title">考研助手</div>
-  <div class="pin-sub">请输入密码</div>
-  <div class="pin-dots" id="pinDots">
-    <span class="pin-dot"></span>
-    <span class="pin-dot"></span>
-    <span class="pin-dot"></span>
-    <span class="pin-dot"></span>
-  </div>
-  <div class="pin-error" id="pinError"></div>
-  <div class="pin-hint">点此输入 4 位数字</div>
-  <input type="text" inputmode="numeric" maxlength="4" autocomplete="off" id="pinInput" style="position:absolute;opacity:0;height:0;width:0;pointer-events:none;" />
-</div>
 
 <!-- Side Drawer -->
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
@@ -496,93 +447,6 @@ body {
 <main class="main" id="mainContent"></main>
 
 <script>
-// ═══════════════════════════════════════
-// PIN LOCK
-// ═══════════════════════════════════════
-
-const CORRECT_PIN = '0114';
-
-function setupPinLock() {
-  // If already unlocked this session, skip
-  if (sessionStorage.getItem('pin_unlocked') === 'true') {
-    document.getElementById('pinLock').style.display = 'none';
-    document.body.style.overflow = '';
-    return;
-  }
-  document.body.style.overflow = 'hidden';
-
-  const overlay = document.getElementById('pinLock');
-  const input = document.getElementById('pinInput');
-
-  // Click anywhere on lock screen to focus hidden input → shows virtual keyboard on tablet
-  overlay.addEventListener('click', () => {
-    input.focus();
-    // Prevent keyboard from scrolling the page on mobile
-    window.scrollTo(0, 0);
-  });
-
-  // Auto-focus after a short delay
-  setTimeout(() => {
-    input.focus();
-    window.scrollTo(0, 0);
-  }, 500);
-
-  // Listen for input changes
-  input.addEventListener('input', () => {
-    // Filter non-numeric characters
-    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 4);
-    const val = input.value;
-    updatePinDots(val.length);
-    clearError();
-
-    if (val.length === 4) {
-      checkPin(val);
-    }
-  });
-
-  // Also handle keydown for physical keyboard users
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-      // Let input event handle the change naturally
-      setTimeout(() => updatePinDots(input.value.length), 50);
-    }
-  });
-}
-
-function updatePinDots(count) {
-  const dots = document.querySelectorAll('#pinDots .pin-dot');
-  dots.forEach((d, i) => {
-    d.classList.toggle('filled', i < count);
-    d.classList.remove('error');
-  });
-}
-
-function checkPin(val) {
-  const dots = document.querySelectorAll('#pinDots .pin-dot');
-  if (val === CORRECT_PIN) {
-    sessionStorage.setItem('pin_unlocked', 'true');
-    document.getElementById('pinLock').style.display = 'none';
-    document.body.style.overflow = '';
-    render();
-    initNotifications();
-    checkNotifications();
-  } else {
-    dots.forEach(d => d.classList.add('error'));
-    document.getElementById('pinError').textContent = '密码错误，请重试';
-    document.getElementById('pinInput').value = '';
-    setTimeout(() => {
-      dots.forEach(d => d.classList.remove('error', 'filled'));
-      document.getElementById('pinError').textContent = '';
-    }, 600);
-  }
-}
-
-function clearError() {
-  document.getElementById('pinError').textContent = '';
-}
-
-setupPinLock();
-
 // ═══════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════
