@@ -418,7 +418,7 @@ body {
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer">
   <div class="drawer-header">
-    <span class="drawer-title">☁️ 备考资料库</span>
+    <span class="drawer-title">📖 备考资料库</span>
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div class="drawer-body" id="drawerBody"></div>
@@ -558,7 +558,7 @@ const NON_GYM_DAY_SCHEDULE = [
 // ── Drawer content ──
 const DRAWER_SECTIONS = [
   {
-    title: '🌙 数学一 · 高数18讲分级',
+    title: '🔢 数学一 · 高数18讲分级',
     html: `
       <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">✅ 已学：第1-6讲 | ⚪ 跳过：第7、12讲</p>
       <table>
@@ -576,7 +576,7 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标：保90冲110 | 策略：线代概率先拿稳，真题三阶段精刷</p>`
   },
   {
-    title: '☁️ 828 自控 · 教材章节',
+    title: '⚙️ 828 自控 · 教材章节',
     html: `
       <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">三层体系：起点考研课（主课）→ 王万良/俞立课后题（必做）→ MOOC（可选）</p>
       <p style="font-size:13px;font-weight:600;color:var(--text);">王万良《自动控制原理》第3版</p>
@@ -597,7 +597,7 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标冲130 | ⚠️ 平时手算不用计算器</p>`
   },
   {
-    title: '⭐ 英语一 · 柴荣课结构',
+    title: '📝 英语一 · 柴荣课结构',
     html: `
       <table>
         <tr><th>板块</th><th>课时</th><th>学习时机</th></tr>
@@ -613,7 +613,7 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 每日流程：单词→柴荣课→真题→扇贝复习</p>`
   },
   {
-    title: '✨ 政治 · 9月启动安排',
+    title: '📜 政治 · 9月启动安排',
     html: `
       <table>
         <tr><th>阶段</th><th>时间</th><th>内容</th></tr>
@@ -799,7 +799,7 @@ function render() {
   const current = getCurrentTask(sched, now);
 
   // Current task
-  const iconMap = { math:'🌙', eng:'⭐', pro:'☁️', gym:'🏃', rest:'💤', eat:'🍜', pol:'✨' };
+  const iconMap = { math:'🔢', eng:'📝', pro:'⚙️', gym:'🏃', rest:'💤', eat:'🍜', pol:'📜' };
   let nowHTML = '';
   if (current.type === 'now') {
     nowHTML = `
@@ -898,7 +898,7 @@ function closeDrawer() {
 const NOTIFY_TIMES = [
   { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！新的一天开始了' },
   { hour: 11, minute: 0, id: '1100', label: '🍌 健身日练前加餐：吃香蕉+坚果', gymOnly: true },
-  { hour: 14, minute: 0, id: '1400', label: '☁️ 下午学习开始，加油！' },
+  { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！' },
   { hour: 20, minute: 0, id: '2000', label: '🌙 晚间复盘时间' },
 ];
 
