@@ -2,7 +2,7 @@
   "name": "考研备考每日助手",
   "short_name": "考研助手",
   "description": "考研备考日程提醒与进度管理",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#fdf8f4",
   "theme_color": "#c4a882",
