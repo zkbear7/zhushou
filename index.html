@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>考研助手 · 每日仪表盘</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#fdf8f4">
+<link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+<style>
+:root {
+  --bg: #fdf8f4;
+  --card: #fffefb;
+  --card2: #faf6f0;
+  --text: #3d3929;
+  --text2: #8b8680;
+  --text3: #b8b3ab;
+  --divider: #e8e3dc;
+  --accent: #c4a882;
+  --accent-light: #e8dccf;
+  --green: #a3b899;
+  --green-light: #e2ecda;
+  --rose: #c8a8a8;
+  --rose-light: #f0e4e4;
+  --lavender: #b8b0c8;
+  --lavender-light: #e8e4f0;
+  --amber: #d4b896;
+  --amber-light: #f0e4d4;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 12px rgba(61,57,41,0.06);
+  --font: 'LXGW WenKai Screen', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--card);
+  border-bottom: 1px solid var(--divider);
+  flex-shrink: 0;
+  z-index: 10;
+}
+.menu-btn {
+  width: 40px; height: 40px;
+  border: none; background: none;
+  font-size: 22px; cursor: pointer;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  flex-shrink: 0;
+}
+.menu-btn:active { background: var(--accent-light); }
+.countdown-badge {
+  display: flex; align-items: center; gap: 8px;
+  margin-left: auto;
+  background: var(--accent-light);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+.countdown-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: #8b6f4e;
+  line-height: 1;
+}
+.today-label {
+  font-size: 15px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+/* ── Main Content ── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Now Card ── */
+.now-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--divider);
+  text-align: center;
+}
+.now-time {
+  font-size: 14px;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+}
+.now-task-icon {
+  font-size: 40px;
+  margin: 8px 0 4px;
+  line-height: 1;
+}
+.now-task-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+.now-task-sub {
+  font-size: 15px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+.now-task-time {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 14px;
+  background: var(--accent-light);
+  border-radius: 12px;
+  font-size: 13px;
+  color: #8b6f4e;
+  font-weight: 500;
+}
+
+/* ── Timeline ── */
+.timeline-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--divider);
+}
+.timeline-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline-title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.timeline-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.timeline-item:active { background: var(--bg); }
+.timeline-item.done .tl-label { text-decoration: line-through; opacity: 0.45; }
+.timeline-item.done .tl-marker { opacity: 0.3; }
+.tl-marker {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.tl-marker.math { background: var(--amber); }
+.tl-marker.eng  { background: var(--lavender); }
+.tl-marker.pro  { background: var(--green); }
+.tl-marker.gym  { background: var(--rose); }
+.tl-marker.rest { background: #d0d0d0; }
+.tl-marker.eat  { background: #e0d8c8; }
+.tl-marker.pol  { background: #d4a9a9; }
+.tl-time {
+  font-size: 13px;
+  color: var(--text3);
+  width: 80px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.tl-label {
+  font-size: 15px;
+  color: var(--text);
+  flex: 1;
+  transition: var(--transition);
+}
+.tl-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--divider);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: var(--transition);
+}
+.timeline-item.done .tl-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.tl-check::after { content: ''; }
+.timeline-item.done .tl-check::after { content: '✓'; }
+
+/* ── Drawer Overlay ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(61,57,41,0.25);
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+.overlay.open { opacity: 1; pointer-events: auto; }
+
+/* ── Side Drawer ── */
+.drawer {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 320px;
+  max-width: 82vw;
+  background: var(--card);
+  z-index: 30;
+  box-shadow: 2px 0 24px rgba(61,57,41,0.1);
+  transform: translateX(-100%);
+  transition: transform var(--transition);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.drawer.open { transform: translateX(0); }
+.drawer-header {
+  padding: 20px 18px 14px;
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.drawer-title { font-size: 17px; font-weight: 600; color: var(--text); }
+.drawer-close {
+  width: 36px; height: 36px;
+  border: none; background: none;
+  font-size: 20px; cursor: pointer;
+  border-radius: 50%;
+  color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+}
+.drawer-close:active { background: var(--bg); }
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Drawer Accordion ── */
+.accordion {
+  border-bottom: 1px solid var(--divider);
+}
+.accordion-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  transition: var(--transition);
+}
+.accordion-header:active { background: var(--bg); }
+.accordion-arrow {
+  font-size: 12px;
+  color: var(--text3);
+  transition: transform var(--transition);
+}
+.accordion.open .accordion-arrow { transform: rotate(90deg); }
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.accordion.open .accordion-body { max-height: 2000px; }
+.accordion-inner {
+  padding: 0 18px 16px;
+}
+.accordion-inner table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.accordion-inner th {
+  text-align: left;
+  padding: 6px 8px 4px;
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.accordion-inner td {
+  padding: 6px 8px;
+  border-top: 1px solid var(--divider);
+  color: var(--text);
+  line-height: 1.5;
+}
+.priority-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.priority-dot.red { background: #d48585; }
+.priority-dot.yellow { background: #d4c885; }
+.priority-dot.orange { background: #d4a878; }
+.priority-dot.green { background: #a3b899; }
+.priority-dot.gray { background: #c0c0c0; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 1px 2px;
+}
+.tag.red { background: #fce8e8; color: #a05050; }
+.tag.green { background: #e8f0e0; color: #5a805a; }
+.tag.blue { background: #e0e8f0; color: #506888; }
+.tag.amber { background: #f0ead8; color: #806840; }
+
+/* ── Notification Permission Banner ── */
+.notify-banner {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--amber-light);
+  margin: 0 20px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: #6b5530;
+}
+.notify-banner.show { display: flex; }
+.notify-btn {
+  margin-left: auto;
+  border: none;
+  background: #8b6f4e;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-family: var(--font);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.notify-btn:active { opacity: 0.8; }
+.notify-dismiss {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #8b6f4e;
+  padding: 4px;
+}
+
+/* ── Rest Day Card ── */
+.rest-card {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--divider);
+}
+.rest-icon { font-size: 56px; margin-bottom: 8px; }
+.rest-text { font-size: 20px; font-weight: 600; color: var(--text); }
+.rest-sub { font-size: 14px; color: var(--text2); margin-top: 6px; }
+
+/* ── Scrollbar ── */
+.main::-webkit-scrollbar, .drawer-body::-webkit-scrollbar { width: 4px; }
+.main::-webkit-scrollbar-thumb, .drawer-body::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 4px; }
+
+/* ── PIN Lock Screen ── */
+.pin-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-family: var(--font);
+}
+.pin-icon { font-size: 52px; }
+.pin-title { font-size: 20px; font-weight: 600; color: var(--text); }
+.pin-sub { font-size: 14px; color: var(--text2); }
+.pin-dots {
+  display: flex; gap: 14px;
+  margin: 8px 0;
+}
+.pin-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--divider);
+  transition: var(--transition);
+}
+.pin-dot.filled { background: var(--accent); border-color: var(--accent); }
+.pin-dot.error { background: #d48585; border-color: #d48585; animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.pin-hint { font-size: 13px; color: var(--text3); }
+.pin-error { font-size: 13px; color: #c06060; min-height: 20px; }
+
+/* ── Responsive for tablet ── */
+@media (min-width: 768px) {
+  .main { padding: 20px 32px 32px; }
+  .now-card { padding: 28px 24px; }
+  .now-task-title { font-size: 28px; }
+  .timeline-card { padding: 22px 20px; }
+  .tl-time { width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PIN Lock Screen -->
+<div class="pin-overlay" id="pinLock">
+  <div class="pin-icon">🔐</div>
+  <div class="pin-title">考研助手</div>
+  <div class="pin-sub">请输入密码</div>
+  <div class="pin-dots" id="pinDots">
+    <span class="pin-dot"></span>
+    <span class="pin-dot"></span>
+    <span class="pin-dot"></span>
+    <span class="pin-dot"></span>
+  </div>
+  <div class="pin-error" id="pinError"></div>
+  <div class="pin-hint">输入 4 位数字</div>
+</div>
+
+<!-- Side Drawer -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-header">
+    <span class="drawer-title">📖 备考资料库</span>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<!-- Top Bar -->
+<header class="topbar">
+  <button class="menu-btn" onclick="openDrawer()" aria-label="菜单">☰</button>
+  <span class="today-label" id="todayLabel"></span>
+  <div class="countdown-badge">
+    <span>距初试</span>
+    <span class="countdown-num" id="countdownNum"></span>
+    <span>天</span>
+  </div>
+</header>
+
+<!-- Notification Permission -->
+<div class="notify-banner" id="notifyBanner">
+  <span>🔔</span>
+  <span>开启通知，准时提醒学习</span>
+  <button class="notify-dismiss" onclick="dismissNotify()">✕</button>
+  <button class="notify-btn" onclick="requestNotify()">开启</button>
+</div>
+
+<!-- Main -->
+<main class="main" id="mainContent"></main>
+
+<script>
+// ═══════════════════════════════════════
+// PIN LOCK
+// ═══════════════════════════════════════
+
+const CORRECT_PIN = '0114';
+let pinInput = '';
+
+function setupPinLock() {
+  // If already unlocked this session, skip
+  if (sessionStorage.getItem('pin_unlocked') === 'true') {
+    document.getElementById('pinLock').style.display = 'none';
+    document.body.style.overflow = '';
+    return;
+  }
+  document.body.style.overflow = 'hidden';
+
+  document.addEventListener('keydown', handlePinKey);
+  // Touch/click on the lock screen to focus for virtual keyboard
+  document.getElementById('pinLock').addEventListener('click', () => {
+    // On mobile, this brings focus - the keydown listener handles input
+  });
+}
+
+function handlePinKey(e) {
+  const overlay = document.getElementById('pinLock');
+  if (overlay.style.display === 'none') return;
+
+  if (e.key >= '0' && e.key <= '9') {
+    if (pinInput.length < 4) {
+      pinInput += e.key;
+      updatePinDots();
+      if (pinInput.length === 4) {
+        checkPin();
+      }
+    }
+  } else if (e.key === 'Backspace' || e.key === 'Delete') {
+    pinInput = pinInput.slice(0, -1);
+    updatePinDots();
+    clearError();
+  }
+}
+
+function updatePinDots() {
+  const dots = document.querySelectorAll('#pinDots .pin-dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('filled', i < pinInput.length);
+    d.classList.remove('error');
+  });
+}
+
+function checkPin() {
+  const dots = document.querySelectorAll('#pinDots .pin-dot');
+  if (pinInput === CORRECT_PIN) {
+    sessionStorage.setItem('pin_unlocked', 'true');
+    document.getElementById('pinLock').style.display = 'none';
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handlePinKey);
+    render();
+    initNotifications();
+    checkNotifications();
+  } else {
+    dots.forEach(d => d.classList.add('error'));
+    document.getElementById('pinError').textContent = '密码错误，请重试';
+    pinInput = '';
+    setTimeout(() => {
+      dots.forEach(d => d.classList.remove('error', 'filled'));
+      document.getElementById('pinError').textContent = '';
+    }, 600);
+  }
+}
+
+function clearError() {
+  document.getElementById('pinError').textContent = '';
+}
+
+setupPinLock();
+
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+
+const EXAM_DATE = new Date(2026, 11, 26); // Dec 26, 2026
+
+// ── June 2026 daily schedules (date-specific) ──
+const JUNE_DAYS = {
+  // 六级冲刺期 6.5-6.12
+  '2026-06-05': { tag: '六级冲刺', emoji: '📝', schedule: [
+    { t:'09:00-12:00', l:'六级真题阅读精做', s:'eng' },
+    { t:'12:00-13:30', l:'午饭 + 午休', s:'rest' },
+    { t:'13:30-15:00', l:'六级听力训练', s:'eng' },
+    { t:'15:00-16:30', l:'六级作文模板整理', s:'eng' },
+    { t:'16:30-18:00', l:'单词复习', s:'eng' },
+    { t:'18:00-19:30', l:'晚饭 + 休息', s:'rest' },
+    { t:'19:30-21:30', l:'错题回顾 + 轻松看课', s:'eng' },
+  ]},
+  '2026-06-10': { tag: '实习日 · 六级冲刺', emoji: '🏢', schedule: [
+    { t:'白天', l:'实习（全天占用）', s:'rest' },
+    { t:'晚间 1-2h', l:'视频课轻松看（线代/概率 2x）', s:'math' },
+    { t:'每天', l:'闪过单词 100 词（保持）', s:'eng' },
+  ]},
+  '2026-06-13': { tag: '六级考试日', emoji: '🎯', schedule: [
+    { t:'上午', l:'六级考试', s:'eng' },
+    { t:'考后', l:'考完就过，不对答案不纠结', s:'rest' },
+    { t:'晚间', l:'可选看 30min 线代视频放松', s:'math' },
+  ]},
+  '2026-06-15': { tag: '实习日 · 期末备考', emoji: '🏢', schedule: [
+    { t:'白天', l:'实习（全天占用）', s:'rest' },
+    { t:'其余时间', l:'全部给期末复习', s:'rest' },
+    { t:'每天', l:'闪过单词 100 词（保持）', s:'eng' },
+  ]},
+  '2026-06-18': { tag: '期末考试日', emoji: '📋', schedule: [
+    { t:'白天', l:'期末考试', s:'rest' },
+    { t:'考后', l:'休息调整', s:'rest' },
+    { t:'每天', l:'闪过单词 100 词', s:'eng' },
+  ]},
+  '2026-06-28': { tag: '期末考试日', emoji: '📋', schedule: [
+    { t:'白天', l:'期末考试', s:'rest' },
+    { t:'考后', l:'休息调整', s:'rest' },
+    { t:'每天', l:'闪过单词 100 词', s:'eng' },
+  ]},
+  '2026-06-29': { tag: '彻底休息', emoji: '😴', schedule: [], rest: true },
+  '2026-06-30': { tag: '彻底休息', emoji: '😴', schedule: [], rest: true },
+};
+
+// Generate June recurring days
+function genJuneSchedules() {
+  const sched = {};
+  for (let d = 5; d <= 30; d++) {
+    const key = `2026-06-${String(d).padStart(2,'0')}`;
+    if (JUNE_DAYS[key]) { sched[key] = JUNE_DAYS[key]; continue; }
+    if (d >= 5 && d <= 12 && d !== 10) {
+      sched[key] = JUNE_DAYS['2026-06-05']; // 六级冲刺
+    } else if (d >= 14 && d <= 18 && d !== 15) {
+      sched[key] = { tag: '期末备考', emoji: '📚', schedule: [
+        { t:'全天', l:'全力备考期末（6.18 考试）', s:'rest' },
+        { t:'每天', l:'闪过单词 100 词', s:'eng' },
+      ]};
+    } else if (d >= 19 && d <= 21) {
+      sched[key] = { tag: '积分集中突破', emoji: '🔥', schedule: [
+        { t:'上午 2h', l:'第8+9讲 积分 · 视频 1.5x', s:'math' },
+        { t:'下午 2h', l:'整理笔记 + 独立重做例题', s:'math' },
+        { t:'下午 1h', l:'课后题检验 2-3 道', s:'math' },
+        { t:'晚上 1h', l:'单词 + 轻松看课', s:'eng' },
+      ]};
+    } else if (d >= 22 && d <= 23) {
+      sched[key] = { tag: '课设日', emoji: '🛠️', schedule: [
+        { t:'全天', l:'课设集中搞定', s:'rest' },
+        { t:'每天', l:'闪过单词 100 词', s:'eng' },
+      ]};
+    } else if (d >= 24 && d <= 28 && d !== 28) {
+      sched[key] = { tag: '期末备考', emoji: '📚', schedule: [
+        { t:'全天', l:'全力备考期末（6.28 考试）', s:'rest' },
+        { t:'晚间余力', l:'线代 30 讲视频 2x 纯看（磨耳朵）', s:'math' },
+        { t:'每天', l:'闪过单词 100 词', s:'eng' },
+      ]};
+    }
+  }
+  return sched;
+}
+const JUNE = genJuneSchedules();
+
+// ── July+ recurring schedules ──
+const GYM_DAY_SCHEDULE = [
+  { t:'09:00-11:00', l:'数学一 · 高强度 2h', s:'math' },
+  { t:'11:00-11:15', l:'🍌 练前加餐（香蕉+坚果）', s:'eat' },
+  { t:'11:15-12:35', l:'🏃 爬坡有氧 + 🚿 洗澡吹头发', s:'gym' },
+  { t:'12:35-13:00', l:'🍜 练后午餐（外卖面类·高蛋白）', s:'eat' },
+  { t:'13:00-13:30', l:'短暂休息（如需补觉趴20min）', s:'rest' },
+  { t:'14:00-16:00', l:'828 自控 · 2h', s:'pro' },
+  { t:'16:00-18:00', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
+  { t:'18:00-19:00', l:'晚饭 + 休息', s:'rest' },
+  { t:'19:00-21:00', l:'🌙 数学补充 + 单词复盘', s:'math' },
+];
+
+const NON_GYM_DAY_SCHEDULE = [
+  { t:'09:00-12:00', l:'数学一 · 高强度 3h', s:'math' },
+  { t:'12:00-12:30', l:'🍜 午饭（吃面不吃饭）', s:'eat' },
+  { t:'12:30-13:00', l:'午休 30min', s:'rest' },
+  { t:'13:00-14:00', l:'休息 + 回神', s:'rest' },
+  { t:'14:00-16:00', l:'828 自控 · 2h', s:'pro' },
+  { t:'16:00-18:00', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
+  { t:'18:00-20:00', l:'晚饭 + 休息', s:'rest' },
+  { t:'20:00-22:00', l:'🌙 单词 + 复盘 + 轻松看课', s:'eng' },
+];
+
+// ── Drawer content ──
+const DRAWER_SECTIONS = [
+  {
+    title: '📐 数学一 · 高数18讲分级',
+    html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">✅ 已学：第1-6讲 | ⚪ 跳过：第7、12讲</p>
+      <table>
+        <tr><th>梯队</th><th>讲次</th><th>标题</th><th>策略</th></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>8+9</td><td>积分概念与计算</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>13</td><td>多元函数微分学</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>14</td><td>二重积分</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>15</td><td>微分方程</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>16</td><td>无穷级数</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>18</td><td>多元函数积分学</td><td>完整流程</td></tr>
+        <tr><td><span class="tag amber">🟡 第二</span></td><td>10</td><td>积分几何应用</td><td>减量（只看旋转体）</td></tr>
+        <tr><td><span class="tag amber">🟡 第二</span></td><td>17</td><td>多元积分学预备</td><td>减量</td></tr>
+        <tr><td><span class="tag amber">🟠 第三</span></td><td>11</td><td>积分等式不等式</td><td>纯看</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标：保90冲110 | 策略：线代概率先拿稳，真题三阶段精刷</p>`
+  },
+  {
+    title: '🔧 828 自控 · 教材章节',
+    html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">三层体系：起点考研课（主课）→ 王万良/俞立课后题（必做）→ MOOC（可选）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);">王万良《自动控制原理》第3版</p>
+      <table>
+        <tr><th>章</th><th>内容</th><th>计划</th></tr>
+        <tr><td>1-2</td><td>基本概念 + 数学模型</td><td>7.1-7.15</td></tr>
+        <tr><td>3</td><td>时域分析</td><td>7.16-7.22</td></tr>
+        <tr><td>4</td><td>根轨迹</td><td>7.23-7.31</td></tr>
+        <tr><td>5</td><td>频域分析</td><td>8.1-8.8</td></tr>
+        <tr><td>6</td><td>系统校正</td><td>8.9-8.15</td></tr>
+      </table>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:8px;">俞立《现代控制理论》</p>
+      <table>
+        <tr><th>章</th><th>内容</th><th>计划</th></tr>
+        <tr><td>1-3</td><td>状态空间+运动分析+能控能观</td><td>8.23-9.10</td></tr>
+        <tr><td>4-5</td><td>Lyapunov+极点配置+观测器</td><td>9.11-9.25</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标冲130 | ⚠️ 平时手算不用计算器</p>`
+  },
+  {
+    title: '🇬🇧 英语一 · 柴荣课结构',
+    html: `
+      <table>
+        <tr><th>板块</th><th>课时</th><th>学习时机</th></tr>
+        <tr><td>词汇</td><td>~20h</td><td>❌ 跳过（闪过单词书已覆盖）</td></tr>
+        <tr><td>语法/长难句</td><td>~18h</td><td>🔥 7月优先</td></tr>
+        <tr><td>阅读基础精讲</td><td>~30h</td><td>7月中-8月</td></tr>
+        <tr><td>阅读技巧强化</td><td>~52h</td><td>8-10月</td></tr>
+        <tr><td>新题型</td><td>—</td><td>9-10月</td></tr>
+        <tr><td>完型填空</td><td>—</td><td>9-10月</td></tr>
+        <tr><td>翻译</td><td>—</td><td>9-10月</td></tr>
+        <tr><td>写作</td><td>—</td><td>10-11月</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 每日流程：单词→柴荣课→真题→扇贝复习</p>`
+  },
+  {
+    title: '🗳️ 政治 · 9月启动安排',
+    html: `
+      <table>
+        <tr><th>阶段</th><th>时间</th><th>内容</th></tr>
+        <tr><td>基础速成</td><td>9月</td><td>徐涛马原+毛中特(1.5x) → 苏一导图 → 肖1000</td></tr>
+        <tr><td>技巧提分</td><td>10月</td><td>肖1000二刷错题 + 腿姐背诵手册</td></tr>
+        <tr><td>选择突破</td><td>11月</td><td>肖八选择吃透 + 时政通读</td></tr>
+        <tr><td>终极背诵</td><td>12月</td><td>肖四大题狂背（第一套>第二套>第三套>第四套）</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 9月前不碰政治 | 史纲思修直接看苏一导图</p>`
+  },
+  {
+    title: '📊 进度自检节点',
+    html: `
+      <table>
+        <tr><th>节点</th><th>数学一</th><th>828</th><th>英语</th></tr>
+        <tr><td>7月底</td><td>高数第一梯队+1000题A</td><td>王1-4章</td><td>闪过一轮+语法</td></tr>
+        <tr><td>8.22</td><td>线代概率+1000题A全部</td><td>王1-6章+现控预备</td><td>阅读基础+技巧</td></tr>
+        <tr><td>9月底</td><td>36讲+1000题B组</td><td>俞3-5章</td><td>阅读+新题型</td></tr>
+        <tr><td>10月底</td><td>真题2005-2020</td><td>真题第一次模考</td><td>作文模板</td></tr>
+        <tr><td>11月底</td><td>真题2021-26+模拟≥20套</td><td>真题全完成</td><td>整卷模考</td></tr>
+        <tr><td>12月考前</td><td>错题+公式默写</td><td>概念+手感</td><td>作文默写+阅读</td></tr>
+      </table>`
+  },
+  {
+    title: '🏃 健身方案摘要',
+    html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">详见 <code>F:\\考研\\中午健身方案.md</code></p>
+      <table>
+        <tr><th>阶段</th><th>坡度</th><th>速度</th><th>时间</th></tr>
+        <tr><td>1-2周适应</td><td>6-8%</td><td>3-3.5 km/h</td><td>20-25min</td></tr>
+        <tr><td>3-4周提升</td><td>8-10%</td><td>3.5-4 km/h</td><td>30min</td></tr>
+        <tr><td>5周+标准</td><td>10-12%</td><td>4 km/h</td><td>30-35min</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">💡 练前：香蕉+坚果 | 练后：外卖面类高蛋白 | 不扶扶手 | 隔天洗头</p>`
+  },
+];
+
+// ═══════════════════════════════════════
+// LOGIC
+// ═══════════════════════════════════════
+
+function fmtDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function isGymDay(date) {
+  // July 1 = gym day, then every other day
+  // For June, use the old schedule (not structured gym)
+  if (date.getMonth() < 6) return false; // Before July
+  if (date.getMonth() > 6 && date.getFullYear() === 2026) return null; // After July - default to pattern from July 1
+  const july1 = new Date(2026, 6, 1);
+  const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
+  return diffDays >= 0 && diffDays % 2 === 0;
+}
+
+function isRestDay(date) {
+  // 学6休1: every 7th day starting July 1
+  const july1 = new Date(2026, 6, 1);
+  const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return false; // Before July
+  return (diffDays % 7 === 6); // 7th day (0-indexed, so 6 = 7th)
+}
+
+function getTodayKey() {
+  return fmtDate(new Date());
+}
+
+function getSchedule(date) {
+  const key = fmtDate(date);
+
+  // June: lookup specific day
+  if (date.getFullYear() === 2026 && date.getMonth() === 5) {
+    if (JUNE[key]) return JUNE[key];
+    // Fallback for undefined June days
+    return { tag: '六月过渡期', emoji: '📋', schedule: [
+      { t:'全天', l:'按备考规划执行', s:'rest' }
+    ]};
+  }
+
+  // July onward
+  if (isRestDay(date)) {
+    return { tag: '休息日', emoji: '😴', rest: true, schedule: [] };
+  }
+
+  const gym = isGymDay(date);
+  return {
+    tag: gym ? '健身日 🏋️' : '非健身日 📖',
+    emoji: gym ? '🏋️' : '📖',
+    gym: gym,
+    schedule: gym ? GYM_DAY_SCHEDULE : NON_GYM_DAY_SCHEDULE,
+  };
+}
+
+function getCurrentTask(schedule, now) {
+  if (!schedule || schedule.length === 0) return null;
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  let currentTask = null;
+  let nextTask = null;
+
+  for (let i = 0; i < schedule.length; i++) {
+    const item = schedule[i];
+    const timeStr = item.t;
+    // Parse time range like "09:00-12:00" or "11:00-11:15" or simpler patterns
+    const match = timeStr.match(/(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})/);
+    if (!match) continue;
+    const startMin = parseInt(match[1]) * 60 + parseInt(match[2]);
+    const endMin = parseInt(match[3]) * 60 + parseInt(match[4]);
+
+    if (currentMinutes >= startMin && currentMinutes < endMin) {
+      currentTask = { item, startMin, endMin };
+      break;
+    } else if (currentMinutes < startMin && !nextTask) {
+      nextTask = { item, startMin, endMin };
+    }
+  }
+
+  if (currentTask) return { type: 'now', ...currentTask };
+  if (nextTask) return { type: 'next', ...nextTask };
+  return { type: 'done', item: { t:'今天的学习结束了', l:'休息吧，明天继续加油 🌙', s:'rest' }, startMin: 0, endMin: 0 };
+}
+
+// ═══════════════════════════════════════
+// LOCAL STORAGE (task check-off)
+// ═══════════════════════════════════════
+
+function getDoneSet() {
+  const key = 'done_' + getTodayKey();
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch { return new Set(); }
+}
+
+function saveDoneSet(s) {
+  const key = 'done_' + getTodayKey();
+  localStorage.setItem(key, JSON.stringify([...s]));
+}
+
+// Clean old keys
+function cleanOldStorage() {
+  const today = getTodayKey();
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('done_'));
+  keys.forEach(k => {
+    if (k !== 'done_' + today) localStorage.removeItem(k);
+  });
+}
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+
+function render() {
+  cleanOldStorage();
+  const now = new Date();
+  const dateKey = getTodayKey();
+  const dayInfo = getSchedule(now);
+  const doneSet = getDoneSet();
+
+  // Countdown
+  const daysLeft = Math.ceil((EXAM_DATE - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('countdownNum').textContent = daysLeft;
+
+  // Today label
+  const weekdays = ['日','一','二','三','四','五','六'];
+  document.getElementById('todayLabel').textContent =
+    `${now.getMonth()+1}月${now.getDate()}日 星期${weekdays[now.getDay()]} · ${dayInfo.tag}`;
+
+  // Main content
+  const main = document.getElementById('mainContent');
+
+  if (dayInfo.rest) {
+    main.innerHTML = `
+      <div class="rest-card">
+        <div class="rest-icon">😴</div>
+        <div class="rest-text">今天是休息日</div>
+        <div class="rest-sub">学6休1，好好放松充电 🔋</div>
+      </div>`;
+    return;
+  }
+
+  const sched = dayInfo.schedule;
+  const current = getCurrentTask(sched, now);
+
+  // Current task
+  const iconMap = { math:'📐', eng:'🇬🇧', pro:'🔧', gym:'🏃', rest:'💤', eat:'🍜', pol:'🗳️' };
+  let nowHTML = '';
+  if (current.type === 'now') {
+    nowHTML = `
+      <div class="now-card">
+        <div class="now-time">现在应该在做…</div>
+        <div class="now-task-icon">${iconMap[current.item.s] || '📌'}</div>
+        <div class="now-task-title">${current.item.l}</div>
+        <div class="now-task-time">${current.item.t}</div>
+      </div>`;
+  } else if (current.type === 'next') {
+    nowHTML = `
+      <div class="now-card">
+        <div class="now-time">接下来…</div>
+        <div class="now-task-icon">⏰</div>
+        <div class="now-task-title">${current.item.l}</div>
+        <div class="now-task-time">${current.item.t}</div>
+      </div>`;
+  } else {
+    nowHTML = `
+      <div class="now-card">
+        <div class="now-time">${current.item.l.includes('结束') ? '🎉' : '✨'}</div>
+        <div class="now-task-title" style="font-size:20px;">${current.item.l}</div>
+      </div>`;
+  }
+
+  // Timeline
+  let timelineHTML = sched.map((item, i) => {
+    const key = `${dateKey}_${i}`;
+    const isDone = doneSet.has(key);
+    return `
+      <li class="timeline-item ${isDone ? 'done' : ''}" onclick="toggleTask('${key}', this)">
+        <span class="tl-marker ${item.s}"></span>
+        <span class="tl-time">${item.t}</span>
+        <span class="tl-label">${item.l}</span>
+        <span class="tl-check"></span>
+      </li>`;
+  }).join('');
+
+  main.innerHTML = `
+    ${nowHTML}
+    <div class="timeline-card">
+      <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
+      <ul class="timeline-list">${timelineHTML}</ul>
+    </div>`;
+}
+
+function toggleTask(key, el) {
+  const doneSet = getDoneSet();
+  if (doneSet.has(key)) {
+    doneSet.delete(key);
+    el.classList.remove('done');
+  } else {
+    doneSet.add(key);
+    el.classList.add('done');
+  }
+  saveDoneSet(doneSet);
+}
+
+// ═══════════════════════════════════════
+// DRAWER
+// ═══════════════════════════════════════
+
+function buildDrawer() {
+  const body = document.getElementById('drawerBody');
+  body.innerHTML = DRAWER_SECTIONS.map((sec, i) => `
+    <div class="accordion" id="acc${i}">
+      <div class="accordion-header" onclick="toggleAccordion(${i})">
+        <span>${sec.title}</span>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-inner">${sec.html}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleAccordion(i) {
+  document.getElementById('acc' + i).classList.toggle('open');
+}
+
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════
+
+const NOTIFY_TIMES = [
+  { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！新的一天开始了' },
+  { hour: 11, minute: 0, id: '1100', label: '🍌 健身日练前加餐：吃香蕉+坚果', gymOnly: true },
+  { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！' },
+  { hour: 20, minute: 0, id: '2000', label: '🌙 晚间复盘时间' },
+];
+
+let notifiedToday = new Set();
+let notifyPermission = 'default';
+
+function initNotifications() {
+  if (!('Notification' in window)) return;
+  notifyPermission = Notification.permission;
+  if (notifyPermission === 'default') {
+    // Show banner after a short delay
+    setTimeout(() => {
+      document.getElementById('notifyBanner').classList.add('show');
+    }, 2000);
+  }
+}
+
+async function requestNotify() {
+  if (!('Notification' in window)) return;
+  const result = await Notification.requestPermission();
+  notifyPermission = result;
+  document.getElementById('notifyBanner').classList.remove('show');
+  if (result === 'granted') {
+    sendNotification('🔔 通知已开启', '你将在关键时间点收到学习提醒');
+  }
+}
+
+function dismissNotify() {
+  document.getElementById('notifyBanner').classList.remove('show');
+}
+
+function sendNotification(title, body) {
+  if (notifyPermission !== 'granted') return;
+  try {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification(title, {
+          body: body,
+          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">📚</text></svg>',
+          badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">📚</text></svg>',
+          vibrate: [200, 100, 200],
+          requireInteraction: false,
+          silent: false,
+        });
+      });
+    } else {
+      new Notification(title, { body: body });
+    }
+  } catch (e) {
+    // Fallback
+    try { new Notification(title, { body: body }); } catch {}
+  }
+}
+
+function checkNotifications() {
+  if (notifyPermission !== 'granted') return;
+  const now = new Date();
+  const todayKey = getTodayKey();
+  const dayInfo = getSchedule(now);
+
+  // Reset notified set at midnight
+  if (!document.body.dataset.lastDate || document.body.dataset.lastDate !== todayKey) {
+    notifiedToday.clear();
+    document.body.dataset.lastDate = todayKey;
+  }
+
+  for (const nt of NOTIFY_TIMES) {
+    if (notifiedToday.has(nt.id)) continue;
+    if (dayInfo.rest) continue; // No notifications on rest days
+
+    // Check if gymOnly and today is not a gym day
+    if (nt.gymOnly && !dayInfo.gym) continue;
+
+    if (now.getHours() === nt.hour && now.getMinutes() >= nt.minute && now.getMinutes() < nt.minute + 5) {
+      notifiedToday.add(nt.id);
+      sendNotification(nt.label, dayInfo.tag);
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// SERVICE WORKER
+// ═══════════════════════════════════════
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+
+buildDrawer();
+render();
+initNotifications();
+
+// Refresh every 60 seconds
+setInterval(() => {
+  render();
+  checkNotifications();
+}, 60000);
+
+// Initial notification check
+checkNotifications();
+
+// Handle visibility change (refresh on return)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    render();
+    checkNotifications();
+  }
+});
+
+// Close drawer on swipe (simple touch handling)
+let touchStartX = 0;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if (diff < -60) closeDrawer(); // Swipe left to close
+});
+</script>
+</body>
+</html>
