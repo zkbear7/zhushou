@@ -1023,6 +1023,18 @@ function toggleTask(key, el) {
     el.classList.add('done');
   }
   saveDoneSet(doneSet);
+  refreshStats();
+}
+
+function refreshStats() {
+  const dayInfo = getSchedule(new Date());
+  const sched = dayInfo.schedule;
+  if (!sched || sched.length === 0) return;
+  const doneSet = getDoneSet();
+  const statsCard = document.querySelector('.stats-card');
+  if (statsCard) {
+    statsCard.outerHTML = buildStatsHTML(sched, doneSet);
+  }
 }
 
 // ═══════════════════════════════════════
