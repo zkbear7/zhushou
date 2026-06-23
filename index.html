@@ -1193,8 +1193,8 @@ function render() {
 
   main.innerHTML = `
     ${nowHTML}
-    ${buildWeekCardHTML()}
     ${buildStatsHTML(sched, doneSet)}
+    ${buildWeekCardHTML()}
     <div class="timeline-card">
       <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
       <ul class="timeline-list">${timelineHTML}</ul>
