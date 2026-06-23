@@ -1194,11 +1194,11 @@ function render() {
   main.innerHTML = `
     ${nowHTML}
     ${buildStatsHTML(sched, doneSet)}
-    ${buildWeekCardHTML()}
     <div class="timeline-card">
       <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
       <ul class="timeline-list">${timelineHTML}</ul>
-    </div>`;
+    </div>
+    ${buildWeekCardHTML()}`;
 }
 
 function toggleTask(key, el) {
