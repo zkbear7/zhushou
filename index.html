@@ -396,6 +396,48 @@ body {
 .rest-text { font-size: 20px; font-weight: 600; color: var(--text); }
 .rest-sub { font-size: 14px; color: var(--text2); margin-top: 6px; }
 
+/* ── Stats Panel ── */
+.stats-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--divider);
+}
+.stats-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.stats-title {
+  font-size: 14px; font-weight: 600; color: var(--text2);
+  display: flex; align-items: center; gap: 6px;
+}
+.stats-pct {
+  font-size: 28px; font-weight: 700; color: var(--accent);
+}
+.stats-bar-row {
+  display: flex; align-items: flex-end; gap: 4px;
+  height: 60px;
+}
+.stats-bar-col {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: 4px;
+}
+.stats-bar {
+  width: 100%; border-radius: 4px 4px 0 0;
+  transition: height var(--transition);
+  min-height: 4px;
+}
+.stats-bar.today { background: var(--accent); }
+.stats-bar.other { background: var(--divider); }
+.stats-bar-label {
+  font-size: 10px; color: var(--text3);
+}
+.stats-sub {
+  display: flex; justify-content: space-between;
+  margin-top: 8px; font-size: 11px; color: var(--text3);
+}
+
 /* ── Scrollbar ── */
 .main::-webkit-scrollbar, .drawer-body::-webkit-scrollbar { width: 4px; }
 .main::-webkit-scrollbar-thumb, .drawer-body::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 4px; }
@@ -531,28 +573,27 @@ function genJuneSchedules() {
 }
 const JUNE = genJuneSchedules();
 
-// ── July+ recurring schedules ──
+// ── July+ recurring schedules (updated: 椭圆机, 9:00 start) ──
 const GYM_DAY_SCHEDULE = [
-  { t:'09:00-11:00', l:'数学一 · 高强度 2h', s:'math' },
+  { t:'09:00-09:30', l:'📖 单词 · 闪过纸质背诵', s:'eng' },
+  { t:'09:30-11:00', l:'数学一 · 高强度 1.5h', s:'math' },
   { t:'11:00-11:15', l:'🍌 练前加餐（香蕉+坚果）', s:'eat' },
-  { t:'11:15-12:35', l:'🏃 爬坡有氧 + 🚿 洗澡吹头发', s:'gym' },
-  { t:'12:35-13:00', l:'🍜 练后午餐（外卖面类·高蛋白）', s:'eat' },
-  { t:'13:00-13:30', l:'短暂休息（如需补觉趴20min）', s:'rest' },
-  { t:'14:00-16:00', l:'828 自控 · 2h', s:'pro' },
-  { t:'16:00-18:00', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
-  { t:'18:00-19:00', l:'晚饭 + 休息', s:'rest' },
-  { t:'19:00-21:00', l:'🌙 数学补充 + 单词复盘', s:'math' },
+  { t:'11:15-12:45', l:'🏋️ 椭圆机+轻度无氧+🚿洗澡', s:'gym' },
+  { t:'12:45-13:30', l:'🍜 练后午餐+休息', s:'eat' },
+  { t:'13:30-15:30', l:'828 自控 · 2h', s:'pro' },
+  { t:'15:30-17:30', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
+  { t:'17:30-18:30', l:'晚饭 + 休息', s:'rest' },
+  { t:'18:30-20:30', l:'🌙 数学补充1h + 单词/复盘1h', s:'math' },
 ];
 
 const NON_GYM_DAY_SCHEDULE = [
-  { t:'09:00-12:00', l:'数学一 · 高强度 3h', s:'math' },
-  { t:'12:00-12:30', l:'🍜 午饭（吃面不吃饭）', s:'eat' },
-  { t:'12:30-13:00', l:'午休 30min', s:'rest' },
-  { t:'13:00-14:00', l:'休息 + 回神', s:'rest' },
-  { t:'14:00-16:00', l:'828 自控 · 2h', s:'pro' },
-  { t:'16:00-18:00', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
-  { t:'18:00-20:00', l:'晚饭 + 休息', s:'rest' },
-  { t:'20:00-22:00', l:'🌙 单词 + 复盘 + 轻松看课', s:'eng' },
+  { t:'09:00-09:30', l:'📖 单词 · 闪过纸质背诵', s:'eng' },
+  { t:'09:30-12:00', l:'数学一 · 高强度 2.5h', s:'math' },
+  { t:'12:00-13:30', l:'🍜 午饭+休息 1.5h（不吃米饭）', s:'rest' },
+  { t:'13:30-15:30', l:'828 自控 · 2h', s:'pro' },
+  { t:'15:30-17:30', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
+  { t:'17:30-19:00', l:'晚饭 + 休息 1.5h', s:'rest' },
+  { t:'19:00-21:00', l:'🌙 数学错题复盘+单词复习 2h', s:'math' },
 ];
 
 // ── Drawer content ──
@@ -564,16 +605,17 @@ const DRAWER_SECTIONS = [
       <table>
         <tr><th>梯队</th><th>讲次</th><th>标题</th><th>策略</th></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>8+9</td><td>积分概念与计算</td><td>完整流程</td></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>10</td><td>积分几何应用（旋转体+平面面积）</td><td>完整流程</td></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>13</td><td>多元函数微分学</td><td>完整流程</td></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>14</td><td>二重积分</td><td>完整流程</td></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>15</td><td>微分方程</td><td>完整流程</td></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>16</td><td>无穷级数</td><td>完整流程</td></tr>
         <tr><td><span class="tag red">🔴 第一</span></td><td>18</td><td>多元函数积分学</td><td>完整流程</td></tr>
-        <tr><td><span class="tag amber">🟡 第二</span></td><td>10</td><td>积分几何应用</td><td>减量（只看旋转体）</td></tr>
-        <tr><td><span class="tag amber">🟡 第二</span></td><td>17</td><td>多元积分学预备</td><td>减量</td></tr>
-        <tr><td><span class="tag amber">🟠 第三</span></td><td>11</td><td>积分等式不等式</td><td>纯看</td></tr>
+        <tr><td><span class="tag amber">🟡 第二</span></td><td>11</td><td>积分等式与不等式</td><td>减量（看视频+基础题）</td></tr>
+        <tr><td><span class="tag amber">🟡 第二</span></td><td>17</td><td>多元积分学预备</td><td>减量（为第18讲铺路）</td></tr>
+        <tr><td><span class="tag amber">⚪ 跳过</span></td><td>12</td><td>物理应用/经济应用</td><td>110分目标可不看</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标：保90冲110 | 策略：线代概率先拿稳，真题三阶段精刷</p>`
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标：保90冲110 | 策略：线代概率先拿稳，真题三阶段精刷 | 线代→李永乐 概率→余丙森+方浩</p>`
   },
   {
     title: '⚙️ 828 自控 · 教材章节',
@@ -597,11 +639,13 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标冲130 | ⚠️ 平时手算不用计算器</p>`
   },
   {
-    title: '📝 英语一 · 柴荣课结构',
+    title: '📝 英语一 · 柴荣课结构+单词方法',
     html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">🔥 单词核心方法：真题语境法 — 不要等背完单词再做真题！</p>
       <table>
         <tr><th>板块</th><th>课时</th><th>学习时机</th></tr>
-        <tr><td>词汇</td><td>~20h</td><td>❌ 跳过（闪过单词书已覆盖）</td></tr>
+        <tr><td>词汇-词根词缀</td><td>~8节</td><td>🔥 7月晚间听（批量记词）</td></tr>
+        <tr><td>词汇-熟词僻义+同义替换</td><td>~4节</td><td>🔥 7月（阅读最大陷阱）</td></tr>
         <tr><td>语法/长难句</td><td>~18h</td><td>🔥 7月优先</td></tr>
         <tr><td>阅读基础精讲</td><td>~30h</td><td>7月中-8月</td></tr>
         <tr><td>阅读技巧强化</td><td>~52h</td><td>8-10月</td></tr>
@@ -610,19 +654,21 @@ const DRAWER_SECTIONS = [
         <tr><td>翻译</td><td>—</td><td>9-10月</td></tr>
         <tr><td>写作</td><td>—</td><td>10-11月</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 每日流程：单词→柴荣课→真题→扇贝复习</p>`
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 每日：单词30min→真题精读1.5h→柴荣课/语法 | 碎片闪电刷词+真题生词优先</p>`
   },
   {
-    title: '📜 政治 · 9月启动安排',
+    title: '📜 政治 · 7月磨耳朵+9月正式启动',
     html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">理科零基础策略：暑假碎片磨耳朵 → 9月正式开战</p>
       <table>
         <tr><th>阶段</th><th>时间</th><th>内容</th></tr>
+        <tr><td>🎧 磨耳朵</td><td>7月中-8月</td><td>健身/吃饭/通勤听徐涛带背音频+马原1.5x课</td></tr>
         <tr><td>基础速成</td><td>9月</td><td>徐涛马原+毛中特(1.5x) → 苏一导图 → 肖1000</td></tr>
         <tr><td>技巧提分</td><td>10月</td><td>肖1000二刷错题 + 腿姐背诵手册</td></tr>
         <tr><td>选择突破</td><td>11月</td><td>肖八选择吃透 + 时政通读</td></tr>
         <tr><td>终极背诵</td><td>12月</td><td>肖四大题狂背（第一套>第二套>第三套>第四套）</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 9月前不碰政治 | 史纲思修直接看苏一导图</p>`
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">🎯 目标70 | 暑假不刷题不背诵 | 马原+史纲优先攻克 | 史纲思修看苏一导图</p>`
   },
   {
     title: '📊 进度自检节点',
@@ -638,16 +684,24 @@ const DRAWER_SECTIONS = [
       </table>`
   },
   {
-    title: '🏃 健身方案摘要',
+    title: '🏃 健身方案 · 椭圆机',
     html: `
-      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">详见 <code>F:\\考研\\中午健身方案.md</code></p>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">膝盖保护模式 → 椭圆机（关节冲击仅为跑步机1/3~1/6）</p>
       <table>
-        <tr><th>阶段</th><th>坡度</th><th>速度</th><th>时间</th></tr>
-        <tr><td>1-2周适应</td><td>6-8%</td><td>3-3.5 km/h</td><td>20-25min</td></tr>
-        <tr><td>3-4周提升</td><td>8-10%</td><td>3.5-4 km/h</td><td>30min</td></tr>
-        <tr><td>5周+标准</td><td>10-12%</td><td>4 km/h</td><td>30-35min</td></tr>
+        <tr><th>阶段</th><th>阻力</th><th>步频</th><th>时间</th></tr>
+        <tr><td>1-2周适应</td><td>4-6档</td><td>60-70步/分</td><td>20-25min</td></tr>
+        <tr><td>3-4周提升</td><td>6-8档</td><td>65-75步/分</td><td>25-30min</td></tr>
+        <tr><td>5周+标准</td><td>8-10档</td><td>70-80步/分</td><td>30-35min</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:8px;">💡 练前：香蕉+坚果 | 练后：外卖面类高蛋白 | 不扶扶手 | 隔天洗头</p>`
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:8px;">🏋️ 轻度无氧（每次1个部位，10-15min，轮换）：</p>
+      <table>
+        <tr><th>部位</th><th>首选</th><th>备选</th></tr>
+        <tr><td>背</td><td>弹力带坐姿划船 3×15</td><td>高位下拉/哑铃划船</td></tr>
+        <tr><td>胸+臂</td><td>跪姿俯卧撑 3×10</td><td>哑铃卧推/弹力带夹胸</td></tr>
+        <tr><td>臀腿</td><td>弹力带臀桥 3×18</td><td>坐姿腿屈伸/蚌式开合</td></tr>
+        <tr><td>核心</td><td>平板支撑 3×40s</td><td>死虫式/鸟狗式</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">💡 心率114-143bpm | 脚跟驱动 | 练前香蕉+坚果 | 练后面类高蛋白</p>`
   },
 ];
 
@@ -660,20 +714,18 @@ function fmtDate(d) {
 }
 
 function isGymDay(date) {
-  // July 1 = gym day, then every other day
-  // For June, use the old schedule (not structured gym)
-  if (date.getMonth() < 6) return false; // Before July
-  if (date.getMonth() > 6 && date.getFullYear() === 2026) return null; // After July - default to pattern from July 1
+  // July 1 = gym day, then every other day from July 1 onward
   const july1 = new Date(2026, 6, 1);
   const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
-  return diffDays >= 0 && diffDays % 2 === 0;
+  if (diffDays < 0) return false; // Before July 1, no gym schedule
+  return diffDays % 2 === 0;
 }
 
 function isRestDay(date) {
   // 学6休1: every 7th day starting July 1
   const july1 = new Date(2026, 6, 1);
   const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
-  if (diffDays < 0) return false; // Before July
+  if (diffDays < 0) return false; // Before July 1
   return (diffDays % 7 === 6); // 7th day (0-indexed, so 6 = 7th)
 }
 
@@ -681,28 +733,66 @@ function getTodayKey() {
   return fmtDate(new Date());
 }
 
+// ── Phase detection ──
+function getPhase(date) {
+  const m = date.getMonth(), d = date.getDate();
+  if (m === 5) return 'june';                          // June: 日期特定
+  if (m === 6 && d <= 31) return 'july-high';          // July: 高数强化期
+  if (m === 7 && d <= 22) return 'aug-lineprob';       // Aug 1-22: 线代概率刷题
+  if (m === 7 && d >= 23) return 'aug-late';           // Aug 23+: 强化收尾+现控
+  if (m >= 8) return 'fall';                           // Sep+: 秋季强化
+  return 'july-high';
+}
+
 function getSchedule(date) {
   const key = fmtDate(date);
+  const phase = getPhase(date);
 
   // June: lookup specific day
-  if (date.getFullYear() === 2026 && date.getMonth() === 5) {
+  if (phase === 'june') {
     if (JUNE[key]) return JUNE[key];
-    // Fallback for undefined June days
     return { tag: '六月过渡期', emoji: '📋', schedule: [
       { t:'全天', l:'按备考规划执行', s:'rest' }
     ]};
   }
 
-  // July onward
+  // Rest day check for July+
   if (isRestDay(date)) {
     return { tag: '休息日', emoji: '😴', rest: true, schedule: [] };
   }
 
   const gym = isGymDay(date);
+
+  // Phase-aware labels
+  const phaseLabels = {
+    'july-high': {
+      gymTag: '健身日 · 高数强化期 🏋️',
+      nonGymTag: '非健身日 · 高数强化期 📖',
+      gymEmoji: '🏋️', nonGymEmoji: '🔢',
+    },
+    'aug-lineprob': {
+      gymTag: '健身日 · 线代概率刷题 🏋️',
+      nonGymTag: '非健身日 · 线代概率刷题 📖',
+      gymEmoji: '🏋️', nonGymEmoji: '📐',
+    },
+    'aug-late': {
+      gymTag: '健身日 · 强化收尾+现控 🏋️',
+      nonGymTag: '非健身日 · 强化收尾+现控 📖',
+      gymEmoji: '🏋️', nonGymEmoji: '⚙️',
+    },
+    'fall': {
+      gymTag: '健身日 · 秋季强化期 🏋️',
+      nonGymTag: '非健身日 · 秋季强化期 📖',
+      gymEmoji: '🏋️', nonGymEmoji: '📚',
+    },
+  };
+  const pl = phaseLabels[phase] || phaseLabels['july-high'];
+
   return {
-    tag: gym ? '健身日 🏋️' : '非健身日 📖',
-    emoji: gym ? '🏋️' : '📖',
+    tag: gym ? pl.gymTag : pl.nonGymTag,
+    emoji: gym ? pl.gymEmoji : pl.nonGymEmoji,
     gym: gym,
+    phase: phase,
     schedule: gym ? GYM_DAY_SCHEDULE : NON_GYM_DAY_SCHEDULE,
   };
 }
@@ -760,6 +850,82 @@ function cleanOldStorage() {
   keys.forEach(k => {
     if (k !== 'done_' + today) localStorage.removeItem(k);
   });
+}
+
+// ── Stats tracking ──
+function saveDailyStats(total, done) {
+  const key = 'stats_' + getTodayKey();
+  localStorage.setItem(key, JSON.stringify({ total, done, date: getTodayKey() }));
+}
+
+function getDailyStats(dateKey) {
+  try {
+    const raw = localStorage.getItem('stats_' + dateKey);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function getWeeklyStats() {
+  const today = new Date();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = fmtDate(d);
+    const stat = getDailyStats(key);
+    days.push({
+      label: ['日','一','二','三','四','五','六'][d.getDay()],
+      key: key,
+      isToday: i === 0,
+      total: stat ? stat.total : 0,
+      done: stat ? stat.done : 0,
+      pct: stat && stat.total > 0 ? Math.round(stat.done / stat.total * 100) : 0,
+    });
+  }
+  return days;
+}
+
+function buildStatsHTML(sched, doneSet) {
+  if (!sched || sched.length === 0) return '';
+  const dateKey = getTodayKey();
+  const total = sched.length;
+  const done = sched.filter((_, i) => doneSet.has(dateKey + '_' + i)).length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  // Save stats
+  saveDailyStats(total, done);
+
+  const week = getWeeklyStats();
+  const maxH = 56;
+
+  const bars = week.map(d => {
+    const h = d.pct > 0 ? Math.max(4, d.pct / 100 * maxH) : 4;
+    const cls = d.isToday ? 'today' : 'other';
+    return `<div class="stats-bar-col"><div class="stats-bar ${cls}" style="height:${h}px"></div><span class="stats-bar-label">${d.label}</span></div>`;
+  }).join('');
+
+  const streak = calcStreak(week);
+
+  return `
+    <div class="stats-card">
+      <div class="stats-header">
+        <span class="stats-title">📊 打卡统计</span>
+        <span class="stats-pct">${pct}%</span>
+      </div>
+      <div class="stats-bar-row">${bars}</div>
+      <div class="stats-sub">
+        <span>今日 ${done}/${total} 项完成</span>
+        <span>${streak > 0 ? '🔥 连续' + streak + '天打卡' : '今天开始打卡吧'}</span>
+      </div>
+    </div>`;
+}
+
+function calcStreak(week) {
+  let s = 0;
+  for (let i = week.length - 1; i >= 0; i--) {
+    if (week[i].pct > 0) s++; else break;
+  }
+  return s;
 }
 
 // ═══════════════════════════════════════
@@ -840,6 +1006,7 @@ function render() {
 
   main.innerHTML = `
     ${nowHTML}
+    ${buildStatsHTML(sched, doneSet)}
     <div class="timeline-card">
       <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
       <ul class="timeline-list">${timelineHTML}</ul>
@@ -909,6 +1076,12 @@ function initNotifications() {
   if (!('Notification' in window)) return;
   notifyPermission = Notification.permission;
   if (notifyPermission === 'default') {
+    // Check if user previously dismissed the banner
+    const dismissed = localStorage.getItem('notify_dismissed_at');
+    if (dismissed) {
+      const daysSince = (Date.now() - parseInt(dismissed)) / (1000 * 60 * 60 * 24);
+      if (daysSince < 30) return; // Don't show if dismissed within 30 days
+    }
     // Show banner after a short delay
     setTimeout(() => {
       document.getElementById('notifyBanner').classList.add('show');
@@ -928,6 +1101,7 @@ async function requestNotify() {
 
 function dismissNotify() {
   document.getElementById('notifyBanner').classList.remove('show');
+  localStorage.setItem('notify_dismissed_at', Date.now().toString());
 }
 
 function sendNotification(title, body) {
