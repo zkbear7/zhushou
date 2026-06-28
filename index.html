@@ -783,7 +783,17 @@ const DRAWER_SECTIONS = [
         <tr><td>臀腿</td><td>弹力带臀桥 3×18</td><td>坐姿腿屈伸/蚌式开合</td></tr>
         <tr><td>核心</td><td>平板支撑 3×40s</td><td>死虫式/鸟狗式</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:8px;">💡 心率114-143bpm | 脚跟驱动 | 练前香蕉+坚果 | 练后面类高蛋白</p>`
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">💡 心率114-143bpm | 脚跟驱动 | 练前香蕉+坚果 | 练后面类高蛋白</p>
+      <p style="font-size:13px;font-weight:600;color:var(--rose);margin-top:10px;">🩸 经期调整（周期30天，持续6天，前4天停健身）</p>
+      <table>
+        <tr><th>周期</th><th>日期</th><th>停健身</th></tr>
+        <tr><td>第1次</td><td>7.1-7.6</td><td>7.1-7.4（前4天改非健身日作息）</td></tr>
+        <tr><td>第2次</td><td>7.31-8.5</td><td>7.31-8.3</td></tr>
+        <tr><td>第3次</td><td>8.30-9.4</td><td>8.30-9.2</td></tr>
+        <tr><td>第4次</td><td>9.29-10.4</td><td>9.29-10.2</td></tr>
+        <tr><td>第5次</td><td>10.29-11.3</td><td>10.29-11.1</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 经期前4天：椭圆机暂停 → 改为散步/拉伸 | 第5-6天：轻量椭圆机（阻力3-4，15min）</p>`
   },
   {
     title: '📅 完整周计划（6.28修订版）',
@@ -999,11 +1009,39 @@ function fmtDate(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+// Period tracking: 30-day cycle, 6-day duration, first 4 days no gym
+// Cycle 1: Jul 1-6 (no gym Jul 1-4), Cycle 2: Jul 31-Aug 5 (no gym Jul 31-Aug 3), etc.
+function getPeriodInfo(date) {
+  const cycleStart = new Date(2026, 6, 1); // July 1, 2026
+  const cycleLen = 30;
+  const periodLen = 6;
+  const noGymLen = 4; // first 4 days of period: no fitness
+
+  const diffDays = Math.floor((date - cycleStart) / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return null;
+
+  const cycleDay = diffDays % cycleLen;
+  if (cycleDay < periodLen) {
+    return {
+      active: true,
+      cycleDay: cycleDay + 1,  // 1-indexed
+      noGym: cycleDay < noGymLen,  // first 4 days
+      totalDays: periodLen
+    };
+  }
+  return null;
+}
+
 function isGymDay(date) {
   // July 1 = gym day, then every other day from July 1 onward
   const july1 = new Date(2026, 6, 1);
   const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
   if (diffDays < 0) return false; // Before July 1, no gym schedule
+
+  // Period: no gym during first 4 days
+  const period = getPeriodInfo(date);
+  if (period && period.noGym) return false;
+
   return diffDays % 2 === 0;
 }
 
@@ -1073,13 +1111,26 @@ function getSchedule(date) {
     },
   };
   const pl = phaseLabels[phase] || phaseLabels['july-high'];
+  const period = getPeriodInfo(date);
+
+  // Build tag: overlay period info
+  let tag = gym ? pl.gymTag : pl.nonGymTag;
+  let emoji = gym ? pl.gymEmoji : pl.nonGymEmoji;
+  if (period && period.noGym) {
+    tag = '🩸 经期休息 · ' + (gym ? '原健身日→改非健身 📖' : '非健身日 📖');
+    emoji = '🩸';
+  } else if (period) {
+    tag = (gym ? pl.gymTag : pl.nonGymTag) + ' 🩸轻量';
+    emoji = gym ? '🏋️‍♀️' : '📖';
+  }
 
   return {
-    tag: gym ? pl.gymTag : pl.nonGymTag,
-    emoji: gym ? pl.gymEmoji : pl.nonGymEmoji,
+    tag: tag,
+    emoji: emoji,
     gym: gym,
     phase: phase,
-    schedule: gym ? GYM_DAY_SCHEDULE : NON_GYM_DAY_SCHEDULE,
+    period: period,
+    schedule: (period && period.noGym) ? NON_GYM_DAY_SCHEDULE : (gym ? GYM_DAY_SCHEDULE : NON_GYM_DAY_SCHEDULE),
   };
 }
 
