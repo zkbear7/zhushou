@@ -838,6 +838,40 @@ const DRAWER_SECTIONS = [
       <tr><td>12月</td><td>🔥 <b>肖四大题狂背</b> + 张修齐十页纸（模板辅助）<br>⚠️不跟张修齐"不背肖四"，肖四仍是主菜</td></tr></table></div>
       <p style="font-size:11px;color:var(--text3);margin-top:6px;">⚠️ 6.29-30白天休息+晚上政治 | 7.1暑假启动 | 8月起晚间全部自由 | 四科进度自检见📊面板</p>`
   },
+  {
+    title: '💡 备考Tips精华',
+    html: `
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">从各科讨论中提炼的关键提醒，避免踩坑</p>
+      <div class="plan-phase"><div class="plan-phase-title">🔢 数学</div>
+      <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
+        <li>📌 <b>第8+9讲积分先补</b>：7.1-7.11优先，30讲视频1.5-2x→笔记→重做例题，概念通+计算会即可</li>
+        <li>📌 <b>线代概率直接强化</b>：基础80+不需要基础班，李永乐(线代)+余丙森讲义(概率)→方浩(概率强化)</li>
+        <li>📌 <b>余丙森4步法</b>：讲义自学→不懂翻基础课→例题动手做→做不出看习题课（不做笔记不刷全课）</li>
+        <li>📌 <b>1000题A组优先</b>：暑假只做A组，B组留到9月跟36讲</li>
+      </ul></div>
+      <div class="plan-phase"><div class="plan-phase-title">📜 政治</div>
+      <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
+        <li>🔴 <b>肖四大题必背！</b>不要跟张修齐"不背肖四"，肖四仍是主菜，十页纸只是辅助模板</li>
+        <li>📌 <b>只刷选择不碰分析题</b>：1000题+肖八选择吃透，分析题留到12月肖四</li>
+        <li>📌 <b>张修齐→徐涛分工</b>：张修齐打底扫盲(代练+马原精讲)→徐涛攻克毛中特+新思想→苏一导图史纲思法</li>
+        <li>📌 <b>代练节奏</b>：21天快速扫30章，跟课即可，不预习不复习（第一遍只是画地图）</li>
+      </ul></div>
+      <div class="plan-phase"><div class="plan-phase-title">📱 苍盾小程序</div>
+      <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
+        <li>📌 <b>评论区是宝藏</b>：谐音口诀+时间线+顺口溜，理科生友好，比标准答案好用</li>
+        <li>📌 <b>只用碎片时间</b>：吃饭/排队/睡前10-15min，不要用整块学习时间刷</li>
+        <li>📌 <b>纸质一刷→小程序二刷</b>：9月纸质画⭐→10月苍盾只刷⭐题→11月冲刺模拟卷</li>
+      </ul></div>
+      <div class="plan-phase"><div class="plan-phase-title">📝 英语</div>
+      <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
+        <li>📌 <b>词根词缀跳过</b>：闪过单词书已覆盖，柴荣只听同义替换+熟词僻义</li>
+        <li>📌 <b>真题语境法</b>：不要等背完单词再做真题，边做边背生词效率更高</li>
+      </ul></div>
+      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828</div>
+      <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
+        <li>📌 <b>平时手算不用计算器</b>：浙工大828考试不能用计算器，从现在养成手算习惯</li>
+      </ul></div>`
+  },
 ];
 
 // ── Weekly Plan (7.1 onwards, by week) ──
@@ -1434,7 +1468,8 @@ function checkNotifications() {
 
   for (const nt of NOTIFY_TIMES) {
     if (notifiedToday.has(nt.id)) continue;
-    if (dayInfo.rest) continue; // No notifications on rest days
+    // Rest days: only allow political class notifications
+    if (dayInfo.rest && !nt.polClassOnly) continue;
 
     // Check if gymOnly and today is not a gym day
     if (nt.gymOnly && !dayInfo.gym) continue;
