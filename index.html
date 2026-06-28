@@ -1326,7 +1326,7 @@ const NOTIFY_TIMES = [
   { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！新的一天开始了' },
   { hour: 11, minute: 0, id: '1100', label: '🍌 健身日练前加餐：吃香蕉+坚果', gymOnly: true },
   { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！' },
-  { hour: 19, minute: 25, id: '1925', label: '🔵 政治1000题代练 5分钟后开始！', polClassOnly: true },
+  { hour: 19, minute: 25, id: '1925', label: '🔵 政治1000题代练 5分钟后开始！', polClassOnly: true, sticky: true },
   { hour: 20, minute: 0, id: '2000', label: '🌙 晚间复盘时间' },
 ];
 
@@ -1387,8 +1387,10 @@ function dismissNotify() {
   localStorage.setItem('notify_dismissed_at', Date.now().toString());
 }
 
-function sendNotification(title, body) {
+function sendNotification(title, body, opts = {}) {
   if (notifyPermission !== 'granted') return;
+  const tag = opts.tag || 'kaoyan-reminder';
+  const requireInteraction = opts.sticky || false;
   try {
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.ready.then(reg => {
@@ -1397,15 +1399,18 @@ function sendNotification(title, body) {
           icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">📚</text></svg>',
           badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">📚</text></svg>',
           vibrate: [200, 100, 200],
-          requireInteraction: false,
+          requireInteraction: requireInteraction,
+          renotify: true,
           silent: false,
+          tag: tag,
+        }).catch(() => {
+          try { new Notification(title, { body: body, vibrate: [200, 100, 200], requireInteraction }); } catch {}
         });
       });
     } else {
-      new Notification(title, { body: body });
+      try { new Notification(title, { body: body, vibrate: [200, 100, 200], requireInteraction }); } catch {}
     }
   } catch (e) {
-    // Fallback
     try { new Notification(title, { body: body }); } catch {}
   }
 }
@@ -1431,9 +1436,12 @@ function checkNotifications() {
     // Check if polClassOnly and today is not a political class day
     if (nt.polClassOnly && !isPoliticalClassDay(now)) continue;
 
-    if (now.getHours() === nt.hour && now.getMinutes() >= nt.minute && now.getMinutes() < nt.minute + 5) {
+    if (now.getHours() === nt.hour && now.getMinutes() >= nt.minute && now.getMinutes() < nt.minute + 10) {
       notifiedToday.add(nt.id);
-      sendNotification(nt.label, dayInfo.tag);
+      sendNotification(nt.label, dayInfo.tag, {
+        tag: nt.id,
+        sticky: nt.sticky || false
+      });
     }
   }
 }
@@ -1454,11 +1462,11 @@ buildDrawer();
 render();
 initNotifications();
 
-// Refresh every 60 seconds
+// Refresh every 30 seconds (more responsive for notifications)
 setInterval(() => {
   render();
   checkNotifications();
-}, 60000);
+}, 30000);
 
 // Initial notification check
 checkNotifications();
