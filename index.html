@@ -616,27 +616,32 @@ function genJuneSchedules() {
 }
 const JUNE = genJuneSchedules();
 
-// ── July+ recurring schedules (updated: 力量+跑步机, 9:00 start) ──
+// ── July+ recurring schedules (v5: 数学拉满5h 自控/英语隔天轮换) ──
 const GYM_DAY_SCHEDULE = [
-  { t:'09:00-09:30', l:'📖 单词 · 闪过纸质背诵', s:'eng' },
-  { t:'09:30-11:00', l:'数学一 · 高强度 1.5h', s:'math' },
-  { t:'11:00-11:15', l:'🍌 练前加餐（香蕉+坚果）', s:'eat' },
-  { t:'11:10-12:30', l:'🏋️ 力量+跑步机快走+🚿洗澡', s:'gym' },
-  { t:'12:30-13:30', l:'🍜 练后午餐+休息', s:'eat' },
-  { t:'13:30-15:30', l:'828 自控 · 2h', s:'pro' },
-  { t:'15:30-17:30', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
-  { t:'17:30-18:30', l:'晚饭 + 休息', s:'rest' },
-  { t:'18:30-20:30', l:'🌙 数学补充1h + 单词/复盘1h', s:'math' },
+  { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
+  { t:'11:30-11:40', l:'🍌 练前加餐（自习室）', s:'eat' },
+  { t:'11:45-12:30', l:'🏋️ 力量+跑步机+拉伸 45min', s:'gym' },
+  { t:'12:30-13:10', l:'🚿 洗澡 40min', s:'gym' },
+  { t:'13:10-13:40', l:'🍜 午餐 30min', s:'eat' },
+  { t:'13:40-14:00', l:'😴 休息 20min', s:'rest' },
+  { t:'14:00-17:00', l:'⚙️ 自控 · 3h', s:'pro' },
+  { t:'17:00-17:30', l:'📝 单词（白天固定）', s:'eng' },
+  { t:'17:30-18:00', l:'🍜 晚饭 30min', s:'rest' },
+  { t:'18:00-19:30', l:'🔢 数学 · 错题/刷题 1.5h', s:'math' },
+  { t:'19:30-20:30', l:'📜 政治 · 马原/代练', s:'pol' },
+  { t:'20:30-21:30', l:'🔢 数学 · 线代/概率视频 1h', s:'math' },
 ];
 
 const NON_GYM_DAY_SCHEDULE = [
-  { t:'09:00-09:30', l:'📖 单词 · 闪过纸质背诵', s:'eng' },
-  { t:'09:30-12:00', l:'数学一 · 高强度 2.5h', s:'math' },
-  { t:'12:00-13:30', l:'🍜 午饭+休息 1.5h（不吃米饭）', s:'rest' },
-  { t:'13:30-15:30', l:'828 自控 · 2h', s:'pro' },
-  { t:'15:30-17:30', l:'英语 · 阅读/真题/柴荣课', s:'eng' },
-  { t:'17:30-19:00', l:'晚饭 + 休息 1.5h', s:'rest' },
-  { t:'19:00-21:00', l:'🌙 数学错题复盘+单词复习 2h', s:'math' },
+  { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
+  { t:'11:30-12:30', l:'🔢 数学 · 线代/概率 1h', s:'math' },
+  { t:'12:30-13:00', l:'🍜 午餐 30min', s:'rest' },
+  { t:'13:00-13:30', l:'📝 单词（白天固定）', s:'eng' },
+  { t:'13:30-17:30', l:'📝 英语 · 4h 内部轮换', s:'eng' },
+  { t:'17:30-18:00', l:'🍜 晚饭 30min', s:'rest' },
+  { t:'18:00-19:30', l:'🔢 数学 · 错题/刷题 1.5h', s:'math' },
+  { t:'19:30-20:30', l:'📜 政治 · 马原/代练', s:'pol' },
+  { t:'20:30-21:30', l:'📖 复盘 + 📝 单词复习', s:'eng' },
 ];
 
 // ── Drawer content ──
@@ -799,12 +804,12 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 经期前4天：完全停练→切换非健身日作息 | 第5-6天：力量减半(各2组)+跑步机轻量(坡度1速度3.5,5-10min)</p>`
   },
   {
-    title: '📅 完整周计划（6.28修订版）',
+    title: '📅 完整周计划（6.30 v5修订版）',
     html: `
-      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">学6休1 💪隔天健身 | 🟣马原12讲6.30-7.12 → 📺代练录播7.13起 | 线代概率→仅上午1h</p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">🔢 数学5h/天 | ⚙️自控/📝英语 隔天轮换 | 📝单词白天固定 | 🌙晚间至21:30</p>
       <div class="plan-phase"><div class="plan-phase-title">📺 线代 · 李永乐强化（修订）</div>
       <table><tr><th>时间</th><th>内容</th></tr>
-      <tr><td>🔥 7.2-7.20</td><td>李永乐强化 25课时 1.5x≈14h | 非健身日上午1h+自由晚间1.5h</td></tr>
+      <tr><td>🔥 7.2-7.20</td><td>李永乐强化 25课时 1.5x≈14h | 非健身日上午1h+健日晚20:30-21:30</td></tr>
       <tr><td>8.6-8.15</td><td>1000题A组线代 + 讲义例题重做 + 错题二刷</td></tr></table></div>
       <div class="plan-phase"><div class="plan-phase-title">🟣 概率 · 余丙森自学→方浩强化（修订）</div>
       <table><tr><th>时间</th><th>内容</th></tr>
@@ -848,7 +853,7 @@ const DRAWER_SECTIONS = [
       <tr><td>10月</td><td><b>苍盾小程序</b>二刷⭐题 + 帽子题整理 + 张修齐小橙书（B站带背）</td></tr>
       <tr><td>11月</td><td><b>苍盾小程序</b>三刷碎片 + 肖八选择吃透</td></tr>
       <tr><td>12月</td><td>🔥 <b>肖四大题狂背</b> + 张修齐十页纸（模板辅助）<br>⚠️不跟张修齐"不背肖四"，肖四仍是主菜</td></tr></table></div>
-      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⚠️ 6.29 Day1跟直播✅ | 6.30-7.12马原12讲 | 7.13起追代练录播 | 8.5晚间全部自由 | 四科进度自检见📊面板</p>`
+      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⚠️ v5作息 | 数学5h/天 | 自控/英语隔天轮换 | 单词白天固定+睡前复盘 | 6.30马原第1讲</p>`
   },
   {
     title: '💡 备考Tips精华',
@@ -984,6 +989,16 @@ function getCurrentWeekPlan() {
   return WEEKLY_PLAN[WEEKLY_PLAN.length - 1];
 }
 
+function getNextWeekPlan(date) {
+  // Find the next week's plan (for rest day preview)
+  const today = fmtDate(date || new Date());
+  for (const w of WEEKLY_PLAN) {
+    if (w.start > today) return w;
+  }
+  // If no future week found, return current week
+  return getCurrentWeekPlan();
+}
+
 function buildWeekCardHTML() {
   const w = getCurrentWeekPlan();
   if (!w) return '';
@@ -1089,26 +1104,26 @@ function getSchedule(date) {
 
   const gym = isGymDay(date);
 
-  // Phase-aware labels
+  // Phase-aware labels (v5: 自控/英语隔天轮换)
   const phaseLabels = {
     'july-high': {
-      gymTag: '健身日 · 高数强化期 🏋️',
-      nonGymTag: '非健身日 · 高数强化期 📖',
-      gymEmoji: '🏋️', nonGymEmoji: '🔢',
+      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
+      nonGymTag: '📖 非健身日 · 英语日 📝',
+      gymEmoji: '🏋️', nonGymEmoji: '📖',
     },
     'aug-lineprob': {
-      gymTag: '健身日 · 线代概率刷题 🏋️',
-      nonGymTag: '非健身日 · 线代概率刷题 📖',
-      gymEmoji: '🏋️', nonGymEmoji: '📐',
+      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
+      nonGymTag: '📖 非健身日 · 英语日 📝',
+      gymEmoji: '🏋️', nonGymEmoji: '📖',
     },
     'aug-late': {
-      gymTag: '健身日 · 强化收尾+现控 🏋️',
-      nonGymTag: '非健身日 · 强化收尾+现控 📖',
-      gymEmoji: '🏋️', nonGymEmoji: '⚙️',
+      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
+      nonGymTag: '📖 非健身日 · 英语日 📝',
+      gymEmoji: '🏋️', nonGymEmoji: '📖',
     },
     'fall': {
-      gymTag: '健身日 · 秋季强化期 🏋️',
-      nonGymTag: '非健身日 · 秋季强化期 📖',
+      gymTag: '🏋️ 健身日 · 秋季强化期',
+      nonGymTag: '📖 非健身日 · 秋季强化期',
       gymEmoji: '🏋️', nonGymEmoji: '📚',
     },
   };
@@ -1291,12 +1306,27 @@ function render() {
   const main = document.getElementById('mainContent');
 
   if (dayInfo.rest) {
+    const nextWeek = getNextWeekPlan(now);
+    let nextWeekHTML = '';
+    if (nextWeek) {
+      nextWeekHTML = `
+        <div class="timeline-card" style="margin-top:16px;">
+          <div class="timeline-title"><span class="dot"></span>📅 ${nextWeek.label} 计划预览</div>
+          <table style="width:100%;font-size:13px;color:var(--text2);border-collapse:collapse;">
+            <tr><td style="padding:8px 6px;font-weight:600;white-space:nowrap;">🔢 数学</td><td style="padding:8px 6px;">${nextWeek.math}</td></tr>
+            <tr><td style="padding:8px 6px;font-weight:600;white-space:nowrap;">⚙️ 自控</td><td style="padding:8px 6px;">${nextWeek.pro}</td></tr>
+            <tr><td style="padding:8px 6px;font-weight:600;white-space:nowrap;">📝 英语</td><td style="padding:8px 6px;">${nextWeek.eng}</td></tr>
+            <tr><td style="padding:8px 6px;font-weight:600;white-space:nowrap;">📜 政治</td><td style="padding:8px 6px;">${nextWeek.pol}</td></tr>
+          </table>
+        </div>`;
+    }
     main.innerHTML = `
       <div class="rest-card">
         <div class="rest-icon">😴</div>
         <div class="rest-text">今天是休息日</div>
         <div class="rest-sub">学6休1，好好放松充电 🔋</div>
-      </div>`;
+      </div>
+      ${nextWeekHTML}`;
     return;
   }
 
@@ -1415,11 +1445,13 @@ function closeDrawer() {
 // ═══════════════════════════════════════
 
 const NOTIFY_TIMES = [
-  { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！新的一天开始了' },
-  { hour: 11, minute: 0, id: '1100', label: '🍌 健身日练前加餐：吃香蕉+坚果', gymOnly: true },
-  { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！' },
+  { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！🔢 数学时间开始' },
+  { hour: 11, minute: 30, id: '1130', label: '🍌 练前加餐：香蕉+坚果，准备去健身房', gymOnly: true },
+  { hour: 12, minute: 30, id: '1230', label: '📝 单词时间（白天固定30min）', nonGymOnly: true },
+  { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！', gymOnly: true },
+  { hour: 13, minute: 30, id: '1330', label: '📖 下午英语4h开始', nonGymOnly: true },
   { hour: 19, minute: 25, id: '1925', label: '🟣📺 政治学习 5分钟后开始！（马原/代练录播）', polClassOnly: true, sticky: true },
-  { hour: 20, minute: 0, id: '2000', label: '🌙 晚间复盘时间' },
+  { hour: 20, minute: 30, id: '2030', label: '🌙 晚间收尾阶段' },
 ];
 
 // Political study days: 马原期(6.30-7.12) + 代练录播期(7.13-8.4), every day except Sunday
@@ -1522,6 +1554,8 @@ function checkNotifications() {
 
     // Check if gymOnly and today is not a gym day
     if (nt.gymOnly && !dayInfo.gym) continue;
+    // Check if nonGymOnly and today is a gym day
+    if (nt.nonGymOnly && dayInfo.gym) continue;
     // Check if polClassOnly and today is not a political class day
     if (nt.polClassOnly && !isPoliticalClassDay(now)) continue;
 
