@@ -617,9 +617,9 @@ function genJuneSchedules() {
 const JUNE = genJuneSchedules();
 
 // ── July+ recurring schedules (v5: 按星期几决定自控/英语, 健身块独立) ──
-// 一三五 = 自控日 (with/without gym), 二四六 = 英语日
+// 二四六 = 自控日 (with/without gym), 三五日 = 英语日
 
-const AUTOCTRL_GYM = [  // 一三五 · 健身日 · 自控
+const AUTOCTRL_GYM = [  // 二四六 · 健身日 · 自控
   { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
   { t:'11:30-11:40', l:'🍌 练前加餐（自习室）', s:'eat' },
   { t:'11:45-12:30', l:'🏋️ 力量+跑步机+拉伸 45min', s:'gym' },
@@ -634,7 +634,7 @@ const AUTOCTRL_GYM = [  // 一三五 · 健身日 · 自控
   { t:'20:30-21:30', l:'🔢 数学 · 线代/概率视频 1h', s:'math' },
 ];
 
-const AUTOCTRL_NOGYM = [  // 一三五 · 经期停健身 · 自控（数学多1h）
+const AUTOCTRL_NOGYM = [  // 二四六 · 经期停健身 · 自控（数学多1h）
   { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
   { t:'11:30-12:30', l:'🔢 数学 · 线代/概率 1h', s:'math' },
   { t:'12:30-13:00', l:'🍜 午餐 30min', s:'rest' },
@@ -648,7 +648,7 @@ const AUTOCTRL_NOGYM = [  // 一三五 · 经期停健身 · 自控（数学多1
   { t:'20:30-21:30', l:'🔢 数学 · 线代/概率视频 1h', s:'math' },
 ];
 
-const ENGLISH_DAY = [  // 二四六 · 英语日
+const ENGLISH_DAY = [  // 三五日 · 英语日
   { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
   { t:'11:30-12:30', l:'🔢 数学 · 线代/概率 1h', s:'math' },
   { t:'12:30-13:00', l:'🍜 午餐 30min', s:'rest' },
@@ -660,10 +660,10 @@ const ENGLISH_DAY = [  // 二四六 · 英语日
   { t:'20:30-21:30', l:'📖 复盘 + 📝 单词复习', s:'eng' },
 ];
 
-// Helper: is this a self-control day (Mon/Wed/Fri)?
+// Helper: is this a self-control day (Tue/Thu/Sat)?
 function isSelfControlDay(date) {
   const d = date.getDay(); // 0=Sun
-  return d === 1 || d === 3 || d === 5; // Mon, Wed, Fri
+  return d === 2 || d === 4 || d === 6; // Tue, Thu, Sat
 }
 
 // ── Drawer content ──
@@ -1072,24 +1072,19 @@ function getPeriodInfo(date) {
 }
 
 function isGymDay(date) {
-  // July 1 = gym day, then every other day from July 1 onward
-  const july1 = new Date(2026, 6, 1);
-  const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
-  if (diffDays < 0) return false; // Before July 1, no gym schedule
+  // 二四六健身（自控日 = 健身日）
+  if (!isSelfControlDay(date)) return false;
 
   // Period: no gym during first 4 days
   const period = getPeriodInfo(date);
   if (period && period.noGym) return false;
 
-  return diffDays % 2 === 0;
+  return true;
 }
 
 function isRestDay(date) {
-  // 学6休1: every 7th day starting July 1
-  const july1 = new Date(2026, 6, 1);
-  const diffDays = Math.floor((date - july1) / (1000 * 60 * 60 * 24));
-  if (diffDays < 0) return false; // Before July 1
-  return (diffDays % 7 === 6); // 7th day (0-indexed, so 6 = 7th)
+  // 学6休1: 每周一休息
+  return date.getDay() === 1; // Monday
 }
 
 function getTodayKey() {
@@ -1470,7 +1465,7 @@ function isPoliticalClassDay(date) {
   const month = d.getMonth(); // 5=June, 6=July, 7=August
   const dom = d.getDate();
   const day = d.getDay(); // 0=Sun
-  if (day === 0) return false; // Never on Sunday
+  if (day === 1) return false; // Never on Monday (rest day)
   // Jun 29: live Day1 (already done, not a "study" day)
   // 马原期: Jun 30 - Jul 12
   if (month === 5 && dom === 30) return true;  // Jun 30
