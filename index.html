@@ -616,8 +616,10 @@ function genJuneSchedules() {
 }
 const JUNE = genJuneSchedules();
 
-// ── July+ recurring schedules (v5: 数学拉满5h 自控/英语隔天轮换) ──
-const GYM_DAY_SCHEDULE = [
+// ── July+ recurring schedules (v5: 按星期几决定自控/英语, 健身块独立) ──
+// 一三五 = 自控日 (with/without gym), 二四六 = 英语日
+
+const AUTOCTRL_GYM = [  // 一三五 · 健身日 · 自控
   { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
   { t:'11:30-11:40', l:'🍌 练前加餐（自习室）', s:'eat' },
   { t:'11:45-12:30', l:'🏋️ 力量+跑步机+拉伸 45min', s:'gym' },
@@ -632,7 +634,21 @@ const GYM_DAY_SCHEDULE = [
   { t:'20:30-21:30', l:'🔢 数学 · 线代/概率视频 1h', s:'math' },
 ];
 
-const NON_GYM_DAY_SCHEDULE = [
+const AUTOCTRL_NOGYM = [  // 一三五 · 经期停健身 · 自控（数学多1h）
+  { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
+  { t:'11:30-12:30', l:'🔢 数学 · 线代/概率 1h', s:'math' },
+  { t:'12:30-13:00', l:'🍜 午餐 30min', s:'rest' },
+  { t:'13:00-13:30', l:'📝 单词（白天固定）', s:'eng' },
+  { t:'13:30-14:00', l:'😴 休息', s:'rest' },
+  { t:'14:00-17:00', l:'⚙️ 自控 · 3h', s:'pro' },
+  { t:'17:00-17:30', l:'📝 单词复习', s:'eng' },
+  { t:'17:30-18:00', l:'🍜 晚饭 30min', s:'rest' },
+  { t:'18:00-19:30', l:'🔢 数学 · 错题/刷题 1.5h', s:'math' },
+  { t:'19:30-20:30', l:'📜 政治 · 马原/代练', s:'pol' },
+  { t:'20:30-21:30', l:'🔢 数学 · 线代/概率视频 1h', s:'math' },
+];
+
+const ENGLISH_DAY = [  // 二四六 · 英语日
   { t:'09:00-11:30', l:'🔢 数学 · 高数 2.5h', s:'math' },
   { t:'11:30-12:30', l:'🔢 数学 · 线代/概率 1h', s:'math' },
   { t:'12:30-13:00', l:'🍜 午餐 30min', s:'rest' },
@@ -643,6 +659,12 @@ const NON_GYM_DAY_SCHEDULE = [
   { t:'19:30-20:30', l:'📜 政治 · 马原/代练', s:'pol' },
   { t:'20:30-21:30', l:'📖 复盘 + 📝 单词复习', s:'eng' },
 ];
+
+// Helper: is this a self-control day (Mon/Wed/Fri)?
+function isSelfControlDay(date) {
+  const d = date.getDay(); // 0=Sun
+  return d === 1 || d === 3 || d === 5; // Mon, Wed, Fri
+}
 
 // ── Drawer content ──
 const DRAWER_SECTIONS = [
@@ -1104,50 +1126,37 @@ function getSchedule(date) {
 
   const gym = isGymDay(date);
 
-  // Phase-aware labels (v5: 自控/英语隔天轮换)
-  const phaseLabels = {
-    'july-high': {
-      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
-      nonGymTag: '📖 非健身日 · 英语日 📝',
-      gymEmoji: '🏋️', nonGymEmoji: '📖',
-    },
-    'aug-lineprob': {
-      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
-      nonGymTag: '📖 非健身日 · 英语日 📝',
-      gymEmoji: '🏋️', nonGymEmoji: '📖',
-    },
-    'aug-late': {
-      gymTag: '🏋️ 健身日 · 自控日 ⚙️',
-      nonGymTag: '📖 非健身日 · 英语日 📝',
-      gymEmoji: '🏋️', nonGymEmoji: '📖',
-    },
-    'fall': {
-      gymTag: '🏋️ 健身日 · 秋季强化期',
-      nonGymTag: '📖 非健身日 · 秋季强化期',
-      gymEmoji: '🏋️', nonGymEmoji: '📚',
-    },
-  };
-  const pl = phaseLabels[phase] || phaseLabels['july-high'];
+  // v5: day-of-week determines subject, gym/period overlay adjusts
+  const isAutoCtrl = isSelfControlDay(date);
   const period = getPeriodInfo(date);
+  const noGym = period && period.noGym;
 
-  // Build tag: overlay period info
-  let tag = gym ? pl.gymTag : pl.nonGymTag;
-  let emoji = gym ? pl.gymEmoji : pl.nonGymEmoji;
-  if (period && period.noGym) {
-    tag = '🩸 经期休息 · ' + (gym ? '原健身日→改非健身 📖' : '非健身日 📖');
-    emoji = '🩸';
-  } else if (period) {
-    tag = (gym ? pl.gymTag : pl.nonGymTag) + ' 🩸轻量';
-    emoji = gym ? '🏋️‍♀️' : '📖';
+  let schedule, tag, emoji;
+  if (isAutoCtrl) {
+    // Mon/Wed/Fri = 自控日
+    if (!noGym && gym) {
+      schedule = AUTOCTRL_GYM;
+      tag = period ? '🏋️‍♀️ 健身日 · 自控日 ⚙️ 🩸轻量' : '🏋️ 健身日 · 自控日 ⚙️';
+      emoji = period ? '🏋️‍♀️' : '🏋️';
+    } else {
+      schedule = AUTOCTRL_NOGYM;
+      tag = noGym ? '🩸 经期休息 · 自控日 ⚙️（原健身日→免练）' : '📖 自控日 ⚙️（经期轻量）';
+      emoji = noGym ? '🩸' : '⚙️';
+    }
+  } else {
+    // Tue/Thu/Sat = 英语日
+    schedule = ENGLISH_DAY;
+    tag = '📖 英语日 📝';
+    emoji = '📖';
   }
 
   return {
     tag: tag,
     emoji: emoji,
-    gym: gym,
+    gym: gym && !noGym,
     phase: phase,
     period: period,
-    schedule: (period && period.noGym) ? NON_GYM_DAY_SCHEDULE : (gym ? GYM_DAY_SCHEDULE : NON_GYM_DAY_SCHEDULE),
+    schedule: schedule,
   };
 }
 
@@ -1447,9 +1456,9 @@ function closeDrawer() {
 const NOTIFY_TIMES = [
   { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！🔢 数学时间开始' },
   { hour: 11, minute: 30, id: '1130', label: '🍌 练前加餐：香蕉+坚果，准备去健身房', gymOnly: true },
-  { hour: 12, minute: 30, id: '1230', label: '📝 单词时间（白天固定30min）', nonGymOnly: true },
-  { hour: 14, minute: 0, id: '1400', label: '📖 下午学习开始，加油！', gymOnly: true },
-  { hour: 13, minute: 30, id: '1330', label: '📖 下午英语4h开始', nonGymOnly: true },
+  { hour: 13, minute: 0, id: '1300', label: '📝 单词时间（白天固定）', autoCtrlNoGymOrEnglish: true },
+  { hour: 13, minute: 30, id: '1330', label: '📖 下午学习开始！', englishOnly: true },
+  { hour: 14, minute: 0, id: '1400', label: '📖 下午自控开始！', autoCtrlOnly: true },
   { hour: 19, minute: 25, id: '1925', label: '🟣📺 政治学习 5分钟后开始！（马原/代练录播）', polClassOnly: true, sticky: true },
   { hour: 20, minute: 30, id: '2030', label: '🌙 晚间收尾阶段' },
 ];
@@ -1552,10 +1561,14 @@ function checkNotifications() {
     // Rest days: only allow political class notifications
     if (dayInfo.rest && !nt.polClassOnly) continue;
 
-    // Check if gymOnly and today is not a gym day
+    // Check if gymOnly and today is not a gym day (period → gym=false)
     if (nt.gymOnly && !dayInfo.gym) continue;
-    // Check if nonGymOnly and today is a gym day
-    if (nt.nonGymOnly && dayInfo.gym) continue;
+    // Check if autoCtrlOnly and today is not a self-control day
+    if (nt.autoCtrlOnly && !isSelfControlDay(now)) continue;
+    // Check if englishOnly and today is a self-control day
+    if (nt.englishOnly && isSelfControlDay(now)) continue;
+    // Check if autoCtrlNoGymOrEnglish: only on autoCtrl NO-gym days OR english days
+    if (nt.autoCtrlNoGymOrEnglish && isSelfControlDay(now) && dayInfo.gym) continue;
     // Check if polClassOnly and today is not a political class day
     if (nt.polClassOnly && !isPoliticalClassDay(now)) continue;
 
