@@ -1304,16 +1304,17 @@ function render() {
       </li>`;
   }).join('');
 
+  // 过了20:30显示明天的每科任务
+  const h = now.getHours(), m = now.getMinutes();
+  const cardDay = (h > 20 || (h === 20 && m >= 30)) ? new Date(now.getTime() + 86400000) : now;
+  const cardDayInfo = cardDay.getTime() === now.getTime() ? dayInfo : getSchedule(cardDay);
+
   main.innerHTML = `
     ${nowHTML}
     <div class="timeline-card">
       <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
       <ul class="timeline-list">${timelineHTML}</ul>
     </div>
-    // 过了20:30显示明天的每科任务
-    const h = now.getHours(), m = now.getMinutes();
-    const cardDay = (h > 20 || (h === 20 && m >= 30)) ? new Date(now.getTime() + 86400000) : now;
-    const cardDayInfo = cardDay === now ? dayInfo : getSchedule(cardDay);
     ${buildDailySubjectCard(cardDayInfo, cardDay)}
     ${buildWeekCardHTML()}`;
 }
