@@ -700,7 +700,7 @@ const DRAWER_SECTIONS = [
     title: '📜 政治 · 马原✅→带刷追课（v7）',
     html: `
       <p style="font-size:13px;color:var(--green);margin-bottom:6px;"><b>🟣 马原12讲：7.17已全部完成 ✅</b> | 🦠 7.13-7.17生病积压带刷D2-D6</p>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">📺 7.18起追带刷录播D2-D21（每天1集1.5x≈40min·不复盘·先追进度·8月集中补复盘）</p>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">📺 7.18起追带刷录播D2-D21（<b>隔天·每周二四日</b> | 每集~2h/1.5x≈80min | 非政治日晚间给数学）</p>
       <table>
         <tr><th>阶段</th><th>时间</th><th>内容</th></tr>
         <tr><td>🟣 马原</td><td>6.30-7.12</td><td><b>张修齐马原12讲</b>·1.5x录播 ✅已完成</td></tr>
@@ -823,7 +823,7 @@ const DRAWER_SECTIONS = [
       <div class="plan-phase"><div class="plan-phase-title">📜 政治 · 马原✅→带刷追课</div>
       <table><tr><th>阶段</th><th>任务</th></tr>
       <tr><td>✅完成</td><td>🟣马原12讲（7.17）| 带刷Day1跟直播（6.29）</td></tr>
-      <tr><td>7.18-8月初</td><td>📺 追带刷录播D2-D21·每天1集·8月初追平</td></tr></table></div>
+      <tr><td>7.18-8月初</td><td>📺 追带刷录播D2-D21·隔天(二四日)·8月初追平</td></tr></table></div>
       <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | ⚠️ 秋季课表8.24起：周二15:30+周五10:00(第1-4周)+周四10:00(第5-8周) | 暑假必须完成数学基础</p>`
   },
   {
@@ -1016,7 +1016,7 @@ function buildDailySubjectCard(dayInfo, now) {
 
   // Politics - evening always
   const todayStr = fmtDate(now);
-  tasks.push({ s:'pol', sub:'📜 政治（1h）', task:isPoliticalClassDay(now) ? '19:30 马原录播/带刷录播 1.5x≈45-60min' : '🎧 碎片徐涛带背音频' });
+  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '晚间 带刷录播 1集（~2h/1.5x≈80min）' : '🎧 碎片徐涛带背音频（今日非政治日·晚间让给数学）' });
 
   // English always has vocab + 扇贝
       tasks.push({ s:'eng', sub:'📝 单词', task:'白天固定30min闪过 + 回酒店快速过 + 扇贝APP碎片' });
@@ -1184,6 +1184,16 @@ function getSchedule(date) {
     schedule = ENGLISH_DAY;
     tag = illNoGym ? '🩹 英语日 📝（病后恢复）' : '📖 英语日 📝';
     emoji = '📖';
+  }
+
+  // If not a political study day, swap evening political slot to math
+  if (!isPoliticalClassDay(date)) {
+    schedule = schedule.map(item => {
+      if (item.s === 'pol') {
+        return { ...item, s: 'math', l: '🔢 数学 · 刷题/补旧章（政治隔天休）' };
+      }
+      return item;
+    });
   }
 
   return {
@@ -1411,13 +1421,13 @@ const NOTIFY_TIMES = [
   { hour: 13, minute: 0, id: '1300', label: '📝 单词时间（白天固定）', autoCtrlNoGymOrEnglish: true },
   { hour: 13, minute: 30, id: '1330', label: '📖 下午学习开始！', englishOnly: true },
   { hour: 14, minute: 0, id: '1400', label: '📖 下午自控开始！', autoCtrlOnly: true },
-  { hour: 19, minute: 25, id: '1925', label: '🟣📺 政治学习 5分钟后开始！（马原/带刷录播）', polClassOnly: true, sticky: true },
+  { hour: 19, minute: 25, id: '1925', label: '📺 政治带刷录播 5分钟后开始！（每周二四日·隔天）', polClassOnly: true, sticky: true },
   { hour: 20, minute: 30, id: '2030', label: '🌙 晚间收尾阶段' },
 ];
 
-// Political study days: 马原期✔(6.30-7.12) + 带刷录播追课期(7.18-8.10, 病后顺延)
+// Political study days: 马原期✔(6.30-7.12) + 带刷录播追课期(7.18-8.10, 隔天做)
 // Jun 29 watched live Day1. Jun 30-Jul 12 马原12讲✅. Jul 13-17 生病停学.
-// Jul 18起追带刷录播D2-D21, 每天1集, 扩展至8.10追平+复盘.
+// Jul 18起追带刷录播D2-D21: 周二/四/日（隔天·每周3晚·每集约2h/1.5x≈80min）
 function isPoliticalClassDay(date) {
   const d = new Date(date);
   const month = d.getMonth(); // 5=June, 6=July, 7=August
@@ -1433,9 +1443,16 @@ function isPoliticalClassDay(date) {
   if (month === 6 && dom >= 1 && dom <= 12) return true;  // Jul 1-12
   // 生病停学: Jul 13-17 (no political study)
   if (month === 6 && dom >= 13 && dom <= 17) return false;
-  // 带刷录播追课期: Jul 18 - Aug 10 (病后顺延·每天1集)
-  if (month === 6 && dom >= 18 && dom <= 31) return true;  // Jul 18-31
-  if (month === 7 && dom >= 1 && dom <= 10) return true;   // Aug 1-10
+  // 带刷录播追课期: Jul 18 - Aug 10, 隔天做（周二/四/日, 每周3晚）
+  if (month === 6 && dom >= 18 && dom <= 31) {
+    return day === 2 || day === 4 || day === 0; // 周二/四/日
+  }
+  if (month === 7 && dom >= 1 && dom <= 10) {
+    return day === 2 || day === 4 || day === 0;
+  }
+  // After Aug 10: 9月起日常政治恢复每晚
+  if (month === 7 && dom > 10) return true;
+  if (month >= 8) return true;
   return false;
 }
 
