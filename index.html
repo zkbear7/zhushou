@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fdf8f4">
-<!-- v7.18: 病后恢复·作息v7·英语提纯·自控拉满·数学依赖验证·秋季课表·现控埃德加 -->
+<!-- v8: 居家健身·政治隔天·自控3h·英语晚间保护·数学110·1000A看答案学 -->
 <link rel="manifest" href="./manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
 <style>
@@ -581,48 +581,36 @@ const JUNE = genJuneSchedules();
 // ── July+ recurring schedules (v5: 按星期几决定自控/英语, 健身块独立) ──
 // 二四六 = 自控日 (with/without gym), 三五日 = 英语日
 
-const AUTOCTRL_GYM = [  // 二四六 · 健身日 · 自控（v6: 早上健身→11:30到自习室）
-  { t:'08:30', l:'起床', s:'rest' },
-  { t:'09:00-10:15', l:'🏋️ 力量+跑步机+拉伸+🚿洗澡', s:'gym' },
-  { t:'10:15-10:45', l:'🍜 午饭', s:'eat' },
-  { t:'10:45-11:30', l:'通勤到自习室', s:'rest' },
-  { t:'11:30-14:00', l:'🔢 数学 · 高数 2.5h', s:'math' },
-  { t:'14:00-17:00', l:'⚙️ 自控 · 3h', s:'pro' },
-  { t:'17:00-17:30', l:'📝 单词（白天固定）', s:'eng' },
-  { t:'17:30-18:00', l:'🍜 晚饭', s:'rest' },
-  { t:'18:00-19:30', l:'🔢 数学 · 刷题/补旧章 1.5h', s:'math' },
-  { t:'19:30-20:30', l:'📜 政治', s:'pol' },
-  { t:'20:30-21:30', l:'🔢 数学/线代（灵活）1h', s:'math' },
+const AUTOCTRL_DAY = [  // 二四六 · 自控日（v8: 居家健身+自控3h+英语晚间保护）
+  { t:"08:00-08:40", l:"🏠 居家弹力带 · 跟视频", s:"gym" },
+  { t:"08:40-09:00", l:"洗漱", s:"rest" },
+  { t:"09:00-09:30", l:"📝 单词 · 闪过1单元", s:"eng" },
+  { t:"09:30-12:00", l:"🔢 数学 · 高数 2.5h", s:"math" },
+  { t:"12:00-12:30", l:"🍜 午饭", s:"rest" },
+  { t:"12:30-13:00", l:"🔢 旧章补题/线代/碎片翻1000A答案", s:"math" },
+  { t:"13:00-13:30", l:"📝 单词", s:"eng" },
+  { t:"13:30-14:00", l:"😴 午休", s:"rest" },
+  { t:"14:00-17:00", l:"⚙️ 自控 · 3h（飞哥课+课后题·延30min缓冲）", s:"pro" },
+  { t:"17:00-17:30", l:"🍜 晚饭", s:"rest" },
+  { t:"17:30-19:00", l:"🔢 数学 · 刷题/补旧章 1.5h", s:"math" },
+  { t:"19:00-20:00", l:"📝 英语精读 · 轻量版 1h（晚间保护）", s:"eng" },
+  { t:"20:00-20:30", l:"📝 单词收尾", s:"eng" },
 ];
 
-const AUTOCTRL_NOGYM = [  // 二四六 · 免练版（v7: 病后/经期停健身·自控2.5h+轻量英语1h）
-  { t:'09:00-09:30', l:'📝 单词 · 闪过1单元', s:'eng' },
-  { t:'09:30-12:00', l:'🔢 数学 · 高数 2.5h', s:'math' },
-  { t:'12:00-12:30', l:'🔢 数学 · 旧章补题/线代', s:'math' },
-  { t:'12:30-13:00', l:'🍜 午餐', s:'rest' },
-  { t:'13:00-13:30', l:'📝 单词', s:'eng' },
-  { t:'13:30-14:00', l:'😴 午休', s:'rest' },
-  { t:'14:00-16:30', l:'⚙️ 自控 · 2.5h（飞哥课+课后题）', s:'pro' },
-  { t:'16:30-17:30', l:'📝 英语精读 · 轻量版 1h（扇贝辅助）', s:'eng' },
-  { t:'17:30-18:00', l:'🍜 晚饭', s:'rest' },
-  { t:'18:00-19:30', l:'🔢 数学 · 刷题/补旧章 1.5h', s:'math' },
-  { t:'19:30-20:30', l:'📜 政治 · 带刷录播', s:'pol' },
-  { t:'20:30-21:00', l:'📝 单词收尾', s:'eng' },
-];
-
-const ENGLISH_DAY = [  // 三五日 · 英语日（v7: 英语3h提纯+自控课后题1h）
-  { t:'09:00-09:30', l:'📝 单词 · 闪过1单元', s:'eng' },
-  { t:'09:30-12:00', l:'🔢 数学 · 高数 2.5h', s:'math' },
-  { t:'12:00-12:30', l:'🔢 数学 · 旧章补题/线代', s:'math' },
-  { t:'12:30-13:00', l:'🍜 午餐', s:'rest' },
-  { t:'13:00-13:30', l:'📝 单词', s:'eng' },
-  { t:'13:30-16:30', l:'📝 英语 · 3h（精读1.5h+柴荣课1h+翻译0.5h）', s:'eng' },
-  { t:'16:30-17:00', l:'📝 单词', s:'eng' },
-  { t:'17:00-17:30', l:'🍜 晚饭', s:'rest' },
-  { t:'17:30-18:30', l:'⚙️ 自控课后题 · 1h', s:'pro' },
-  { t:'18:30-20:00', l:'🔢 数学 · 刷题/补旧章 1.5h', s:'math' },
-  { t:'20:00-21:00', l:'📜 政治 · 带刷录播', s:'pol' },
-  { t:'21:00-21:30', l:'📖 复盘 + 📝 单词复习', s:'eng' },
+const ENGLISH_DAY = [  // 三五日 · 英语日（v8: 居家健身+英语3h+自控课后题1h）
+  { t:"08:00-08:40", l:"🏠 居家弹力带 · 跟视频", s:"gym" },
+  { t:"08:40-09:00", l:"洗漱", s:"rest" },
+  { t:"09:00-09:30", l:"📝 单词 · 闪过1单元", s:"eng" },
+  { t:"09:30-12:00", l:"🔢 数学 · 高数 2.5h", s:"math" },
+  { t:"12:00-12:30", l:"🍜 午饭", s:"rest" },
+  { t:"12:30-13:00", l:"🔢 旧章补题/线代/碎片翻1000A答案", s:"math" },
+  { t:"13:00-13:30", l:"📝 单词", s:"eng" },
+  { t:"13:30-16:30", l:"📝 英语 · 3h（精读1.5h+柴荣课1h+翻译0.5h）", s:"eng" },
+  { t:"16:30-17:00", l:"📝 单词", s:"eng" },
+  { t:"17:00-17:30", l:"🍜 晚饭", s:"rest" },
+  { t:"17:30-18:30", l:"⚙️ 自控课后题 · 1h", s:"pro" },
+  { t:"18:30-20:00", l:"🔢 数学 · 刷题/补旧章 1.5h", s:"math" },
+  { t:"20:00-20:30", l:"📝 单词收尾", s:"eng" },
 ];
 
 // Helper: is this a self-control day (Tue/Thu/Sat)?
@@ -634,10 +622,10 @@ function isSelfControlDay(date) {
 // ── Drawer content ──
 const DRAWER_SECTIONS = [
   {
-    title: '🔢 数学一 · 高数18讲分级（v7）',
+    title: '🔢 数学一 · 高数18讲分级（v8·110·例题P0>1000A P1）',
     html: `
       <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">✅ 已学：第1-6讲 | ⚪ 跳过：第7讲(第15讲全覆盖)、第12讲(数一不考) | 🦠 第9讲中断（病后恢复）</p>
-      <p style="font-size:13px;color:var(--accent);margin-bottom:10px;"><b>v7路线：1000A+880基础篇 | 1000B不做 | 880按知识点分章·大章学完再刷 | 顺序重排(依赖验证)</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:10px;"><b>v8路线：例题独立做P0 > 1000A看答案学P1 > 880基础篇P2 | 数学110底线 | 1000A碎片翻答案</b></p>
       <table>
         <tr><th>梯队</th><th>讲次</th><th>标题</th><th>1.5x后</th><th>策略</th></tr>
         <tr><td><span class="tag red">🔴 先补</span></td><td>8+9</td><td>积分概念+计算</td><td>~7h</td><td>🔥 7.18恢复·收尾→直跳13讲(无断层)</td></tr>
@@ -650,16 +638,16 @@ const DRAWER_SECTIONS = [
         <tr><td><span class="tag red">🔴 第一</span></td><td>18</td><td>曲线/曲面积分</td><td>—</td><td>→ 李艳芳 BV1Xy4y1L7Z5</td></tr>
         <tr><td><span class="tag orange">🟠 速过</span></td><td>11</td><td>积分等式不等式</td><td>~0.5h</td><td>1天速过·积分中值定理+单调性法·110分不依赖</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text2);margin-top:6px;">📖 每章闭环：30讲→笔记+例题→1000A→880（大章学完再刷对应880）| 🔑 8+9→13无断层（13讲用求导不用积分）</p>
+      <p style="font-size:12px;color:var(--text2);margin-top:6px;">📖 做题三级：例题独立做(P0·合书默写) > 1000A看答案学(P1·碎片时间) > 880基础篇(P2·大章学完刷) | 🔑 8+9→13无断层</p>
       <p style="font-size:12px;color:var(--text2);">🟠 线代：张宇基础篇书自学 | 🟣 概率：线代结束→余丙森讲义→方浩 | 第12讲物理应用：12月0.5天记公式</p>
-      <p style="font-size:12px;color:var(--text3);">🎯 保90冲110 | 1000B不做 | 方浩幂级数 | 李艳芳线面积分 | 🦠病后·暑假必须完成基础</p>`
+      <p style="font-size:12px;color:var(--text3);">🎯 数学110底线 | 💡1000A操作:想3-5min→没思路翻答案→标⭐△○→第二天重做⭐ | 正确率70%就很好</p>`
   },
   {
-    title: '⚙️ 828 自控 · 飞哥→真题（v7·12h/周）',
+    title: '⚙️ 828 自控 · 飞哥→真题（v8·12h/周·自控日3h）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v7：12h/周（自控日2.5h+英语日晚间1h课后题）| 飞哥课看完直接刷真题，多刷几遍！</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b><b>🔥 v8：12h/周（自控日3h 14:00-17:00+英语日晚间1h课后题）| 飞哥课看完直接刷真题，多刷几遍！</b></b></p>
       <p style="font-size:13px;color:var(--text2);margin-bottom:4px;">🦠 飞哥课7.13-7.17停5天·7.18恢复 | 控制考研飞哥(B站中科大飞哥)</p>
-      <p style="font-size:12px;color:var(--rose);margin-bottom:8px;">💡 v7新：英语日17:30-18:30让给自控课后题（数学牺牲1h）| 提分效率最高·优势拉满</p>
+      <p style="font-size:12px;color:var(--rose);margin-bottom:8px;">💡 v8：自控日延至17:00(+30min缓冲) | 英语日晚间1h课后题 | 英语精读挪至晚间19:00保护</p>
       <p style="font-size:13px;font-weight:600;color:var(--text);">王万良《自动控制原理》第3版</p>
       <table>
         <tr><th>章</th><th>内容</th></tr>
@@ -678,9 +666,9 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--rose);margin-top:8px;">🔥 飞哥课结束→直接开真题（不停留）| 🎯 目标冲130 | ⚠️ 平时手算不用计算器 | 真题至少2-3遍 | 王万良课后题=真题原型</p>`
   },
   {
-    title: '📝 英语一 · 真题直入+三小课（v7·每天1篇）',
+    title: '📝 英语一 · 真题直入+三小课（v8·每天1篇·三种模式）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v7：13h/周·每天1篇精读 | 英语日完整1.5h + 自控日轻量1h（扇贝辅助）| 三小课B站免费</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b><b>🔥 v8：11.5h/周·每天1篇 | 英语日完整1.5h + 自控日晚间1h + 政治日30min | 三小课B站免费</b></b></p>
       <table>
         <tr><th>板块</th><th>老师/资源</th><th>频率</th></tr>
         <tr><td>阅读精读</td><td>柴荣全年班 + 真题</td><td><b>每天1篇</b>（不间断）</td></tr>
@@ -692,20 +680,20 @@ const DRAWER_SECTIONS = [
         <tr><td>写作</td><td>柴荣写作课</td><td>10-11月</td></tr>
         <tr><td>语法/长难句</td><td>⏭️ 跳过</td><td>翻译拆分自然补位</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--accent);margin-top:8px;"><b>精读两种模式：</b>英语日=完整版1.5h(限时做→逐句笔译→柴荣视频→错因→1句拆解) | 自控日=轻量版1h(限时做→对答案→扇贝快速翻→错因)</p>
+      <p style="font-size:12px;color:var(--accent);margin-top:8px;"><b>精读三种模式(v8)：</b>英语日=完整1.5h | 自控日=晚间1h(19:00-20:00) | 政治日(二四)=超轻量30min(只做+对答案+错因)</p>
       <p style="font-size:12px;color:var(--text2);">💡 英语日3h结构：精读1.5h→柴荣课1h→翻译复习0.5h | 翻译拆解仅英语日做</p>
       <p style="font-size:12px;color:var(--text3);">🎯 目标65-70 | 阅读=核心(40分) | 三小课B站全免费 | 砍掉低效填充·提纯不降质</p>`
   },
   {
-    title: '📜 政治 · 马原✅→带刷追课（v7）',
+    title: '📜 政治 · 马原✅→隔天直接看视频（v8）',
     html: `
       <p style="font-size:13px;color:var(--green);margin-bottom:6px;"><b>🟣 马原12讲：7.17已全部完成 ✅</b> | 🦠 7.13-7.17生病积压带刷D2-D6</p>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">📺 7.18起追带刷录播D2-D21（<b>隔天·每周二四日</b> | 每集~2h/1.5x≈80min | 非政治日晚间给数学）</p>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">📺 7.22起带刷D2-D21（<b>隔天·二四日 19:00-20:00</b> | 直接看视频不做题·1.5x≈40min | 省时·带刷只是画地图）</p>
       <table>
         <tr><th>阶段</th><th>时间</th><th>内容</th></tr>
         <tr><td>🟣 马原</td><td>6.30-7.12</td><td><b>张修齐马原12讲</b>·1.5x录播 ✅已完成</td></tr>
         <tr><td>🦠 生病</td><td>7.13-7.17</td><td>停学5天·带刷D2-D6积压</td></tr>
-        <tr><td>📺 追课</td><td>7.18-8月初</td><td><b>张修齐带刷录播</b>追D2-D21（每天1集，8月初追平）</td></tr>
+        <tr><td><td>📺 追课</td><td>7.22-8月下旬</td><td><b>张修齐带刷录播</b>追D2-D21（隔天二四日·直接看视频·8月下旬追平）</td></tr>
         <tr><td>📘 小橙书</td><td>10月</td><td><b>张修齐小橙书</b>✅已购 + B站免费带背营</td></tr>
         <tr><td>🔥 正式启动</td><td>9月</td><td>徐涛毛中特+新思想(1.5x) → 苏一导图 → <b>肖1000一刷</b>（纸质⭐）</td></tr>
         <tr><td>🔄 二刷</td><td>10月</td><td><b>苍盾小程序</b>·只刷⭐题 + 帽子题整理</td></tr>
@@ -747,25 +735,25 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--rose);margin-top:8px;">🔑 核心：一本书看十遍胜过十本书翻一遍 | 帽子题是送分题 | 政治选择是刷出来不是看出来的</p>`
   },
   {
-    title: '📊 进度自检节点（v7·病后后移）',
+    title: '📊 进度自检节点（v8·7.22更新）',
     html: `
       <table>
         <tr><th>节点</th><th>数学一</th><th>828</th><th>英语</th><th>政治</th></tr>
-        <tr><td>7.17</td><td>第8+9讲中断🦠</td><td>飞哥停🦠</td><td>2005 Text1-2</td><td>🟣马原12讲✅</td></tr>
-        <tr><td>7.20</td><td>第9讲收尾→13讲启动</td><td>飞哥2-3章</td><td>2005 Text3-4</td><td>📺带刷D4</td></tr>
-        <tr><td>7月底</td><td>第13+14+15讲</td><td>飞哥1-4章</td><td>2005-2006</td><td>📺带刷D14</td></tr>
-        <tr><td>8.10</td><td>第10+16讲 线代推进</td><td>飞哥5-6章</td><td>2006-2008</td><td>📺带刷D21✅</td></tr>
-        <tr><td>8.22</td><td>17+18+11讲+1000A高数✅</td><td>🔥真题一刷</td><td>2005-2010✅+翻译≥60句</td><td>📺复盘✅</td></tr>
+        <tr><td>7.22</td><td>第9讲✅·第1讲课后题接近完成·第13讲4h剩</td><td>飞哥2-3章</td><td>2005 Text1-2</td><td>🟣马原12讲✅</td></tr>
+        <tr><td>7月底</td><td>第13讲✅+第14讲+第9讲1000A碎片翻完</td><td>飞哥1-4章</td><td>2005-2006</td><td>📺带刷D2-D6</td></tr>
+        <tr><td>8.10</td><td>第15讲+第10讲</td><td>飞哥5-6章</td><td>2006-2008</td><td>📺带刷D7-D12</td></tr>
+        <tr><td>8.25</td><td>16+17+18+11讲·暑假结束</td><td>🔥真题一刷</td><td>2005-2010✅+翻译≥60句</td><td>📺带刷D21✅</td></tr>
+        <tr><td>9月底</td><td>36讲+880综合</td><td>真题+俞立1-5</td><td>阅读至2015+新题型</td><td>肖1000一刷⭐</td></tr>
         <tr><td>9月底</td><td>36讲+880综合</td><td>真题+俞立1-5</td><td>阅读至2015+新题型</td><td>肖1000一刷⭐</td></tr>
         <tr><td>10月底</td><td>真题2005-2020</td><td>真题二刷+三刷</td><td>阅读至2020+三小课</td><td>苍盾二刷⭐⭐</td></tr>
       </table>
       <p style="font-size:12px;color:var(--text3);margin-top:6px;">🦠=生病停学 | 📺=政治带刷录播 | 🔥=关键节点 | 🎯考研预测:12.19</p>`
   },
   {
-    title: '🏃 健身方案 · 三分化+跑步机（🦠病后免练）',
+    title: '🏠 健身方案 · 居家弹力带40min（v8·替代健身房）',
     html: `
-      <p style="font-size:13px;color:var(--rose);margin-bottom:6px;"><b>🦠 7.13-7.17 肠胃炎停学 | 7.18-7.24 免练期（不健身）| 7.25起视恢复情况恢复</b></p>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">膝盖保护模式 → 跑步机快走（戴护膝·坡度2-3·速度4.0-5.0）+ 精简三分化力量</p>
+      <p style="font-size:13px;color:var(--rose);margin-bottom:6px;"><b><b>🏠 居家弹力带训练·每天早8:00-8:40（跟视频·最长40min·无需器械）</b> | 🦠7.13-7.17停学 | 7.25恢复训练</b></p>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:6px;">💡 v8：不再去健身房（省往返+洗澡时间≈40min）| 居家弹力带跟视频·灵活切换（长则40min·短则十几min）</p>
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:8px;">🔁 三天循环（二四六健身日）：</p>
       <table>
         <tr><th>日</th><th>部位</th><th>主力器械</th><th>补充</th></tr>
@@ -795,9 +783,9 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 经期前4天：完全停练→切换非健身日作息 | 第5-6天：力量减半(各2组)+跑步机轻量(坡度1速度3.5,5-10min)</p>`
   },
   {
-    title: '📅 完整周计划（7.17 v7修订版·病后重排）',
+    title: '📅 完整周计划（7.22 v8修订版·居家健身·政治隔天·自控3h）',
     html: `
-      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v7：英语13h提纯·自控12h拉满·每天1篇精读·数学顺序重排·🦠生病停学5天·免练1周·⏰考研12.19</b></p>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b><b>🔥 v8：居家健身40min·政治隔天二四日·自控3h延至17:00·英语晚间保护·数学110·1000A看答案学</b></b></p>
       <div class="plan-phase"><div class="plan-phase-title">🦠 生病中断（7.13-7.17）</div>
       <table><tr><td>7.13-7.17 肠胃炎停学5天 | 7.18-7.24 免练期（不健身）| 7.25起视恢复情况恢复健身</td></tr></table></div>
       <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 暑假路线（7.17修订·依赖验证）</div>
@@ -827,48 +815,48 @@ const DRAWER_SECTIONS = [
       <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | ⚠️ 秋季课表8.24起：周二15:30+周五10:00(第1-4周)+周四10:00(第5-8周) | 暑假必须完成数学基础</p>`
   },
   {
-    title: '💡 备考Tips精华（v7）',
+    title: '💡 备考Tips精华（v8·含做题方法）',
     html: `
-      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">从各科讨论中提炼的关键提醒，v7更新</p>
-      <div class="plan-phase"><div class="plan-phase-title">🔢 数学（v7·依赖验证）</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">从各科讨论中提炼的关键提醒，v8更新·含做题方法</p>
+      <div class="plan-phase"><div class="plan-phase-title">🔢 数学（v8·做题方法）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>📌 <b>8+9直跳13讲无断层</b>：13讲用求导不用积分，中间的10/11/12是独立分支</li>
-        <li>📌 <b>新顺序</b>：13→14→15→10→16→17→18→11（依赖关系最优）</li>
-        <li>📌 <b>880按知识点分章</b>：一元积分学=大章(覆盖8+9+10+11讲)，大章学完再刷对应880</li>
-        <li>📌 <b>第17讲不能省</b>：极坐标+曲面参数是18讲前置，至少1.5天</li>
+        <li>🔥 <b>例题独立做P0 > 1000A看答案学P1</b>：例题合上书能默写才算会</li>
+        <li>💡 <b>1000A操作法</b>：看题→想3-5min→没思路立刻翻答案→标⭐△○→第二天重做⭐题</li>
+        <li>💡 <b>正确率70%就很好</b>：基础阶段1000A是拿来"学"的不是拿来"测"的</li>
+        <li>💡 <b>碎片时间翻1000A答案</b>：每天30-40min·不用整块时间·不卡主线进度</li>
         <li>📌 <b>第7讲可完全跳过</b>：第15讲微分方程会全部重讲</li>
         <li>📌 <b>第12讲物理应用</b>：12月0.5天记公式即可</li>
         <li>📌 <b>暑假必须完成高数基础</b>：秋季课表8.24起碎片化，推新内容困难</li>
       </ul></div>
-      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 + 现控（v7）</div>
+      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 + 现控（v8）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>📌 <b>12h/周</b>：自控日2.5h飞哥课 + 英语日晚间1h课后题</li>
+        <li>📌 <b>12h/周</b>：自控日3h(14:00-17:00) + 英语日晚间1h课后题</li>
         <li>📌 <b>飞哥→真题多刷</b>：课看完直接开真题，至少2-3遍</li>
         <li>📌 <b>现控：埃德加选看15-20节</b>（B站课堂付费·有基础不全听·重点看Lyapunov+极点配置+观测器）</li>
         <li>📌 <b>俞立课后题=真题原型</b>：优先级 > 一切</li>
         <li>📌 <b>平时手算不用计算器</b></li>
       </ul></div>
-      <div class="plan-phase"><div class="plan-phase-title">📝 英语（v7·每天1篇）</div>
+      <div class="plan-phase"><div class="plan-phase-title">📝 英语（v8·每天1篇·三种模式）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>📌 <b>每天1篇精读</b>：英语日完整1.5h + 自控日轻量1h（扇贝辅助）</li>
+        <li>📌 <b>每天1篇精读</b>：英语日完整1.5h + 自控日晚间1h + 政治日30min超轻量</li>
         <li>📌 <b>英语日3h结构</b>：精读→柴荣课→翻译复习</li>
-        <li>📌 <b>13h/周</b>：砍掉低效填充，提纯不降质</li>
+        <li>📌 <b>11.5h/周</b>：政治省出时间给数学·英语每天不断线</li>
         <li>📌 <b>三小课B站全免费</b>：唐静翻译→刘琦新题型→宋逸轩完型</li>
         <li>📌 <b>阅读是核心(40分)</b>：翻译+完型+新题型共30分拉不开差距</li>
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">📜 政治</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>🟣 <b>马原12讲已完成✅</b>（7.17）</li>
-        <li>📺 <b>7.18起追带刷D2-D21</b>：每天1集不复盘·先追进度·8月集中补复盘</li>
+        <li>🟣 <b>马原12讲已完成✅</b>（7.17）| 📺带刷尚未开始·7.22起隔天二四日</li>
+        <li>📺 <b>带刷直接看视频不做题</b>：省时·带刷只是画地图·9月徐涛+苏一才是真正学</li>
         <li>🔴 <b>肖四大题必背</b>：不跟张修齐"不背肖四"</li>
         <li>📌 <b>苍盾评论区口诀是宝藏</b></li>
       </ul></div>
-      <div class="plan-phase"><div class="plan-phase-title">🦠⏰ 身体+学期</div>
+      <div class="plan-phase"><div class="plan-phase-title">🏠🦠⏰ 身体+学期（v8）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>🦠 <b>7.13-7.17 肠胃炎停学</b> | 7.18-7.24 免练期 | 7.25起视恢复情况恢复健身</li>
-        <li>⏰ <b>考研预测：12.19</b>（比原假设早6天）</li>
-        <li>🏫 <b>秋季8.24上课</b>：周五10:00+周二15:30(第1-4周)+周四10:00(第5-8周)</li>
-        <li>🎯 <b>暑假必须完成数学基础</b></li>
+        <li>🏠 <b>居家弹力带</b>：每天早8:00-8:40跟视频·省去往返+洗澡时间</li>
+        <li>🚿 <b>洗澡：周一四晚</b>（周四可能20:30提前走）| 中间不设大块休息</li>
+        <li>🦠 <b>7.13-7.17 肠胃炎停学</b> | 7.25恢复居家训练 | 经期前4天弹力带轻量</li>
+        <li>🎯 <b>暑假必须完成数学基础</b> | ⏰考研12.19 | 秋季8.24上课</li>
       </ul></div>`
   },
 ];
@@ -1002,7 +990,7 @@ function buildDailySubjectCard(dayInfo, now) {
 
   // Math - always 5h but different structure
   if (isAutoCtrl) {
-      tasks.push({ s:'math', sub:'🔢 数学（5h）', task:'高数2.5h(11:30-14:00) + 晚间刷题/补旧章1.5h + 线代灵活1h' });
+      tasks.push({ s:'math', sub:'🔢 数学（4.5h）', task:'高数2.5h(09:30-12:00) + 晚间刷题/补旧章1.5h + 旧章/线代0.5h' });
   } else {
       tasks.push({ s:'math', sub:'🔢 数学（4.5h）', task:'高数2.5h + 旧章补题/线代0.5h + 晚间刷题/补旧章1.5h' });
   }
@@ -1011,19 +999,19 @@ function buildDailySubjectCard(dayInfo, now) {
   if (isAutoCtrl) {
       tasks.push({ s:'pro', sub:'⚙️ 828 自控（3h）', task:'飞哥课+王万良课后题 14:00-17:00 → 看完直接刷真题' });
   } else {
-      tasks.push({ s:'eng', sub:'📝 英语（4h）', task:'阅读精读2-3篇(≥3h) + 三小课轮换(≤1h) + 柴荣课 | 每日1句翻译拆解' });
+      tasks.push({ s:'eng', sub:'📝 英语（3h）', task:'精读1.5h+柴荣课1h+翻译复习0.5h | 自控日晚间轻量1h | 每日1句翻译拆解' });
   }
 
   // Politics - evening always
   const todayStr = fmtDate(now);
-  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '晚间 带刷录播 1集（~2h/1.5x≈80min）' : '🎧 碎片徐涛带背音频（今日非政治日·晚间让给数学）' });
+  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '晚间 带刷直接看视频 1.5x≈40min（隔天二四日·不做题）' : '🚫 今日非政治日·晚间给数学（仅二四日有带刷）' });
 
   // English always has vocab + 扇贝
       tasks.push({ s:'eng', sub:'📝 单词', task:'白天固定30min闪过 + 回酒店快速过 + 扇贝APP碎片' });
 
   // Special: period note
   if (period && period.noGym) {
-    tasks.push({ s:'rest', sub:'🩸 经期', task:'前4天停健身，自控日→免练版（9:00自习室，数学多1h）' });
+    tasks.push({ s:'rest', sub:'🩸 经期', task:'前4天弹力带轻量(拉伸为主·不跑跳)·不影响学习作息' });
   }
 
   const items = tasks.map(t => `
@@ -1091,25 +1079,21 @@ function getPeriodInfo(date) {
   return null;
 }
 
-// Illness recovery flag: no gym until this date (inclusive)
-const ILLNESS_NO_GYM_UNTIL = '2026-07-24'; // 7.13-7.17 肠胃炎，7.18-7.24 免练恢复期
+// Illness recovery flag: no home workout until this date (inclusive)
+const ILLNESS_NO_GYM_UNTIL = "2026-07-24"; // 7.13-7.17 肠胃炎停学，7.18-7.24 免练期，7.25恢复居家训练
 
 function isIllnessNoGym(date) {
   const d = fmtDate(date);
   return d >= '2026-07-13' && d <= ILLNESS_NO_GYM_UNTIL;
 }
 
-function isGymDay(date) {
-  // 二四六健身（自控日 = 健身日）
-  if (!isSelfControlDay(date)) return false;
-
-  // Illness recovery: no gym
+function isHomeWorkoutDay(date) {
+  // 每天居家训练（除生病免练期和经期前4天轻量）
   if (isIllnessNoGym(date)) return false;
-
-  // Period: no gym during first 4 days
+  
   const period = getPeriodInfo(date);
-  if (period && period.noGym) return false;
-
+  if (period && period.noGym) return false;  // 经期前4天轻量（仍可训练，但标签显示轻量）
+  
   return true;
 }
 
@@ -1150,56 +1134,77 @@ function getSchedule(date) {
     return { tag: '休息日', emoji: '😴', rest: true, schedule: [] };
   }
 
-  const gym = isGymDay(date);
-
-  // v5: day-of-week determines subject, gym/period overlay adjusts
   const isAutoCtrl = isSelfControlDay(date);
   const period = getPeriodInfo(date);
-  const noGym = period && period.noGym;
-
+  const periodLight = period && period.noGym;  // 经期前4天=轻量训练
   const illNoGym = isIllnessNoGym(date);
+  const homeWorkout = !illNoGym;  // 7.25起恢复居家训练
+  const isPolDay = isPoliticalClassDay(date);
 
   let schedule, tag, emoji;
   if (isAutoCtrl) {
-    // Tue/Thu/Sat = 自控日
-    if (!noGym && !illNoGym && gym) {
-      schedule = AUTOCTRL_GYM;
-      tag = period ? '🏋️‍♀️ 健身日 · 自控日 ⚙️ 🩸轻量' : '🏋️ 健身日 · 自控日 ⚙️';
-      emoji = period ? '🏋️‍♀️' : '🏋️';
-    } else if (illNoGym) {
-      schedule = AUTOCTRL_NOGYM;
-      tag = '🩹 病后免练 · 自控日 ⚙️';
-      emoji = '🩹';
-    } else if (noGym) {
-      schedule = AUTOCTRL_NOGYM;
-      tag = '🩸 经期休息 · 自控日 ⚙️（免练）';
-      emoji = '🩸';
+    // Tue/Thu/Sat = 自控日（v8: 自控3h·英语晚间保护）
+    schedule = AUTOCTRL_DAY.map(s => s);  // clone
+    emoji = '⚙️';
+
+    if (illNoGym) {
+      tag = '🩹 免练 · 自控日 ⚙️';
+    } else if (periodLight) {
+      tag = '🩸 经期轻量 · 自控日 ⚙️';
+    } else if (homeWorkout) {
+      tag = '🏠 居家训练 · 自控日 ⚙️';
     } else {
-      schedule = AUTOCTRL_NOGYM;
-      tag = '📖 自控日 ⚙️（免练）';
-      emoji = '⚙️';
+      tag = '📖 自控日 ⚙️';
+    }
+
+    // 政治日(二四): 19:00英语→政治带刷, 英语缩至30min(只做+对答案)
+    // 非政治日(六): 保持英语精读1h
+    if (isPolDay) {
+      schedule = schedule.map(item => {
+        if (item.s === 'eng' && item.l.indexOf('精读') >= 0) {
+          return { ...item, l: '📝 英语精读 · 超轻量 30min（政治日·只做+对答案）' };
+        }
+        return item;
+      });
+      // Add politics at 19:00 instead of English
+      schedule = schedule.map(item => {
+        if (item.l.indexOf('精读') >= 0) return item;
+        return item;
+      });
+      // Insert political class before the English reading slot
+      const engIdx = schedule.findIndex(s => s.l.indexOf('精读') >= 0);
+      if (engIdx >= 0) {
+        schedule.splice(engIdx, 0, { t:'19:00-20:00', l:'📜 政治 · 带刷直接看视频 1.5x≈40min', s:'pol' });
+      }
     }
   } else {
-    // Sun/Wed/Fri = 英语日
-    schedule = ENGLISH_DAY;
-    tag = illNoGym ? '🩹 英语日 📝（病后恢复）' : '📖 英语日 📝';
+    // Sun/Wed/Fri = 英语日（v8: 政治仅周日·三五无政治）
+    schedule = ENGLISH_DAY.map(s => s);  // clone
     emoji = '📖';
-  }
+    if (illNoGym) {
+      tag = '🩹 免练 · 英语日 📝';
+    } else if (homeWorkout) {
+      tag = '🏠 居家训练 · 英语日 📝';
+    } else {
+      tag = '📖 英语日 📝';
+    }
 
-  // If not a political study day, swap evening political slot to math
-  if (!isPoliticalClassDay(date)) {
-    schedule = schedule.map(item => {
-      if (item.s === 'pol') {
-        return { ...item, s: 'math', l: '🔢 数学 · 刷题/补旧章（政治隔天休）' };
-      }
-      return item;
-    });
+    // 周日(政治日): 18:30-19:30数学→19:30-20:30政治
+    if (isPolDay) {
+      schedule = schedule.map(item => {
+        if (item.t === '18:30-20:00') {
+          return { ...item, t: '18:30-19:30', l: '🔢 数学 · 刷题/补旧章 1h（政治日缩短）' };
+        }
+        return item;
+      });
+      schedule.push({ t:'19:30-20:30', l:'📜 政治 · 带刷直接看视频 1.5x≈40min', s:'pol' });
+    }
   }
 
   return {
     tag: tag,
     emoji: emoji,
-    gym: gym && !noGym,
+    gym: homeWorkout,
     phase: phase,
     period: period,
     schedule: schedule,
@@ -1417,12 +1422,13 @@ function closeDrawer() {
 // ═══════════════════════════════════════
 
 const NOTIFY_TIMES = [
-  { hour: 9, minute: 0, id: '0900', label: '☀️ 早上好！🔢 数学时间开始', skipGym: true },
-  { hour: 13, minute: 0, id: '1300', label: '📝 单词时间（白天固定）', autoCtrlNoGymOrEnglish: true },
-  { hour: 13, minute: 30, id: '1330', label: '📖 下午学习开始！', englishOnly: true },
-  { hour: 14, minute: 0, id: '1400', label: '📖 下午自控开始！', autoCtrlOnly: true },
-  { hour: 19, minute: 25, id: '1925', label: '📺 政治带刷录播 5分钟后开始！（每周二四日·隔天）', polClassOnly: true, sticky: true },
-  { hour: 20, minute: 30, id: '2030', label: '🌙 晚间收尾阶段' },
+  { hour: 8, minute: 0, id: "0800", label: "🏠 居家弹力带时间！跟视频~40min", skipRest: true },
+  { hour: 9, minute: 0, id: "0900", label: "☀️ 早上好！🔢 数学时间开始", skipRest: true },
+  { hour: 13, minute: 0, id: "1300", label: "📝 单词时间", skipRest: true },
+  { hour: 14, minute: 0, id: "1400", label: "⚙️ 下午自控开始（3h·延至17:00）", autoCtrlOnly: true },
+  { hour: 13, minute: 30, id: "1330", label: "📖 下午英语开始（3h）", englishOnly: true },
+  { hour: 19, minute: 25, id: "1925", label: "📺 政治带刷 5分钟后开始！（二四日·直接看视频不做题）", polClassOnly: true, sticky: true },
+  { hour: 20, minute: 30, id: "2030", label: "🌙 晚间收尾阶段（视状态·不硬撑）" },
 ];
 
 // Political study days: 马原期✔(6.30-7.12) + 带刷录播追课期(7.18-8.10, 隔天做)
@@ -1434,24 +1440,27 @@ function isPoliticalClassDay(date) {
   const dom = d.getDate();
   const day = d.getDay(); // 0=Sun
   if (day === 1) {
-    // Monday: normally rest, but 7.20 is 半日轻量 with political study
-    if (month === 6 && dom === 20) return true; // 7.20 半日轻量政治
+    // Monday: 半日轻量 with political study (7.20 onwards)
+    if (month === 6 && dom >= 20 && dom <= 31) return true;
+    if (month === 7 && dom <= 24) return true;
     return false;
   }
   // 马原期: Jun 30 - Jul 12 (completed ✅)
-  if (month === 5 && dom === 30) return true;  // Jun 30
-  if (month === 6 && dom >= 1 && dom <= 12) return true;  // Jul 1-12
+  if (month === 5 && dom === 30) return true;
+  if (month === 6 && dom >= 1 && dom <= 12) return true;
   // 生病停学: Jul 13-17 (no political study)
   if (month === 6 && dom >= 13 && dom <= 17) return false;
-  // 带刷录播追课期: Jul 18 - Aug 10, 隔天做（周二/四/日, 每周3晚）
-  if (month === 6 && dom >= 18 && dom <= 31) {
-    return day === 2 || day === 4 || day === 0; // 周二/四/日
-  }
-  if (month === 7 && dom >= 1 && dom <= 10) {
+  // 空窗期: Jul 18-21 (马原结束·带刷未开始)
+  if (month === 6 && dom >= 18 && dom <= 21) return false;
+  // 带刷录播追课期: Jul 22 - Aug 24, 隔天二四日(每周3天)
+  if (month === 6 && dom >= 22 && dom <= 31) {
     return day === 2 || day === 4 || day === 0;
   }
-  // After Aug 10: 9月起日常政治恢复每晚
-  if (month === 7 && dom > 10) return true;
+  if (month === 7 && dom >= 1 && dom <= 24) {
+    return day === 2 || day === 4 || day === 0;
+  }
+  // After Aug 24: 9月起日常政治恢复每晚
+  if (month === 7 && dom > 24) return true;
   if (month >= 8) return true;
   return false;
 }
@@ -1534,7 +1543,7 @@ function checkNotifications() {
   for (const nt of NOTIFY_TIMES) {
     if (notifiedToday.has(nt.id)) continue;
     // Rest days: only allow political class notifications
-    if (dayInfo.rest && !nt.polClassOnly) continue;
+    if (dayInfo.rest && !nt.polClassOnly && !nt.skipRest) continue;
 
     // Check if skipGym and today IS a gym day (v6: 健身日9点不提示)
     if (nt.skipGym && dayInfo.gym) continue;
