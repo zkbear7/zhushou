@@ -1136,15 +1136,16 @@ function getSchedule(date) {
 
   const isAutoCtrl = isSelfControlDay(date);
   const period = getPeriodInfo(date);
-  const periodLight = period && period.noGym;  // 经期前4天=轻量训练
+  const periodLight = period && period.noGym;
   const illNoGym = isIllnessNoGym(date);
-  const homeWorkout = !illNoGym;  // 7.25起恢复居家训练
+  const homeWorkout = !illNoGym;
   const isPolDay = isPoliticalClassDay(date);
+  const day = date.getDay(); // 0=Sun
 
   let schedule, tag, emoji;
   if (isAutoCtrl) {
-    // Tue/Thu/Sat = 自控日（v8: 自控3h·英语晚间保护）
-    schedule = AUTOCTRL_DAY.map(s => s);  // clone
+    // Tue/Thu/Sat = 自控日
+    schedule = AUTOCTRL_DAY.map(s => ({...s}));  // deep clone
     emoji = '⚙️';
 
     if (illNoGym) {
@@ -1157,29 +1158,24 @@ function getSchedule(date) {
       tag = '📖 自控日 ⚙️';
     }
 
-    // 政治日(二四): 19:00英语→政治带刷, 英语缩至30min(只做+对答案)
-    // 非政治日(六): 保持英语精读1h
     if (isPolDay) {
+      // 二四：政治日·pol slot保留·eng超轻量30min
+      tag += ' 📜';
+    } else {
+      // 周六：非政治日·pol→eng精读1h（大块）
       schedule = schedule.map(item => {
-        if (item.s === 'eng' && item.l.indexOf('精读') >= 0) {
-          return { ...item, l: '📝 英语精读 · 超轻量 30min（政治日·只做+对答案）' };
+        if (item.s === 'pol') {
+          return { t: item.t, l: '📝 英语精读·轻量版 1h（晚间保护·大块时间）', s: 'eng' };
+        }
+        if (item.l && item.l.indexOf('超轻量') >= 0) {
+          return { ...item, l: '📝 英语精读·续' };
         }
         return item;
       });
-      // Add politics at 19:00 instead of English
-      schedule = schedule.map(item => {
-        if (item.l.indexOf('精读') >= 0) return item;
-        return item;
-      });
-      // Insert political class before the English reading slot
-      const engIdx = schedule.findIndex(s => s.l.indexOf('精读') >= 0);
-      if (engIdx >= 0) {
-        schedule.splice(engIdx, 0, { t:'19:00-20:00', l:'📜 政治 · 带刷直接看视频 1.5x≈40min', s:'pol' });
-      }
     }
   } else {
-    // Sun/Wed/Fri = 英语日（v8: 政治仅周日·三五无政治）
-    schedule = ENGLISH_DAY.map(s => s);  // clone
+    // Sun/Wed/Fri = 英语日
+    schedule = ENGLISH_DAY.map(s => ({...s}));  // deep clone
     emoji = '📖';
     if (illNoGym) {
       tag = '🩹 免练 · 英语日 📝';
@@ -1189,15 +1185,22 @@ function getSchedule(date) {
       tag = '📖 英语日 📝';
     }
 
-    // 周日(政治日): 18:30-19:30数学→19:30-20:30政治
     if (isPolDay) {
+      // 周日：政治日·数学缩短至20min·插入政治
+      tag += ' 📜';
       schedule = schedule.map(item => {
-        if (item.t === '18:30-20:00') {
-          return { ...item, t: '18:30-19:30', l: '🔢 数学 · 刷题/补旧章 1h（政治日缩短）' };
+        if (item.s === 'math' && item.l.indexOf('刷题') >= 0) {
+          return { t: '19:50-20:10', l: '🔢 数学 · 刷题 20min（政治挤压·仅保持手感）', s: 'math' };
         }
         return item;
       });
-      schedule.push({ t:'19:30-20:30', l:'📜 政治 · 带刷直接看视频 1.5x≈40min', s:'pol' });
+      // Insert politics at 19:10
+      const polEntry = { t: '19:10-19:50', l: '📜 政治带刷 · 1.5x≈40min（直接看视频不做题）', s: 'pol' };
+      // Find index of the math刷题 entry and insert before it
+      const mathIdx = schedule.findIndex(item => item.s === 'math' && item.l.indexOf('刷题') >= 0);
+      if (mathIdx >= 0) {
+        schedule.splice(mathIdx, 0, polEntry);
+      }
     }
   }
 
@@ -1423,12 +1426,14 @@ function closeDrawer() {
 
 const NOTIFY_TIMES = [
   { hour: 8, minute: 0, id: "0800", label: "🏠 居家弹力带时间！跟视频~40min", skipRest: true },
-  { hour: 9, minute: 0, id: "0900", label: "☀️ 早上好！🔢 数学时间开始", skipRest: true },
-  { hour: 13, minute: 0, id: "1300", label: "📝 单词时间", skipRest: true },
-  { hour: 14, minute: 0, id: "1400", label: "⚙️ 下午自控开始（3h·延至17:00）", autoCtrlOnly: true },
-  { hour: 13, minute: 30, id: "1330", label: "📖 下午英语开始（3h）", englishOnly: true },
-  { hour: 19, minute: 25, id: "1925", label: "📺 政治带刷 5分钟后开始！（二四日·直接看视频不做题）", polClassOnly: true, sticky: true },
-  { hour: 20, minute: 30, id: "2030", label: "🌙 晚间收尾阶段（视状态·不硬撑）" },
+  { hour: 9, minute: 0, id: "0900", label: "☀️ 早上好！🔢 数学 3h 开始（精神最好）", skipRest: true },
+  { hour: 12, minute: 30, id: "1230", label: "📝 单词·复习昨天 40min", skipRest: true },
+  { hour: 14, minute: 0, id: "1400", label: "⚙️ 下午自控开始（3h）", autoCtrlOnly: true },
+  { hour: 13, minute: 30, id: "1330", label: "📖 下午英语开始（3h 大块）", englishOnly: true },
+  { hour: 17, minute: 30, id: "1730", label: "📝 单词·背新的 40min", skipRest: true },
+  { hour: 18, minute: 10, id: "1810", label: "⚙️ 自控课后题 1h / 🔢 数学刷题 1h", skipRest: true },
+  { hour: 19, minute: 5, id: "1905", label: "📺 政治带刷 5分钟后开始！（二四日·直接看视频不做题）", polClassOnly: true, sticky: true },
+  { hour: 20, minute: 30, id: "2030", label: "🌙 扇贝轻松刷+复盘（不用脑子·30min）" },
 ];
 
 // Political study days: 马原期✔(6.30-7.12) + 带刷录播追课期(7.18-8.10, 隔天做)
