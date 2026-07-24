@@ -581,32 +581,31 @@ const JUNE = genJuneSchedules();
 // ── July+ recurring schedules (v5: 按星期几决定自控/英语, 健身块独立) ──
 // 二四六 = 自控日 (with/without gym), 三五日 = 英语日
 
-const AUTOCTRL_DAY = [  // 二四六 · 自控日（v8最终: 单词2块饭后·无午休·晚饭含休息）
-  { t:"08:00-08:40", l:"🏠 居家弹力带 · 跟视频", s:"gym" },
-  { t:"08:40-09:00", l:"洗漱", s:"rest" },
-  { t:"09:00-12:00", l:"🔢 数学 · 高数 3h（自行穿插休息）", s:"math" },
+const AUTOCTRL_DAY = [  // 二四六 · 自控日（v9: 9点起·弹力带日·数学09:50·午饭12点晚饭17点固定）
+  { t:"09:00-09:35", l:"🏠 居家弹力带 · 跟视频 35min", s:"gym" },
+  { t:"09:35-09:50", l:"洗漱", s:"rest" },
+  { t:"09:50-12:00", l:"🔢 数学 · 高数 2h10min（自行穿插休息·有心流晚上续）", s:"math" },
   { t:"12:00-12:30", l:"🍜 午饭+休息", s:"rest" },
   { t:"12:30-13:10", l:"📝 单词·复习昨天 40min", s:"eng" },
   { t:"13:10-17:00", l:"⚙️ 自控 · ~3h50min（含自行休息·实际高效≥3h）", s:"pro" },
   { t:"17:00-18:00", l:"🍜 晚饭+休息", s:"rest" },
   { t:"18:00-18:40", l:"📝 单词·背新的 40min", s:"eng" },
   { t:"18:40-19:40", l:"🔢 数学 · 刷题/旧章 1h", s:"math" },
-  { t:"19:40-20:20", l:"📜 政治带刷 40min（二四）| 周六→英语精读1h", s:"pol" },
-  { t:"20:20-21:00", l:"📝 英语精读·超轻量 30min（二四）| 周六→续（累了自行停）", s:"eng" },
+  { t:"19:40-20:20", l:"📜 政治带刷 40min", s:"pol" },
+  { t:"20:20-21:00", l:"📝 英语精读·超轻量 30min", s:"eng" },
   { t:"21:00-21:30", l:"🌙 扇贝轻松刷+复盘", s:"eng" },
 ];
 
-const ENGLISH_DAY = [  // 三五日 · 英语日（v8最终: 单词2块饭后·无午休·晚饭含休息·21:00扇贝）
-  { t:"08:00-08:40", l:"🏠 居家弹力带 · 跟视频", s:"gym" },
-  { t:"08:40-09:00", l:"洗漱", s:"rest" },
-  { t:"09:00-12:00", l:"🔢 数学 · 高数 3h（自行穿插休息）", s:"math" },
+const ENGLISH_DAY = [  // 三五日 · 英语日（v9: 9点起·无弹力带·数学09:20早开始）
+  { t:"09:00-09:20", l:"洗漱", s:"rest" },
+  { t:"09:20-12:00", l:"🔢 数学 · 高数 2h40min（自行穿插休息·有心流晚上续）", s:"math" },
   { t:"12:00-12:30", l:"🍜 午饭+休息", s:"rest" },
   { t:"12:30-13:10", l:"📝 单词·复习昨天 40min", s:"eng" },
   { t:"13:10-17:00", l:"📝 英语 · ~3h50min（精读1.5h+柴荣课1h+翻译0.5h·累了自行休息）", s:"eng" },
   { t:"17:00-18:00", l:"🍜 晚饭+休息", s:"rest" },
   { t:"18:00-18:40", l:"📝 单词·背新的 40min", s:"eng" },
   { t:"18:40-19:40", l:"⚙️ 自控课后题 · 1h", s:"pro" },
-  { t:"19:40-21:00", l:"🔢 数学 · 刷题/旧章 ~1h（周日→政治挤压至20min·累了自行停）", s:"math" },
+  { t:"19:40-21:00", l:"🔢 数学 · 刷题/旧章 ~1h", s:"math" },
   { t:"21:00-21:30", l:"🌙 扇贝轻松刷+复盘", s:"eng" },
 ];
 
@@ -987,24 +986,24 @@ function buildDailySubjectCard(dayInfo, now) {
 
   // Math - always 5h but different structure
   if (isAutoCtrl) {
-      tasks.push({ s:'math', sub:'🔢 数学（3-4h）', task:'高数3h(09:00-12:00) + 晚间刷题1h + 碎片翻1000A答案' });
+      tasks.push({ s:'math', sub:'🔢 数学（~3h）', task:'高数2h10min(09:50-12:00) + 晚间刷题1h + 碎片翻1000A答案·有心流晚上续' });
   } else {
-      tasks.push({ s:'math', sub:'🔢 数学（4.5h）', task:'高数2.5h + 旧章补题/线代0.5h + 晚间刷题/补旧章1.5h' });
+      tasks.push({ s:'math', sub:'🔢 数学（~4h）', task:'高数2h40min(09:20-12:00) + 晚间刷题~1h20min + 碎片翻1000A答案·有心流晚上续' });
   }
 
   // Subject of the day
   if (isAutoCtrl) {
-      tasks.push({ s:'pro', sub:'⚙️ 828 自控（3h）', task:'飞哥课+课后题 14:00-17:00（大块时间）' });
+      tasks.push({ s:'pro', sub:'⚙️ 828 自控（~3h）', task:'飞哥课+课后题 13:10-17:00（含自行休息）' });
   } else {
-      tasks.push({ s:'eng', sub:'📝 英语（3h 大块）', task:'精读1.5h+柴荣课1h+翻译复习0.5h(13:30-16:30) | 单词2块各40min | 每日1句翻译拆解' });
+      tasks.push({ s:'eng', sub:'📝 英语（~3h 大块）', task:'精读1.5h+柴荣课1h+翻译0.5h(13:10-17:00) | 单词2块各40min | 每日1句翻译拆解' });
   }
 
   // Politics - evening always
   const todayStr = fmtDate(now);
-  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '19:10-19:50 带刷直接看视频 1.5x≈40min（隔天二四日·不做题）' : '🚫 今日非政治日·晚间数学多1h（仅二四日有带刷）' });
+  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '19:40-20:20 带刷直接看视频 40min（隔天二四日·不做题）' : '🚫 今日非政治日·晚间数学多1h' });
 
   // English always has vocab + 扇贝
-      tasks.push({ s:'eng', sub:'📝 单词', task:'午饭后12:30复习40min + 晚饭后18:00背新40min + 21:00扇贝' });
+      tasks.push({ s:'eng', sub:'📝 单词', task:'午饭后12:30复习40min + 晚饭后18:00背新40min + 21:00扇贝复盘' });
 
   // Special: period note
   if (period && period.noGym) {
@@ -1085,12 +1084,12 @@ function isIllnessNoGym(date) {
 }
 
 function isHomeWorkoutDay(date) {
-  // 每天居家训练（除生病免练期和经期前4天轻量）
+  // v9: 隔天训练（二四六·弹力带35min）
+  const d = date.getDay();
+  if (d !== 2 && d !== 4 && d !== 6) return false; // 仅二四六
   if (isIllnessNoGym(date)) return false;
-  
   const period = getPeriodInfo(date);
-  if (period && period.noGym) return false;  // 经期前4天轻量（仍可训练，但标签显示轻量）
-  
+  if (period && period.noGym) return false;
   return true;
 }
 
@@ -1135,7 +1134,7 @@ function getSchedule(date) {
   const period = getPeriodInfo(date);
   const periodLight = period && period.noGym;
   const illNoGym = isIllnessNoGym(date);
-  const homeWorkout = !illNoGym;
+  const homeWorkout = isHomeWorkoutDay(date);
   const isPolDay = isPoliticalClassDay(date);
   const day = date.getDay(); // 0=Sun
 
@@ -1150,7 +1149,7 @@ function getSchedule(date) {
     } else if (periodLight) {
       tag = '🩸 经期轻量 · 自控日 ⚙️';
     } else if (homeWorkout) {
-      tag = '🏠 居家训练 · 自控日 ⚙️';
+      tag = '🏠 弹力带 · 自控日 ⚙️';
     } else {
       tag = '📖 自控日 ⚙️';
     }
@@ -1162,7 +1161,7 @@ function getSchedule(date) {
       // 周六：非政治日·pol→eng精读1h（大块）
       schedule = schedule.map(item => {
         if (item.s === 'pol') {
-          return { t: item.t, l: '📝 英语精读·轻量版 1h（晚间保护·大块时间）', s: 'eng' };
+          return { t: item.t, l: '📝 英语精读·轻量版 1h', s: 'eng' };
         }
         if (item.l && item.l.indexOf('超轻量') >= 0) {
           return { ...item, l: '📝 英语精读·续' };
@@ -1176,8 +1175,6 @@ function getSchedule(date) {
     emoji = '📖';
     if (illNoGym) {
       tag = '🩹 免练 · 英语日 📝';
-    } else if (homeWorkout) {
-      tag = '🏠 居家训练 · 英语日 📝';
     } else {
       tag = '📖 英语日 📝';
     }
@@ -1187,7 +1184,7 @@ function getSchedule(date) {
       tag += ' 📜';
       schedule = schedule.map(item => {
         if (item.s === 'math' && item.l.indexOf('刷题') >= 0) {
-          return { t: '20:20-20:40', l: '🔢 数学 · 刷题 20min（政治挤压·仅保持手感）', s: 'math' };
+          return { t: '20:20-20:40', l: '🔢 数学 · 刷题 20min', s: 'math' };
         }
         return item;
       });
@@ -1422,14 +1419,13 @@ function closeDrawer() {
 // ═══════════════════════════════════════
 
 const NOTIFY_TIMES = [
-  { hour: 8, minute: 0, id: "0800", label: "🏠 居家弹力带时间！跟视频~40min", skipRest: true },
-  { hour: 9, minute: 0, id: "0900", label: "☀️ 早上好！🔢 数学 3h 开始（精神最好）", skipRest: true },
+  { hour: 9, minute: 0, id: "0900", label: "☀️ 早上好！🏠二四六弹力带 · 🔢准备数学", skipRest: true },
   { hour: 12, minute: 30, id: "1230", label: "📝 单词·复习昨天 40min", skipRest: true },
   { hour: 14, minute: 0, id: "1400", label: "⚙️ 下午自控开始（3h）", autoCtrlOnly: true },
   { hour: 13, minute: 30, id: "1330", label: "📖 下午英语开始（3h 大块）", englishOnly: true },
   { hour: 18, minute: 0, id: "1800", label: "📝 单词·背新的 40min", skipRest: true },
-  { hour: 18, minute: 40, id: "1840", label: "⚙️ 自控课后题 / 🔢 数学刷题（根据日类型）", skipRest: true },
-  { hour: 19, minute: 35, id: "1935", label: "📺 政治带刷 5分钟后开始！（二四日·直接看视频不做题）", polClassOnly: true, sticky: true },
+  { hour: 18, minute: 40, id: "1840", label: "⚙️ 自控课后题 / 🔢 数学刷题", skipRest: true },
+  { hour: 19, minute: 35, id: "1935", label: "📺 政治带刷 5分钟后开始！", polClassOnly: true, sticky: true },
   { hour: 21, minute: 0, id: "2100", label: "🌙 扇贝轻松刷+复盘（不用脑子·30min）" },
 ];
 
