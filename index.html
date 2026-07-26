@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fdf8f4">
-<!-- v10: 居家健身·政治隔天·自控3h·英语高ROI选听(柴荣阅读+新题型+写作方法论·易熙人完型·唐静翻译)·数学110·1000A看答案学 -->
+<!-- v11: v10英语+真橙777自控刷题·线代B方案·错题隔2-3天回顾·明日任务预览·数学110·7.26更新 -->
 <link rel="manifest" href="./manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
 <style>
@@ -1342,10 +1342,22 @@ function render() {
       </li>`;
   }).join('');
 
-  // 过了20:30显示明天的每科任务
-  const h = now.getHours(), m = now.getMinutes();
-  const cardDay = (h > 20 || (h === 20 && m >= 30)) ? new Date(now.getTime() + 86400000) : now;
-  const cardDayInfo = cardDay.getTime() === now.getTime() ? dayInfo : getSchedule(cardDay);
+  // 今日任务卡片（始终显示今天）
+  const todayCardHTML = buildDailySubjectCard(dayInfo, now);
+
+  // 明日任务预览（每天显示，方便提前拿书）
+  const tomorrowDate = new Date(now.getTime() + 86400000);
+  const tomorrowInfo = getSchedule(tomorrowDate);
+  const tomorrowWD = ["日","一","二","三","四","五","六"][tomorrowDate.getDay()];
+  let tomorrowCardHTML = "";
+  if (tomorrowInfo.rest) {
+    tomorrowCardHTML = '<div class="timeline-card" style="margin-top:14px;opacity:0.85;"><div class="timeline-title"><span class="dot"></span>📅 明天（周' + tomorrowWD + '）· 😴 休息日</div><div style="font-size:13px;color:var(--text2);padding:8px 0;line-height:1.8;">😴 自然醒 → 📺 政治带刷40min(可选) → 📝 英语精读1篇 → 📝 单词40min → 🆓 自由安排</div></div>';
+  } else {
+    const raw = buildDailySubjectCard(tomorrowInfo, tomorrowDate);
+    if (raw) {
+      tomorrowCardHTML = raw.replace("📋 今日每科任务", "📋 明天任务预览 · 周" + tomorrowWD + "（提前拿书）");
+    }
+  }
 
   main.innerHTML = `
     ${nowHTML}
@@ -1353,7 +1365,8 @@ function render() {
       <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
       <ul class="timeline-list">${timelineHTML}</ul>
     </div>
-    ${buildDailySubjectCard(cardDayInfo, cardDay)}
+    ${todayCardHTML}
+    ${tomorrowCardHTML}
     ${buildWeekCardHTML()}`;
 }
 
