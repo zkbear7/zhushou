@@ -618,48 +618,95 @@ function isSelfControlDay(date) {
 // ── Drawer content ──
 const DRAWER_SECTIONS = [
   {
-    title: '🔢 数学一 · 高数18讲分级（v8·110·例题P0>1000A P1）',
+    title: '🔢 数学一 · 高数18讲+线代B方案→李永乐+概率（v11·7.28）',
     html: `
-      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">✅ 已学：第1-6讲 | ⚪ 跳过：第7讲(第15讲全覆盖)、第12讲(数一不考)</p>
-      <p style="font-size:13px;color:var(--accent);margin-bottom:10px;"><b>v8路线：例题独立做P0 > 1000A看答案学P1 > 880基础篇P2 | 数学110底线 | 1000A碎片翻答案</b></p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:6px;">✅ 第1-6讲+第9讲 | ⚪ 跳过第7讲(第15讲全覆盖)·第12讲(数一不考) | 📍 第13讲剩44min</p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:8px;"><b>🔥 v11：上午高数主线 + 晚间线代并行(B方案→李永乐) · 错题隔2-3天回顾⭐题</b></p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 高数18讲分级（上午块·主线）</p>
       <table>
-        <tr><th>梯队</th><th>讲次</th><th>标题</th><th>1.5x后</th><th>策略</th></tr>
-        <tr><td><span class="tag red">🔴 先补</span></td><td>8+9</td><td>积分概念+计算</td><td>~7h</td><td>🔥 7.18恢复·收尾→直跳13讲(无断层)</td></tr>
-        <tr><td><span class="tag red">🔴 第一</span></td><td>13</td><td>多元函数微分学</td><td>~4.7h</td><td>3-4天（紧接8+9·趁积分手感热）</td></tr>
-        <tr><td><span class="tag red">🔴 第一</span></td><td>14</td><td>二重积分</td><td>~3.2h</td><td>2-3天</td></tr>
-        <tr><td><span class="tag red">🔴 第一</span></td><td>15</td><td>微分方程</td><td>~4.3h</td><td>3天（跳过第7讲直接学）</td></tr>
-        <tr><td><span class="tag amber">🟡 第二</span></td><td>10</td><td>积分几何应用</td><td>~1.9h</td><td>减量2天·旋转体体积+面积（高频）</td></tr>
-        <tr><td><span class="tag red">🔴 第一</span></td><td>16</td><td>无穷级数</td><td>~5h</td><td>常数项+傅里叶跟张宇，幂级数→方浩</td></tr>
-        <tr><td><span class="tag amber">🟡 第二</span></td><td>17</td><td>多元积分预备</td><td>~3.3h</td><td>减量1.5天·极坐标+曲面参数·18讲前置不能省</td></tr>
-        <tr><td><span class="tag red">🔴 第一</span></td><td>18</td><td>曲线/曲面积分</td><td>—</td><td>→ 李艳芳 BV1Xy4y1L7Z5</td></tr>
-        <tr><td><span class="tag orange">🟠 速过</span></td><td>11</td><td>积分等式不等式</td><td>~0.5h</td><td>1天速过·积分中值定理+单调性法·110分不依赖</td></tr>
+        <tr><th>梯队</th><th>讲次</th><th>标题</th><th>策略</th></tr>
+        <tr><td><span class="tag red">🔴 第一</span></td><td>13→14→15→16→18</td><td>多元微分→二重积分→微分方程→无穷级数→曲线/曲面积分</td><td>完整流程·视频+例题+1000A</td></tr>
+        <tr><td style="color:var(--accent);font-size:11px;" colspan="4">📅 7.28-7.29 第13讲收尾44min→例题 | 7.30-8.1 第14讲(~3.2h) | 8.2-8.4 第15讲(~4.3h) | 8.5-8.8 第16讲(~5h) | 8.9-8.12 第18讲→李艳芳</td></tr>
+        <tr><td><span class="tag amber">🟡 第二</span></td><td>10+17</td><td>积分几何(2天)+多元积分预备(1.5天)</td><td>减量·10讲旋转体体积+面积·17讲极坐标+曲面参数</td></tr>
+        <tr><td style="color:var(--accent);font-size:11px;" colspan="4">📅 8.13-8.15 第10讲减量2天+第17讲减量1.5天（18讲前置不能省）</td></tr>
+        <tr><td><span class="tag orange">🟠 速过</span></td><td>11</td><td>积分等式不等式</td><td>1天·积分中值定理+单调性法·110分不依赖</td></tr>
+        <tr><td style="color:var(--accent);font-size:11px;" colspan="4">📅 8.16 第11讲1天速过 → 8.17-8.25 暑假复盘+查漏补缺+错题集中回顾</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text2);margin-top:6px;">📖 做题三级：例题独立做(P0·合书默写) > 1000A看答案学(P1·碎片时间) > 880基础篇(P2·大章学完刷) | 🔑 8+9→13无断层</p>
-      <p style="font-size:12px;color:var(--text2);">🟠 线代：张宇基础篇书自学 | 🟣 概率：线代结束→余丙森讲义→方浩 | 第12讲物理应用：12月0.5天记公式</p>
-      <p style="font-size:12px;color:var(--text3);">🎯 数学110底线 | 💡1000A操作:想3-5min→没思路翻答案→标⭐△○→第二天重做⭐ | 正确率70%就很好</p>`
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🟠 线代（晚间18:40-19:40并行·不占白天高数）</p>
+      <table>
+        <tr><th>阶段</th><th>资料</th><th>时间</th><th>具体做法</th></tr>
+        <tr><td><b>B方案·基础快速过</b></td><td>张宇基础篇书（6讲）</td><td>7.28-8.4（6-8天）</td><td>每天1讲·快速过概念→每讲挑3-5道例题验证→不刷1000A</td></tr>
+        <tr><td style="color:var(--accent);font-size:11px;" colspan="4">D1行列式(简单快过)→D2矩阵→D3-4向量组+方程组(核心·多花时间)→D5-6特征值+二次型(核心)</td></tr>
+        <tr><td><b>强化·李永乐</b></td><td>线性代数辅导讲义(红皮书)</td><td>8.5起·30-40天</td><td>跟强化课(66课时·1.5x)→题型归纳+解题模板→吃透讲义例题</td></tr>
+        <tr><td style="color:var(--accent);font-size:11px;" colspan="4">6章：行列式→矩阵→n维向量→线性方程组→特征值→二次型 | 每天晚间1h + 碎片时间 | 预计9月中旬完成</td></tr>
+      </table>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🟣 概率论（线代强化结束后·9月中旬启动）</p>
+      <table>
+        <tr><th>资料</th><th>方法</th><th>预估时长</th></tr>
+        <tr><td>余丙森辅导讲义(¥35·基础7章+强化8章含假设检验)</td><td>4步自学法：①讲义通读→②不懂翻基础课(不全刷)→③例题动手做→④做不出看习题课</td><td>约15-20天基础→方浩强化(1.5x≈13h)</td></tr>
+      </table>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔄 错题回顾机制（v11新增）</p>
+      <table>
+        <tr><th>时机</th><th>内容</th><th>做法</th></tr>
+        <tr><td>每章完成后2-3天</td><td>1000A⭐题 + 课后例题⭐题</td><td>独立重做→做对降级(⭐→△)→做错保留⭐下次再回</td></tr>
+        <tr><td>每章完成后2-3天</td><td>真橙777错题</td><td>同章隔2天回做→标注→做错的下次再回</td></tr>
+        <tr><td>暑假结束(8.17-8.25)</td><td>所有⭐题集中回顾</td><td>分批过→做对的降级→仍做错的标记⭐⭐→9月继续回</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--text3);margin-top:4px;">💡 核心原则：不攒错题·每章隔2-3天就回·隔太久忘得更彻底·回顾成本更高</p>
+
+      <p style="font-size:12px;color:var(--text2);margin-top:8px;">📖 做题三级：例题独立做(P0·合书默写) > 1000A看答案学(P1·碎片时间) > 880基础篇(P2·大章学完刷)</p>
+      <p style="font-size:12px;color:var(--text2);">💡 1000A操作：想3-5min→没思路翻答案→标⭐△○→第二天重做⭐ | 正确率70%就很好</p>
+      <p style="font-size:11px;color:var(--text3);">🎯 数学110底线 | 第12讲物理应用12月0.5天记公式 | 没咋了10月大题速成 | 秋季课表8.24起打碎上午→暑假是高数最后完整窗口</p>`
   },
   {
-    title: '⚙️ 828 自控 · 飞哥→真题（v8·12h/周·自控日3h）',
+    title: '⚙️ 828 自控 · 飞哥→阿祖→777→真题（v11·按章推进）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b><b>🔥 v8最终：12h/周（自控日3h 14:00-17:00+英语日晚间1h课后题18:10-19:10）| 飞哥课看完直接刷真题</b></b></p>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:4px;">控制考研飞哥(B站中科大飞哥)</p>
-      <p style="font-size:12px;color:var(--rose);margin-bottom:8px;">💡 v8最终：自控3h(14:00-17:00) | 英语日晚间1h课后题(18:10-19:10) | 单词2块(午饭后+晚饭后各40min)</p>
-      <p style="font-size:13px;font-weight:600;color:var(--text);">王万良《自动控制原理》第3版</p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v11路线：每章飞哥基础→同章阿祖强化→同章777刷题→一章一章啃 | 12h/周 | 真橙777手算主力</b></p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 三师分工</p>
       <table>
-        <tr><th>章</th><th>内容</th></tr>
-        <tr><td>1-2</td><td>基本概念 + 数学模型</td></tr>
-        <tr><td>3</td><td>时域分析</td></tr>
-        <tr><td>4</td><td>根轨迹</td></tr>
-        <tr><td>5</td><td>频域分析</td></tr>
-        <tr><td>6</td><td>系统校正</td></tr>
+        <tr><th>角色</th><th>老师/资料</th><th>作用</th></tr>
+        <tr><td>🟢 基础</td><td><b>控制考研飞哥</b>（B站·中科大飞哥）</td><td>概念讲解+知识体系·基础强化合并讲</td></tr>
+        <tr><td>🟡 强化</td><td><b>控制考研阿祖</b>（B站·强化速通）</td><td>严选必做题·三档难度(易/中/难)·题型突破</td></tr>
+        <tr><td>🔴 刷题</td><td><b>真橙777</b>（已购·真橙控制教研组）</td><td>基础300→强化260→冲刺140·无计算器标准·分专题</td></tr>
+        <tr><td>📖 真题</td><td><b>浙工大828历年真题</b>（已购）</td><td>通读写思路·熟悉命题风格（全大题·25年前可用计算器）</td></tr>
       </table>
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:8px;">俞立《现代控制理论》</p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">🔄 按章推进流程（每章循环）</p>
+       <p style="font-size:12px;color:var(--text2);margin-bottom:0px;">① 飞哥课看该章视频+记笔记 → ② 阿祖强化速通同章（严选题·三档难度） → ③ 王万良课后题 → ④ 真橙777同专题刷题 → ⑤ 隔2-3天回顾777错题 → 下一章</p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📚 章节进度（7.27）</p>
       <table>
-        <tr><th>章</th><th>内容</th></tr>
-        <tr><td>1-3</td><td>状态空间+运动分析+能控能观</td></tr>
-        <tr><td>4-5</td><td>Lyapunov+极点配置+观测器</td></tr>
+        <tr><th>章</th><th>内容</th><th>飞哥</th><th>阿祖</th><th>777</th><th>课后题</th></tr>
+        <tr><td>1-2</td><td>基本概念+数学模型</td><td>✅</td><td>□</td><td>□</td><td>□</td></tr>
+        <tr><td>3</td><td>时域分析</td><td>✅</td><td>⏳当前</td><td>□</td><td>⏳待做</td></tr>
+        <tr><td>4</td><td>根轨迹</td><td>⏳</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>5</td><td>频域分析</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>6</td><td>系统校正</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--rose);margin-top:8px;">🔥 飞哥课结束→直接开真题（不停留）| 🎯 目标冲130 | ⚠️ 平时手算不用计算器 | 真题至少2-3遍 | 王万良课后题=真题原型</p>`
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📋 777三册刷题节奏</p>
+      <table>
+        <tr><th>阶段</th><th>册子</th><th>用途</th><th>预计时间</th></tr>
+        <tr><td>基础</td><td>自控基础300题</td><td>跟章同步·学完一章刷一章</td><td>7月底-8月</td></tr>
+        <tr><td>强化</td><td>自控强化260题</td><td>阿祖强化后集中刷·题型巩固</td><td>8-9月</td></tr>
+        <tr><td>冲刺</td><td>自控冲刺140题</td><td>综合模拟·限时手算</td><td>9-10月</td></tr>
+        <tr><td>现控</td><td>现控188题（配套资料）</td><td>俞立教材同步·状态空间+能控能观</td><td>9月启动</td></tr>
+      </table>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">⏰ 周时间分配（12h）</p>
+      <table>
+        <tr><th>天</th><th>时段</th><th>内容</th><th>时长</th></tr>
+        <tr><td>二四六</td><td>14:00-17:00</td><td>飞哥/阿祖看课+笔记+777</td><td>3h×3=9h</td></tr>
+        <tr><td>三五日</td><td>17:30-18:30</td><td>王万良课后题+777刷题</td><td>1h×3=3h</td></tr>
+      </table>
+
+      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 铁律：手算不用计算器（浙工大828考试不能用）| 777=手算主力·王万良课后题=真题原型 | 真题全大题→通读思路·不练手算</p>
+      <p style="font-size:12px;color:var(--text3);">🎯 目标130（拉分科目）| 飞哥课含现控(状态空间+能控能观+Lyapunov)·埃德加选看</p>`
   },
   {
     title: '📝 英语一 · v10高ROI选听（每天1篇·三种模式·自搭模板）',
@@ -730,20 +777,20 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--rose);margin-top:8px;">🔑 核心：一本书看十遍胜过十本书翻一遍 | 帽子题是送分题 | 政治选择是刷出来不是看出来的</p>`
   },
   {
-    title: '📊 进度自检节点（v8·7.22更新）',
+    title: '📊 进度自检节点（v11·7.27更新）',
     html: `
       <table>
         <tr><th>节点</th><th>数学一</th><th>828</th><th>英语</th><th>政治</th></tr>
-        <tr><td>7.22</td><td>第9讲✅·第1讲课后题接近完成·第13讲4h剩</td><td>飞哥2-3章</td><td>2005 Text1-2</td><td>🟣马原12讲✅</td></tr>
-        <tr><td>7月底</td><td>第13讲✅+第14讲+第9讲1000A碎片翻完</td><td>飞哥1-4章</td><td>2005-2006</td><td>📺带刷D2-D6</td></tr>
-        <tr><td>8.10</td><td>第15讲+第10讲</td><td>飞哥5-6章</td><td>2006-2008</td><td>📺带刷D7-D12</td></tr>
-        <tr><td>8.25</td><td>16+17+18+11讲·暑假结束</td><td>🔥真题一刷</td><td>2005-2010✅+翻译≥60句+柴荣阅读技巧选听✅</td><td>📺带刷D21✅</td></tr>
-        <tr><td>9月底</td><td>36讲+880综合</td><td>真题+俞立1-5</td><td>阅读至2015+易熙人完型方法论+精选2篇+柴荣新题型方法论</td><td>肖1000一刷⭐</td></tr>
-        <tr><td>10月底</td><td>真题2005-2020</td><td>真题二刷+三刷</td><td>阅读至2020+柴荣写作方法论+自搭模板+三小课轮换</td><td>苍盾二刷⭐⭐</td></tr>
-        <tr><td>11月底</td><td>真题+模拟≥20套</td><td>真题多刷+近3年</td><td>整卷模考+模板套写真题+三小课只刷题</td><td>苍盾三刷+肖八</td></tr>
-        <tr><td>12月考前</td><td>错题+公式默写</td><td>概念+手算保持</td><td>作文默写+阅读保温+错题回顾</td><td>肖四大题全背</td></tr>
+        <tr><td><b>7.27</b></td><td>第9讲✅·第1讲复习✅·第13讲剩44min·线代B方案启动</td><td>第3章✅·阿祖第3章启动</td><td>2006 Text2✅</td><td>马原12讲✅·带刷第1节✅</td></tr>
+        <tr><td>7月底</td><td>第13-14讲+线代B方案第1-4讲</td><td>第3-4章飞哥→阿祖→777</td><td>2005-2006完成</td><td>带刷D2-D6</td></tr>
+        <tr><td>8.10</td><td>第15-16讲+李永乐线代1-4章</td><td>第5-6章+777基础300进行中</td><td>2006-2008</td><td>带刷D7-D12</td></tr>
+        <tr><td>8.25</td><td>高数第一梯队✅+线代强化6章✅+暑假复盘</td><td>777基础300✅→强化260启动</td><td>2005-2010✅+翻译拆解≥60句</td><td>带刷D21✅</td></tr>
+        <tr><td>9月底</td><td>36讲+880综合+概率余丙森基础</td><td>777强化260+冲刺140+真题思路+现控启动</td><td>阅读至2015+易熙人完型+新题型方法论</td><td>肖1000一刷⭐</td></tr>
+        <tr><td>10月底</td><td>真题2005-2020+方浩概率强化</td><td>777冲刺+真题思路反复+错题</td><td>阅读至2020+写作自搭模板+三小课轮换</td><td>苍盾二刷⭐⭐</td></tr>
+        <tr><td>11月底</td><td>真题+模拟≥20套</td><td>真题思路多遍+近3年精做</td><td>整卷模考+模板套写真题</td><td>苍盾三刷+肖八</td></tr>
+        <tr><td>12月考前</td><td>错题+公式默写</td><td>概念+手算保持+777错题</td><td>作文默写+阅读保温+错题</td><td>肖四大题全背</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:6px;">📺=政治带刷录播 | 🔥=关键节点 | 🎯考研预测:12.19</p>`
+      <p style="font-size:12px;color:var(--text3);margin-top:6px;">📺=政治带刷 | 🔥=关键节点 | 🎯考研预测:12.19 | 自控777=真橙777·阿祖=控制考研阿祖B站</p>`
   },
   {
     title: '🏠 健身方案 · 居家弹力带40min（v8·替代健身房）',
@@ -779,36 +826,46 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 经期前4天：完全停练→切换非健身日作息 | 第5-6天：力量减半(各2组)+跑步机轻量(坡度1速度3.5,5-10min)</p>`
   },
   {
-    title: '📅 完整周计划（7.22 v8修订版·居家健身·政治隔天·自控3h）',
+    title: '📅 完整周计划（7.27 v11·线代晚间并行·自控按章推进·错题回顾）',
     html: `
-      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b><b>🔥 v8：居家健身40min·政治隔天二四日·自控3h延至17:00·英语晚间保护·数学110·1000A看答案学</b></b></p>
-      <div class="plan-phase"><div class="plan-phase-title">恢复期（7.18-7.24）</div>
-      <table><tr><td>7.13-7.17停学5天已过 | 7.25起正常训练</td></tr></table></div>
-      <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 暑假路线（7.17修订·依赖验证）</div>
-      <table><tr><th>日期</th><th>高数（新顺序:13→14→15→10→16→17→18→11）</th><th>线代/概率</th></tr>
-      <tr><td>7.18-7.20</td><td>第9讲收尾→第13讲 多元微分</td><td>🟠张宇线代恢复</td></tr>
-      <tr><td>7.21-7.24</td><td>第13讲收尾+第14讲 二重积分</td><td>🟠张宇线代</td></tr>
-      <tr><td>7.25-7.29</td><td>第15讲 微分方程（跳过第7讲）</td><td>🟠张宇线代</td></tr>
-      <tr><td>7.30-8.1</td><td>第10讲 积分几何·减量2天</td><td>🟠线代收尾</td></tr>
-      <tr><td>8.2-8.7</td><td>第16讲 无穷级数(幂→方浩)</td><td>🟣概率启动</td></tr>
-      <tr><td>8.8-8.11</td><td>第17讲减量→第18讲启动</td><td>🟣概率</td></tr>
-      <tr><td>8.12-8.18</td><td>第18讲多元积分→李艳芳</td><td>🟣方浩强化</td></tr>
-      <tr><td>8.19-8.22</td><td>第11讲速过+1000A高数+暑假复盘</td><td>概率收尾</td></tr></table></div>
-      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 · 飞哥→真题（v7·12h/周）</div>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v11：线代B方案晚间并行→李永乐强化 | 自控飞哥→阿祖→777按章推进 | 错题隔2-3天回顾⭐题</b></p>
+
+      <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 · 暑假路线（7.28起·上午高数+晚间线代并行）</div>
+      <table><tr><th>日期</th><th>🔴 上午高数（2h10-40min·主线）</th><th>🟠 晚间线代（18:40-19:40）</th></tr>
+      <tr><td>7.28-7.29</td><td>第13讲收尾44min→例题独立做+第9讲⭐题回顾</td><td>B方案D1:行列式(简单快过)+D2:矩阵</td></tr>
+      <tr><td>7.30-8.1</td><td>第14讲 二重积分（~3.2h视频+例题·2-3天）</td><td>B方案D3-4:向量组+方程组(核心·多花时间)</td></tr>
+      <tr><td>8.2-8.4</td><td>第15讲 微分方程（~4.3h·3天·跳过第7讲）</td><td>B方案D5-6:特征值+二次型(核心)</td></tr>
+      <tr><td>8.5-8.8</td><td>第16讲 无穷级数（~5h·3-4天·常数+傅里叶→张宇·幂→方浩）</td><td>🔥 李永乐线代强化启动(辅导讲义红皮书·66课时·1.5x)</td></tr>
+      <tr><td>8.9-8.12</td><td>第18讲 曲线/曲面积分（3-4天）→李艳芳</td><td>李永乐第1-3章(行列式→矩阵→向量组)</td></tr>
+      <tr><td>8.13-8.15</td><td>🟡第10讲减量2天+🟡第17讲减量1.5天</td><td>李永乐第4-5章(方程组→特征值)</td></tr>
+      <tr><td>8.16</td><td>🟠第11讲1天速过·积分中值定理+单调性法</td><td>李永乐第6章(二次型)</td></tr>
+      <tr><td>8.17-8.25</td><td>🔥 暑假复盘+查漏补缺+⭐错题集中回顾</td><td>李永乐收尾→🟣概率启动(余丙森4步法)</td></tr></table></div>
+
+      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 · 飞哥→阿祖→777 按章推进（v11·12h/周）</div>
+      <table><tr><th>日期</th><th>章节</th><th>飞哥基础</th><th>阿祖强化</th><th>777刷题</th></tr>
+      <tr><td>7.27-7.29</td><td>第4章 根轨迹</td><td>看课+笔记</td><td>同章严选题</td><td>专题三(根轨迹)</td></tr>
+      <tr><td>7.30-8.2</td><td>第5章 频域分析</td><td>看课+笔记</td><td>同章严选题</td><td>专题四(频域)</td></tr>
+      <tr><td>8.3-8.6</td><td>第6章 系统校正</td><td>看课+笔记</td><td>同章严选题</td><td>专题五(校正)</td></tr>
+      <tr><td>8.7-8.10</td><td>第7-8章 离散+非线性</td><td>看课+笔记</td><td>同章严选题</td><td>专题六+七</td></tr>
+      <tr><td>8.11-8.25</td><td>全章回顾+错题</td><td colspan="2">777基础300错题回顾→强化260题开始</td><td>真题通读写思路</td></tr></table></div>
+
+      <div class="plan-phase"><div class="plan-phase-title">📝 英语 · v10（每天1篇·三种模式·柴荣选听·易熙人选听5篇）</div>
       <table><tr><th>阶段</th><th>任务</th></tr>
-      <tr><td>7.18-7.24</td><td>飞哥课恢复·第2章收尾→第3章时域分析</td></tr>
-      <tr><td>7.25-8.10</td><td>第3-6章+王万良课后题（英语日晚间1h做题）</td></tr>
-      <tr><td>8.11-8.22</td><td>🔥 飞哥课结束→开刷浙工大真题一刷</td></tr></table></div>
-      <div class="plan-phase"><div class="plan-phase-title">📝 英语 · 每天1篇（v7·13h/周）</div>
+      <tr><td>7.28-8.10</td><td>2006 Text3-4→2007全（每天1篇·自控日轻量+英语日完整）</td></tr>
+      <tr><td>8月</td><td>2008-2010阅读·柴荣阅读技巧课（英语日轮换槽·错≥2题才看）</td></tr>
+      <tr><td>9月上</td><td>阅读继续+易熙人完型方法论→精选第1篇(2015)</td></tr>
+      <tr><td>9月中下</td><td>阅读至2015+柴荣新题型方法论+完型精选继续</td></tr>
+      <tr><td>10月</td><td>阅读至2020+柴荣写作方法论→自搭模板+三小课轮换</td></tr></table></div>
+
+      <div class="plan-phase"><div class="plan-phase-title">📜 政治 · 马原✅→带刷追课（隔天二四日·直接看视频不刷题）</div>
       <table><tr><th>阶段</th><th>任务</th></tr>
-      <tr><td>7.18-7.31</td><td>2005 Text3-4 + 2006全（每天1篇·自控日轻量+英语日完整）</td></tr>
-      <tr><td>8月</td><td>2007-2010阅读·柴荣技巧课穿插</td></tr>
-      <tr><td>9-10月</td><td>阅读至2020+三小课轮换</td></tr></table></div>
-      <div class="plan-phase"><div class="plan-phase-title">📜 政治 · 马原✅→带刷追课</div>
-      <table><tr><th>阶段</th><th>任务</th></tr>
-      <tr><td>✅完成</td><td>🟣马原12讲（7.17）| 带刷Day1跟直播（6.29）</td></tr>
-      <tr><td>7.18-8月初</td><td>📺 追带刷录播D2-D21·隔天(二四日)·8月初追平</td></tr></table></div>
-      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | ⚠️ 秋季课表8.24起：周二15:30+周五10:00(第1-4周)+周四10:00(第5-8周) | 暑假必须完成数学基础</p>`
+      <tr><td>✅完成</td><td>🟣马原12讲（7.17）| 带刷第1节（7.26）</td></tr>
+      <tr><td>7.28-8月下旬</td><td>📺 追带刷D2-D21·隔天二四日 19:40-20:20·1.5x≈40min/集·8月下旬追平</td></tr>
+      <tr><td>9月</td><td>🔥 正式启动：徐涛毛中特+新思想→苏一导图→肖1000一刷(纸质⭐)</td></tr>
+      <tr><td>10月</td><td>苍盾小程序二刷⭐题+帽子题整理+张修齐小橙书带背</td></tr>
+      <tr><td>11-12月</td><td>苍盾三刷+肖八选择→肖四大题狂背</td></tr></table></div>
+
+      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | ⚠️ 秋季课表8.24起：周二15:30+周五10:00(第1-4周)+周四10:00(第5-8周) | 暑假必须完成高数第一梯队+线代基础</p>`
   },
   {
     title: '💡 备考Tips精华（v8·含做题方法）',
