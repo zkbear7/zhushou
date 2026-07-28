@@ -1,7 +1,7 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
 
-const CACHE_NAME = 'kaoyan-helper-v15';
+const CACHE_NAME = 'kaoyan-helper-v16';
 const urlsToCache = [
   '/',
   '/index.html',
