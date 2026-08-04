@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fdf8f4">
-<!-- v13: 7h宽松·高数暑假主线·线代晚间固定18:30·下午纯块·110分知识点分级·扇贝取消·7.30更新 -->
+<!-- v14: 三门基础→三科强化·线代8.2-8.12例题全写·概率8.13接棒·30讲节级分级表·强化啃书为主·8.2更新 -->
 <link rel="manifest" href="./manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
 <style>
@@ -239,8 +239,8 @@ body {
 .drawer {
   position: fixed;
   left: 0; top: 0; bottom: 0;
-  width: 360px;
-  max-width: 88vw;
+  width: 420px;
+  max-width: 94vw;
   background: var(--card);
   z-index: 30;
   box-shadow: 2px 0 24px rgba(61,57,41,0.1);
@@ -301,7 +301,8 @@ body {
   overflow: hidden;
   transition: max-height 0.35s ease;
 }
-.accordion.open .accordion-body { max-height: 2000px; }
+/* v14: 面板内容可超过2000px（30讲分级表18卡）·drawer-body滚动条兜底 */
+.accordion.open .accordion-body { max-height: 10000px; }
 .accordion-inner {
   padding: 0 18px 16px;
   overflow-x: auto;
@@ -351,6 +352,35 @@ body {
 .tag.green { background: #e8f0e0; color: #5a805a; }
 .tag.blue { background: #e0e8f0; color: #506888; }
 .tag.amber { background: #f0ead8; color: #806840; }
+.tag.gray { background: #efeded; color: #8b8680; }
+
+/* ── v14: 卡片式面板（宽表转卡片·不挤字） ── */
+.c-card {
+  background: var(--card2);
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  padding: 8px 12px 9px;
+  margin-bottom: 8px;
+}
+.c-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--divider);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.c-title .c-sub { margin-left: auto; font-size: 10.5px; font-weight: 500; color: var(--text3); }
+.c-row {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text);
+  padding: 2px 0;
+}
+.c-row .tag { margin-right: 6px; }
 
 /* ── Notification Permission Banner ── */
 .notify-banner {
@@ -590,7 +620,7 @@ const AUTOCTRL_DAY = [  // 二四六 · 自控日+弹力带日（v13: 7h宽松·
   { t:"16:00-17:00", l:"🆓 弹性休息", s:"rest" },
   { t:"17:00-18:00", l:"🍜 晚饭+休息", s:"rest" },
   { t:"18:00-18:30", l:"📝 单词·背新 30min", s:"eng" },
-  { t:"18:30-19:30", l:"🧵 线代 1h（固定·张宇基础→李永乐强化）", s:"math" },
+  { t:"18:30-19:30", l:"🧵 线代/概率 1h（固定·基础→概率→强化·例题全写）", s:"math" },
   { t:"19:30-20:00", l:"📺 政治带刷 30min", s:"pol" },
   { t:"20:00-20:30", l:"📝 英语超轻量 30min（限时做+对答案+错因）", s:"eng" },
   { t:"20:30-21:00", l:"🆓 弹性", s:"rest" },
@@ -605,7 +635,7 @@ const ENGLISH_DAY = [  // 三五日 · 英语日（v13: 7h宽松·无弹力带·
   { t:"16:00-17:00", l:"🆓 弹性休息", s:"rest" },
   { t:"17:00-18:00", l:"🍜 晚饭+休息", s:"rest" },
   { t:"18:00-18:30", l:"📝 单词·背新 30min", s:"eng" },
-  { t:"18:30-19:30", l:"🧵 线代 1h（固定·张宇基础→李永乐强化）", s:"math" },
+  { t:"18:30-19:30", l:"🧵 线代/概率 1h（固定·基础→概率→强化·例题全写）", s:"math" },
   { t:"19:30-20:00", l:"📺 政治带刷 30min", s:"pol" },
   { t:"20:00-21:00", l:"🔢 数学刷题/回顾 1h", s:"math" },
 ];
@@ -619,57 +649,143 @@ function isSelfControlDay(date) {
 // ── Drawer content ──
 const DRAWER_SECTIONS = [
   {
-    title: '🔢 数学一 · v13线代晚间固定+110分知识点分级（7.30重算）',
+    title: '🔢 数学一 · v14 三科基础→三科强化+高数/线代/概率分级（8.4更新）',
     html: `
-      <p style="font-size:12px;color:var(--text2);margin-bottom:6px;">✅ 第1-6讲+第9讲 | ⚪ 跳过第7讲·第12讲·第11讲(证明可弃) | 📍 第13讲学完·例题巩固中</p>
-      <p style="font-size:13px;color:var(--accent);margin-bottom:8px;"><b>🔥 v13：🧵线代晚间18:30固定·每天1h | 🔴高数上午不变 | ⚙️自控/📝英语下午纯块3h | 110分分层·证明类全弃 | 线代+概率70分优先保住</b></p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:6px;">📐高数18讲+🧵线代6讲+🟣概率7章全分级 | ✅ 已学1-6·8+9·13讲(复习用) | 🧵线代基础例题全写(8.2-8.12) | 🟣概率基础8.13接棒 | 9月起三科强化·啃书为主</p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:8px;"><b>🔥 v14：三门基础9.3全过完→三科强化并行(9月-10月底)→11月真题 | 强化=主要啃书·不懂再看课 | 证明类全弃</b></p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 高数18讲 · 暑假排期（7.28-8.23·3.5周·唯一主线）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 高数18讲 · 小节级110分分级</p>
+      <div class="c-card"><div class="c-title">⭐1 函数极限连续 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>函数概念特性·极限计算·连续与间断</div>
+        <div class="c-row"><span class="tag amber">可弱</span>极限概念性质(抽象题)·函数图像</div></div>
+      <div class="c-card"><div class="c-title">⭐2 数列极限 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>常规计算·夹逼准则</div>
+        <div class="c-row"><span class="tag amber">可弱</span>定积分定义求和式</div>
+        <div class="c-row"><span class="tag gray">可弃</span>单调有界证明·n项和技巧极限</div></div>
+      <div class="c-card"><div class="c-title">⭐3 微分概念 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>导数定义·分段点/抽象求导</div>
+        <div class="c-row"><span class="tag amber">可弱</span>概念辨析细节</div></div>
+      <div class="c-card"><div class="c-title">⭐4 微分计算 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>全讲：复合/隐/参数/反函数/高阶</div></div>
+      <div class="c-card"><div class="c-title">⭐5 微分应用(一) <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>单调性·极值·最值·凹凸拐点</div>
+        <div class="c-row"><span class="tag amber">可弱</span>渐近线·曲率·作函数图像</div></div>
+      <div class="c-card"><div class="c-title">⭐6 微分应用(二) <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag gray">可弃</span>全讲：中值定理/等式/不等式证明</div></div>
+      <div class="c-card"><div class="c-title">7 微分应用(三) <span class="c-sub">⏭️跳过</span></div>
+        <div class="c-row"><span class="tag amber">可弱</span>物理应用·相关变化率(12月记公式)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>经济应用(数三)</div></div>
+      <div class="c-card"><div class="c-title">⭐8 积分概念性质 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>不定/定积分概念性质·变限积分·反常积分</div></div>
+      <div class="c-card"><div class="c-title">⭐9 积分计算 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>全讲：凑微/换元/分部·对称技巧·变限/反常计算</div></div>
+      <div class="c-card"><div class="c-title">📅10 积分几何应用 <span class="c-sub">2天减量</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>面积·旋转体体积</div>
+        <div class="c-row"><span class="tag amber">可弱</span>弧长·旋转曲面面积(记公式)</div></div>
+      <div class="c-card"><div class="c-title">📅11 积分等式不等式 <span class="c-sub">1天速过</span></div>
+        <div class="c-row"><span class="tag amber">可弱</span>积分等式(中值/换元·低频)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>积分不等式(证明类)</div></div>
+      <div class="c-card"><div class="c-title">📅12 积分物理经济 <span class="c-sub">⏭️跳过</span></div>
+        <div class="c-row"><span class="tag amber">可弱</span>物理应用·古鲁金定理(12月0.5天记公式)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>经济应用(数三)</div></div>
+      <div class="c-card"><div class="c-title">⭐13 多元微分 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>概念·链式法则·极值最值(拉格朗日)</div>
+        <div class="c-row"><span class="tag amber">可弱</span>方向导数梯度(小题记公式)·概念辨析</div></div>
+      <div class="c-card"><div class="c-title">📅14 二重积分 <span class="c-sub">3天</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>对称性化简·直角/极坐标·交换次序·区域D画图·高斯积分结论</div></div>
+      <div class="c-card"><div class="c-title">📅15 微分方程 <span class="c-sub">3天</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>一阶(可分离/线性/伯努利)·二阶常系数·综合应用</div>
+        <div class="c-row"><span class="tag amber">可弱</span>可降阶·欧拉方程·物理应用</div>
+        <div class="c-row"><span class="tag gray">可弃</span>差分方程(数三)</div></div>
+      <div class="c-card"><div class="c-title">📅16 无穷级数 <span class="c-sub">3-4天减1天</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>常数项级数敛散·幂级数(收敛域/求和/展开)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>傅里叶级数(仅记公式)</div></div>
+      <div class="c-card"><div class="c-title">📅17 多元积分预备 <span class="c-sub">1.5天减量</span></div>
+        <div class="c-row"><span class="tag amber">可弱</span>向量代数·平面直线·曲线曲面参数化·场论初步(18讲前置)</div></div>
+      <div class="c-card"><div class="c-title">📅18 多元积分学 <span class="c-sub">3.5-4天</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>三重积分·平面二型曲线+格林·二型曲面+高斯(高频大题)</div>
+        <div class="c-row"><span class="tag amber">可弱</span>一型曲线·一型曲面·空间曲线+斯托克斯</div></div>
+      <p style="font-size:11px;color:var(--text3);margin-top:2px;">⭐已学=复习时重做错题 | 📅未学 | 必抓=例题独立做 · 可弱=看例题/记公式 · 可弃=跳过(证明类全弃·傅里叶只记公式)</p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🧵 线代6讲 · 110分分级（按张宇基础篇）</p>
+      <div class="c-card"><div class="c-title">🧵线代·第1讲 行列式 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>数值型行列式计算(化三角/按行展开)·抽象型行列式(性质/拆分/递推)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>n阶行列式技巧题(递推/加边·低频)</div></div>
+      <div class="c-card"><div class="c-title">🧵线代·第2讲 矩阵 <span class="c-sub">✅已学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>逆矩阵/伴随矩阵·矩阵运算/初等变换/秩</div>
+        <div class="c-row"><span class="tag gray">可弃</span>解矩阵方程AX=B(低频)</div></div>
+      <div class="c-card"><div class="c-title">🧵线代·第3讲 向量组 <span class="c-sub">⏳进行中</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>线性相关/无关判定(含参讨论·核心)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>秩/极大无关组证明·向量空间/等价向量组(理论证明·低频)</div></div>
+      <div class="c-card"><div class="c-title">🧵线代·第4讲 方程组 <span class="c-sub">📅未学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>齐次/非齐次判定与通解·基础解系·同解/公共解(大题高频)</div></div>
+      <div class="c-card"><div class="c-title">🧵线代·第5讲 特征值 <span class="c-sub">📅未学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>特征值/特征向量计算·相似矩阵/可对角化判定</div>
+        <div class="c-row"><span class="tag amber">可弱</span>实对称正交对角化(施密特·低频)</div></div>
+      <div class="c-card"><div class="c-title">🧵线代·第6讲 二次型 <span class="c-sub">📅未学</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>化标准形(配方/正交变换/惯性指数)·正定性判定(大题高频)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>等价/相似/合同关系判定(低频)</div></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🟣 概率7章 · 110分分级（按余丙森基础篇·8.13启动）</p>
+      <div class="c-card"><div class="c-title">🟣概率·第1章 随机事件及其概率 <span class="c-sub">📅8.13</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>加法/乘法公式·独立性·古典/几何概型·全概率/贝叶斯</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第2章 一维随机变量 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>离散/连续分布·分布律/密度/分布函数·g(X)函数分布</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第3章 二维随机变量 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>联合/边缘/条件分布(大题高频)</div>
+        <div class="c-row"><span class="tag amber">可弱</span>二维正态性质(独立⇔不相关)·Z=g(X,Y)分布</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第4章 数字特征 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>期望/方差/协方差/相关系数(几乎必考)</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第5章 大数定律 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag amber">可弱</span>大数定律/中心极限定理(理解思想·简单应用)</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第6章 数理统计基本概念 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>抽样分布(χ²/t/F分布)</div></div>
+      <div class="c-card"><div class="c-title">🟣概率·第7章 参数估计 <span class="c-sub">📅</span></div>
+        <div class="c-row"><span class="tag red">必抓</span>矩估计/最大似然估计(大题高频)</div>
+        <div class="c-row"><span class="tag gray">可弃</span>区间估计·假设检验(数一低频·可弃)</div></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏳ 基础阶段（三门9.3全过完）</p>
       <table>
-        <tr><th>日期</th><th>讲次</th><th>标题</th><th>天数</th></tr>
-        <tr><td>7.28-7.30</td><td><span class="tag red">🔴 13讲</span></td><td>多元微分·例题巩固</td><td>3天·不会就磕</td></tr>
-        <tr><td>7.31-8.3</td><td><span class="tag red">🔴 14讲</span></td><td>二重积分</td><td>4天</td></tr>
-        <tr><td>8.4-8.8</td><td><span class="tag red">🔴 15讲</span></td><td>微分方程（跳过第7讲）</td><td>5天</td></tr>
-        <tr><td>8.9-8.12</td><td><span class="tag red">🔴 16讲</span></td><td>无穷级数（傅里叶可弃·减1天）</td><td>4天</td></tr>
-        <tr><td>8.13-8.17</td><td><span class="tag red">🔴 18讲</span></td><td>曲线/曲面积分（高斯必抓·斯托克斯可弱）</td><td>5天</td></tr>
-        <tr><td>8.18-8.23</td><td><span class="tag amber">🟡 10+17讲</span></td><td>积分几何+多元积分预备（物理应用可弱）</td><td>5天减量</td></tr>
-        <tr><td style="color:var(--rose);font-size:11px;" colspan="4">❌ 第11讲证明类全跳(中值/不等式/积分证明·110可弃) | 8.24起数学被打碎·暑假是最后完整窗口</td></tr>
+        <tr><th>科目</th><th>时间</th><th>安排</th></tr>
+        <tr><td>🔴 高数</td><td>8.1-8.17</td><td>14→15→16→18→10+17减量→11速过 | 8.17-8.25复盘</td></tr>
+        <tr><td>🧵 线代</td><td>8.2-8.12</td><td>晚间18:30-19:30·第3讲后半+4-6讲·<b>课后例题全写</b>(1h打底+弹性)</td></tr>
+        <tr><td>🟣 概率</td><td>8.13-9.3</td><td>晚间1h接棒·余丙森基础篇7章·4步自学法·例题写</td></tr>
       </table>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🧵 线代 · 晚间固定18:30-19:30（每天1h·不受课表影响）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">💪 强化阶段（9月起·主要啃书·不懂再看课·10月底全完成→11月真题）</p>
       <table>
-        <tr><th>阶段</th><th>内容</th><th>时间</th></tr>
-        <tr><td>✅ 已完成</td><td>张宇基础篇第1-2讲（行列式+矩阵·例题已做）</td><td>—</td></tr>
-        <tr><td>🔴 收尾</td><td>张宇基础篇第3-6讲</td><td>7.30-8.2·4天</td></tr>
-        <tr><td>🔴 强化</td><td><b>李永乐线代强化</b>（辅导讲义红皮书·66课时·1.5x≈44h）</td><td>8.3→9月中·每天1h</td></tr>
+        <tr><th>科目</th><th>书（主力·题都做·不懂再看课）</th><th>时间</th></tr>
+        <tr><td>🔴 高数</td><td>张宇36讲·例题独立做（配套课查缺）</td><td>9.1-10.5·上午块</td></tr>
+        <tr><td>🧵 线代</td><td>李永乐辅导讲义红皮书·例题做（66课时查缺）</td><td>9.4-9.25·晚间</td></tr>
+        <tr><td>🟣 概率</td><td><b>余丙森强化篇8章·一本够用</b>（方浩B站13h查缺）</td><td>9月底-10.20·副科/周末</td></tr>
       </table>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🎯 数一110分 · 知识点分级</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🎯 数一110分 · 知识点分级总表</p>
+      <div class="c-card"><div class="c-title">🔴 必抓 <span class="c-sub">例题独立做</span></div>
+        <div class="c-row"><span class="tag red">高数</span>极限计算·求导·积分·微分方程·二重/三重积分·曲线曲面积分(高斯)·级数(幂/常数项)·多元极值·方向导数梯度</div>
+        <div class="c-row"><span class="tag blue">线代</span>行列式·矩阵·向量相关/无关·方程组·特征值·二次型·同解</div>
+        <div class="c-row"><span class="tag green">概率</span>概率计算·全概率/贝叶斯·一维/二维分布·期望/方差/协方差·矩估计/最大似然·抽样分布</div></div>
+      <div class="c-card"><div class="c-title">🟡 可弱 <span class="c-sub">看例题/记公式</span></div>
+        <div class="c-row"><span class="tag red">高数</span>曲率·物理应用(弧长/功)·可降阶/欧拉方程</div>
+        <div class="c-row"><span class="tag blue">线代</span>实对称正交对角化</div>
+        <div class="c-row"><span class="tag green">概率</span>大数定律·中心极限</div></div>
+      <div class="c-card"><div class="c-title">⚪ 可弃 <span class="c-sub">跳过</span></div>
+        <div class="c-row"><span class="tag red">高数</span><span style="color:var(--text3);">单调有界证明·定积分定义·相关变化率·方程根讨论·不等式证明·<b>中值定理证明</b>·积分证明·空间解析几何·<b>傅里叶级数</b>·多元概念辨析</span></div>
+        <div class="c-row"><span class="tag blue">线代</span><span style="color:var(--text3);">矩阵方程·向量组证明·向量空间·矩阵关系判定·行列式技巧</span></div>
+        <div class="c-row"><span class="tag green">概率</span><span style="color:var(--text3);">区间估计·假设检验</span></div></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📋 做题优先级（v14）</p>
       <table>
-        <tr><th>等级</th><th>高数</th><th>线代</th><th>概率</th></tr>
-        <tr><td style="white-space:nowrap;">🔴 必抓</td><td style="font-size:11px;">极限计算·求导·积分·微分方程·二重/三重积分·曲线曲面积分(高斯)·级数(幂/常数项)·多元极值·方向导数梯度</td><td style="font-size:11px;">行列式·矩阵·向量相关/无关·方程组·特征值·二次型·同解</td><td style="font-size:11px;">概率计算·全概率/贝叶斯·一维/二维分布·期望/方差/协方差·矩估计/最大似然·抽样分布</td></tr>
-        <tr><td style="white-space:nowrap;">🟡 可弱</td><td style="font-size:11px;">曲率·物理应用(弧长/功)·可降阶/欧拉方程</td><td style="font-size:11px;">实对称正交对角化</td><td style="font-size:11px;">大数定律·中心极限</td></tr>
-        <tr><td style="white-space:nowrap;">⚪ 可弃</td><td style="font-size:11px;color:var(--text3);">单调有界证明·定积分定义·相关变化率·方程根讨论·不等式证明·<b>中值定理证明</b>·积分证明·空间解析几何·<b>傅里叶级数</b>·多元概念辨析</td><td style="font-size:11px;color:var(--text3);">矩阵方程·向量组证明·向量空间·矩阵关系判定·行列式技巧</td><td style="font-size:11px;color:var(--text3);">区间估计·假设检验</td></tr>
+        <tr><th>优先级</th><th>内容</th><th>做法</th></tr>
+        <tr><td>🔴 P0</td><td>30讲例题(已学讲+未学讲)</td><td>合书独立默写·复习时重做⭐错题</td></tr>
+        <tr><td>🟡 P1</td><td>1000A高数</td><td>碎片翻答案·想3-5min→不会就翻·标⭐△○</td></tr>
+        <tr><td>🟡 P2</td><td>880精选(砍半)</td><td>只做必抓知识点·证明类跳过</td></tr>
+        <tr><td>💪 强化期</td><td>36讲/李永乐/余丙森强化篇</td><td>书为主·例题全做·不懂才看课</td></tr>
+        <tr><td>🔮 后期</td><td>真题2005-2026</td><td>11月启动·一天一套+订正</td></tr>
       </table>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📋 做题优先级（v13调整）</p>
-      <table>
-        <tr><th>优先级</th><th>内容</th><th>状态</th><th>做法</th></tr>
-        <tr><td>🔴 P0</td><td>30讲例题</td><td>进行中</td><td>合书独立默写·从头算到尾</td></tr>
-        <tr><td>🟡 P1</td><td>1000A高数</td><td>正常做</td><td>碎片翻答案·想3-5min→不会就翻·标⭐△○</td></tr>
-        <tr><td>🟡 P1</td><td>880精选版（砍半）</td><td>大章学完后</td><td>只做必抓知识点·证明类跳过</td></tr>
-        <tr><td>🟡 P1</td><td>1000A线代</td><td>线代基础收尾后</td><td>李永乐强化期间碎片做</td></tr>
-        <tr><td>🔮 后期</td><td>真题2005-2026</td><td>10月底启动</td><td>一天一套+订正·1.5-2个月搞定</td></tr>
-      </table>
-
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🟣 概率论（线代强化完成后·约9月中启动·线代提前→概率提前）</p>
-      <table>
-        <tr><th>资料</th><th>方法</th><th>预估时长</th></tr>
-        <tr><td>余丙森辅导讲义→方浩强化</td><td>4步自学法：讲义通读→不懂翻课→例题动手→做不出看习题课</td><td>约15-20天基础→方浩强化(1.5x≈13h)</td></tr>
-      </table>
-
-      <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 证明类全弃(中值/不等式/积分) | 傅里叶只记公式不深究 | 线代+概率≈70分好拿·优先保住 | 880精选只做必抓题</p>
-      <p style="font-size:11px;color:var(--text3);">🎯 数学110底线 | 🧵线代晚间固定不受课表影响 | 暑假=高数最后完整窗口 | 概率9月中线代完成后无缝接</p>`
+      <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 证明类全弃(中值/不等式/积分) | 傅里叶只记公式 | 概率余丙森=基础+强化一篇过·方浩当字典 | 强化啃书为主·不懂再看课</p>
+      <p style="font-size:11px;color:var(--text3);">🎯 数学110底线 | 三门基础9.3全过完→三科强化并行 | 11月真题 | 线代+概率≈70分好拿优先保住</p>`
   },
   {
     title: '⚙️ 828 自控 · 飞哥→王万良精选→777（v13·10h/周）',
@@ -761,20 +877,54 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--rose);margin-top:8px;">🔑 核心：一本书看十遍胜过十本书翻一遍 | 帽子题是送分题 | 政治选择是刷出来不是看出来的</p>`
   },
   {
-    title: '📊 进度自检节点（v13·7.30重算·线代晚间固定）',
+    title: '📊 进度自检节点（v14·8.2重算·三科基础→三科强化）',
     html: `
-      <table>
-        <tr><th>节点</th><th>数学一</th><th>828</th><th>英语</th><th>政治</th></tr>
-        <tr><td><b>7.30</b></td><td>第13讲学完·例题巩固·🧵线代基础第3-6讲收尾(4天)</td><td>飞哥第3章听完·课后题3.11·777未开</td><td>2006 Text2·柴荣技巧课待看</td><td>马原✅·带刷D3过半</td></tr>
-        <tr><td>7月底</td><td>13讲例题巩固✅·14讲启动·🧵线代基础收尾中</td><td>飞哥第4章+课后题精选</td><td>2006 Text3-4·柴荣技巧课开始</td><td>带刷D4-D6</td></tr>
-        <tr><td>8.10</td><td>15讲微分方程·16讲无穷级数·🧵李永乐线代强化(8.3起)</td><td>飞哥第5-6章+777基础300启动</td><td>2007全4篇·柴荣技巧课继续</td><td>带刷D7-D12</td></tr>
-        <tr><td>8.25</td><td>高数第一梯队✅·暑假复盘·🧵李永乐强化进行中</td><td>飞哥全章✅·777基础300进行中</td><td>2005-2008阅读✅·柴荣技巧课✅</td><td>带刷D21✅</td></tr>
-        <tr><td>9月中</td><td>🧵李永乐线代强化✅→🟣概率余丙森启动</td><td>777基础300✅→强化260选做+真题思路</td><td>阅读至2015+易熙人完型</td><td>肖1000一刷⭐</td></tr>
-        <tr><td>10月底</td><td>真题2005-2020一天一套+🟣概率方浩强化</td><td>777强化+真题思路反复</td><td>阅读至2020+写作自搭模板</td><td>苍盾二刷⭐⭐</td></tr>
-        <tr><td>11月底</td><td>真题+模拟≥20套</td><td>真题思路多遍+近3年精做</td><td>整卷模考+模板套写</td><td>苍盾三刷+肖八</td></tr>
-        <tr><td>12月考前</td><td>错题+公式默写</td><td>概念+手算保持</td><td>作文默写+阅读保温</td><td>肖四大题全背</td></tr>
-      </table>
-      <p style="font-size:12px;color:var(--text3);margin-top:6px;">🎯考研预测:12.19 | v13: 线代晚间固定·下午纯块·110分分层·线代+概率70分优先保住</p>`
+      <div class="c-card"><div class="c-title">📆 8.2 <span class="c-sub">现在</span></div>
+        <div class="c-row"><span class="tag red">数学</span>14讲二重积分启动 · 🧵线代基础第3讲一半·例题全写(8.2-8.12)</div>
+        <div class="c-row"><span class="tag amber">828</span>飞哥第3章例题+第4章看课·777未开</div>
+        <div class="c-row"><span class="tag blue">英语</span>2006 Text2·柴荣技巧课待看</div>
+        <div class="c-row"><span class="tag green">政治</span>马原✅·带刷D3过半</div></div>
+      <div class="c-card"><div class="c-title">📆 8.10</div>
+        <div class="c-row"><span class="tag red">数学</span>15讲微分方程·16讲无穷级数 · 🧵线代基础收尾中</div>
+        <div class="c-row"><span class="tag amber">828</span>飞哥第5-6章+777基础300启动</div>
+        <div class="c-row"><span class="tag blue">英语</span>2007全4篇·柴荣技巧课继续</div>
+        <div class="c-row"><span class="tag green">政治</span>带刷D7-D12</div></div>
+      <div class="c-card"><div class="c-title">📆 8.17</div>
+        <div class="c-row"><span class="tag red">数学</span>🔴高数基础全过完✅ · 🧵线代基础8.12✅→🟣概率基础接棒</div>
+        <div class="c-row"><span class="tag amber">828</span>飞哥全章✅·777基础300进行中</div>
+        <div class="c-row"><span class="tag blue">英语</span>2008阅读·柴荣技巧课✅</div>
+        <div class="c-row"><span class="tag green">政治</span>带刷D13-D18</div></div>
+      <div class="c-card"><div class="c-title">📆 8.25</div>
+        <div class="c-row"><span class="tag red">数学</span>暑假复盘✅ · 🟣概率基础(余丙森基础篇)进行中·9.3完成</div>
+        <div class="c-row"><span class="tag amber">828</span>777基础300✅→强化260选做</div>
+        <div class="c-row"><span class="tag blue">英语</span>2005-2010阅读✅</div>
+        <div class="c-row"><span class="tag green">政治</span>带刷D21✅</div></div>
+      <div class="c-card"><div class="c-title">📆 9.3 <span class="c-sub">🔥三门基础全过完</span></div>
+        <div class="c-row"><span class="tag red">数学</span>高数✅线代✅概率✅ → 9.4起李永乐强化</div>
+        <div class="c-row"><span class="tag amber">828</span>777基础300错题回顾</div>
+        <div class="c-row"><span class="tag blue">英语</span>阅读至2011-2012</div>
+        <div class="c-row"><span class="tag green">政治</span>肖1000一刷启动</div></div>
+      <div class="c-card"><div class="c-title">📆 9月底</div>
+        <div class="c-row"><span class="tag red">数学</span>🔴36讲强化中 · 🧵李永乐(9.4-9.25) · 🟣概率强化篇启动</div>
+        <div class="c-row"><span class="tag amber">828</span>777强化260+真题思路</div>
+        <div class="c-row"><span class="tag blue">英语</span>阅读至2015+易熙人完型</div>
+        <div class="c-row"><span class="tag green">政治</span>肖1000一刷⭐</div></div>
+      <div class="c-card"><div class="c-title">📆 10月底</div>
+        <div class="c-row"><span class="tag red">数学</span>三科强化✅→真题2005-2020一天一套</div>
+        <div class="c-row"><span class="tag amber">828</span>777强化+真题思路反复</div>
+        <div class="c-row"><span class="tag blue">英语</span>阅读至2020+写作自搭模板</div>
+        <div class="c-row"><span class="tag green">政治</span>苍盾二刷⭐⭐</div></div>
+      <div class="c-card"><div class="c-title">📆 11月底</div>
+        <div class="c-row"><span class="tag red">数学</span>真题+模拟≥20套</div>
+        <div class="c-row"><span class="tag amber">828</span>真题思路多遍+近3年精做</div>
+        <div class="c-row"><span class="tag blue">英语</span>整卷模考+模板套写</div>
+        <div class="c-row"><span class="tag green">政治</span>苍盾三刷+肖八</div></div>
+      <div class="c-card"><div class="c-title">📆 12月考前</div>
+        <div class="c-row"><span class="tag red">数学</span>错题+公式默写</div>
+        <div class="c-row"><span class="tag amber">828</span>概念+手算保持</div>
+        <div class="c-row"><span class="tag blue">英语</span>作文默写+阅读保温</div>
+        <div class="c-row"><span class="tag green">政治</span>肖四大题全背</div></div>
+      <p style="font-size:12px;color:var(--text3);margin-top:6px;">🎯考研预测:12.19 | v14: 三门基础9.3全过完→三科强化并行(啃书为主)→11月真题 | 概率提前=8.13接棒·余丙森一本到底</p>`
   },
   {
     title: '🏠 健身方案 · 居家弹力带35min（v13·隔天二四六）',
@@ -810,18 +960,24 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text2);margin-top:6px;">💡 经期前4天：完全停练→切换非健身日作息 | 第5-6天：力量减半(各2组)+跑步机轻量(坡度1速度3.5,5-10min)</p>`
   },
   {
-    title: '📅 完整周计划（v13·7.30重算·线代晚间固定·下午纯块）',
+    title: '📅 完整周计划（v14·8.2重算·三科基础→三科强化）',
     html: `
-      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v13：🧵线代每天18:30-19:30固定 | 🔴高数上午·⚙️自控/📝英语下午纯块3h | 证明类全弃·傅里叶可弃·线代+概率70分优先</b></p>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v14：三门基础9.3全过完→三科强化并行(9月-10月底)→11月真题 | 线代/概率晚间18:30-19:30接棒 | 强化=啃书为主·不懂再看课</b></p>
 
-      <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 · 暑假路线（7.28-8.23·高数第一梯队唯一主线）</div>
-      <table><tr><th>日期</th><th>🔴 高数（上午）</th><th>🧵 线代（晚间18:30-19:30固定）</th></tr>
-      <tr><td>7.28-7.30</td><td>第13讲收尾·例题巩固（3天·不会就磕）</td><td>张宇基础篇第3-6讲收尾·7.30-8.2(4天)</td></tr>
-      <tr><td>7.31-8.3</td><td>第14讲 二重积分（4天）</td><td>基础收尾+8.3起李永乐强化启动</td></tr>
-      <tr><td>8.4-8.8</td><td>第15讲 微分方程（5天·跳过第7讲）</td><td>李永乐线代强化·每天1h·1.5x</td></tr>
-      <tr><td>8.9-8.12</td><td>第16讲 无穷级数（4天·傅里叶可弃减1天）</td><td>李永乐强化继续</td></tr>
-      <tr><td>8.13-8.17</td><td>第18讲 曲线/曲面积分（5天·高斯必抓）</td><td>李永乐强化继续</td></tr>
-      <tr><td>8.18-8.23</td><td>🟡第10+17讲减量+暑假复盘（5天）</td><td>李永乐强化继续·预计9月中完成</td></tr></table></div>
+      <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 · 基础阶段（8.1-9.3·三门全过完）</div>
+      <table><tr><th>日期</th><th>🔴 高数（上午）</th><th>🧵线代/🟣概率（晚间18:30-19:30）</th></tr>
+      <tr><td>8.1-8.3</td><td>第14讲 二重积分</td><td>🧵线代基础第3讲(向量组)·例题全写·1h打底+弹性</td></tr>
+      <tr><td>8.4-8.8</td><td>第15讲 微分方程（3天+收尾）</td><td>🧵线代基础第3讲收尾+第4讲方程组</td></tr>
+      <tr><td>8.9-8.12</td><td>第16讲 无穷级数（傅里叶可弃减1天）</td><td>🧵线代基础第5-6讲(特征值/二次型)·8.12收尾✅</td></tr>
+      <tr><td>8.13-8.17</td><td>第18讲 曲线/曲面积分（高斯必抓·斯托克斯可弱）</td><td>🟣概率基础接棒·余丙森基础篇7章·4步自学法</td></tr>
+      <tr><td>8.18-8.23</td><td>🟡第10+17讲减量+第11讲速过→暑假复盘</td><td>🟣概率基础继续</td></tr>
+      <tr><td>8.24-9.3</td><td>复盘+查漏补缺（⚠️8.24起课表·周五上午被砍）</td><td>🟣概率基础9.3完成✅·三门基础全过完</td></tr></table></div>
+
+      <div class="plan-phase"><div class="plan-phase-title">💪 数学一 · 强化阶段（9月起·三科并行·啃书为主·不懂再看课）</div>
+      <table><tr><th>科目</th><th>书（主力·题都做·不懂再看课）</th><th>时间</th></tr>
+      <tr><td>🔴 高数36讲</td><td>例题独立做·⭐题重做（配套课查缺）</td><td>9.1-10.5·上午块</td></tr>
+      <tr><td>🧵 线代李永乐</td><td>辅导讲义红皮书·例题做（66课时查缺）</td><td>9.4-9.25·晚间</td></tr>
+      <tr><td>🟣 概率余丙森</td><td>强化篇8章·一本够用（方浩B站13h查缺）</td><td>9月底-10.20·副科/周末</td></tr></table></div>
 
       <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 · 飞哥→王万良精选→777（v13·10h/周）</div>
       <table><tr><th>日期</th><th>章节</th><th>飞哥基础</th><th>777刷题</th><th>王万良精选</th></tr>
@@ -848,18 +1004,19 @@ const DRAWER_SECTIONS = [
       <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | ⚠️ 8.24起课表冲击(仅影响上午·🧵线代晚间不受影响) | 暑假必须完成高数第一梯队 | 线代+概率≈70分好拿优先保住</p>`
   },
   {
-    title: '💡 备考Tips精华（v13·7.30更新·线代晚间固定+110分层）',
+    title: '💡 备考Tips精华（v14·8.2更新·三科基础→三科强化）',
     html: `
-      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">v13核心：线代每天18:30-19:30固定 | 下午纯块3h(自控/英语) | 110分知识点分层·证明类全弃 | 线代+概率≈70分优先保住</p>
-      <div class="plan-phase"><div class="plan-phase-title">🔢 数学（v13·110分策略）</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">v14核心：三门基础9.3全过完→三科强化并行(9月-10月底)→11月真题 | 强化=啃书为主·不懂再看课 | 110分层·证明类全弃</p>
+      <div class="plan-phase"><div class="plan-phase-title">🔢 数学（v14·三科路线）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>🔥 <b>例题独立做P0</b>：合书能默写才算会·不会就磕不赶进度</li>
-        <li>📌 <b>1000A高数正常做</b>：碎片翻答案·1000A线代李永乐期间碎片做</li>
-        <li>📌 <b>880精选(砍半)</b>：只做必抓知识点·证明类跳过</li>
+        <li>🔥 <b>基础例题独立做P0</b>：合书能默写才算会·不会就磕不赶进度</li>
+        <li>🧵 <b>线代基础8.2-8.12</b>：晚间18:30-19:30·第3讲后半+4-6讲·<b>课后例题全写</b>·1h打底+弹性</li>
+        <li>🟣 <b>概率基础8.13-9.3接棒</b>：余丙森基础篇7章·4步自学法(通读→翻课→例题→习题课)</li>
+        <li>💪 <b>强化=啃书为主</b>：36讲(高数)·李永乐讲义(线代)·余丙森强化篇(概率)——题都做·不懂才看课</li>
+        <li>📌 <b>1000A高数正常做</b>：碎片翻答案·880精选只做必抓</li>
         <li>❌ <b>证明类全弃</b>：中值定理·不等式·积分证明·单调有界——110不依赖</li>
         <li>❌ <b>傅里叶级数可弃</b>：只记公式·不花整块时间</li>
-        <li>🧵 <b>线代晚间固定18:30-19:30</b>：每天1h·不受课表影响·8.3李永乐强化</li>
-        <li>🟣 <b>概率9月中</b>：线代强化完成后无缝接·线代提前=概率提前</li>
+        <li>📐 <b>30讲节级分级表</b>：必抓(例题独立做)/可弱(看例题记公式)/可弃(跳过)·见数学面板</li>
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">⚙️ 828（v13·10h/周）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
@@ -877,7 +1034,7 @@ const DRAWER_SECTIONS = [
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
         <li>🔢 <b>上午=高数</b>：自控日09:50-12:00(2h10min)·英语日09:20-12:00(2h40min)</li>
         <li>📖 <b>下午=主科纯块3h</b>：自控日⚙️自控·英语日📝英语·13:00-16:00</li>
-        <li>🧵 <b>18:30-19:30=线代固定</b>：每天1h·不受课表影响</li>
+        <li>🧵 <b>18:30-19:30=线代→概率接棒</b>：8.2-8.12线代基础→8.13-9.3概率基础→9.4起李永乐强化·每天1h不受课表影响</li>
         <li>📺 <b>19:30-20:00=政治(二四日)</b>：带刷30min·隔天</li>
         <li>🌙 <b>21:00后=弹性</b>：不设硬任务·扇贝可选</li>
       </ul></div>`
@@ -912,43 +1069,43 @@ const WEEKLY_PLAN = [
     pro:'飞哥第3章收尾+第4章启动 | 课后题到3.11',
     eng:'2006 Text1-2 | 柴荣技巧课待看',
     pol:'马原12讲✅ | 带刷D3过半' },
-  { start:'2026-07-28', end:'2026-08-03', label:'第5周 (7.28-8.3) · 🧵线代正式启动',
-    math:'🔴 13讲例题巩固→14讲二重积分 | 🧵线代基础第3-6讲收尾(7.30-8.2·4天)→8.3李永乐强化',
+  { start:'2026-07-28', end:'2026-08-03', label:'第5周 (7.28-8.3) · 🧵线代例题全写',
+    math:'🔴 13讲例题巩固→14讲二重积分 | 🧵线代基础第3讲(向量组)一半·例题全写(8.2-8.12·1h打底+弹性)',
     pro:'飞哥第3章例题+第4章看课 | 课后题精选',
     eng:'柴荣技巧课7节·1.5x≈9h集中看 | 2006 Text3-4',
     pol:'带刷D3→D6(隔天二四日)' },
   { start:'2026-08-04', end:'2026-08-10', label:'第6周 (8.4-8.10)',
-    math:'🔴 15讲微分方程(5天·跳过第7讲) | 🧵李永乐线代强化·每天1h',
+    math:'🔴 15讲微分方程 | 🧵线代基础第3讲收尾+第4讲方程组',
     pro:'飞哥第5章频域分析 | 777基础300启动',
     eng:'2007阅读 | 柴荣技巧实战',
     pol:'带刷D7→D12' },
   { start:'2026-08-11', end:'2026-08-17', label:'第7周 (8.11-8.17)',
-    math:'🔴 16讲无穷级数(4天·傅里叶可弃减1天) | 🧵李永乐强化继续',
+    math:'🔴 16讲无穷级数(傅里叶可弃减1天) | 🧵线代基础第5-6讲·8.12收尾✅→8.13🟣概率接棒',
     pro:'飞哥第5-6章 | 777按章推进',
     eng:'2008阅读 | 柴荣技巧实战',
     pol:'带刷D13→D18' },
   { start:'2026-08-18', end:'2026-08-23', label:'第8周 (8.18-8.23) 暑假收官',
-    math:'🟡 10+17讲减量·第11讲证明类跳过 | 暑假复盘 | 🧵李永乐强化继续',
+    math:'🔴 18讲+🟡10+17讲减量+11速过→暑假复盘 | 🟣概率基础(余丙森基础篇7章·4步自学法)',
     pro:'飞哥收尾·离散+非线性 | 777基础300错题回顾',
     eng:'2009-2010阅读 | 柴荣技巧课✅',
     pol:'带刷D19→D21·8月下旬追平✅' },
   { start:'2026-08-24', end:'2026-09-06', label:'第9-10周（⚠️开学·周二13:30+周五10:00课）',
-    math:'高数回顾+880精选 | 🧵李永乐强化继续(晚间不受课表影响·每天1h)',
+    math:'🟣概率基础收尾(9.3✅·三门基础全过完) | 🧵李永乐线代强化9.4起(晚间) | 🔴36讲强化9.1启动(上午)',
     pro:'777基础300→强化260选做 | 真题通读思路',
     eng:'阅读至2015+易熙人完型方法论+精选第1-2篇',
     pol:'9月正式启动：徐涛毛中特+新思想→肖1000一刷' },
   { start:'2026-09-07', end:'2026-09-27', label:'第11-12周（⚠️第5-8周+周四课）',
-    math:'🧵李永乐线代强化收尾(9月中)→🟣概率余丙森启动 | 880精选继续',
+    math:'🔴36讲强化中 | 🧵李永乐强化(9.4-9.25) | 🟣概率强化篇(余丙森·副科/周末)·方浩查缺',
     pro:'777强化260选做+真题思路 | 现控启动(俞立)',
     eng:'阅读至2020+柴荣新题型方法论+完型精选第3-5篇',
     pol:'肖1000一刷收尾·全部⭐标记' },
   { start:'2026-09-28', end:'2026-10-11', label:'第13-14周（考试周·预留复习）',
-    math:'🟣概率余丙森→方浩强化(1.5x≈13h) | 线代保温',
+    math:'🔴36讲收尾(10.5)→真题预热 | 🟣概率强化篇继续(10.20完成) | 🧵线代880/1000A保温',
     pro:'777冲刺140+真题思路反复',
     eng:'柴荣写作方法论→自搭模板·三小课轮换',
     pol:'苍盾二刷：只刷⭐题·帽子题整理' },
   { start:'2026-10-12', end:'2026-10-31', label:'第15-16周',
-    math:'🔥真题启动·一天一套(2005-2014) | 🟣概率方浩强化',
+    math:'🔥真题启动·一天一套(2005-2014) | 🟣概率强化收尾(10.20)✅·三科强化全完成',
     pro:'真题思路多遍+近3年精做',
     eng:'阅读保温+写作模板套写真题',
     pol:'苍盾二刷继续+小橙书带背' },
@@ -1021,8 +1178,8 @@ function buildDailySubjectCard(dayInfo, now) {
       tasks.push({ s:'eng', sub:'📝 英语（~3h）', task:'13:00-16:00 纯英语大块（精读+柴荣技巧·含休息） | 单词2块各30min' });
   }
 
-  // 线代 - every day 18:30-19:30 fixed
-  tasks.push({ s:'math', sub:'🧵 线代（1h·固定）', task:'每天18:30-19:30·张宇基础→李永乐强化（不受课表影响）' });
+  // 线代/概率 - every day 18:30-19:30 fixed (v14: 线代基础→概率基础接棒→强化)
+  tasks.push({ s:'math', sub:'🧵 线代/概率（1h·固定）', task:'每天18:30-19:30·8.2-8.12线代基础(例题全写)→8.13-9.3概率基础→9.4起李永乐强化（不受课表影响）' });
 
   // Politics - evening, alternate days
   tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '19:30-20:00 带刷30min（隔天二四日）' : '🚫 今日非政治日' });
@@ -1436,7 +1593,7 @@ const NOTIFY_TIMES = [
   { hour: 12, minute: 30, id: "1230", label: "📝 单词·复习 30min", skipRest: true },
   { hour: 13, minute: 0, id: "1300", label: "📖 下午大块开始·自控日⚙️自控3h / 英语日📝英语3h", skipRest: true },
   { hour: 18, minute: 0, id: "1800", label: "📝 单词·背新 30min", skipRest: true },
-  { hour: 18, minute: 30, id: "1830", label: "🧵 线代 1h 固定（张宇基础→李永乐）", skipRest: true },
+  { hour: 18, minute: 30, id: "1830", label: "🧵 线代/概率 1h 固定（线代基础→概率基础→强化）", skipRest: true },
   { hour: 19, minute: 25, id: "1925", label: "📺 政治带刷 5分钟后开始！", polClassOnly: true, sticky: true },
 ];
 
