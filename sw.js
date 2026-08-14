@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v20 (8.12): 移除文档资料面板(PDF)→缓存仅保留页面核心文件
+// v21 (8.14): 数学换帅路由表+进度自检/tips/周计划同步·每日作息按原v13/v14
 
-const CACHE_NAME = 'kaoyan-helper-v20';
+const CACHE_NAME = 'kaoyan-helper-v21';
 const urlsToCache = [
   '/',
   '/index.html',
