@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v21 (8.14): 数学换帅路由表+进度自检/tips/周计划同步·每日作息按原v13/v14
+// v22 (8.17): 15讲Kira✅例题✅+专项(证明第一问/选填20min/二刷只刷⭐)+进度自检8.16·每日作息按原v13/v14
 
-const CACHE_NAME = 'kaoyan-helper-v21';
+const CACHE_NAME = 'kaoyan-helper-v22';
 const urlsToCache = [
   '/',
   '/index.html',
