@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v22 (8.17): 15讲Kira✅例题✅+专项(证明第一问/选填20min/二刷只刷⭐)+进度自检8.16·每日作息按原v13/v14
+// v23 (8.17): 概率百宝书✅8.17已下载·8.23-9.8晚间开跟·去掉余丙森兜底(其余同v22)
 
-const CACHE_NAME = 'kaoyan-helper-v22';
+const CACHE_NAME = 'kaoyan-helper-v23';
 const urlsToCache = [
   '/',
   '/index.html',
