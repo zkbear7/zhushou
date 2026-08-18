@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v23 (8.17): 概率百宝书✅8.17已下载·8.23-9.8晚间开跟·去掉余丙森兜底(其余同v22)
+// v24 (8.18): 数学一面板=新路线(二刷→分类真题→套卷)·新增📖做题流程板块·880讲解=没咋了+你的葫芦
 
-const CACHE_NAME = 'kaoyan-helper-v23';
+const CACHE_NAME = 'kaoyan-helper-v24';
 const urlsToCache = [
   '/',
   '/index.html',
