@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v24 (8.18): 数学一面板=新路线(二刷→分类真题→套卷)·新增📖做题流程板块·880讲解=没咋了+你的葫芦
+// v25 (8.25): 周六=休息日(学5休2)·高数剩余=没咋了强化→直接做题·进度同步(线代第5讲课中/828第5章✅→第6章/英语柴荣7-7✅/概率待视频课)
 
-const CACHE_NAME = 'kaoyan-helper-v24';
+const CACHE_NAME = 'kaoyan-helper-v25';
 const urlsToCache = [
   '/',
   '/index.html',
