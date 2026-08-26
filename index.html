@@ -642,6 +642,8 @@ const ENGLISH_DAY = [  // 三五日 · 英语日（v13: 7h宽松·无弹力带·
 
 // Helper: is this a self-control day (Tue/Thu · 周六=休息日)?
 function isSelfControlDay(date) {
+  const ov = getDayOverride(date);
+  if (ov) return !!ov.auto;
   const d = date.getDay(); // 0=Sun
   return d === 2 || d === 4; // Tue, Thu
 }
@@ -937,7 +939,8 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag red">数学</span>高数16级数=没咋了强化·直接听题型(进行中) | 🧵线代第5章特征值·课未听完 | 🟣概率=百宝书书已打印·视频课待发布 | 后续数学=没咋了强化→直接做题(原理不深究)</div>
         <div class="c-row"><span class="tag amber">828</span>第5章题全做✅(8.25) → 8.26开第6章</div>
         <div class="c-row"><span class="tag blue">英语</span>柴荣强化课7/7·今天听完✅ → 恢复精读</div>
-        <div class="c-row"><span class="tag green">政治</span>马原✅ · 带刷课约5节·累时听</div></div>
+        <div class="c-row"><span class="tag green">政治</span>马原✅ · 带刷课约5节·累时听</div>
+        <div class="c-row"><span class="tag red">本周</span>8.26(三)=自控日·8.27(四)=英语日·8.28(五)=自控日·8.29休·8.30英语+政治</div></div>
       <div class="c-card"><div class="c-title">📆 8.31 <span class="c-sub">暑假收官</span></div>
         <div class="c-row"><span class="tag red">数学</span>🔴高数剩余=没咋了强化直接听(16进行中→17/18/10/11) · 🧵线代5-6讲收尾✅(8.25:第5讲课中)</div>
         <div class="c-row"><span class="tag amber">828</span>第5-6章一轮✅ · 777按筛选清单240题推进</div>
@@ -1002,6 +1005,7 @@ const DRAWER_SECTIONS = [
     title: '📅 完整周计划（v25·8.25·周六休息日·没咋了强化→直接做题）',
     html: `
       <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v25：基础收尾→基础二刷(9.9-9.30)→分类真题(10.1-11.8·真题真刷提高篇+880补漏)→套卷(11.9起)→李林6+4 | 高数剩余=没咋了强化直接听→直接做题 | 周六=休息日(学5休2) | 证明第一问/选填20min·二刷只刷⭐</b></p>
+      <p style="font-size:12px;color:var(--rose);margin-bottom:8px;"><b>📌 本周临时(8.26-8.30)：周三=自控日·周四=英语日·周五=自控日（周六休息/周日英语+政治不变）·8.30起恢复正常</b></p>
 
       <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 · 基础阶段（8.1-9.3·三门全过完）</div>
       <table><tr><th>日期</th><th>🔴 高数（上午）</th><th>🧵线代/🟣概率（晚间18:30-19:30）</th></tr>
@@ -1279,6 +1283,17 @@ function fmtDate(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+// v25.1 (8.26): 本周临时调换——周三(8.26)=自控·周四(8.27)=英语·周五(8.28)=自控
+// 周六(8.29)休息/周日(8.30)英语+政治不变；8.30之后恢复正常（二四自控·三五英语）
+const WEEK_SHIFT = {
+  '2026-08-26': { auto: true,  pol: true },
+  '2026-08-27': { auto: false, pol: true },
+  '2026-08-28': { auto: true,  pol: true },
+};
+function getDayOverride(date) {
+  return WEEK_SHIFT[fmtDate(date)] || null;
+}
+
 // Period tracking: 30-day cycle, 6-day duration, first 4 days no gym
 // Cycle 1: Jul 1-6 (no gym Jul 1-4), Cycle 2: Jul 31-Aug 5 (no gym Jul 31-Aug 3), etc.
 function getPeriodInfo(date) {
@@ -1312,6 +1327,8 @@ function isHomeWorkoutDay(date) {
 }
 
 function isRestDay(date) {
+  const ov = getDayOverride(date);
+  if (ov) return !!ov.rest;
   // 学5休2: 周一 + 周六 休息
   return date.getDay() === 1 || date.getDay() === 6; // Monday + Saturday
 }
@@ -1645,6 +1662,8 @@ const NOTIFY_TIMES = [
 // Political study days: 马原✅(7.17) + 带刷追课隔天二四日(7.22-8.24) + 9月起每天
 // v13: 政治日=二四日·隔天·直接看视频不做题·19:30-20:00
 function isPoliticalClassDay(date) {
+  const ov = getDayOverride(date);
+  if (ov) return !!ov.pol;
   const d = new Date(date);
   const month = d.getMonth(); // 5=June, 6=July, 7=August
   const dom = d.getDate();
