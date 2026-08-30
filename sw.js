@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v27 (8.30): 大整理——学6休1(只周六休息)·作息至21:30·健身提醒移除·每天明天提醒(休息日双卡)·每周复盘(周六/周五晚兜底)·线代=Kira强化·政治=苏一+带刷(听完=一刷)·进度同步(16复盘/线代第5讲✅/828第6章✅→第7章/英语新题型开)
+// v28 (8.30): 新增📅每日任务细化面板(8.30-9.8逐日+各阶段模板)·选填每日练写清楚(20min/5-6题/6步+技巧卡8招)·周二13:30/周五10:00理论课=背单词(复习+新词40-50·实验课不安排)·每日卡片细化
 
-const CACHE_NAME = 'kaoyan-helper-v27';
+const CACHE_NAME = 'kaoyan-helper-v28';
 const urlsToCache = [
   '/',
   '/index.html',
