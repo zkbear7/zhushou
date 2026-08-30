@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v29 (8.30): 理论课背单词仅至10.16最后一节课·10.17起恢复常规单词槽(12:30复习+18:00背新)
+// v30 (8.30): 每日任务细化并入主页"今日每课任务"卡片(DAILY_MATH逐日+阶段模板)·删除单独📅面板·理论课背单词至10.16
 
-const CACHE_NAME = 'kaoyan-helper-v29';
+const CACHE_NAME = 'kaoyan-helper-v30';
 const urlsToCache = [
   '/',
   '/index.html',
