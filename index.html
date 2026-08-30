@@ -650,11 +650,11 @@ function isSelfControlDay(date) {
 // v31: 每日打卡清单数据——只存当天要完成的具体任务（页面只渲染当天，不列以后日期）
 // math=上午高数主任务 · lin=18:30线代任务（无lin时用阶段兜底）
 const DAILY_TASKS = {
-  '2026-08-30': { math:'16级数复盘Day1：级数敛散(8.1-8.4)必二刷题重做 + 30讲课后例题', lin:'线代第5讲：剩余听完 + 笔记题做完' },
-  '2026-08-31': { math:'16级数复盘Day2：幂级数(8.5-8.9)必二刷题重做 + 课后例题', lin:'线代第5讲题收尾（若昨天没做完）' },
-  '2026-09-01': { math:'16级数复盘Day3：⭐错题重做 + 综合题收尾 → 16讲完成✅', lin:'线代第6讲 Day1' },
-  '2026-09-02': { math:'17预备Day1：向量/参数化/场论公式进笔记本 + 例题1,3,5', lin:'线代第6讲 Day2' },
-  '2026-09-03': { math:'17预备Day2：例题7,8 + 习题6 → 17讲完成✅', lin:'线代第6讲 Day3 + 题做完' },
+  '2026-08-30': { math:'16级数复盘Day1：级数敛散(8.1-8.4)必二刷题重做 + 30讲课后例题', lin:'第5讲：剩余听完 + 笔记题做完' },
+  '2026-08-31': { math:'16级数复盘Day2：幂级数(8.5-8.9)必二刷题重做 + 课后例题', lin:'第5讲题收尾（若昨天没做完）' },
+  '2026-09-01': { math:'16级数复盘Day3：⭐错题重做 + 综合题收尾 → 16讲完成✅', lin:'第6讲 Day1' },
+  '2026-09-02': { math:'17预备Day1：向量/参数化/场论公式进笔记本 + 例题1,3,5', lin:'第6讲 Day2' },
+  '2026-09-03': { math:'17预备Day2：例题7,8 + 习题6 → 17讲完成✅', lin:'第6讲 Day3 + 题做完' },
   '2026-09-04': { math:'18多元积分Day1：三重积分计算(11.2 球/柱坐标+对称性)' },
   '2026-09-06': { math:'18多元积分Day2：二型曲线(12.2 格林/路径无关)' },
   '2026-09-07': { math:'18多元积分Day3：二型曲面(12.4 高斯/补面/挖洞)' },
@@ -674,8 +674,8 @@ function getDailyMathTask(date) {
 function getDailyLinTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].lin) return DAILY_TASKS[key].lin;
-  if (key <= '2026-09-03') return '线代第6讲（9.1-9.3 三天）';
-  return 'Kira线代强化：今天1讲（李永乐讲义=字典）';
+  if (key <= '2026-09-03') return '第6讲（9.1-9.3 三天）';
+  return 'Kira强化：今天1讲（李永乐讲义=字典）';
 }
 
 function getDailyPolTask(date) {
@@ -1621,13 +1621,13 @@ function render() {
       const afterWD = ["日","一","二","三","四","五","六"][afterDate.getDay()];
       const afterRaw = buildDailySubjectCard(afterInfo, afterDate, false);
       if (afterRaw) {
-        tomorrowCardHTML += afterRaw.replace("📋 今日打卡清单", "📋 后天任务预览 · 周" + afterWD + "（提前拿书）");
+        tomorrowCardHTML += afterRaw.replace("📋 今日打卡清单（周" + afterWD + "）", "📋 后天任务预览 · 周" + afterWD + "（提前拿书）");
       }
     }
   } else {
     const raw = buildDailySubjectCard(tomorrowInfo, tomorrowDate, false);
     if (raw) {
-      tomorrowCardHTML = raw.replace("📋 今日打卡清单", "📋 明天任务预览 · 周" + tomorrowWD + "（提前拿书）");
+      tomorrowCardHTML = raw.replace("📋 今日打卡清单（周" + tomorrowWD + "）", "📋 明天任务预览 · 周" + tomorrowWD + "（提前拿书）");
     }
   }
 
