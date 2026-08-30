@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v26 (8.26): 新增没咋了强化听课清单(讲义8-12章·必听12节/选听看讲义/跳过)·其余同v25
+// v27 (8.30): 大整理——学6休1(只周六休息)·作息至21:30·健身提醒移除·每天明天提醒(休息日双卡)·每周复盘(周六/周五晚兜底)·线代=Kira强化·政治=苏一+带刷(听完=一刷)·进度同步(16复盘/线代第5讲✅/828第6章✅→第7章/英语新题型开)
 
-const CACHE_NAME = 'kaoyan-helper-v26';
+const CACHE_NAME = 'kaoyan-helper-v27';
 const urlsToCache = [
   '/',
   '/index.html',
