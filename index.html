@@ -647,25 +647,26 @@ function isSelfControlDay(date) {
   return d === 1 || d === 2 || d === 4; // Mon, Tue, Thu
 }
 
-// v31: 每日打卡清单数据——只存当天要完成的具体任务（页面只渲染当天，不列以后日期）
+// v33: 每日打卡清单数据——总任务量摊到8.30-9.8（9.8收尾·11完不成放9.9兜底），页面只渲染当天
 // math=上午高数主任务 · lin=18:30线代任务（无lin时用阶段兜底）
 const DAILY_TASKS = {
-  '2026-08-30': { math:'16级数复盘Day1：级数敛散(8.1-8.4)必二刷题重做 + 30讲课后例题', lin:'第5讲：剩余听完 + 笔记题做完' },
-  '2026-08-31': { math:'16级数复盘Day2：幂级数(8.5-8.9)必二刷题重做 + 课后例题', lin:'第5讲题收尾（若昨天没做完）' },
-  '2026-09-01': { math:'16级数复盘Day3：⭐错题重做 + 综合题收尾 → 16讲完成✅', lin:'第6讲 Day1' },
-  '2026-09-02': { math:'17预备Day1：向量/参数化/场论公式进笔记本 + 例题1,3,5', lin:'第6讲 Day2' },
-  '2026-09-03': { math:'17预备Day2：例题7,8 + 习题6 → 17讲完成✅', lin:'第6讲 Day3 + 题做完' },
-  '2026-09-04': { math:'18多元积分Day1：三重积分计算(11.2 球/柱坐标+对称性)' },
-  '2026-09-06': { math:'18多元积分Day2：二型曲线(12.2 格林/路径无关)' },
-  '2026-09-07': { math:'18多元积分Day3：二型曲面(12.4 高斯/补面/挖洞)' },
-  '2026-09-08': { math:'18收尾 + 10几何减量(面积/旋转体) + 11速过 → 基础全过✅' },
+  '2026-08-30': { math:'16级数复盘Day1：8.6 阿贝尔定理+数轴分析 例25-30（6题）', lin:'第5讲：剩余听完 + 笔记题做完' },
+  '2026-08-31': { math:'16级数复盘Day2：8.7 级数求和 例31-40（10题）＋ 8.8 展开 例41-43（3题）', lin:'第5讲题收尾（若昨天没做完）' },
+  '2026-09-01': { math:'16级数复盘Day3：8.9 综合 例45-47（3题）＋ 课后例题约10题 → 16讲完成✅', lin:'第6讲 Day1' },
+  '2026-09-02': { math:'17预备：向量/参数化/场论公式进笔记本 ＋ 例题1,3,5,7,8 ＋ 习题6 → 17讲完成✅', lin:'第6讲 Day2' },
+  '2026-09-03': { math:'18 Day1：三重积分计算 例题约7题（球/柱坐标＋对称性）', lin:'第6讲 Day3 + 题做完' },
+  '2026-09-04': { math:'18 Day2：二型曲线积分 例题约8题（格林/路径无关/挖洞）' },
+  '2026-09-06': { math:'18 Day3：一型＋二型曲面 例题约8题（高斯/补面/挖洞）' },
+  '2026-09-07': { math:'18 Day4：18讲习题 1,3-7,9,10（8题）→ 18讲完成✅' },
+  '2026-09-08': { math:'10几何减量（面积/旋转体必抓＋弧长/侧面积记公式 约10题）＋ 11速过（只看例题约9题）→ 基础全过✅（完不成→11放9.9）' },
+  '2026-09-09': { math:'11速过（只看例题记方法 约9题）→ 基础全过✅（兜底日）' },
 };
 
 function getDailyMathTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].math) return DAILY_TASKS[key].math;
   const m = date.getMonth(), d = date.getDate();
-  if (m === 8 && d >= 9) return '二刷：今天1讲（30讲必抓例题重做）';
+  if (m === 8 && d >= 10) return '二刷：今天1讲（30讲必抓例题重做）';
   if ((m === 9 && d >= 1) || (m === 10 && d <= 8)) return '分类真题：今天1类（真题真刷提高篇）';
   if (m === 10 && d >= 9) return '套卷：真题2021-2026全真3h（或订正/复盘）';
   return '冲刺：李林模拟 + 公式默写 + ⭐错题回看';
@@ -1250,7 +1251,7 @@ function getNextWeekPlan(date) {
 }
 
 function buildDailySubjectCard(dayInfo, now, interactive) {
-  // v31: 只显示当天任务 · 具体可打卡清单（不写过程/步骤，不列以后日期）
+  // v33: 只显示当天任务 · 按科目整理（不写时间/过程/以后日期）
   const w = getCurrentWeekPlan();
   if (!w || !dayInfo) return '';
   if (dayInfo.rest) return '';
@@ -1265,20 +1266,20 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   const period = getPeriodInfo(now);
 
   const rows = [
-    { s:'math', t:'09:20-12:00', label:'高数2h40：' + getDailyMathTask(now) },
-    { s:'math', t:'18:30-19:30', label:'线代：' + getDailyLinTask(now) },
-    { s:'math', t:'20:30-21:30', label:'选填每日练20min·5-6题 + 当天⭐题重做' },
+    { s:'math', label:'高数：' + getDailyMathTask(now) },
+    { s:'math', label:'数学·选填：每日练5-6题 + 当天⭐题重做' },
+    { s:'math', label:'线代：' + getDailyLinTask(now) },
   ];
   if (isAutoCtrl) {
-    rows.push({ s:'pro', t:'13:00-16:00', label:'828纯大块3h：飞哥课 + 课后题（含休息）' });
+    rows.push({ s:'pro', label:'828：飞哥课 + 课后题（下午大块）' });
   } else {
-    rows.push({ s:'eng', t:'13:00-16:00', label:'英语3h：新题型课1节 + 新题型真题1篇' });
-    rows.push({ s:'pro', t:'20:00-20:30', label:'828课后题30min保持手感' });
+    rows.push({ s:'eng', label:'英语：新题型课1节 + 新题型真题1篇' });
+    rows.push({ s:'pro', label:'828：课后题保持手感' });
   }
-  rows.push({ s:'eng', t: classWordDay ? '理论课' : '12:30+18:00', label:'单词：复习昨天40词 + 背新40-50词' });
-  rows.push({ s:'pol', t:'19:30-20:00', label:'政治：' + getDailyPolTask(now) });
+  rows.push({ s:'eng', label:'单词：' + (classWordDay ? '理论课上背（复习昨天 + 新词40-50）' : '复习昨天40词 + 背新40-50词') });
+  rows.push({ s:'pol', label:'政治：' + getDailyPolTask(now) });
   if (period && period.noGym) {
-    rows.push({ s:'rest', t:'全天', label:'经期前4天低载：只保核心块·顺延不补债' });
+    rows.push({ s:'rest', label:'经期前4天低载：只保核心块·顺延不补债' });
   }
 
   const itemsHTML = rows.map((it, i) => {
@@ -1288,7 +1289,6 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     return `
       <li class="timeline-item ${isDone ? 'done' : ''}"${click} style="cursor:${isToday ? 'pointer' : 'default'};">
         <span class="tl-marker ${it.s}"></span>
-        <span class="tl-time">${it.t}</span>
         <span class="tl-label">${it.label}</span>
         <span class="tl-check"></span>
       </li>`;
