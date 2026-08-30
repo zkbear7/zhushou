@@ -2,7 +2,7 @@
 // Handles push notifications and offline caching
 // v30 (8.30): 每日任务细化并入主页"今日每课任务"卡片(DAILY_MATH逐日+阶段模板)·删除单独📅面板·理论课背单词至10.16
 
-const CACHE_NAME = 'kaoyan-helper-v30';
+const CACHE_NAME = 'kaoyan-helper-v31';
 const urlsToCache = [
   '/',
   '/index.html',

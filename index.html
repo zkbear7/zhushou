@@ -647,28 +647,41 @@ function isSelfControlDay(date) {
   return d === 1 || d === 2 || d === 4; // Mon, Tue, Thu
 }
 
-// v30: 每日主任务细化（8.30-9.8 基础收尾逐日）——写在主页"今日每课任务"卡片，不另设面板
-const DAILY_MATH = {
-  '2026-08-30': '16级数复盘Day1：级数敛散(8.1-8.4 必二刷题重做+30讲课后例题)',
-  '2026-08-31': '16级数复盘Day2：幂级数(8.5-8.9 必二刷题重做+课后例题)',
-  '2026-09-01': '16级数复盘Day3：⭐错题重做+综合题收尾 → 16完成✅',
-  '2026-09-02': '17预备Day1：向量/参数化/场论公式进笔记本+例题1,3,5',
-  '2026-09-03': '17预备Day2：例题7,8+习题6 → 17完成✅',
-  '2026-09-04': '18多元积分Day1：三重积分计算(11.2 球/柱坐标+对称性)',
-  '2026-09-05': '😴 周六休息 + 🗓️每周复盘（5问+科目动作+下周3件事）',
-  '2026-09-06': '18多元积分Day2：二型曲线(12.2 格林/路径无关)',
-  '2026-09-07': '18多元积分Day3：二型曲面(12.4 高斯/补面/挖洞)',
-  '2026-09-08': '18收尾+10几何减量(面积/旋转体)+11速过 → 基础全过✅',
+// v31: 每日打卡清单数据——只存当天要完成的具体任务（页面只渲染当天，不列以后日期）
+// math=上午高数主任务 · lin=18:30线代任务（无lin时用阶段兜底）
+const DAILY_TASKS = {
+  '2026-08-30': { math:'16级数复盘Day1：级数敛散(8.1-8.4)必二刷题重做 + 30讲课后例题', lin:'线代第5讲：剩余听完 + 笔记题做完' },
+  '2026-08-31': { math:'16级数复盘Day2：幂级数(8.5-8.9)必二刷题重做 + 课后例题', lin:'线代第5讲题收尾（若昨天没做完）' },
+  '2026-09-01': { math:'16级数复盘Day3：⭐错题重做 + 综合题收尾 → 16讲完成✅', lin:'线代第6讲 Day1' },
+  '2026-09-02': { math:'17预备Day1：向量/参数化/场论公式进笔记本 + 例题1,3,5', lin:'线代第6讲 Day2' },
+  '2026-09-03': { math:'17预备Day2：例题7,8 + 习题6 → 17讲完成✅', lin:'线代第6讲 Day3 + 题做完' },
+  '2026-09-04': { math:'18多元积分Day1：三重积分计算(11.2 球/柱坐标+对称性)' },
+  '2026-09-06': { math:'18多元积分Day2：二型曲线(12.2 格林/路径无关)' },
+  '2026-09-07': { math:'18多元积分Day3：二型曲面(12.4 高斯/补面/挖洞)' },
+  '2026-09-08': { math:'18收尾 + 10几何减量(面积/旋转体) + 11速过 → 基础全过✅' },
 };
 
 function getDailyMathTask(date) {
   const key = fmtDate(date);
-  if (DAILY_MATH[key]) return DAILY_MATH[key];
+  if (DAILY_TASKS[key] && DAILY_TASKS[key].math) return DAILY_TASKS[key].math;
   const m = date.getMonth(), d = date.getDate();
-  if (m === 8 && d >= 9) return '二刷期：30讲必抓例题⭐重做（今天1讲·顺序：积分计算→级数→多元积分→二重→微分方程）';
-  if ((m === 9 && d >= 1) || (m === 10 && d <= 8)) return '分类真题期：真题真刷提高篇按考点（今天1类·小题8min/大题22min·写一句套路总结）';
-  if (m === 10 && d >= 9) return '套卷期：真题2021-2026全真3h（每3天1套）或订正1.5h或隔天⭐复盘';
-  return '冲刺期：李林模拟/公式默写/⭐错题回看（看数学面板阶段表）';
+  if (m === 8 && d >= 9) return '二刷：今天1讲（30讲必抓例题重做）';
+  if ((m === 9 && d >= 1) || (m === 10 && d <= 8)) return '分类真题：今天1类（真题真刷提高篇）';
+  if (m === 10 && d >= 9) return '套卷：真题2021-2026全真3h（或订正/复盘）';
+  return '冲刺：李林模拟 + 公式默写 + ⭐错题回看';
+}
+
+function getDailyLinTask(date) {
+  const key = fmtDate(date);
+  if (DAILY_TASKS[key] && DAILY_TASKS[key].lin) return DAILY_TASKS[key].lin;
+  if (key <= '2026-09-03') return '线代第6讲（9.1-9.3 三天）';
+  return 'Kira线代强化：今天1讲（李永乐讲义=字典）';
+}
+
+function getDailyPolTask(date) {
+  const key = fmtDate(date);
+  if (key <= '2026-09-10') return '张修齐带刷 1节（剩余约5节·听完=肖1000过一遍）';
+  return '苏一导图课 1节 + 对应肖1000题';
 }
 
 // ── Drawer content ──
@@ -1236,60 +1249,55 @@ function getNextWeekPlan(date) {
   return getCurrentWeekPlan();
 }
 
-function buildDailySubjectCard(dayInfo, now) {
-  // Build per-subject daily task card based on day type
+function buildDailySubjectCard(dayInfo, now, interactive) {
+  // v31: 只显示当天任务 · 具体可打卡清单（不写过程/步骤，不列以后日期）
   const w = getCurrentWeekPlan();
   if (!w || !dayInfo) return '';
   if (dayInfo.rest) return '';
 
   const isAutoCtrl = isSelfControlDay(now);
-  const period = getPeriodInfo(now);
   const weekday = now.getDay();
   const dayLabel = ['日','一','二','三','四','五','六'][weekday];
+  const dateKey = fmtDate(now);
+  const isToday = interactive === true;
+  const doneSet = isToday ? getDoneSet() : new Set();
+  const classWordDay = (weekday === 2 || weekday === 5) && dateKey <= '2026-10-16';
+  const period = getPeriodInfo(now);
 
-  // Generate daily task for each subject
-  const tasks = [];
-
-  // Math - v30: 上午高数2h40min（今日主任务=DAILY_MATH 逐日细化）+ 晚间20:30-21:30（选填+错题）
-  tasks.push({ s:'math', sub:'🔢 数学（~3.7h）', task:'09:20-12:00 高数2h40 = ' + getDailyMathTask(now) + ' | 20:30-21:30 = 选填每日练20min + 当天⭐题重做' });
-  tasks.push({ s:'math', sub:'✍️ 选填每日练', task:'20min·5-6题(880必抓选填/真题选填·每题≤4min)→对答案→标⭐△→当天看解析补技巧卡→隔天回看⭐' });
-
-  // Subject of the day
+  const rows = [
+    { s:'math', t:'09:20-12:00', label:'高数2h40：' + getDailyMathTask(now) },
+    { s:'math', t:'18:30-19:30', label:'线代：' + getDailyLinTask(now) },
+    { s:'math', t:'20:30-21:30', label:'选填每日练20min·5-6题 + 当天⭐题重做' },
+  ];
   if (isAutoCtrl) {
-      tasks.push({ s:'pro', sub:'⚙️ 828 自控（~3h）', task:'13:00-16:00 纯自控大块（飞哥课+课后题+777·含休息）' });
+    rows.push({ s:'pro', t:'13:00-16:00', label:'828纯大块3h：飞哥课 + 课后题（含休息）' });
   } else {
-      tasks.push({ s:'eng', sub:'📝 英语（~3h）', task:'13:00-16:00 纯英语大块（精读+完型/新题型·含休息） | 单词2块各30min' });
-      tasks.push({ s:'pro', sub:'⚙️ 828 课后题（30min）', task:'20:00-20:30 保持手感' });
+    rows.push({ s:'eng', t:'13:00-16:00', label:'英语3h：新题型课1节 + 新题型真题1篇' });
+    rows.push({ s:'pro', t:'20:00-20:30', label:'828课后题30min保持手感' });
   }
-
-  // 线代/概率 - every day 18:30-19:30 fixed (v27: 线代第5讲✅→第6讲→Kira强化·概率百宝书待视频课)
-  tasks.push({ s:'math', sub:'🧵 线代/概率（1h·固定）', task:'每天18:30-19:30·线代第5讲✅(8.30晚听完)→第6讲(9.1-9.3)→Kira线代强化(李永乐讲义=字典)/概率百宝书(视频课待发布·书已打印)' });
-
-  // Politics - evening, daily (苏一/肖1000)
-  tasks.push({ s:'pol', sub:'📜 政治', task:isPoliticalClassDay(now) ? '19:30-20:00 政治学习（张修齐带刷/苏一导图→肖1000·每天）' : '🚫 今日非政治日' });
-
-  // English vocab - v27: 周二13:30/周五10:00 理论课=整块背单词（复习昨天+新词40-50·实验课不安排）
-      // v28: 理论课背单词仅至2026-10-16 最后一节课；10.17 起恢复常规单词槽
-      const classWordDay = (weekday === 2 || weekday === 5) && fmtDate(now) <= '2026-10-16';
-      tasks.push({ s:'eng', sub:'📝 单词', task: classWordDay ? '理论课上背：复习昨天 + 背新40-50个（刚好一节课·实验课不安排）' : '12:30复习昨天30min + 18:00背新30min' });
-
-  // Special: period note
+  rows.push({ s:'eng', t: classWordDay ? '理论课' : '12:30+18:00', label:'单词：复习昨天40词 + 背新40-50词' });
+  rows.push({ s:'pol', t:'19:30-20:00', label:'政治：' + getDailyPolTask(now) });
   if (period && period.noGym) {
-    tasks.push({ s:'rest', sub:'🩸 经期', task:'前4天低载：只保核心块·任务顺延不补债' });
+    rows.push({ s:'rest', t:'全天', label:'经期前4天低载：只保核心块·顺延不补债' });
   }
 
-  const items = tasks.map(t => `
-    <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--divider);">
-      <span style="font-size:14px;font-weight:600;white-space:nowrap;min-width:140px;">${t.sub}</span>
-      <span style="font-size:13px;color:var(--text2);">${t.task}</span>
-    </div>
-  `).join('');
+  const itemsHTML = rows.map((it, i) => {
+    const key = `${dateKey}_cl_${i}`;
+    const isDone = isToday && doneSet.has(key);
+    const click = isToday ? ` onclick="toggleTask('${key}', this)"` : '';
+    return `
+      <li class="timeline-item ${isDone ? 'done' : ''}"${click} style="cursor:${isToday ? 'pointer' : 'default'};">
+        <span class="tl-marker ${it.s}"></span>
+        <span class="tl-time">${it.t}</span>
+        <span class="tl-label">${it.label}</span>
+        <span class="tl-check"></span>
+      </li>`;
+  }).join('');
 
   return `
     <div class="timeline-card" style="margin-top:14px;">
-      <div class="timeline-title"><span class="dot"></span>📋 今日每科任务（${w.label} · 周${dayLabel}）</div>
-      ${items}
-      <div style="font-size:11px;color:var(--text3);margin-top:6px;">📌 本周：${w.math.substring(0,80)}...</div>
+      <div class="timeline-title"><span class="dot"></span>📋 今日打卡清单（周${dayLabel}）</div>
+      <ul class="timeline-list">${itemsHTML}</ul>
     </div>`;
 }
 
@@ -1598,7 +1606,7 @@ function render() {
   }).join('');
 
   // 今日任务卡片（始终显示今天）
-  const todayCardHTML = buildDailySubjectCard(dayInfo, now);
+  const todayCardHTML = buildDailySubjectCard(dayInfo, now, true);
 
   // 明日任务预览（每天显示，方便提前拿书）
   const tomorrowDate = new Date(now.getTime() + 86400000);
@@ -1611,15 +1619,15 @@ function render() {
     const afterInfo = getSchedule(afterDate);
     if (!afterInfo.rest) {
       const afterWD = ["日","一","二","三","四","五","六"][afterDate.getDay()];
-      const afterRaw = buildDailySubjectCard(afterInfo, afterDate);
+      const afterRaw = buildDailySubjectCard(afterInfo, afterDate, false);
       if (afterRaw) {
-        tomorrowCardHTML += afterRaw.replace("📋 今日每科任务", "📋 后天任务预览 · 周" + afterWD + "（提前拿书）");
+        tomorrowCardHTML += afterRaw.replace("📋 今日打卡清单", "📋 后天任务预览 · 周" + afterWD + "（提前拿书）");
       }
     }
   } else {
-    const raw = buildDailySubjectCard(tomorrowInfo, tomorrowDate);
+    const raw = buildDailySubjectCard(tomorrowInfo, tomorrowDate, false);
     if (raw) {
-      tomorrowCardHTML = raw.replace("📋 今日每科任务", "📋 明天任务预览 · 周" + tomorrowWD + "（提前拿书）");
+      tomorrowCardHTML = raw.replace("📋 今日打卡清单", "📋 明天任务预览 · 周" + tomorrowWD + "（提前拿书）");
     }
   }
 
