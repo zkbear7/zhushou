@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v30 (8.30): 每日任务细化并入主页"今日每课任务"卡片(DAILY_MATH逐日+阶段模板)·删除单独📅面板·理论课背单词至10.16
+// v34 (9.1): 排期改为一三五自控·二四日英语·周六休息(复盘周六/周五晚兜底)
 
-const CACHE_NAME = 'kaoyan-helper-v33';
+const CACHE_NAME = 'kaoyan-helper-v34';
 const urlsToCache = [
   '/',
   '/index.html',

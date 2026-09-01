@@ -609,9 +609,9 @@ function genJuneSchedules() {
 const JUNE = genJuneSchedules();
 
 // ── July+ recurring schedules (v5: 按星期几决定自控/英语) ──
-// 一二四 = 自控日 · 三五日 = 英语日 · 周六=休息日（学6休1·v27）
+// 一三五 = 自控日 · 二四日 = 英语日 · 周六=休息日（学6休1·v28）
 
-const AUTOCTRL_DAY = [  // 一二四 · 自控日（v27: 学6休1·无健身·21:30收工·线代18:30固定·下午纯自控3h）
+const AUTOCTRL_DAY = [  // 一三五 · 自控日（v28: 学6休1·无健身·21:30收工·线代18:30固定·下午纯自控3h）
   { t:"09:00-09:20", l:"起床+洗漱", s:"rest" },
   { t:"09:20-12:00", l:"🔢 高数 2h40min（自行穿插休息）", s:"math" },
   { t:"12:00-12:30", l:"🍜 午饭+休息", s:"rest" },
@@ -626,7 +626,7 @@ const AUTOCTRL_DAY = [  // 一二四 · 自控日（v27: 学6休1·无健身·21
   { t:"20:30-21:30", l:"🔢 数学刷题/错题 1h", s:"math" },
 ];
 
-const ENGLISH_DAY = [  // 三五日 · 英语日（v27: 无健身·21:30收工·线代18:30固定·下午纯英语3h）
+const ENGLISH_DAY = [  // 二四日 · 英语日（v28: 无健身·21:30收工·线代18:30固定·下午纯英语3h）
   { t:"09:00-09:20", l:"起床+洗漱", s:"rest" },
   { t:"09:20-12:00", l:"🔢 高数 2h40min（自行穿插休息）", s:"math" },
   { t:"12:00-12:30", l:"🍜 午饭+休息", s:"rest" },
@@ -641,10 +641,10 @@ const ENGLISH_DAY = [  // 三五日 · 英语日（v27: 无健身·21:30收工·
   { t:"20:30-21:30", l:"🔢 数学刷题/错题 1h", s:"math" },
 ];
 
-// Helper: is this a self-control day (Mon/Tue/Thu · 周六=休息日)?
+// Helper: is this a self-control day (Mon/Wed/Fri · 周六=休息日)?
 function isSelfControlDay(date) {
   const d = date.getDay(); // 0=Sun
-  return d === 1 || d === 2 || d === 4; // Mon, Tue, Thu
+  return d === 1 || d === 3 || d === 5; // Mon, Wed, Fri
 }
 
 // v33: 每日打卡清单数据——总任务量摊到8.30-9.8（9.8收尾·11完不成放9.9兜底），页面只渲染当天
@@ -910,7 +910,7 @@ const DRAWER_SECTIONS = [
   {
     title: '⚙️ 828 自控 · 飞哥→王万良精选→777（v27·8.30·10.5h/周）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v27：第6章✅(8.30看完)→8.31开第7章(离散/非线性) | 阿祖砍掉(777替代) | 777筛选清单240题 | 王万良课后题只做精选 | 自控日(一二四)13:00-16:00纯块3h + 三五日20:00-20:30课后题</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v27：第6章✅(8.30看完)→8.31开第7章(离散/非线性) | 阿祖砍掉(777替代) | 777筛选清单240题 | 王万良课后题只做精选 | 自控日(一三五)13:00-16:00纯块3h + 二四日20:00-20:30课后题</b></p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 三师分工</p>
       <table>
@@ -933,7 +933,7 @@ const DRAWER_SECTIONS = [
       </table>
 
       <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 铁律：手算不用计算器 | 王万良课后题=真题原型(只做精选) | 真题全大题→通读思路 | 777按筛选清单(必做190+升级48=240题)</p>
-      <p style="font-size:12px;color:var(--text3);">🎯 目标130 | 一二四3h×3 + 三五日30min×3 ≈10.5h/周 | 9月中起777强化260+俞立现控前3章 | 现控册109题必做</p>`
+      <p style="font-size:12px;color:var(--text3);">🎯 目标130 | 一三五3h×3 + 二四日30min×3 ≈10.5h/周 | 9月中起777强化260+俞立现控前3章 | 现控册109题必做</p>`
   },
   {
     title: '📝 英语一 · v27 柴荣7/7✅·新题型已开（8.30）',
@@ -948,7 +948,7 @@ const DRAWER_SECTIONS = [
         <tr><td>📖 单词</td><td>闪过+扇贝APP</td><td>午饭后30min+晚饭后30min</td></tr>
         <tr><td>❌ 砍掉</td><td colspan="2">翻译寄生(总忘·10月唐静方法论直接上)</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--accent);margin-top:8px;">⚠️ 精读模式：英语日(三五日)=完整1.5h(13:00-16:00纯块内含) | 自控日(一二四)=晚间超轻量30min(20:00-20:30) | ⚠️漏了不补</p>
+      <p style="font-size:12px;color:var(--accent);margin-top:8px;">⚠️ 精读模式：英语日(二四日)=完整1.5h(13:00-16:00纯块内含) | 自控日(一三五)=晚间超轻量30min(20:00-20:30) | ⚠️漏了不补</p>
       <p style="font-size:12px;color:var(--text3);">🎯 目标70 | ROI:阅读60%>写作20%>新题型8%>翻译7%>完型5% | 柴荣7/7✅(8.25)→9月精读恢复+完型+新题型(已开)</p>`
   },
   {
@@ -1033,7 +1033,7 @@ const DRAWER_SECTIONS = [
       <p style="font-size:12px;color:var(--text3);margin-top:6px;">🎯考研预测:12.19 | v27: 基础收尾9.8→二刷9.9-9.30→分类真题10.1-11.8→套卷11.9铁打 | 作息=学6休1(周六休息) | 数学=没咋了强化→直接做题 | 线代=Kira强化</p>`
   },
   {
-    title: '🗓️ 复盘指南（v27·每日10min+周六周复盘·周五晚兜底）',
+    title: '🗓️ 复盘指南（v28·每日10min+周六周复盘·周五晚兜底）',
     html: `
       <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>📚 复盘不是多一项任务，是不白学 | 每日10min(睡前) + 每周1h(周六休息日·周五晚20:30-21:30兜底)</b></p>
       <div class="c-card"><div class="c-title">🌙 每日复盘 4 问（睡前 10min·手机备忘录就够）</div>
@@ -1091,7 +1091,7 @@ const DRAWER_SECTIONS = [
       <tr><td>10月</td><td>苍盾二刷⭐ + 腿姐背诵手册/技巧班 + 帽子题</td></tr>
       <tr><td>11-12月</td><td>肖八选择吃透→肖四大题狂背</td></tr></table></div>
 
-      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | v28：基础收尾9.8→二刷9.9-9.30→分类真题10.1-11.8→套卷11.9 | 作息=学6休1(周六休息)·一二四=自控·三五日=英语·21:30收工 | 🗓️每周复盘=周六(周五晚20:30-21:30兜底) | ⚠️课表：周二13:30/周五10:00 理论课=<b>背单词时间</b>(复习+新词40-50·至10.16最后一节课·实验课不安排)→10.17起恢复常规单词槽 | 9.21起周四上午数学砍 | 线代+概率≈70分好拿优先保住</p>`
+      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | v28：基础收尾9.8→二刷9.9-9.30→分类真题10.1-11.8→套卷11.9 | 作息=学6休1(周六休息)·一三五=自控·二四日=英语·21:30收工 | 🗓️每周复盘=周六(周五晚20:30-21:30兜底) | ⚠️课表：周二13:30/周五10:00 理论课=<b>背单词时间</b>(复习+新词40-50·至10.16最后一节课·实验课不安排)→10.17起恢复常规单词槽 | 9.21起周四上午数学砍 | 线代+概率≈70分好拿优先保住</p>`
   },
   {
     title: '💡 备考Tips精华（v27·8.30·学6休1·没咋了强化）',
@@ -1118,8 +1118,8 @@ const DRAWER_SECTIONS = [
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">⚙️ 828（v27·10.5h/周）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>📌 <b>自控日(一二四)13:00-16:00纯块3h</b>：飞哥课+课后题+777·大块不碎片</li>
-        <li>📌 <b>英语日(三五日)20:00-20:30课后题30min</b>：保持手感</li>
+        <li>📌 <b>自控日(一三五)13:00-16:00纯块3h</b>：飞哥课+课后题+777·大块不碎片</li>
+        <li>📌 <b>英语日(二四日)20:00-20:30课后题30min</b>：保持手感</li>
         <li>📌 <b>阿祖强化砍掉</b>：777完全替代 | 王万良只做精选</li>
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">📝 英语（v27·16h/周）</div>
@@ -1127,7 +1127,7 @@ const DRAWER_SECTIONS = [
         <li>🔥 <b>柴荣强化课7/7✅(8.25)</b> + <b>新题型第1课+1篇✅(8.30提前开)</b> → 9月恢复精读+完型+新题型收尾</li>
         <li>📌 <b>英语日13:00-16:00纯块3h</b>：精读+完型/新题型·大块不碎片</li>
         <li>❌ <b>翻译寄生砍掉</b>：10月唐静方法论直接上</li>
-        <li>📌 <b>自控日英语超轻量30min</b>：一二四20:00-20:30·只限时做+对答案+错因</li>
+        <li>📌 <b>自控日英语超轻量30min</b>：一三五20:00-20:30·只限时做+对答案+错因</li>
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">⏰ 作息（v27·学6休1·21:30收工）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
@@ -1402,7 +1402,7 @@ function getSchedule(date) {
 
   let schedule, tag, emoji;
   if (isAutoCtrl) {
-    // Mon/Tue/Thu = 自控日
+    // Mon/Wed/Fri = 自控日
     schedule = AUTOCTRL_DAY.map(s => ({...s}));  // deep clone
     emoji = '⚙️';
 
@@ -1422,7 +1422,7 @@ function getSchedule(date) {
       });
     }
   } else {
-    // Wed/Fri/Sun = 英语日
+    // Tue/Thu/Sun = 英语日
     schedule = ENGLISH_DAY.map(s => ({...s}));  // deep clone
     emoji = '📖';
     tag = '📖 英语日 📝';
