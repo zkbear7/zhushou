@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v34 (9.1): 排期改为一三五自控·二四日英语·周六休息(复盘周六/周五晚兜底)
+// v35 (9.2): 进度16级数✅/线代第5讲课后题✅·经期锚点改9.2实际开始
 
-const CACHE_NAME = 'kaoyan-helper-v34';
+const CACHE_NAME = 'kaoyan-helper-v35';
 const urlsToCache = [
   '/',
   '/index.html',
