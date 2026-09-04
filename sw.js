@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v35 (9.2): 进度16级数✅/线代第5讲课后题✅·经期锚点改9.2实际开始
+// v36 (9.4): 政治抽屉=苏一重点章清单听课+背诵资料收敛·不重复张修齐史纲基础精讲
 
-const CACHE_NAME = 'kaoyan-helper-v35';
+const CACHE_NAME = 'kaoyan-helper-v36';
 const urlsToCache = [
   '/',
   '/index.html',
