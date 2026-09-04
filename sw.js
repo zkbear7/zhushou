@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v36 (9.4): 政治抽屉=苏一重点章清单听课+背诵资料收敛·不重复张修齐史纲基础精讲
+// v37 (9.4): 作息v29=7:30起·8:30-12:00高数·14:30-18:00主科·19:00政治·19:30线代·21:30收工
 
-const CACHE_NAME = 'kaoyan-helper-v36';
+const CACHE_NAME = 'kaoyan-helper-v37';
 const urlsToCache = [
   '/',
   '/index.html',
