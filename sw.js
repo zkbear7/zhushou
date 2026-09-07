@@ -2,7 +2,7 @@
 // Handles push notifications and offline caching
 // v37 (9.4): 作息v29=7:30起·8:30-12:00高数·14:30-18:00主科·19:00政治·19:30线代·21:30收工
 
-const CACHE_NAME = 'kaoyan-helper-v37';
+const CACHE_NAME = 'kaoyan-helper-v38';
 const urlsToCache = [
   '/',
   '/index.html',
