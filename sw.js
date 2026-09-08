@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v39 (9.8晚): 英语定稿(新题型9.8✅→完型轻量3篇→写作9.23热身/10.1-10.10+自搭模板→10.11套写·新题型留白≤2020)+英语抽屉/周计划/进度/Tips同步
+// v40 (9.9): 时间表只写科目·详细安排收进今日打卡清单/明日任务预览(英语按日期自动切换 完型轻量→写作)
 
-const CACHE_NAME = 'kaoyan-helper-v39';
+const CACHE_NAME = 'kaoyan-helper-v40';
 const urlsToCache = [
   '/',
   '/index.html',
