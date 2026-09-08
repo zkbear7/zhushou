@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v37 (9.4): 作息v29=7:30起·8:30-12:00高数·14:30-18:00主科·19:00政治·19:30线代·21:30收工
+// v39 (9.8晚): 英语定稿(新题型9.8✅→完型轻量3篇→写作9.23热身/10.1-10.10+自搭模板→10.11套写·新题型留白≤2020)+英语抽屉/周计划/进度/Tips同步
 
-const CACHE_NAME = 'kaoyan-helper-v38';
+const CACHE_NAME = 'kaoyan-helper-v39';
 const urlsToCache = [
   '/',
   '/index.html',
