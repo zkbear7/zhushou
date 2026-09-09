@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v40 (9.9): 时间表只写科目·详细安排收进今日打卡清单/明日任务预览(英语按日期自动切换 完型轻量→写作)
+// v41 (9.10): 概率换帅=李良强化(2027课1.5x≈15h·PDF129-247整本读完筛完·10.21毕业) · 每日速览概率任务按日期切换 · 抽屉/自检/周计划/Tips同步
 
-const CACHE_NAME = 'kaoyan-helper-v40';
+const CACHE_NAME = 'kaoyan-helper-v41';
 const urlsToCache = [
   '/',
   '/index.html',
