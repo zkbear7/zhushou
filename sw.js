@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v42 (9.10): 英语面板新增单词低压力滚动块(新背1list+滚动1list·遮盖法·真题生词本·柴荣词汇9月底插入)
+// v43 (9.10): 李良筛选疑点核实回写(第三章例题=3.1-3.30·例4.11=min{|X|,1}·例7.1样本8个·2.17-2.20连续)
 
-const CACHE_NAME = 'kaoyan-helper-v42';
+const CACHE_NAME = 'kaoyan-helper-v43';
 const urlsToCache = [
   '/',
   '/index.html',
