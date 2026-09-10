@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v41 (9.10): 概率换帅=李良强化(2027课1.5x≈15h·PDF129-247整本读完筛完·10.21毕业) · 每日速览概率任务按日期切换 · 抽屉/自检/周计划/Tips同步
+// v42 (9.10): 英语面板新增单词低压力滚动块(新背1list+滚动1list·遮盖法·真题生词本·柴荣词汇9月底插入)
 
-const CACHE_NAME = 'kaoyan-helper-v41';
+const CACHE_NAME = 'kaoyan-helper-v42';
 const urlsToCache = [
   '/',
   '/index.html',
