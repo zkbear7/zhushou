@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v43 (9.10): 李良筛选疑点核实回写(第三章例题=3.1-3.30·例4.11=min{|X|,1}·例7.1样本8个·2.17-2.20连续)
+// v44 (9.11): 进度17预备✅/18多元积分✅(9.11听完+课后题)·只剩10几何应用(减量)·9.11-9.12日任务更新
 
-const CACHE_NAME = 'kaoyan-helper-v43';
+const CACHE_NAME = 'kaoyan-helper-v44';
 const urlsToCache = [
   '/',
   '/index.html',
