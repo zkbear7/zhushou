@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v46 (9.11): 10几何应用必抓补"参数方程版面积/体积(dx→x'(t)dt·摆线)"
+// v47 (9.11): 做题流程面板新增"基础30讲二刷SOP"(五步·题型归位)
 
-const CACHE_NAME = 'kaoyan-helper-v46';
+const CACHE_NAME = 'kaoyan-helper-v47';
 const urlsToCache = [
   '/',
   '/index.html',
