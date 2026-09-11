@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v44 (9.11): 进度17预备✅/18多元积分✅(9.11听完+课后题)·只剩10几何应用(减量)·9.11-9.12日任务更新
+// v45 (9.11): 10几何应用细分——微元法快听(理解层)/二重积分观点可跳
 
-const CACHE_NAME = 'kaoyan-helper-v44';
+const CACHE_NAME = 'kaoyan-helper-v45';
 const urlsToCache = [
   '/',
   '/index.html',
