@@ -1,8 +1,8 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v47 (9.11): 做题流程面板新增"基础30讲二刷SOP"(五步·题型归位)
+// v48 (9.13): 10几何应用细分——极坐标面积必抓/极坐标旋转体体积记公式/极坐标弧长
 
-const CACHE_NAME = 'kaoyan-helper-v47';
+const CACHE_NAME = 'kaoyan-helper-v48';
 const urlsToCache = [
   '/',
   '/index.html',
