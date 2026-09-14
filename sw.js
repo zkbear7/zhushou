@@ -1,8 +1,10 @@
 // Service Worker for 考研备考助手
 // Handles push notifications and offline caching
-// v48 (9.13): 10几何应用细分——极坐标面积必抓/极坐标旋转体体积记公式/极坐标弧长
+// v49 (9.14): 二刷顺序修正——先捡地基（第1讲极限→第3/4讲微分→第2讲数列→第5讲几何应用）
+//             再吃分值大的（第9讲积分计算→第8/14/15讲→第13讲多元微分→第16讲级数→第18讲多元积分）
+//             9.14-9.30 每日上午块写明具体讲次；中值定理挪到9.30后第一问专项
 
-const CACHE_NAME = 'kaoyan-helper-v48';
+const CACHE_NAME = 'kaoyan-helper-v49';
 const urlsToCache = [
   '/',
   '/index.html',
