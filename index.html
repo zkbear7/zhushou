@@ -631,7 +631,7 @@ const ENGLISH_DAY = [  // 二四日 · 英语日（v29·9.4改：7:30起·8:30�
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-  { t:"20:30-21:00", l:"⚙️ 828（课后题）", s:"pro" },
+  { t:"20:30-21:00", l:"⚙️ 828（现控课/课后题）", s:"pro" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -714,6 +714,37 @@ function getDailyLinTask(date) {
   return '🟣李良强化课1h 或 例题重做（详见筛选表逐日排期·补昨天落下的不追债）';
 }
 
+// ── v56 (9.18)：现控启动（现控课·埃德加 → 俞立课后题 → 777现控81题 → 真题）──
+// 单日槽位覆盖：9.18 下午大块不排 828，改补数学
+const SCHEDULE_OVERRIDES = {
+  '2026-09-18': { '14:30-18:00': { l:'🔢 数学（补进度·下午大块3.5h）', s:'math' } },
+};
+// 828 当天任务；值为 null = 当天不排 828
+const PRO_TASKS = {
+  '2026-09-18': null,
+  '2026-09-19': null,
+};
+// 现控排期（阶段A=现控课+俞立课后题 → B=777现控81题 → C/D=真题·错题）
+const PRO_PHASES = [
+  { until:'2026-09-24', txt:'看现控课：第1章 状态空间模型 ＋ 俞立第1章课后题' },
+  { until:'2026-10-01', txt:'看现控课：第2章 系统运动分析（状态转移矩阵/响应）＋ 俞立第2章' },
+  { until:'2026-10-08', txt:'看现控课：第3章 能控性与能观性 ＋ 俞立第3章' },
+  { until:'2026-10-11', txt:'看现控课：第4章 稳定性分析（李雅普诺夫）＋ 俞立第4章' },
+  { until:'2026-10-15', txt:'看现控课：第5-6章 状态反馈+观测器 ＋ 俞立第5/6章（10.15 死线）' },
+  { until:'2026-10-31', txt:'777现控必做81题（先俞立后777·每题动笔写完整过程）' },
+  { until:'2026-11-20', txt:'真题现控板块（2024/2025→2018-2023·手算）' },
+  { until:'2026-12-19', txt:'现控错题二刷 ＋ 概念/公式默写' },
+];
+function getDailyProTask(date) {
+  const key = fmtDate(date);
+  if (key in PRO_TASKS) return PRO_TASKS[key];
+  const ph = PRO_PHASES.find(p => key <= p.until);
+  if (!ph) return '真题/错题保持（考前）';
+  const wd = date.getDay();
+  const bigBlock = !(wd === 2 || wd === 4 || wd === 0); // 一三五=自控日大块，二四日=30min
+  return ph.txt + (bigBlock ? '' : '（30min·接着上次）');
+}
+
 function getDailyPolTask(date) {
   const key = fmtDate(date);
   if (key <= '2026-09-20') return '张修齐带刷 1节（9.7已8.5节·每天1节→9月底听完）';
@@ -765,7 +796,7 @@ const DRAWER_SECTIONS = [
   {
     title: '🔢 数学一 · v32 概率=李良强化（9.10定稿·筛选表）',
     html: `
-      <p style="font-size:12px;color:var(--text2);margin-bottom:6px;">📐高数18讲+🧵线代6讲+🟣概率7章（李良强化） | 已学：高数1-6·8-9·13-18✅(17预备B站自学·18多元积分9.11听完+课后题完)→只剩10几何应用(减量)·9.13基础全过 | 🧵线代基础1-6讲✅+Kira强化第1章课✅·课后题4题(9.7) | 🟣概率=李良2027强化(1.5x≈15h·书PDF129-247整本读完筛完) | 📜政治带刷8.5节(9.7) | ⚙️828第7章✅在做参考书课后题</p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:6px;">📐高数18讲+🧵线代6讲+🟣概率7章（李良强化） | 已学：高数1-6·8-9·13-18✅(17预备B站自学·18多元积分9.11听完+课后题完)→只剩10几何应用(减量)·9.13基础全过 | 🧵线代基础1-6讲✅+Kira强化第1章课✅·课后题4题(9.7) | 🟣概率=李良2027强化(1.5x≈15h·书PDF129-247整本读完筛完) | 📜政治带刷8.5节(9.7) | ⚙️828自控8章✅(含王万良课后题)→现控课启动(9.18)</p>
       <p style="font-size:13px;color:var(--accent);margin-bottom:8px;"><b>🔥 v32：晚槽19:30-20:30=🟣李良强化(二四日1h听课·一三五0.5h例题重做) + 🧵Kira课后题(周一/三1h·9.30前) | 概率毕业10.21(9.18 ch1/9.22 ch2课/10.1 ch3课/10.9 ch4/10.11 ch5/10.16 ch6) | 高数18难→基础全过9.13→二刷9.14-10.3→分类真题10.1起(高数先行) | 余丙森=概念字典·百宝书降级备用 | 筛选表：李良概率强化_110分筛选表.md</b></p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 高数18讲 · 小节级110分分级</p>
@@ -1009,32 +1040,44 @@ const DRAWER_SECTIONS = [
       <p style="font-size:11px;color:var(--text3);">📌 刷真题别太关注分数·多在意暴露的漏洞 | 分类真题阶段每类题必须自己写一句套路总结</p>`
   },
   {
-    title: '⚙️ 828 自控 · 飞哥→王万良精选→777（v31·9.8·10.5h/周）',
+    title: '⚙️ 828 自控+现控 · 现控课→俞立课后题→777→真题（v56·9.18·10.5h/周）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v31：第7章看完✅(9.7)→正在做参考书课后题→收尾后进777精选 | 阿祖砍掉(777替代) | 777筛选清单240题 | 王万良课后题只做精选 | 自控日(一三五)14:30-18:00纯块3.5h + 英语日(二四日)20:30-21:00课后题</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>🔥 v56（9.18）：自控 8 章全过✅（飞哥课 + 王万良课后题 + 777 自控基础 54 题）→ <b>自控强化课砍掉</b>（777 强化题替代）→ 现在启动 <b>现控课（埃德加）+ 俞立课后题</b> | 10.15 现控课+课后题必须过完 | 10 月中真题必须开</b></p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📐 三师分工</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📌 现状与分工（9.18）</p>
       <table>
-        <tr><th>角色</th><th>老师/资料</th><th>作用</th></tr>
-        <tr><td>🟢 基础</td><td><b>控制考研飞哥</b></td><td>概念讲解·基础强化合并</td></tr>
-        <tr><td>🔴 刷题</td><td><b>真橙777</b>（已购）</td><td>基础300→强化260·无计算器手算</td></tr>
-        <tr><td>📖 课后题</td><td><b>王万良</b>（浙工大出题人）</td><td>只做精选重点题·不逐题全做</td></tr>
-        <tr><td>📖 真题</td><td><b>浙工大828真题</b>（已购）</td><td>通读写思路·熟悉命题风格</td></tr>
+        <tr><th>状态</th><th>内容</th></tr>
+        <tr><td>✅ 已完成</td><td>自控 1-8 章（飞哥课·第4章根轨迹不考跳过）· 王万良课后题第 3/5/7/8 章精选（第6章全跳）· 777 自控基础 54 题</td></tr>
+        <tr><td>⏭️ 已砍</td><td><b>自控强化课不学</b>（777 强化题完全替代）· 阿祖强化砍掉 · 俞立第 7 章 LQR 跳过</td></tr>
+        <tr><td>🟢 现控课</td><td><b>埃德加</b>（现控网盘课）——现在唯一要听的课</td></tr>
+        <tr><td>📖 现控教材</td><td><b>俞立《现代控制理论》</b>第 1-6 章课后题（第7章不考）</td></tr>
+        <tr><td>🔴 刷题</td><td><b>真橙777</b>：必做 162 题 = 自控基础 54✅ + 自控强化 27 + 现控 81</td></tr>
+        <tr><td>📄 真题</td><td>浙工大 828（8 大题：6 自控 + 2 现控·禁计算器手算）</td></tr>
       </table>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📚 章节进度（8.30）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📅 剩余四阶段（9.18-12.19）</p>
       <table>
-        <tr><th>章</th><th>内容</th><th>飞哥</th><th>777</th><th>课后题</th></tr>
-        <tr><td>1-2</td><td>基本概念+数学模型</td><td>✅</td><td>□</td><td>□</td></tr>
-        <tr><td>3</td><td>时域分析</td><td>✅(课+例题)</td><td>□</td><td>□</td></tr>
-        <tr><td>4</td><td>根轨迹</td><td>⏭️跳过(不考)</td><td>—</td><td>—</td></tr>
-        <tr><td>5</td><td>频域分析</td><td>✅8.25题全做完</td><td>📅按筛选清单240题</td><td>📅精选</td></tr>
-        <tr><td>6</td><td>系统校正</td><td>✅8.30看完</td><td>📅</td><td>📅</td></tr>
-        <tr><td>7</td><td>离散/非线性</td><td>📅8.31开</td><td>📅</td><td>📅</td></tr>
+        <tr><th>阶段</th><th>时间</th><th>任务</th><th>硬节点</th></tr>
+        <tr><td>A</td><td>9.18-10.15</td><td><b>现控课（埃德加）第1-6章 + 俞立课后题（约115题·第7章跳）</b><br>大块日全给现控，先教材后777</td><td>10.15 必须过完</td></tr>
+        <tr><td>B</td><td>10.16-11.5</td><td><b>777 现控必做 81 题</b>（每题动笔完整过程）＋ 真题启动（2024/2025 摸底→2018/2019）</td><td>10 月中真题开</td></tr>
+        <tr><td>C</td><td>11.6-12.3</td><td>真题每周 2 套 ＋ <b>777 自控强化</b>（必做27 + 升级65 里挑）</td><td>每周固定 2 套</td></tr>
+        <tr><td>D</td><td>12.4-12.19</td><td>近 3 年精做 + 错题三刷 + 概念/公式默写（伯德K/梅森/稳态误差/朱利/描述函数）</td><td>—</td></tr>
       </table>
 
-      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 铁律：手算不用计算器 | 王万良课后题=真题原型(只做精选) | 真题全大题→通读思路 | 777按筛选清单(必做190+升级48=240题)</p>
-      <p style="font-size:12px;color:var(--text3);">🎯 目标130 | 一三五3h×3 + 二四日30min×3 ≈10.5h/周 | 9月中起777强化260+俞立现控前3章 | 现控册109题必做</p>`
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:10px;">📚 现控六章 · 只看这些（第7章不考）</p>
+      <table>
+        <tr><th>章</th><th>内容</th><th>课</th><th>俞立课后题</th></tr>
+        <tr><td>1</td><td>状态空间模型（框图/微分方程→SS、TF↔SS、标准型、线性变换、传函矩阵）</td><td>📅9.18起</td><td>1.1~1.25 挑</td></tr>
+        <tr><td>2</td><td>系统运动分析（状态转移矩阵 e^At、齐次/非齐次响应、离散化）</td><td>📅</td><td>2.1~2.20 挑</td></tr>
+        <tr><td>3</td><td>能控性与能观性（判别、标准型、最小实现·<b>结构分解不考</b>）</td><td>📅</td><td>3.1~3.26 挑</td></tr>
+        <tr><td>4</td><td>稳定性分析（李雅普诺夫第二法·连续/离散/非线性）</td><td>📅</td><td>4.1~4.13 挑</td></tr>
+        <tr><td>5</td><td>状态反馈控制器设计（极点配置求K、性能反求、BIBO）</td><td>📅</td><td>5.1~5.17 挑</td></tr>
+        <tr><td>6</td><td>状态观测器设计（全维/降维、分离原理、<b>基于观测器的输出反馈≠状态反馈</b>）</td><td>📅</td><td>6.1~6.14 挑</td></tr>
+        <tr><td>7</td><td>线性二次型最优控制 LQR</td><td>⏭️不考</td><td>跳</td></tr>
+      </table>
+
+      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 铁律：手算不用计算器 | 先俞立教材后 777 | 现控 40-50 分·每题 20 分综合大题·性价比最高 | 真题全大题→动笔写完整过程</p>
+      <p style="font-size:12px;color:var(--text3);">🎯 目标130 | 10.5h/周 = 自控日(一三五)14:30-18:00纯块3.5h + 英语日(二四日)20:30-21:00的30min | 现控大题范式：建状态空间→转移矩阵/响应→能控能观→极点配置K→观测器L→（基于观测器的输出反馈）</p>`
   },
   {
     title: '📝 英语一 · v43 完型顺年份3篇/周·写作9.23热身·翻译10.1（9.17）',
@@ -1159,9 +1202,9 @@ const DRAWER_SECTIONS = [
   {
     title: '📊 进度自检节点（v41·9.10·李良强化+英语定稿）',
     html: `
-      <div class="c-card"><div class="c-title">📆 9.10 <span class="c-sub">现在</span></div>
+      <div class="c-card"><div class="c-title">📆 9.18 <span class="c-sub">现在 · 现控启动</span></div>
         <div class="c-row"><span class="tag red">数学</span>高数18多元积分难·收尾顺延(9.13基础全过)→9.14二刷 | 🧵线代基础✅+Kira第1章课✅·课后题4题(9.7)→周一/三续 | 🟣概率=<b>李良强化9.10换帅定稿</b>（PDF129-247整本读完筛完·ch1开·10.21毕业）</div>
-        <div class="c-row"><span class="tag amber">828</span>第7章看完✅(9.7) → 正在做参考书课后题→777精选</div>
+        <div class="c-row"><span class="tag amber">828</span><b>自控 8 章全过✅</b>(飞哥课+王万良课后题+777基础54题) → 自控强化课砍掉(777替代) → <b>现控课(埃德加)+俞立课后题启动</b>｜现控课+课后题 10.15 必过完</div>
         <div class="c-row"><span class="tag blue">英语</span>柴荣7/7✅ + 新题型方法论9.8✅ + 完型方法论✅+2010/2011✅ → <b>9.17起顺年份每英语日1篇(3篇/周)</b>·写作9.23热身</div>
         <div class="c-row"><span class="tag green">政治</span>带刷第8课一半✅(9.7=8.5节) → 每天1节·9月内听完</div></div>
       <div class="c-card"><div class="c-title">📆 8.31 <span class="c-sub">暑假收官</span></div>
@@ -1171,12 +1214,14 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag green">政治</span>带刷每天1节(9月听完=一刷)</div></div>
       <div class="c-card"><div class="c-title">📆 9.13 <span class="c-sub">🔥高数基础全过（顺延缓冲）</span></div>
         <div class="c-row"><span class="tag red">数学</span>高数18收尾✅+10/11速过✅ → 9.14起上午二刷（⭐题·积分→级数→多元积分→二重→微分方程） | 🧵Kira课后题第1-2章推进 | 🟣李良ch1 题型1-3听课✅（9.18 ch1✅）</div>
-        <div class="c-row"><span class="tag amber">828</span>第7章课后题收尾 + 错题回顾 → 777强化260精选</div>
+        <div class="c-row"><span class="tag amber">828</span>自控 8 章全过✅（含王万良课后题）→ 9.18 起现控课+俞立课后题</div>
         <div class="c-row"><span class="tag blue">英语</span>精读2011-2012 + 完型顺年份(2012/2013/2014·每英语日1篇) → 写作9.23热身</div>
         <div class="c-row"><span class="tag green">政治</span>带刷推进中（9月听完=肖1000一刷）· 苏一导图</div></div>
+      <div class="c-card"><div class="c-title">📆 10.15 <span class="c-sub">🔥现控课+俞立课后题死线</span></div>
+        <div class="c-row"><span class="tag amber">828</span><b>现控课(埃德加)第1-6章听完 + 俞立课后题1-6章过完</b>（第7章LQR不考）→ 10.16 起进777现控81题 + 真题摸底（2024/2025）</div></div>
       <div class="c-card"><div class="c-title">📆 10.18 <span class="c-sub">分类真题过半</span></div>
         <div class="c-row"><span class="tag red">数学</span>🔴真题真刷提高篇按考点过半 · 🧵线代真题随章(Kira强化后) · 🟣概率真题专项</div>
-        <div class="c-row"><span class="tag amber">828</span>777精选240题+现控 · 真题思路</div>
+        <div class="c-row"><span class="tag amber">828</span>现控课+俞立课后题✅ → 777现控81题 · 真题2024/2025→2018-2023</div>
         <div class="c-row"><span class="tag blue">英语</span>阅读至2020 + 写作自搭模板 + 三小课</div>
         <div class="c-row"><span class="tag green">政治</span>苍盾二刷⭐ + 腿姐背诵手册/技巧班</div></div>
       <div class="c-card"><div class="c-title">📆 11月底</div>
@@ -1208,7 +1253,7 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag gray">⑤ 现实干扰</span>睡眠/身体/手机/学校事务…真实记录，不装</div></div>
       <div class="c-card"><div class="c-title">📋 每周科目复盘动作（合计约40min）</div>
         <div class="c-row"><span class="tag red">🔢 数学 25-30min</span>本周⭐/△题：只看思路·卡住的重新做 | 没咋了题型口头复述(每章3-5句) | 选填技巧卡+计算错误点清单读一遍</div>
-        <div class="c-row"><span class="tag amber">⚙️ 828 10-15min</span>777/课后错题重看错因 + 本周核心公式默写(梅森/稳态误差/朱利/伯德K)</div>
+        <div class="c-row"><span class="tag amber">⚙️ 828 10-15min</span>777/俞立课后错题重看错因 + 本周核心公式默写(自控:梅森/稳态误差/朱利/伯德K ｜ 现控:e^At/能控能观/极点配置/观测器)</div>
         <div class="c-row"><span class="tag blue">📝 英语 10min</span>错≥2题篇章错因归类(定位/同义替换/细节) + 新题型/完型错因 + 本周生词</div>
         <div class="c-row"><span class="tag green">📜 政治 10min</span>本周带刷/苏一对应肖1000错题 + 帽子题抄进错题本</div></div>
       <p style="font-size:12px;color:var(--text3);margin-top:6px;">优先级：数学⭐ > 828公式 > 英语错因 > 政治帽子题 | 复盘≠加量：只回看本周做过的，不开新内容 | 🤖 复盘写完把「进度+典型错误+最大困难」发给我，我帮你拆问题、排优先级、改下周计划 → 下周最重要的 3 件事写下来贴桌面</p>`
@@ -1229,11 +1274,13 @@ const DRAWER_SECTIONS = [
       <tr><td>③ 分类真题</td><td>10.1-11.8</td><td>真题真刷提高篇(09-20按考点)·每类题总结套路·880必抓随章补漏(讲解=没咋了+你的葫芦)·卡壳看王志超/李艳芳/喻老</td><td>78h</td></tr>
       <tr><td>④ 套卷</td><td>11.9起</td><td>真题2021-2026全真6套→李林6+4→考前错题+公式默写</td><td>62h</td></tr></table></div>
 
-      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 · 飞哥→王万良精选→777（v27·10.5h/周）</div>
-      <table><tr><th>日期</th><th>章节</th><th>飞哥基础</th><th>777刷题</th><th>王万良精选</th></tr>
-      <tr><td>8.30</td><td>第6章 系统校正✅看完</td><td>✅</td><td>📅</td><td>📅</td></tr>
-      <tr><td>8.31-9.8</td><td>第7章 离散/非线性</td><td>看课+笔记</td><td>777对应+错题回顾</td><td>第7章精选</td></tr>
-      <tr><td>9月中起</td><td>777强化260 + 俞立现控前3章</td><td>—</td><td>按专题刷·错题隔2-3天回看</td><td>现控册109题必做</td></tr></table></div>
+      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828 · 现控课→俞立课后题→777→真题（v56·9.18·10.5h/周）</div>
+      <table><tr><th>阶段</th><th>时间</th><th>任务</th><th>硬节点</th></tr>
+      <tr><td>✅自控</td><td>至9.17</td><td>1-8章飞哥课(第4章不考跳) + 王万良课后题第3/5/7/8章精选 + 777自控基础54题 → <b>全过✅</b></td><td>已完成</td></tr>
+      <tr><td>A 现控课</td><td>9.18-10.15</td><td><b>现控课(埃德加)第1-6章 + 俞立课后题约115题</b>(先教材后777·大块日全给现控)</td><td>10.15 必过完</td></tr>
+      <tr><td>B 777现控</td><td>10.16-11.5</td><td><b>777现控必做81题</b>(每题动笔完整过程) + 真题启动(2024/2025摸底→2018/2019)</td><td>10月中真题开</td></tr>
+      <tr><td>C 真题+强化</td><td>11.6-12.3</td><td>真题每周2套 + <b>777自控强化</b>(必做27·升级再挑)</td><td>每周2套</td></tr>
+      <tr><td>D 冲刺</td><td>12.4-12.19</td><td>近3年精做 + 错题三刷 + 概念/公式默写</td><td>—</td></tr></table></div>
 
       <div class="plan-phase"><div class="plan-phase-title">📝 英语 · v43（完型顺年份3篇/周→写作9.23热身→10.1模板+翻译）</div>
       <table><tr><th>阶段</th><th>任务</th></tr>
@@ -1266,7 +1313,7 @@ const DRAWER_SECTIONS = [
         <li>🎯 <b>16级数=没咋了强化</b>：8.30-9.2复盘+课后题✅·概念卡住翻张宇16讲书</li>
         <li>📖 <b>17预备=没咋了强化+书</b>：1.5天·向量/参数化/场论公式进笔记本·必抓例题1,3,5,7,8+习题6·不能跳</li>
         <li>🧮 <b>18多元积分=没咋了强化</b>：难度大·顺延中(9.8-9.13收尾)·卡壳翻张宇18讲/李艳芳数一专场(BV1Xy4y1L7Z5)</li>
-        <li>📌 <b>当前进度(9.17)</b>：高数基础全过✅(9.13)→二刷进行中 | 🧵Kira课后题+🟣李良强化(晚槽) | 828第7章✅在做参考书课后题 | 政治带刷推进 | 英语：柴荣7/7✅+新题型✅+<b>完型方法论✅+2010/2011✅</b>（9.17起顺年份每英语日1篇）</li>
+        <li>📌 <b>当前进度(9.18)</b>：高数基础全过✅(9.13)→二刷进行中 | 🧵Kira课后题+🟣李良强化(晚槽) | <b>828自控8章✅(含王万良课后题+777基础54)→现控课启动</b> | 政治带刷推进 | 英语：柴荣7/7✅+新题型✅+<b>完型方法论✅+2010/2011✅</b>（9.17起顺年份每英语日1篇）</li>
         <li>💪 <b>后续数学</b>：高数二刷9.14-10.3(30讲例题⭐)→分类真题10.1-11.8(真题真刷提高篇·每类题总结套路) | 🟣李良强化10.21毕业→⭐快扫→真题概率板块 | 线代Kira课后题周一/三(至9.30)</li>
         <li>📌 <b>1000A只做标记A组</b>：碎片翻答案·880必抓10月随真题做(讲解=没咋了+你的葫芦)</li>
         <li>✏️ <b>证明只做第一问</b>：中值定理8个套路卡(武忠祥17堂课中值专题2-3h)+线代定义法三件套(无关/可逆/正定)·第二问写步骤不深入</li>
@@ -1276,11 +1323,13 @@ const DRAWER_SECTIONS = [
         <li>❌ <b>傅里叶级数可弃</b>：只记公式·不花整块时间</li>
         <li>📐 <b>30讲节级分级表</b>：必抓(例题独立做)/可弱(看例题记公式)/可弃(跳过)·见数学面板</li>
       </ul></div>
-      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828（v27·10.5h/周）</div>
+      <div class="plan-phase"><div class="plan-phase-title">⚙️ 828（v56·9.18·10.5h/周）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>📌 <b>自控日(一三五)14:30-18:00纯块3.5h</b>：飞哥课+课后题+777·大块不碎片</li>
-        <li>📌 <b>英语日(二四日)20:30-21:00课后题30min</b>：保持手感</li>
-        <li>📌 <b>阿祖强化砍掉</b>：777完全替代 | 王万良只做精选</li>
+        <li>🔥 <b>现状(9.18)</b>：自控 1-8 章✅(飞哥课+王万良课后题+777基础54题) → <b>现在只剩现控</b>：现控课(埃德加)+俞立课后题</li>
+        <li>📌 <b>自控日(一三五)14:30-18:00纯块3.5h</b>：现控课/俞立课后题/777·大块不碎片（9.18 下午改补数学）</li>
+        <li>📌 <b>英语日(二四日)20:30-21:00 30min</b>：现控课或俞立课后题·保持手感</li>
+        <li>⏭️ <b>自控强化课砍掉</b>：777强化题完全替代 | 阿祖强化砍掉 | 俞立第7章LQR跳过</li>
+        <li>📌 <b>硬节点</b>：10.15 现控课+课后题过完 → 10月中真题必须开 → 11.6起每周2套 → 12月近3年精做</li>
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">📝 英语（v39·9.8定稿·16h/周）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
@@ -1299,7 +1348,7 @@ const DRAWER_SECTIONS = [
         <li>🍜 <b>18:00-19:00=晚饭+散步1h</b>：离开书</li>
         <li>📜 <b>19:00-19:30=政治(每天)</b>：苏一导图/带刷→肖1000</li>
         <li>🧵 <b>19:30-20:30=线代/概率1h</b>：Kira强化(9.9-9.30)·李永乐讲义=字典</li>
-        <li>📌 <b>20:30-21:00</b>：自控日=英语超轻量 · 英语日=828课后题</li>
+        <li>📌 <b>20:30-21:00</b>：自控日=英语超轻量 · 英语日=828现控课/课后题30min</li>
         <li>📋 <b>21:00-21:30=复盘+标⭐ → 收工</b>：最迟21:30·不硬撑</li>
       </ul></div>`
   },
@@ -1360,27 +1409,27 @@ eng:'精读恢复(2011-2012)+柴荣7/7✅+新题型方法论(8.30已开·9.8收�
 pol:'9月启动：带刷听完=一刷 + 苏一导图→肖1000' },
   { start:'2026-09-07', end:'2026-09-27', label:'第11-12周（⚠️第5-8周+周四课）',
     math:'🔴高数18收尾(9.8-9.13)→二刷(9.14-10.3·30讲例题⭐·上午3.5h) | 🧵Kira课后题轻量(周一/三晚·第1-3章·先退基础再做题·李永乐=字典) | 🟣概率=李良强化(9.10起·晚槽19:30-20:30·二四日1h听课/一三五0.5h例题·10.21毕业)',
-pro:'777强化260选做+真题思路 | 现控启动(俞立)',
+    pro:'自控8章✅(含王万良课后题+777基础54) → 现控启动：现控课(埃德加)+俞立课后题',
     eng:'精读2011-2015 + 完型顺年份(每英语日1篇·2012-2017) + 写作9.23热身',
 pol:'带刷听完✅=肖1000一刷·苏一导图+肖1000对应题' },
   { start:'2026-09-28', end:'2026-10-11', label:'第13-14周（考试周·预留复习）',
     math:'🔴高数二刷收尾(至10.3)→分类真题(高数先行) | 🟣李良强化ch4-7推进(10.21毕业)→⭐快扫→真题概率板块 | 🧵Kira第4-6章课后题+880线代随真题',
-pro:'777冲刺140+真题思路反复',
+pro:'现控课(第3-6章)+俞立课后题收尾 → 777现控81题启动 | 真题2024/2025摸底',
 eng:'写作方法论10.1-10.10听完+自搭模板 → 10.11起每周套写真题作文 + 三小课轮换(新题型/完型·不听新课)',
 pol:'苍盾二刷：只刷⭐题·帽子题整理' },
 { start:'2026-10-12', end:'2026-10-31', label:'第15-16周',
 math:'🔥分类真题主线(真题真刷提高篇09-20按考点)+880随章补漏 | 🟣概率真题专项收尾✅',
-pro:'真题思路多遍+近3年精做',
+pro:'777现控81题(每题动笔) + 真题2018-2023每2周1套',
 eng:'精读至2020 + 每周套写真题作文1-2篇 + 三小课轮换',
 pol:'苍盾二刷继续+小橙书带背' },
   { start:'2026-11-01', end:'2026-11-15', label:'第17-18周',
     math:'分类真题收尾(11.8)→套卷2021-2026启动(11.9) | 没咋了讲解',
-    pro:'概念+手算保持+错题清零',
+    pro:'真题每周2套 + 777自控强化(必做27·升级挑) + 现控错题清零',
     eng:'整卷模考+三小课真题循环',
     pol:'苍盾三刷+肖八选择吃透' },
   { start:'2026-11-16', end:'2026-11-30', label:'第19-20周（⚠️综合设计）',
     math:'李林6套卷+错题回顾+每天1h计算',
-    pro:'公式默写+手算保持',
+    pro:'真题二刷+近3年精做 | 公式默写+手算保持',
     eng:'作文默写+阅读保温(每2天1篇)',
     pol:'形势与政策+错题清零' },
   { start:'2026-12-01', end:'2026-12-18', label:'第21-22周·12月考前（12.19考研）',
@@ -1435,11 +1484,16 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     { s:'math', label:'概率/线代（晚槽）：' + getDailyLinTask(now) },
   ];
   if (isAutoCtrl) {
-    rows.push({ s:'pro', label:'828：看课+课后题+777（按进度·下午大块）' });
+    const proTask = getDailyProTask(now);
+    if (proTask === null) {
+      rows.push({ s:'math', label:'🔢 数学补进度：下午大块 14:30-18:00（今日本该是828，改补数学·不排828）' });
+    } else {
+      rows.push({ s:'pro', label:'828：' + proTask });
+    }
     rows.push({ s:'eng', label:'英语（超轻量）：' + getDailyEngLightTask() });
   } else {
     rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
-    rows.push({ s:'pro', label:'828：课后题保持手感（20:30-21:00）' });
+    rows.push({ s:'pro', label:'828：现控课/俞立课后题 30min（20:30-21:00）' });
   }
   rows.push({ s:'eng', label:'单词：' + (classWordDay ? '理论课上背（复习昨天1个list + 新背1个list）' : '新背1个list（80词·20-25min）＋ 滚动1个list（遮住中文→看英文说·16-20min）') });
   if (!isAutoCtrl) rows.push({ s:'eng', label:'英语·生词本：当天真题生词摘（只写单词+真题里那个意思·≤10min）→ 明天早读回看' });
@@ -1604,6 +1658,12 @@ function getSchedule(date) {
     }
   }
 
+  // v56: 单日槽位覆盖（9.18 下午大块=补数学）
+  const slotOverride = SCHEDULE_OVERRIDES[key];
+  if (slotOverride) {
+    schedule = schedule.map(it => slotOverride[it.t] ? { ...it, ...slotOverride[it.t] } : it);
+  }
+
   return {
     tag: tag,
     emoji: emoji,
@@ -1717,7 +1777,7 @@ function render() {
         <div class="timeline-title"><span class="dot"></span>🗓️ 每周复盘清单（约1h·轻量）</div>
         <table style="width:100%;font-size:13px;color:var(--text2);border-collapse:collapse;">
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">🔢 数学 25-30min</td><td style="padding:6px;">本周⭐/△题只看思路·卡住的重新做 | 没咋了题型口头复述 | 选填技巧卡+计算错误点清单</td></tr>
-          <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">⚙️ 828 10-15min</td><td style="padding:6px;">777/课后错题重看错因 + 本周核心公式默写(梅森/稳态误差/朱利/伯德K)</td></tr>
+          <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">⚙️ 828 10-15min</td><td style="padding:6px;">777/俞立课后错题重看错因 + 本周核心公式默写(自控:梅森/稳态误差/朱利/伯德K ｜ 现控:e^At/能控能观/极点配置/观测器)</td></tr>
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">📝 英语 10min</td><td style="padding:6px;">错≥2题篇章错因归类 + 新题型/完型错因 + 本周生词</td></tr>
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">📜 政治 10min</td><td style="padding:6px;">本周带刷/苏一对应肖1000错题 + 帽子题抄本</td></tr>
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">🧭 总复盘 5min</td><td style="padding:6px;">只问"这周学会了哪3件事" + 下周最该保的1件事</td></tr>
