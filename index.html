@@ -669,13 +669,15 @@ const DAILY_TASKS = {
   '2026-09-23': { math:'二刷Day8：第9讲 习题9题（9.2/9.10/9.12/9.15/9.18/9.19/9.21/9.22/9.24）＋ 没咋了第3章题型8/9/10（例3.11/3.17/3.24）', lin:'🧵Kira第3章复盘/⭐' },
   '2026-09-24': { math:'二刷Day9：第8讲 积分概念与性质9题（变限/反常）＋ 没咋了第3章题型19/20/22/23（例3.71/3.74/3.79/3.87）', lin:'🟣李良ch3 题型2课：例3.8-3.16（1h）' },
   '2026-09-25': { math:'二刷Day10：第14讲 二重积分9题 ＋ 没咋了第6章🔴3道（例3/例6/例11）', lin:'🟣0.5h 例题重做：ch2⭐ + ch3例3.1-3.7' },
+  '2026-09-26': { math:'周六半天（上午3h消欠账＋30min复盘）：① 没咋了第1讲🔴剩余7道（例18/26/28/37/38/49/58·见二刷01 C-1）② 880第2章验收3道（基础选择11、14＋基础解答5）③ 有余量再补概率/线代⭐', lin:'11:30-12:00 周复盘' },
   '2026-09-27': { math:'二刷Day11：第15讲 微分方程11题 ＋ 没咋了第7章🔴4道（例1/例9/例11/例20）', lin:'🟣李良ch3 题型3前半课：例3.17-3.22（1h）' },
   '2026-09-28': { math:'二刷Day12：第13讲 多元微分 例题11题 ＋ 没咋了第5章🔴（例9/例12/例17）', lin:'🧵Kira第1-3章⭐错题收尾' },
   '2026-09-29': { math:'二刷Day13：第13讲习题6 + 第17讲预备6 ＋ 没咋了第4章1道 + 第5章剩余3道（例22/例25/例28）', lin:'🟣李良ch3 题型3后半+题型4课：例3.23-3.30 → ch3课✅（1h）' },
   '2026-09-30': { math:'二刷Day14：第16讲 级数20题 ＋ 没咋了第8章🔴7道', lin:'🧵Kira收尾 + 中值定理第一问热身' },
   '2026-10-01': { math:'二刷Day15：第18讲 多元积分 例题23题 ＋ 没咋了第11/12章🔴6道', lin:'🟣李良ch4 题型1前半课：例4.1-4.10（1h）' },
   '2026-10-02': { math:'二刷Day16（收尾）：第18讲习题8 + 第10讲13 + 第11讲速过 ＋ 没咋了第9/10章收尾（做不完顺延10.4上午）', lin:'🟣0.5h 例题重做：ch3⭐ + ch4例4.1-4.10' },
-  '2026-10-04': { math:'分类真题启动（高数板块先行）', lin:'🟣李良ch4 题型1后半课：例4.11-4.21（1h）' },
+  '2026-10-03': { math:'周六半天（上午3h＋30min复盘）分类真题启动：高数·第1类（真题真刷提高篇·按考点做+总结套路）', lin:'11:30-12:00 周复盘' },
+  '2026-10-04': { math:'分类真题：高数·第2类（＋10.3第1类的⭐错题）', lin:'🟣李良ch4 题型1后半课：例4.11-4.21（1h）' },
   '2026-10-05': { math:'分类真题', lin:'🟣1h ch4⭐例题重做/补漏' },
   '2026-10-06': { math:'分类真题', lin:'🟣李良ch4 题型2课：例4.22-4.30（1h）' },
   '2026-10-07': { math:'分类真题', lin:'🟣1h ch4 例题重做：例4.22-4.30 + ⭐' },
@@ -697,6 +699,12 @@ function getDailyMathTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].math) return DAILY_TASKS[key].math;
   const m = date.getMonth(), d = date.getDate();
+  // v60: 周六=休息日，但上午上半天（8:30-11:30 消欠账/⭐3h ＋ 11:30-12:00 周复盘30min）；固定顺序 ①本周欠账 ②本周⭐错题 ③再有余量才推进
+  if (date.getDay() === 6) {
+    if (key <= '2026-10-03') return '周六半天（上午3h消欠账＋30min复盘）：没咋了/880/30讲 没做完的题块（从最旧的补起）＋ 本周⭐错题重做';
+    if (key <= '2026-11-08') return '周六半天（上午3h＋30min复盘）分类真题：本周没做完的那一类 ＋ 该板块⭐错题重做';
+    return '周六半天（上午3h＋30min复盘）套卷⭐错题 ＋ 公式默写（李林6+4 / 真题回看）';
+  }
   if (m === 9) return '高数：18收尾/二刷⭐题（上午3.5h·第1讲→微分→第2讲→第5讲→积分计算→二重→微分方程→多元→级数）';
   if (m === 10 && d <= 8) return '上午：二刷尾巴先清，分类真题（高数先行）启动';
   if (m === 10 || (m === 11 && d <= 8)) return '分类真题：今天1类（真题真刷提高篇按考点·总结套路）';
@@ -1130,7 +1138,7 @@ const DRAWER_SECTIONS = [
         <tr><th>日型</th><th>任务</th></tr>
         <tr><td>英语日<br>(二/四/日)</td><td>精读1篇1.5h → <b>完型1篇</b>（9月·先做后听）1h → 写作/翻译（按窗口）<br>单词：新背1list + 滚动1list｜生词本：当天摘≤10min</td></tr>
         <tr><td>自控日<br>(一/三/五)</td><td>828下午大块3.5h → 晚间英语超轻量30min（限时1篇/5-6题+对答案+标错因）<br>单词：新背1list + 滚动1list｜生词本照做</td></tr>
-        <tr><td>周六</td><td>铁休（复盘）·不排任务</td></tr>
+        <tr><td>周六</td><td>休息日 + 上午 3h 消欠账 + 30min 复盘（8:30-12:00）→ 12:00 后全休</td></tr>
       </table>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词（v42·9.10·低压力滚动版）</p>
@@ -1243,13 +1251,13 @@ const DRAWER_SECTIONS = [
   {
     title: '🗓️ 复盘指南（v28·每日10min+周六周复盘·周五晚兜底）',
     html: `
-      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>📚 复盘不是多一项任务，是不白学 | 每日10min(睡前) + 每周1h(周六休息日·周五晚兜底)</b></p>
+      <p style="font-size:13px;color:var(--accent);margin-bottom:6px;"><b>📚 复盘不是多一项任务，是不白学 | 每日10min(睡前) + 每周30min(周六11:30-12:00·周五晚兜底)</b></p>
       <div class="c-card"><div class="c-title">🌙 每日复盘 4 问（睡前 10min·手机备忘录就够）</div>
         <div class="c-row"><span class="tag red">① 完成了什么</span>写具体：今天做完哪几件事（如：级数例31-37重做✅·肖1000马原1章）</div>
         <div class="c-row"><span class="tag amber">② 遇到什么问题</span>诚实记卡点：哪题没思路/算错/走神/犯困（问题写下来就解决一半）</div>
         <div class="c-row"><span class="tag blue">③ 明天怎么调</span>只写 1 个具体动作：明天把某题套路总结一下 / 午休缩到25min</div>
         <div class="c-row"><span class="tag green">④ 小确幸</span>今天比昨天多专注了15min 也算（长期坚持靠这个）</div></div>
-      <div class="c-card"><div class="c-title">🗓️ 每周复盘 5 问（周六休息日 20-30min 文字版）</div>
+      <div class="c-card"><div class="c-title">🗓️ 每周复盘 5 问（周六 11:30-12:00 · 30min）</div>
         <div class="c-row"><span class="tag red">① 四科进度</span>数学/828/英语/政治：本周学了啥·做题情况·卡在哪（详见下方科目表）</div>
         <div class="c-row"><span class="tag amber">② 典型错误</span>这周反复出现的问题：错题只看答案不复盘？计划太满？刷手机？拖延？</div>
         <div class="c-row"><span class="tag blue">③ 情绪变化</span>哪几天状态好/崩？有没有焦虑/摆烂？为什么？</div>
@@ -1265,7 +1273,7 @@ const DRAWER_SECTIONS = [
   {
     title: '📅 完整周计划（v41·9.10·概率=李良强化）',
     html: `
-      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v43：高数基础收尾9.13→二刷9.14-10.2→分类真题10.4-11.8(高数先行)→套卷11.9起 | 晚槽19:30-20:30=🟣李良强化(二四日1h听课/一三五0.5h例题·按书走已筛完) + 🧵Kira课后题(周一/三1h·第1-3章9.30前) | 🟣概率10.21毕业 | 英语=新题型9.8✅→<b>完型顺年份(9月每英语日1篇=3篇/周·10月1篇/周)</b>→写作9.23热身/10.1-10.10模板+翻译 | 每周复盘=周六 | 二刷只刷⭐</b></p>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>🔥 v43：高数基础收尾9.13→二刷9.14-10.2→分类真题10.4-11.8(高数先行)→套卷11.9起 | 晚槽19:30-20:30=🟣李良强化(二四日1h听课/一三五0.5h例题·按书走已筛完) + 🧵Kira课后题(周一/三1h·第1-3章9.30前) | 🟣概率10.21毕业 | 英语=新题型9.8✅→<b>完型顺年份(9月每英语日1篇=3篇/周·10月1篇/周)</b>→写作9.23热身/10.1-10.10模板+翻译 | 周六=半天(3h消欠账＋30min复盘) | 二刷只刷⭐</b></p>
 
       <div class="plan-phase"><div class="plan-phase-title">🔢 数学一 · 基础收尾（顺延至9.13）</div>
       <table><tr><th>日期</th><th>🔴 高数（上午8:30-12:00）</th><th>🧵线代/🟣概率（晚间19:30-20:30）</th></tr>
@@ -1302,12 +1310,12 @@ const DRAWER_SECTIONS = [
       <tr><td>10月</td><td>苍盾二刷⭐ + 腿姐背诵手册/技巧班 + 帽子题</td></tr>
       <tr><td>11-12月</td><td>肖八选择吃透→肖四大题狂背</td></tr></table></div>
 
-      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | v43：基础收尾9.13→二刷9.14-10.2→分类真题10.4-11.8(高数先行)→套卷11.9 | 作息=9.4版(7:30起·21:30收工)·晚槽19:30-20:30=🟣李良强化(9.10-10.21)+🧵Kira课后题(周一/三至9.30) | 🟣概率10.21毕业→⭐快扫 | 英语=完型顺年份(9月3篇/周·10月1篇/周)→写作9.23热身/10.1-10.10+自搭模板→10.11起套写+翻译 | 🗓️每周复盘=周六(周五晚兜底) | ⚠️课表：周二13:30/周五10:00 理论课=<b>背单词时间</b>(至10.16)→10.17起恢复常规单词槽 | 9.21起周四上午数学砍 | 线代+概率≈70分好拿优先保住</p>`
+      <p style="font-size:11px;color:var(--text3);margin-top:6px;">⏰ 考研预测：12.19 | v43：基础收尾9.13→二刷9.14-10.2→分类真题10.4-11.8(高数先行)→套卷11.9 | 作息=9.4版(7:30起·21:30收工)·晚槽19:30-20:30=🟣李良强化(9.10-10.21)+🧵Kira课后题(周一/三至9.30) | 🟣概率10.21毕业→⭐快扫 | 英语=完型顺年份(9月3篇/周·10月1篇/周)→写作9.23热身/10.1-10.10+自搭模板→10.11起套写+翻译 | 🗓️周六=半天(3h消欠账＋30min复盘)(周五晚兜底) | ⚠️课表：周二13:30/周五10:00 理论课=<b>背单词时间</b>(至10.16)→10.17起恢复常规单词槽 | 9.21起周四上午数学砍 | 线代+概率≈70分好拿优先保住</p>`
   },
   {
     title: '💡 备考Tips精华（v41·9.10·概率=李良强化）',
     html: `
-      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">v43核心：高数收尾9.13→二刷9.14-10.2 | 晚槽19:30-20:30=🟣<b>李良强化</b>（二四日听课/一三五例题·例题先写再听）+Kira课后题(周一/三·9.30前) | 🟣概率10.21毕业→⭐快扫→真题概率板块 | 英语=<b>完型顺年份(9月每英语日1篇·3篇/周→10月1篇/周)</b>→写作9.23热身/10.1-10.10模板+唐静翻译→10.11起套写 | 作息=9.4版(7:30起·21:30收工) | 政治=苏一+带刷 | 每周复盘=周六 | 专项：证明只做第一问·选填每天20min·李林6+4 | 110分层</p>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">v43核心：高数收尾9.13→二刷9.14-10.2 | 晚槽19:30-20:30=🟣<b>李良强化</b>（二四日听课/一三五例题·例题先写再听）+Kira课后题(周一/三·9.30前) | 🟣概率10.21毕业→⭐快扫→真题概率板块 | 英语=<b>完型顺年份(9月每英语日1篇·3篇/周→10月1篇/周)</b>→写作9.23热身/10.1-10.10模板+唐静翻译→10.11起套写 | 作息=9.4版(7:30起·21:30收工) | 政治=苏一+带刷 | 周六=半天(3h消欠账＋30min复盘) | 专项：证明只做第一问·选填每天20min·李林6+4 | 110分层</p>
       <div style="background:rgba(214,158,110,.14);border-left:3px solid #d69e6e;border-radius:8px;padding:10px 12px;margin:10px 0;">
         <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">🆘 心态崩了就翻到这条（9.20 加）</p>
         <p style="font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:6px;"><b>"一刷跟没学一样"是正常现象，不是你的问题。</b>一刷是"听+看"＝<b>被动输入</b>，靠的是<b>再认</b>；做题靠的是<b>回忆</b>——这是两条不同的通道。绝大多数人的分，是在二刷（闭卷提取 + 错题回做）里涨起来的。</p>
@@ -1353,7 +1361,7 @@ const DRAWER_SECTIONS = [
       </ul></div>
       <div class="plan-phase"><div class="plan-phase-title">⏰ 作息（v29·9.4改·7:30起·8:30到教室·21:30收工）</div>
       <ul style="font-size:12px;color:var(--text2);padding-left:16px;line-height:1.9;">
-        <li>🔢 <b>上午=高数</b>：每天08:30-12:00(3.5h·含微休·周六休息)</li>
+        <li>🔢 <b>上午=高数</b>：每天08:30-12:00(3.5h·含微休；周六=3h消欠账+30min复盘)</li>
         <li>🍜 <b>12:00-14:30=午饭+午休+收拾</b>：休息到14:00·收拾后约14:30开</li>
         <li>📖 <b>下午=主科纯块3.5h</b>：自控日⚙️自控·英语日📝英语·14:30-18:00</li>
         <li>🍜 <b>18:00-19:00=晚饭+散步1h</b>：离开书</li>
@@ -1414,7 +1422,7 @@ pro:'飞哥收尾·离散+非线性 | 777基础300错题回顾',
 eng:'2009-2010阅读 | 柴荣技巧课✅',
 pol:'带刷D19→D21·8月下旬追平✅' },
 { start:'2026-08-24', end:'2026-09-06', label:'第9-10周（⚠️开学·周二13:30+周五10:00课）',
-math:'🔴16级数✅(8.30-9.2复盘+课后题)→17/18/10/11没咋了强化(9.8收尾) | 🧵线代第5讲✅(8.30听+9.2课后题)→第6讲(9.1-9.3) | 🟣概率百宝书(视频课待发布·书已打印) | 周六=休息日',
+math:'🔴16级数✅(8.30-9.2复盘+课后题)→17/18/10/11没咋了强化(9.8收尾) | 🧵线代第5讲✅(8.30听+9.2课后题)→第6讲(9.1-9.3) | 🟣概率百宝书(视频课待发布·书已打印) | 周六=休息日+上午半天(3h消欠账+30min复盘)',
 pro:'777基础300→强化260选做 | 真题通读思路',
 eng:'精读恢复(2011-2012)+柴荣7/7✅+新题型方法论(8.30已开·9.8收尾)',
 pol:'9月启动：带刷听完=一刷 + 苏一导图→肖1000' },
@@ -1588,7 +1596,7 @@ function isHomeWorkoutDay(date) {
 }
 
 function isRestDay(date) {
-  // 学6休1: 周六休息
+  // 学6休1: 周六休息（v60起上午上半天3.5h消欠账）
   return date.getDay() === 6; // Saturday
 }
 
@@ -1621,7 +1629,11 @@ function getSchedule(date) {
 
   // Rest day check for July+
   if (isRestDay(date)) {
-    return { tag: '休息日', emoji: '😴', rest: true, schedule: [] };
+    // v60: 周六仍是休息日，但上午上半天（3.5h）——专门消欠账/错题
+    return { tag: '休息日 · 上午半天🕗', emoji: '📚', rest: true, halfDay: true, schedule: [
+      { t:"08:30-11:30", l:"🔢 半天(3h)：消欠账 / 本周⭐错题", s:"math" },
+      { t:"11:30-12:00", l:"🗓️ 周复盘（5问 + 下周最该保的3件事）", s:"rest" },
+    ]};
   }
 
   const isAutoCtrl = isSelfControlDay(date);
@@ -1780,12 +1792,20 @@ function render() {
     }
     main.innerHTML = `
       <div class="rest-card">
-        <div class="rest-icon">😴</div>
-        <div class="rest-text">今天是休息日</div>
-        <div class="rest-sub">学6休1（周六休息），好好放松充电 🔋</div>
+        <div class="rest-icon">📚</div>
+        <div class="rest-text">休息日 · 上午半天（8:30-12:00 · 3.5h）</div>
+        <div class="rest-sub">学6休1：上午 3h 消欠账/⭐错题 ＋ 30min 周复盘；12:00 之后全休 🔋</div>
       </div>
       <div class="timeline-card" style="margin-top:14px;">
-        <div class="timeline-title"><span class="dot"></span>🗓️ 每周复盘清单（约1h·轻量）</div>
+        <div class="timeline-title"><span class="dot"></span>📋 周六半天清单（8:30-12:00 · 3.5h）</div>
+        <ul class="timeline-list">
+          <li class="timeline-item"><span class="tl-marker math"></span><span class="tl-label">${getDailyMathTask(now)}</span><span class="tl-check"></span></li>
+          <li class="timeline-item"><span class="tl-marker rest"></span><span class="tl-label">🗓️ 11:30-12:00 周复盘（5问 + 下周最该保的3件事）</span><span class="tl-check"></span></li>
+        </ul>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">固定顺序：① 本周欠账题块 → ② 本周⭐/△错题重做 → ③ 都清完了才往下推进（推不动就停，别硬补）</div>
+      </div>
+      <div class="timeline-card" style="margin-top:14px;">
+        <div class="timeline-title"><span class="dot"></span>🗓️ 每周复盘清单（周六 11:30-12:00 · 30min·挑重点）</div>
         <table style="width:100%;font-size:13px;color:var(--text2);border-collapse:collapse;">
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">🔢 数学 25-30min</td><td style="padding:6px;">本周⭐/△题只看思路·卡住的重新做 | 没咋了题型口头复述 | 选填技巧卡+计算错误点清单</td></tr>
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">⚙️ 828 10-15min</td><td style="padding:6px;">777/俞立课后错题重看错因 + 本周核心公式默写(自控:梅森/稳态误差/朱利/伯德K ｜ 现控:e^At/能控能观/极点配置/观测器)</td></tr>
@@ -1851,7 +1871,7 @@ function render() {
   const tomorrowWD = ["日","一","二","三","四","五","六"][tomorrowDate.getDay()];
   let tomorrowCardHTML = "";
   if (tomorrowInfo.rest) {
-    tomorrowCardHTML = '<div class="timeline-card" style="margin-top:14px;opacity:0.85;"><div class="timeline-title"><span class="dot"></span>📅 明天（周' + tomorrowWD + '）· 😴 休息日</div><div style="font-size:13px;color:var(--text2);padding:8px 0;line-height:1.8;">😴 周六休息 · 不排任务 · 好好放松 🔋</div></div>';
+    tomorrowCardHTML = '<div class="timeline-card" style="margin-top:14px;opacity:0.85;"><div class="timeline-title"><span class="dot"></span>📅 明天（周' + tomorrowWD + '）· 📚 休息日（上午半天）</div><div style="font-size:13px;color:var(--text2);padding:8px 0;line-height:1.8;">📚 周六：上午 8:30-11:30 消欠账/⭐错题(3h) → 11:30-12:00 周复盘(30min) → 之后全休 🔋</div></div>';
     const afterDate = new Date(tomorrowDate.getTime() + 86400000);
     const afterInfo = getSchedule(afterDate);
     if (!afterInfo.rest) {
@@ -1929,13 +1949,14 @@ function closeDrawer() {
 // ═══════════════════════════════════════
 
 const NOTIFY_TIMES = [
-  { hour: 8, minute: 25, id: "0825", label: "🏫 到教室·🔢 高数 8:30 开始（周六休息😴）", skipRest: true },
+  { hour: 8, minute: 25, id: "0825", label: "🏫 到教室·🔢 高数 8:30 开始（周六=半天3.5h·消欠账）", skipRest: true },
   { hour: 11, minute: 55, id: "1155", label: "🍜 12点 午饭+午休", skipRest: true },
-  { hour: 14, minute: 25, id: "1425", label: "📖 下午大块·自控日⚙️自控3.5h / 英语日📝英语3.5h（约14:30·收拾完就开）", skipRest: true },
-  { hour: 17, minute: 55, id: "1755", label: "🍜 晚饭+休息 1h", skipRest: true },
+  { hour: 11, minute: 30, id: "1130r", label: "🗓️ 半天结束→周复盘 30min（5问+下周最该保的3件事），12:00 后全休", restOnly: true },
+  { hour: 14, minute: 25, id: "1425", label: "📖 下午大块·自控日⚙️自控3.5h / 英语日📝英语3.5h（约14:30·收拾完就开）" },
+  { hour: 17, minute: 55, id: "1755", label: "🍜 晚饭+休息 1h" },
   { hour: 18, minute: 55, id: "1855", label: "📜 政治 5分钟后开始（苏一/肖1000）", polClassOnly: true, sticky: true },
-  { hour: 19, minute: 25, id: "1925", label: "🧵 线代/概率 5分钟后开始（🟣李良强化·周一/三=Kira）", skipRest: true },
-  { hour: 20, minute: 55, id: "2055", label: "📋 21:00/21:30 收工·今日复盘+标⭐", skipRest: true },
+  { hour: 19, minute: 25, id: "1925", label: "🧵 线代/概率 5分钟后开始（🟣李良强化·周一/三=Kira）" },
+  { hour: 20, minute: 55, id: "2055", label: "📋 21:00/21:30 收工·今日复盘+标⭐" },
 ];
 
 // Political study days: 马原✅(7.17) + 8.25起每天（非休息日）·19:00-19:30
@@ -2037,7 +2058,8 @@ function checkNotifications() {
   for (const nt of NOTIFY_TIMES) {
     if (notifiedToday.has(nt.id)) continue;
     // Rest days: only allow political class notifications
-    if (dayInfo.rest && !nt.polClassOnly && !nt.skipRest) continue;
+    if (dayInfo.rest && !nt.polClassOnly && !nt.restOnly && !nt.skipRest) continue;
+    if (!dayInfo.rest && nt.restOnly) continue;
 
     // Check if skipGym and today IS a gym day (v6: 健身日9点不提示)
     if (nt.skipGym && dayInfo.gym) continue;
