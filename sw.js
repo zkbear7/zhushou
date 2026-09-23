@@ -60,7 +60,7 @@
 //             听课：必听 14→11 讲、速过 6→8、跳 6→7（26最小维观测器不考）｜总必做 162→157
 //             补：26真题机构11月底给电子档 → 留12月整卷模拟
 
-const CACHE_NAME = 'kaoyan-helper-v70';
+const CACHE_NAME = 'kaoyan-helper-v71';
 const urlsToCache = [
   '/',
   '/index.html',
