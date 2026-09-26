@@ -62,7 +62,7 @@
 
 // v72 (9.26): 880 口径改「分两层」——基础选择/填空进每天"选填5-6题"槽（9月做掉）；基础解答+综合题10月考点驱动补漏(取2-3道·不整章)
 //             每份二刷文档里的 ✅ 明确为"补漏池"而非必刷清单（原先读起来像"全放十月"→十月会爆）
-const CACHE_NAME = 'kaoyan-helper-v72';
+const CACHE_NAME = 'kaoyan-helper-v73';
 const urlsToCache = [
   '/',
   '/index.html',
