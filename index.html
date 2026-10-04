@@ -619,7 +619,7 @@ const AUTOCTRL_DAY = [  // 一三五 · 自控日（v29·9.4改：7:30起·8:30�
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-  { t:"20:30-21:00", l:"📝 英语（轻量）", s:"eng" },
+  { t:"20:30-21:00", l:"📝 英语轻量（🈶翻译20min＋✍️写作句卡）", s:"eng" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -627,7 +627,7 @@ const ENGLISH_DAY = [  // 二四日 · 英语日（v29·9.4改：7:30起·8:30�
   { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-  { t:"14:30-18:00", l:"📝 英语", s:"eng" },
+  { t:"14:30-18:00", l:"📝 英语（14:30 🈶翻译20min → 精读/写作）", s:"eng" },
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
@@ -851,6 +851,218 @@ function getDailyEngLightTask() {
 }
 
 // ── Drawer content ──
+const FANYI_DAYS = [
+{d:1,date:"10.4",wd:"日",src:"2016-46",topic:"心理健康是天生的",skill:"断句6把刀 + 找主干",gram:"语法课第6节",
+ q:[["built into",["建造在……里面","与生俱来；内置","增加到"],1],["heal",["愈合；治愈（伤口）","治疗（需医生介入）","缓解（疼痛）"],0],["mend",["修补（衣服）","修复；长好（骨折/断裂）","改善（关系）"],1]],
+ sent:"We don't have to learn how to be mentally healthy; it is built into us in the same way that our bodies know how to heal a cut or mend a broken bone.",
+ sp:"We don't have to learn //how to be mentally healthy; //it is built into us //in the same way that our bodies know //how to heal a cut //or mend a broken bone.",
+ main:"We don't have to learn …; it is built into us …（两个分句并列）。in the same way that… 是方式状语，that 引导定语从句修饰 way。",
+ ref:"我们不必学习如何保持心理健康；它是我们生来就有的，正如同我们的身体知道如何治愈伤口或修复断骨一样。",
+ pts:[["We don't have to learn how to be mentally healthy","我们不必（没必要）学习如何保持心理健康"],["it is built into us","它是我们与生俱来的 / 它天生就在我们身上"],["in the same way that our bodies know","正如同我们的身体知道"],["how to heal a cut or mend a broken bone","如何治愈伤口或修复断骨"]],
+ tech:["断句6把刀用了3把：分号（标点）、连词 that、to do 不定式 how to…","词义选择：built into / heal / mend / cut","调整语序：in the same way that… 是后置方式状语 → 中文“正如同……一样”","增词：补出“是”字，句子才完整"],
+ trap:["把 in the same way that 拆开译成“在同样的方式里，那个……”→ 不通顺，整体记作“正如同……一样”","built into 直译“建造在里面”→ 明显扭曲原意，该句最多 0.5 分"]},
+
+{d:2,date:"10.5",wd:"一",src:"2016-47",topic:"心理健康是天生的",skill:"词义选择 + 被动变主动",gram:"语法课第6节",
+ q:[["go anywhere",["去任何地方","真的消失；离开","传得开"],1],["view",["观点","视野；视线","风景"],1],["restored",["被恢复；重现","被修复（建筑）","被归还"],0]],
+ sent:"Our mental health doesn't really go anywhere; like the sun behind a cloud, it can be temporarily hidden from view, but it is fully capable of being restored in an instant.",
+ sp:"Our mental health doesn't really go anywhere; //like the sun //behind a cloud, //it can be temporarily hidden from view, //but it is fully capable of being restored //in an instant.",
+ main:"分句一：Our mental health doesn't really go anywhere。分句二：it can be … hidden …, but it is … capable of being restored。like the sun behind a cloud 是插入的比喻状语，提到句首处理最顺。",
+ ref:"心理健康并没有真的离开；宛如云朵后面的太阳，它虽然可能暂离我们的视线，但完全能在转瞬之间重现。",
+ pts:[["Our mental health doesn't really go anywhere","心理健康并没有真的离开（从未远去）"],["like the sun behind a cloud","宛如云朵后面的太阳"],["it can be temporarily hidden from view","它虽然可能暂离我们的视线（暂时隐藏于视线之外）"],["but it is fully capable of being restored in an instant","但完全能在转瞬之间重现"]],
+ tech:["被动变主动：being restored 保留被动也能对（“被恢复”），但译“重现”更通顺——尽量被动变主动，怎么通顺怎么来","增词（逻辑词）：but 前的中文补“虽然”","词义选择：view（视线，不是观点）、instant（转瞬）"],
+ trap:["“被隐藏远离视野”是柴荣笔记里的 1.0 版错译——语序没调 + 被动没转","temporarily（暂时地）位置要随语序走，不要死贴在 hidden 前面"]},
+
+{d:3,date:"10.6",wd:"二",src:"2016-48",topic:"心理健康是天生的",skill:"状语从句 if + 介词短语转动词",gram:"语法课第12节",
+ q:[["view",["观看","看待；对待","视察"],1],["troubles",["麻烦事","困难；苦难","故障"],1],["sympathy",["同情；怜悯","赞同","共鸣"],0]],
+ sent:"Mental health allows us to view others with sympathy if they are having troubles, with kindness if they are in pain, and with unconditional love no matter who they are.",
+ sp:"Mental health allows us to view others //with sympathy //if they are having troubles, //with kindness //if they are in pain, //and with unconditional love //no matter who they are.",
+ main:"主干：Mental health allows us to view others。三个 with 短语并列，全部挂在 view others 上：with sympathy…, with kindness…, and with unconditional love…",
+ ref:"心理健康让我们在他人遇到困难时心怀同情，遭受苦痛时心怀善意，不论他们是谁（我们）都会心怀无条件的爱。",
+ pts:[["Mental health allows us to view others","心理健康让我们看待他人"],["with sympathy if they are having troubles","在他人遇到困难时心怀同情"],["with kindness if they are in pain","（在他人）遭受痛苦时心怀善意"],["and with unconditional love no matter who they are","不论他们是谁，都会心怀无条件的爱"]],
+ tech:["词性转换（介→动）：with sympathy 直译“伴随着同情”→ 转成动词“心怀”同情 / “给予”善意，这是本句最大的技巧分","状语从句调整语序：if… 英语在后、中文在前 → “在他人遇到困难时”","并列是整体：三个 with 别只译出一个"],
+ trap:["只译出第一个 with 就收尾 → 漏译，采分点③④全丢","直译成“以同情去观看别人” → 不像人话，通顺分丢"]},
+
+{d:4,date:"10.7",wd:"三",src:"2016-49",topic:"心理健康是天生的",skill:"让步状语从句 + as 多义 + 程度副词",gram:"语法课第13节",
+ q:[["cure-all",["万灵药；万能药","疗法","所有治愈手段"],0],["perfectly",["完美地","极其；非常","完全地（无余地）"],1],["as",["作为","因为；由于","当……时"],1]],
+ sent:"Although mental health is the cure-all for living our lives, it is perfectly ordinary as you will see that it has been there to direct you through all your difficult decisions.",
+ sp:"Although mental health is the cure-all //for living our lives, //it is perfectly ordinary //as you will see //that it has been there //to direct you //through all your difficult decisions.",
+ main:"主干（主句）：it is perfectly ordinary。Although… 是让步状语从句；as you will see that… 是原因状语从句，其中 that 从句是 see 的宾语。",
+ ref:"尽管心理健康是我们生活的万能灵药，但它又再寻常不过，因为你会发现，它一直在那里引领你完成所有艰难的抉择。",
+ pts:[["Although mental health is the cure-all for living our lives","尽管心理健康是我们生活的万灵药"],["it is perfectly ordinary","但它又再寻常不过（极其普通）"],["as you will see","因为你会发现 / 正如你会看到的"],["that it has been there to direct you through all your difficult decisions","它一直在那里引领你完成所有艰难的抉择"]],
+ tech:["增词（逻辑词）：Although + 主句 → 中文“尽管……但……”，补“但”","词性转换（介→动）：through all your difficult decisions → “完成”所有艰难的抉择","词义选择：perfectly（极其）、cure-all（万灵药）"],
+ trap:["perfectly 译成“完美地”→ 词义选择错，采分点②全丢","as 译成“作为”→ 结构判断错。先判词性再判意思：as + 完整句子 = 连词（因为/当/正如）"]},
+
+{d:5,date:"10.8",wd:"四",src:"2016-50",topic:"心理健康是天生的",skill:"动名词并列作主语 + 主干提炼",gram:"语法课第7-8节",
+ q:[["come to see",["来看","终将发现；逐渐明白","过来看看"],1],["available",["可以买到的","在场的","一直都有的；无时不在"],2],["slow down to the moment",["减速到这一刻","慢下来，活在当下（回到此刻）","一直等到那一刻"],1]],
+ sent:"As you will come to see, knowing that mental health is always available and knowing to trust it allow us to slow down to the moment and live life happily.",
+ sp:"As you will come to see, //knowing //that mental health is always available //and knowing to trust it //allow us to slow down //to the moment //and live life happily.",
+ main:"主语 = knowing that… and knowing to trust it（两个动名词短语并列）；谓语 = allow。主干 = knowing A and knowing B allow us to do sth.。注意 allow 用复数形式，就是从语法上告诉你主语是两个动名词并列。",
+ ref:"你终会明白，懂得心理健康无时不在并懂得信赖它，这能让我们慢下来活在每一刻，快乐地生活着。",
+ pts:[["As you will come to see","你终将发现 / 你终会明白"],["knowing that mental health is always available","懂得心理健康无时不在（始终存在）"],["and knowing to trust it","并懂得信赖它"],["allow us to slow down to the moment and live life happily","能让我们慢下来活在每一刻，快乐地生活"]],
+ tech:["主干提炼：全篇最容易栽的一句。看到 allow 找不到主语时，回头往 knowing 找","代词指代 + 增词：中文补上“这”字——“懂得……并懂得……，这能让我们……”","词性转换：to slow down to the moment 的介词短语 → “活在每一刻/当下”"],
+ trap:["最大陷阱：读成“你终将发现……这能让我们……”，把 allow 的主语误判成 you。you will come to see 只是句首状语","knowing to trust it 不是“知道去信任”，而是“懂得信赖它”"]},
+
+{d:6,date:"10.9",wd:"五",src:"2017-46",topic:"英语的全球地位在下降",skill:"同位语从句 + there be + 词义选择",gram:"语法课第10节",
+ q:[["expands",["膨胀","增加；扩大","扩张（领土）"],1],["predominance",["优势；主导地位","优越感","数量优势"],0],["fade",["褪色","衰落；逐渐消失","变淡（气味）"],1]],
+ sent:"But even as the number of English speakers expands further there are signs that the global predominance of the language may fade within the foreseeable future.",
+ sp:"But //even as the number //of English speakers expands further //there are signs //that the global predominance //of the language may fade //within the foreseeable future.",
+ main:"主干：there are signs + 同位语从句。even as… 是让步状语从句（尽管……）。",
+ ref:"尽管讲英语的人数在进一步增加，但有迹象显示这一语言的全球统治地位在可预见的未来可能会衰落。",
+ pts:[["But even as the number of English speakers expands further","尽管讲英语的人数在进一步增加"],["there are signs","有迹象表明 / 存在这样的迹象"],["that the global predominance of the language may fade","这门语言的全球统治地位可能衰落"],["within the foreseeable future","在可预见的未来"]],
+ tech:["同位语从句：there are signs that… 的中文习惯是“有迹象表明……”。三种处理：① 前置（……的迹象）② 译为“即/：/—” ③ 顺译加动词（表明）","there be 句型 → 存在/有","状语从句调整语序：within the foreseeable future 英语在后，中文挪到“可能衰落”之前最顺"],
+ trap:["even as 译成“甚至当”→ 该译“尽管/即使当”，这里是让步","逐字译成“有迹象 那个……” → 缺“表明”，通顺分丢"]},
+
+{d:7,date:"10.10",wd:"六",src:"2017-47",topic:"英语的全球地位在下降",skill:"定语从句 + 结果状语从句 + 否定处理",gram:"语法课第11/13节",
+ q:[["end（动词）",["结束","打消；让……不再","终止（合同）"],1],["should",["应该（给建议）","可能（表推测）","竟然"],1],["stable",["稳定的；稳固的","沉稳的（性格）","稳定的（化学）"],0]],
+ sent:"His analysis should therefore end any self-contentedness among those who may believe that the global position of English is so stable that the young generations of the United Kingdom do not need additional language capabilities.",
+ sp:"His analysis should therefore end any self-contentedness //among those //who may believe //that the global position //of English is so stable //that the young generations //of the United Kingdom do not need additional language capabilities.",
+ main:"主干：His analysis should end any self-contentedness among those。who may believe… 是定语从句修饰 those；第1个 that 是 believe 的宾语从句；第2个 that 是 so…that… 结果状语从句。",
+ ref:"因此，他的分析会让一些人再也无法自满，这些人或许认为英语的全球地位十分稳固，从而英国的年轻人无需额外的语言能力。",
+ pts:[["His analysis should therefore end any self-contentedness","因此，他的分析会让一些人不再自满"],["among those who may believe","在那些或许认为……的人当中"],["that the global position of English is so stable","英语的全球地位十分稳固"],["that the young generations of the United Kingdom do not need additional language capabilities","英国的年轻一代无需额外的语言能力"]],
+ tech:["词义选择：end（打消）、should（可能）——两个都容易直译错","否定处理：do not need 译“无需”更顺","定语从句后置：among those who may believe… 从句太长，用后置法重复先行词“这些人”","结果状语从句增词：so…that… → 中文加“从而”衔接"],
+ trap:["两个 that 认成一个 → 整句结构崩。判断方法：第2个 that 前面有 so + 形容词，一定是结果状语从句","end 译成“结束自满” → 搭配不通","全句按英文语序直译会变成“他的分析可能打消任何在那些可能认为……的人当中的自满” → 定语太长，中文不成立"]},
+
+{d:8,date:"10.11",wd:"日",src:"2001（柴荣讲义例句）",topic:"代词指代专项",skill:"代词指代（有歧义必须还原）",gram:"语法课第9节",
+ q:[["hosted by",["主办；主持","招待（客人）","承载（数据）"],0],["offend",["冒犯；得罪","违规；违反规定","犯罪"],1],["disable",["使残疾","使无法运转；使失效","关闭（开关）"],1]],
+ sent:"There will be television chat shows hosted by robots, and cars with pollution monitors that will disable them when they offend.",
+ sp:"There will be television chat shows //hosted by robots, //and cars //with pollution monitors //that will disable them //when they offend.",
+ main:"主干：There will be television chat shows …, and cars …（there be 句型 + 两个宾语并列）。them = cars，they = cars。这两个代词直译有歧义（前文有 chat shows 也有 cars），必须还原成“汽车”。",
+ ref:"届时，将会出现由机器人主持的电视聊天节目，和（装有污染监控器的）汽车，当汽车违规排污时，污染监控器将使汽车无法行驶。",
+ pts:[["There will be television chat shows hosted by robots","届时将会出现由机器人主持的电视聊天节目"],["and cars with pollution monitors","以及装有污染监控器的汽车"],["that will disable them","污染监控器将使汽车无法行驶"],["when they offend","当汽车违规排污时"]],
+ tech:["代词指代：them / they → 还原为“汽车”（有歧义必须还原）","词义选择：offend（违规排污）、disable（使无法行驶）、hosted（主持）","定语从句后置：that will disable them 前置会变成“将使汽车无法行驶的污染监控器”——判为 ✗，改后置","状语从句调整语序：when they offend 提到主句前","时态增词：There will be → 中文补“届时”"],
+ trap:["them/they 直接照抄成“它们” → 指代歧义，扣分","定语从句硬用前置 → “将使汽车无法行驶的污染监控器”，中文不成立","offend 译“冒犯” → 词义选择错"]},
+
+{d:9,date:"10.12",wd:"一",src:"2014-48",topic:"音乐（贝多芬）",skill:"词性转换（名词→动词）+ 被动语态",gram:"语法课第6节",
+ q:[["volume",["体积","音量","卷（书）"],1],["passage",["通道；走廊","通过（法案）","乐段；乐句"],2],["intensity",["强度；力度","紧张","强烈感情"],0]],
+ sent:"Beethoven's habit of increasing the volume with an extreme intensity and then abruptly following it with a sudden soft passage was only rarely used by composers before him.",
+ sp:"Beethoven's habit //of increasing the volume //with an extreme intensity //and then abruptly following it //with a sudden soft passage was only rarely used by composers //before him.",
+ main:"主干：Beethoven's habit … was only rarely used by composers before him.（主语 = Beethoven's habit，谓语 = was used）。关键动作：先把 of…passage 这一整块括起来（它是 habit 的同位式定语），主干立刻现形。",
+ ref:"贝多芬习惯先以极强的力度增大音量，然后出人意料地突然接续一个轻柔舒缓的乐段，这在他之前的作曲家中极为罕见。",
+ pts:[["Beethoven's habit of increasing the volume","贝多芬习惯增大音量（名词 habit → 动词“习惯”）"],["with an extreme intensity","以极强的力度"],["and then abruptly following it with a sudden soft passage","然后出人意料地突然接续一个轻柔舒缓的乐段"],["was only rarely used by composers before him","这在他之前的作曲家中极为罕见"]],
+ tech:["词性转换（名词→动词）：Beethoven's habit of … = “贝多芬习惯……”。这是本句最大的技巧分","被动变主动：was rarely used by composers → “（在）作曲家中极为罕见”","词义选择：volume（音量）、passage（乐段）、composer（作曲家）","并列结构：increasing … and then following … 两个动名词并列，都归 habit"],
+ trap:["habit 不转动词 → “贝多芬的……的习惯很少被使用”，生硬且丢失采分点①","passage 译成“通道/段落” → 词义选择错","it 指代不清 → 指前文“增大音量”的动作，译时可省略或处理成“接续”"]},
+
+{d:10,date:"10.13",wd:"二",src:"2012-46",topic:"科学追求普遍原则",skill:"增词减词（抽象→具体）+ 调整语序",gram:"语法课第10节",
+ q:[["approach",["接近（动词）","方法；做法","途径（道路）"],1],["impulse",["冲动；驱动力","脉冲（物理）","推动力（机械）"],0],["generative",["生成的；能生成的","有创造力的","世代的（生物）"],0]],
+ sent:"In physics, one approach takes this impulse for unification to its extreme, and seeks a theory of everything—a single generative equation for all we see.",
+ sp:"In physics, //one approach takes this impulse //for unification to its extreme, //and seeks a theory of everything //—a single generative equation for all //we see.",
+ main:"主干：one approach takes this impulse … to its extreme, and seeks a theory of everything …（破折号后 a single generative equation 是同位语）",
+ ref:"在物理学领域，一种做法把这种寻求大同理论的冲动推向极端，试图寻找包含一切的理论——一个涵括我们所看到的一切的生成性公式。",
+ pts:[["In physics","在物理学领域（不是“在物理学”）"],["one approach takes this impulse for unification to its extreme","一种做法把这种寻求大同理论的冲动推向极端"],["and seeks a theory of everything","试图寻找包含一切的理论"],["a single generative equation for all we see","一个涵括我们所看到的一切的生成性公式"]],
+ tech:["增词（抽象→具体）是本句核心：In physics → “在物理学领域”；a theory of everything → “包含一切的理论”；for all we see → “涵括我们所看到的一切”","词性转换：impulse for unification 的介词短语 → “寻求大同理论的冲动”","固定搭配：take sth. to its extreme = 把……发挥到极致 / 推向极端","同义替换思维：unification 在本篇对应 universal principles / commonalities / a single explicatory framework，要串起来保持一致"],
+ trap:["In physics 直译“在物理学” → 句子开头就不顺，必须增“领域/界”","a theory of everything 直译“一切的理论” → 名词堆，中文不成立","破折号后的同位语别漏译（漏了就是采分点④全丢）"]},
+
+{d:11,date:"10.14",wd:"三",src:"2017-48",topic:"英语的全球地位在下降",skill:"to do 不定式 + 否定结构 + 词义选择",gram:"语法课第12节",
+ q:[["curriculum",["课程体系；课程","简历","教学大纲（单门课）"],0],["fluency",["流利；熟练","流动性","流畅（文风）"],0],["appear",["出现","似乎；看来","露面"],1]],
+ sent:"many countries are introducing English into the primary-school curriculum but British schoolchildren and students do not appear to be gaining greater encouragement to achieve fluency in other languages.",
+ sp:"many countries are introducing English //into the primary-school curriculum //but British schoolchildren and students do not appear to be gaining greater encouragement //to achieve fluency //in other languages.",
+ main:"主干（but 前后各一）：① many countries are introducing English into the curriculum ② British schoolchildren and students do not appear to be gaining encouragement",
+ ref:"许多国家都在把英语纳入小学课程，但英国的大、中、小学生却似乎没有得到更多的鼓励去熟练掌握其他语言。",
+ pts:[["many countries are introducing English into the primary-school curriculum","许多国家都在把英语纳入（引入）小学课程"],["but British schoolchildren and students","但英国的大、中、小学生"],["do not appear to be gaining greater encouragement","却似乎没有得到更多的鼓励"],["to achieve fluency in other languages","去熟练掌握其他语言"]],
+ tech:["词义选择：introduce into（纳入，不是“介绍到”）、achieve fluency（熟练掌握）、appear（似乎）","概括词具体化：schoolchildren and students → 中文习惯说“大、中、小学生”","否定结构：do not appear to be gaining → “似乎没有得到”（否定位置跟着中文语序走）","to do 不定式作目的：to achieve fluency 是目的状语，中文用“去……”"],
+ trap:["introduce English into the curriculum 译成“把英语介绍到课程里” → 搭配错，该用“纳入/引入”","achieve fluency in other languages 逐字译“在其他语言上实现流利度” → 不通顺，采分点④会被判错译","but 只是并列转折，不是让步（不能译“尽管”）"]},
+
+{d:12,date:"10.15",wd:"四",src:"2017-49",topic:"英语的全球地位在下降",skill:"主干并列关系判断（to A and to B）",gram:"语法课第7-8节",
+ q:[["identified by",["被识别出","被指出；由……发现","被认证"],1],["present（动词）",["呈现；带来","赠送","介绍"],0],["providers",["供应商；提供者（可指个人或机构）","家庭供养者","提供设备的人"],0]],
+ sent:"The changes identified by David Graddol all present clear and major challenges to the UK's providers of English language teaching to people of other countries and to broader education business sectors.",
+ sp:"The changes //identified by David Graddol all present clear and major challenges //to the UK's providers //of English language teaching //to people //of other countries //and to broader education business sectors.",
+ main:"主干骨架：The changes present sth. to A and to B。A = the UK's providers of English language teaching to people of other countries（在英国教其他国家的人学英语的个人或机构）；B = broader education business sectors（更广泛的教育产业领域）。",
+ ref:"大卫·格拉多尔所指出的这些变化都对向其他国家的人提供英语教学的英国个人和组织机构乃至更广泛的教育产业领域构成明确的、重大的挑战。",
+ pts:[["The changes identified by David Graddol","大卫·格拉多尔所指出的这些变化"],["all present clear and major challenges","都构成（带来）明确的、重大的挑战"],["to the UK's providers of English language teaching to people of other countries","对向其他国家的人提供英语教学的英国个人和组织机构"],["and to broader education business sectors","乃至更广泛的教育产业领域"]],
+ tech:["V-ed 短语作后置定语：identified by David Graddol → 前置处理成“大卫·格拉多尔所指出的”","主干并列关系判断（本句最大痛点）：to A and to B 是两个并列的宾语，动词是 present。口诀：先抄骨架 The changes present sth. to A and to B，再往 A、B 里填","并列引起的省略：and to broader … 前省略了 present challenges，中文可用“乃至”一笔带过","专有名词：David Graddol → 音译“大卫·格拉多尔”"],
+ trap:["把 to the UK's providers 和 to people of other countries 认成同一层并列 → 结构崩。判断方法：providers of English language teaching to people of other countries 是一个整体名词短语","present 译成“呈现”而搭不上“挑战” → 该用“构成/带来”","只译出一个 to 的宾语 → 漏译，采分点④全丢"]},
+
+{d:13,date:"10.16",wd:"五",src:"2017-50",topic:"英语的全球地位在下降",skill:"同位语（a basis…, a basis…）+ 定语从句前置",gram:"语法课第10-11节",
+ q:[["meet",["遇见","应对；迎接","满足（需求）"],1],["operating environment",["手术环境","运作环境；经营环境","操作界面"],1],["promote",["促进；推动","晋升","推销"],0]],
+ sent:"It gives a basis for all organisations which seek to promote the learning and use of English, a basis for planning to meet the possibilities of what could be a very different operating environment.",
+ sp:"It gives a basis //for all organisations //which seek to promote the learning and use //of English, //a basis //for planning to meet the possibilities //of what could be a very different operating environment.",
+ main:"主干：It gives a basis … , a basis …。两个 a basis 是同位语（柴荣讲的“A, B”型）——同一个东西换个说法重说一遍。",
+ ref:"它为旨在促进英语学习和使用的所有组织机构提供了一个基础，该基础用于规划应对由一种或许会很不一样的运作环境所带来的各种可能。",
+ pts:[["It gives a basis for all organisations","它为所有组织机构提供了一个基础"],["which seek to promote the learning and use of English","旨在促进英语学习和使用的"],["a basis for planning to meet the possibilities","一个用于规划应对各种可能的基础"],["of what could be a very different operating environment","由一种或许会很不一样的运作环境所带来的"]],
+ tech:["定语从句前置：which seek to promote … → “旨在促进英语学习和使用的所有组织机构”","同位语处理：第二个 a basis 用“该基础用于……”衔接，不要重复成“一个基础”就停","词义选择：meet（应对）、possibilities（各种可能）","代词指代：It = 上文这项研究（this study）"],
+ trap:["第二个 a basis 漏译 → 同位语丢失，采分点③被判缺失","which 定语从句后置成“它为所有机构提供了一个基础，这些机构试图促进……，这是一个基础……” → 中文读起来散掉。本句前置更优","全句太长，容易写到一半忘了主句。先写主干“它为所有组织机构提供了一个基础”，再往两边补"]},
+
+{d:14,date:"10.17",wd:"六",src:"2018-46",topic:"莎士比亚时代戏剧发展",skill:"词义选择（passing）+ 并列结构 + 代词指代",gram:"语法课第7-8节",
+ q:[["passing（名词）",["经过；通过","消逝；消亡","及格"],1],["incentive",["激励；启发","奖金","动机（犯罪）"],0],["witness",["证人","见证；目睹","证明（法律）"],1]],
+ sent:"By the date of his birth Europe was witnessing the passing of the religious drama, and the creation of new forms under the incentive of classical tragedy and comedy.",
+ sp:"By the date //of his birth //Europe was witnessing the passing //of the religious drama, //and the creation //of new forms //under the incentive //of classical tragedy and comedy.",
+ main:"主干：Europe was witnessing the passing …, and the creation …（witnessing 后面两个宾语并列）。",
+ ref:"他出生时，欧洲正见证着宗教剧的消亡，以及在古典悲剧和喜剧启发之下新型戏剧形式的诞生。",
+ pts:[["By the date of his birth","到他出生时（他出生时）"],["Europe was witnessing the passing of the religious drama","欧洲正见证着宗教剧的消亡"],["and the creation of new forms","以及新形式的诞生（新型戏剧形式）"],["under the incentive of classical tragedy and comedy","在古典悲剧和喜剧的启发之下"]],
+ tech:["词义选择：passing（消亡，不是“经过”）、incentive（启发）、tragedy/comedy（悲剧/喜剧）","介词短语状语调整语序：By the date of his birth 英语在前、under the incentive of… 英语在后，中文都按“状语在前”处理","并列结构识别：witnessing 的两个宾语别只译一个","代词指代：his = 莎士比亚（读首句 Shakespeare's lifetime was coincident with… 就能确定）"],
+ trap:["passing 译“经过/通过” → “宗教剧的通过”完全不通","只译出“宗教剧的消亡”漏掉“新形式的诞生” → 采分点③全丢","全句主旨必须从首句读出来——这就是柴荣说的“读首句确定主旨/建立语境”"]},
+
+{d:15,date:"10.18",wd:"日",src:"2018-47",topic:"莎士比亚时代戏剧发展",skill:"否定结构（三步处理）·柴荣的“过关句”",gram:"语法课第14节",
+ q:[["ignorant",["无知的","不知道的；不了解的","愚昧的（贬义）"],1],["glory",["光荣；荣耀","壮丽（景色）","赞颂（宗教）"],0],["honor",["荣幸","荣耀；荣誉","敬意"],1]],
+ sent:"No boy who went to a grammar school could be ignorant that the drama was a form of literature which gave glory to Greece and Rome and might yet bring honor to England.",
+ sp:"No boy //who went to a grammar school could be ignorant //that the drama was a form //of literature //which gave glory //to Greece and Rome //and might yet bring honor //to England.",
+ main:"主干：No boy … could be ignorant that …。who went to a grammar school 是定语从句修饰 boy；which gave glory … and might yet bring honor … 是定语从句修饰 a form of literature。",
+ ref:"凡是文法学校的学童就不会不知道，戏剧这种文学形式曾给希腊和罗马带来辉煌，或也将为英国带来荣耀。",
+ pts:[["No boy who went to a grammar school could be ignorant","凡是文法学校的学童就不会不知道 / （上过文法学校的）学童都知道"],["that the drama was a form of literature","戏剧这种文学形式"],["which gave glory to Greece and Rome","曾给希腊和罗马带来辉煌"],["and might yet bring honor to England","或也将为英国带来荣耀"]],
+ tech:["否定处理四梯队——1.0 直译“没有……儿童会是无知的” → 2.0 词性转换“不会不知道” → 3.0 否定位置变换“儿童不会不知道” → 4.0 肯定否定转换“儿童都知道”（最通顺）","词义选择：ignorant（不知道）、yet（此处作语气加强“或将也”）","专有名词约定俗成：Greece 希腊 / Rome 罗马 / England 英格兰（英国）","同义替换思维：give = bring、glory = honor → 中文统一用“荣耀/辉煌”"],
+ trap:["No boy … could be ignorant 硬译成“没有男孩会是无知的” → 中式英语味极重，采分点①直接掉","yet 认不出来。柴荣提醒 yet 三种用法：① 句首 = but ② not yet = 还未 ③ 补充说明/语气加强（本句）","which 的先行词是 a form of literature（文学形式），不是 drama——定语从句跟着名词走"]},
+
+{d:16,date:"10.19",wd:"一",src:"2018-48",topic:"莎士比亚时代戏剧发展",skill:"as 的判断 + 并列结构 + 词义选择",gram:"语法课第12节",
+ q:[["prospered",["繁荣；兴旺","成功（个人）","发财"],0],["permanent",["永久的；固定的","长期的（合同）","不变的"],0],["as",["因为","作为；视为","当……时"],1]],
+ sent:"But the professional companies prospered in their permanent theaters, and university men with literary ambitions were quick to turn to these theaters as offering a means of livelihood.",
+ sp:"But the professional companies prospered //in their permanent theaters, //and university men //with literary ambitions were quick to turn to these theaters //as offering a means of livelihood.",
+ main:"主干（逗号前后各一）：① the professional companies prospered ② university men … were quick to turn to these theaters",
+ ref:"但是专业剧团在他们的固定剧场里蓬勃发展，而大学里有文学抱负的人们迅速转向这些剧场，视其为一种谋生手段。",
+ pts:[["the professional companies prospered in their permanent theaters","专业剧团在他们的固定剧场里蓬勃发展"],["and university men with literary ambitions","而大学里有文学抱负的人们"],["were quick to turn to these theaters","迅速转向这些剧场"],["as offering a means of livelihood","视其为一种谋生手段"]],
+ tech:["词义选择（本句最大坑）：companies 在这个语境（剧院、演员、戏剧）里是“剧团”，不是“公司”——语境决定词义","as 三步判断法：① as + 句子 = 连词（因为/当/正如）② as + 名词/动名词 = 介词（作为/像）③ 特殊情况（倒装“尽管”、as…as“和……一样”）。本句是第②种","调整语序：quick to turn to → “迅速转向”；as offering a means of livelihood 后置 → 中文用“视其为”接住","增词：中文补“而”体现两个分句的对比"],
+ trap:["professional companies 译“专业公司” → 词义选择错，全句语境崩","as 认成“因为” → 结构判断错（后面是动名词不是句子）","quick to do 直译“很快去……” → 应译“迅速（就）……”"]},
+
+{d:17,date:"10.20",wd:"二",src:"2018-49",topic:"莎士比亚时代戏剧发展",skill:"并列结构引起的省略 + 被动语态",gram:"语法课第7-8节",
+ q:[["native",["本土的；本国的","天生的","原住民的"],0],["alliance",["联盟；联合","同盟国","婚姻关系"],0],["had been begun",["已经开始了","本来要开始","开始过"],0]],
+ sent:"A native literary drama had been created, its alliance with the public playhouses established, and at least some of its great traditions had been begun.",
+ sp:"A native literary drama had been created, //its alliance with the public playhouses (had been) established, //and at least some //of its great traditions had been begun.",
+ main:"补回省略后：its alliance with the public playhouses had been established。主干：三个分句并列——① 戏剧已被创造 ② 联盟已建立 ③ 传统已开始。",
+ ref:"一种本土的文学戏剧已然形成，它与公共剧场的联盟已然建立，它的伟大传统中至少有一部分也已然开启。",
+ pts:[["A native literary drama had been created","一种本土的文学戏剧已经产生（已然形成）"],["its alliance with the public playhouses established","它与公共剧场的联盟已经建立"],["and at least some of its great traditions","并且它的伟大传统中至少有一部分"],["had been begun","也已经开始（已然开启）"]],
+ tech:["并列引起的省略（本句唯一考点）：第二个分句省掉了 had been。看不出来就整句结构崩——做完回读，问自己“这里缺动词吗”","被动语态：三个被动。中文用“已然形成 / 已然建立 / 已然开启”直接消掉“被”字。柴荣小词积累：had been = 已经 = 已然","代词指代：两个 its 都指 a native literary drama，中文用“它”","增词：中文补“也”衔接第三个分句"],
+ trap:["看不出省略 → 会把 its alliance … established 当成没有谓语的片段，整句译不出来","坚持译成“被创造、被建立、被开始” → 三个“被”字堆在一起，通顺分丢。英一翻译里“被”字是头号敌人","had been 不译出“已然/已经” → 时态分丢（英文时态看动词变化，中文靠加时间副词）"]},
+
+{d:18,date:"10.21",wd:"三",src:"2018-50",topic:"莎士比亚时代戏剧发展",skill:"宾语从句并列 + 定语从句 + 词义选择（note）",gram:"语法课第11节",
+ q:[["note（of note）",["笔记","知名；著名","音符"],1],["hosts of",["主人（复数）","大量；许多","主持人"],1],["survive",["幸存；留存下来","活下来（人）","比……活得长"],0]],
+ sent:"To realize how great was the dramatic activity, we must remember further that hosts of plays have been lost, and that probably there is no author of note whose entire work has survived.",
+ sp:"To realize //how great was the dramatic activity, //we must remember further //that hosts of plays have been lost, //and that probably there is no author //of note //whose entire work has survived.",
+ main:"主干：we must remember that …, and that …（两个 that 宾语从句并列）。how great was the dramatic activity 是宾语从句（感叹式倒装：how + 形容词 + was + 主语）。",
+ ref:"要明白当时的戏剧活动是何等繁荣，我们还必须记住，大量剧作都已散失，恐怕没有哪位知名作家的全部作品幸存至今。",
+ pts:[["To realize how great was the dramatic activity","要明白当时的戏剧活动是何等繁荣"],["we must remember further","我们还必须进一步记住"],["that hosts of plays have been lost","大量剧作都已散失"],["and that probably there is no author of note whose entire work has survived","恐怕没有哪位知名作家的全部作品幸存至今"]],
+ tech:["两个 that 宾语从句并列：柴荣反复强调“并列是一个整体”——只译一个，采分点③④必丢其一","后置定语 + 定语从句叠加：no author of note whose entire work has survived → 中文调成“没有哪位知名作家的全部作品幸存至今”","词义选择：note（知名）、hosts of（大量）、further（进一步）","时间增词：was 是过去时 → 中文补“当时的”"],
+ trap:["author of note 译成“作者的笔记” → 词义选择崩，采分点④直接 0.5 分没了","how great was the dramatic activity 按倒装直译成“多么伟大是戏剧活动” → 应还原成“戏剧活动是何等繁荣”","后半句 no author … survived 是部分否定，别译成“没有作者的全部作品”"]},
+
+{d:19,date:"10.22",wd:"四",src:"2019-46",topic:"为何劣质科学论文能发表",skill:"定语从句 + 插入语 + 被动语态",gram:"语法课第11-12节",
+ q:[["nonsense",["无稽之谈；胡言乱语","无意义的事","荒谬（哲学概念）"],0],["lay（形容词）",["放置（动词）","外行的；非专业的","世俗的（宗教）"],1],["press",["按压","新闻业；报刊","紧迫"],1]],
+ sent:"There is a great deal of this kind of nonsense in the medical journals which, when taken up by broadcasters and the lay press, generates both health scares and short-lived dietary enthusiasms.",
+ sp:"There is a great deal of this kind of nonsense //in the medical journals //which, //when taken up by broadcasters and the lay press, //generates both health scares //and short-lived dietary enthusiasms.",
+ main:"主干：There is a great deal of this kind of nonsense in the medical journals。which 引导的定语从句修饰 medical journals，插入语 when taken up by… 把定语从句和先行词隔开了（隔离结构）。",
+ ref:"医学期刊中存在大量此类无稽之谈，一经广播公司和非专业媒体报道，就会引发健康恐慌并激起短暂的健康饮食热潮。",
+ pts:[["There is a great deal of this kind of nonsense in the medical journals","医学期刊中（充斥着）大量此类无稽之谈"],["which, when taken up by broadcasters and the lay press","一经广播公司和非专业媒体报道"],["generates both health scares","就会引发健康恐慌"],["and short-lived dietary enthusiasms","并激起短暂的健康饮食热潮"]],
+ tech:["插入语处理（柴荣给3种）：① 保持位置不变 ② 提到句首 ③ 灵活处理。本句把 when taken up by… 提前处理成“一经……报道”，是第③种","被动变主动：when taken up by broadcasters = “（被）广播公司报道” → 中文用“一经……报道”，一个字都不用“被”","there be 句型：There is a great deal of … → 有/存在/充斥（同义替换清单：有、存在、出现、充斥、充满）","增词（both…and…）：→ “既会引发……又激起……”","词义选择：nonsense（无稽之谈）、lay（外行的）、press（新闻业）、dietary（饮食的）"],
+ trap:["lay 认成动词“放置” → 整句崩","taken up 直译“被拿起来” → 该是“（被）报道/采用”","插入语放错位置导致中文读不通——遇到局部不通顺：先调语序，再改措辞"]},
+
+{d:20,date:"10.23",wd:"五",src:"2019-47",topic:"为何劣质科学论文能发表",skill:"比较结构（倍数）+ 后置定语 + 结构提炼",gram:"语法课第13节",
+ q:[["post",["职位；岗位","邮政","柱子"],0],["applying for",["申请","应用","涂抹"],0],["would have been required",["（当时）会被要求；本来需要","将会被要求","一直都被要求"],0]],
+ sent:"nowadays anyone applying for a research post has to have published twice the number of papers that would have been required for the same post only 10 years ago.",
+ sp:"nowadays anyone //(applying for a research post) has to have published twice the number //of papers //(that would have been required //for the same post //only 10 years ago).",
+ main:"结构提炼：anyone have to have published many papers → anyone have to have published twice the number of papers … → 中文骨架：任何人必须已经出版的论文数量是 …… 的论文数量的两倍。",
+ ref:"如今，任何研究职位申请者所必须发表的论文数量是仅 10 年前同一职位所需论文数量的两倍。",
+ pts:[["nowadays anyone applying for a research post","如今任何申请研究职位的人（研究职位申请者）"],["has to have published twice the number of papers","所必须发表的论文数量是……的两倍"],["that would have been required for the same post","同一职位（当时）所需要的"],["only 10 years ago","仅 10 年前"]],
+ tech:["比较结构的语序（本句核心）：英语先出结果（twice the number），汉语先说比较对象再出结果。英语“总-分”，汉语“分-总”。不能译成“必须已经出版两倍的论文数量……”","后置定语前置：anyone applying for a research post → “申请研究职位的人”","后置定语从句：that would have been required … → 前置成“……所需要的”","虚拟语气增词：would have been required → 中文补“（当时）本来/所需”"],
+ trap:["不提炼结构直接顺译 → “如今任何人申请研究职位必须已经出版两倍的论文数量于仅十年前同一职位本来会被要求的”——完全不成句","twice 位置错（放在“发表”前） → 语序分丢","漏译 only（仅/才） → 削弱对比语气，“只 10 年前”是这句话的信息核心"]},
+
+{d:21,date:"10.24",wd:"六",src:"2019-48",topic:"为何劣质科学论文能发表",skill:"被动语态 + to do 不定式 + incorporate A into B",gram:"语法课第6节",
+ q:[["curb",["遏制；抑制","路边","约束（马具）"],0],["measure",["措施","衡量标准；尺度","测量（动词）"],1],["incorporate A into B",["把 A 并入 B","把 A 排除出 B","把 A 与 B 对比"],0]],
+ sent:"Attempts have been made to curb this tendency, for example, by trying to incorporate some measure of quality as well as quantity into the assessment of an applicant's papers.",
+ sp:"Attempts have been made //to curb this tendency, //for example, //by trying to incorporate some measure //of quality //as well as quantity //into the assessment //of an applicant's papers.",
+ main:"主干：Attempts have been made to do sth. = （我们/科学界）已做出尝试去做某事。",
+ ref:"（科学界）已做出尝试来遏制这一趋势，例如，试图将某种数量和质量衡量标准纳入申请者论文评估活动中。",
+ pts:[["Attempts have been made to curb this tendency","已做出尝试来遏制这一趋势"],["for example, by trying to incorporate","例如，试图在……中加入"],["some measure of quality as well as quantity","某种数量和质量衡量标准"],["into the assessment of an applicant's papers","纳入申请者论文的评估当中"]],
+ tech:["被动语态 + 增主语：Attempts have been made 直译“尝试已经被做出”很生硬 → 增加主语（我们/科学界）→ “（科学界）已做出尝试”","incorporate A into B 语序调换：英语是 incorporate A into B，中文习惯说“在 B 中加入 A”。三个等价说法：把 A 包含进 B / 把 A 加入到 B / 在 B 中加入 A","as well as = 以及（不是“也”）","插入语 for example：保持原位，用逗号隔开即可","词义选择：measure（衡量标准）、assessment（评估）"],
+ trap:["“尝试已经被做出”照抄 → 通顺分丢。英一翻译里“被”字是头号敌人（Day 17 也出现一次，高频雷区）","measure 译“措施” → some measure of quality 变成“质量的措施”，不通","as well as quantity 位置弄错 → 别漏掉“数量和质量”任一个，漏一个扣 0.5"]}
+];
+
 const DRAWER_SECTIONS = [
   {
     title: "🔢 数学一 · 110分层 ＋ 做题流程",
@@ -1109,14 +1321,14 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "📝 英语一（阅读 / 三小课 / 写作 / 单词）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译 10.1-10.10 唐静方法论</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每日一练（每天 20min·唐静已弃用）</b></p>
       <table>
         <tr><th>板块</th><th>老师</th><th>策略</th></tr>
         <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td>强化课 7 节✅·每日 1 篇精读（1.5h）·错 ≥2 题才深翻</td></tr>
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
         <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>每天 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
-        <tr><td>🟢 翻译</td><td><b>唐静</b></td><td><b>10.1-10.10 方法论听完（4h·B站免费）</b>→ 之后每周 2-3 篇真题限时 20min/篇（拆长难句＋调语序）→ 10 月下起并入三小课轮换</td></tr>
+        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每天 1 句 · 20min · 63 天（10.4→12.5）</b>·五步：词义热身→断句找主干→整句翻译→采分点自评→昨日回译｜一/三/五 20:30 槽 ＋ 二/四/日 英语日 14:30｜<b>唐静已弃用</b></td></tr>
         <tr><td>📖 单词</td><td>闪过＋扇贝APP</td><td>新背 1 list/天 ＋ 滚动 1 list/天（遮盖法）·理论课日整块背词（至 10.16）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
@@ -1140,11 +1352,14 @@ const DRAWER_SECTIONS = [
       <p style="font-size:11px;color:var(--rose);margin-top:4px;">📌 三条铁规：① 每周 ≥1 篇必须拿到批改 ② 每篇必须有第二遍（重写或默写）③ 只写真题·模拟题不写</p>
       <p style="font-size:11px;color:var(--text2);">🎯 大作文命题趋势：<b>2023 图画 → 2024 图画＋柱状图 → 2025 表格 → 2026 双图表</b>——图表必练，但三段论结构不变，只换第一段的描述方式</p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🟢 翻译节奏（唐静·10 分）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🈶 翻译节奏（柴荣·10 分·每天 20min·已定档）</p>
       <div class="c-card">
-        <div class="c-row"><span class="tag red">10.1-10.10</span>方法论听完（4h·英语日槽·不寄生）</div>
-        <div class="c-row"><span class="tag amber">10.11起</span>每周 2-3 篇真题翻译·限时 20min/篇 → 对答案 → 红笔改（重点：拆长难句＋调整语序）</div>
-        <div class="c-row"><span class="tag gray">量级</span>方法听完＋练 10-15 篇足够·不用刷完</div></div>
+        <div class="c-row"><span class="tag red">每天 1 句 20min</span>① 词义热身 3 题(3min) → ② 断句找主干(4min) → ③ 整句翻译(8min) → ④ 采分点自评(4min) → ⑤ 昨日回译(1min)</div>
+        <div class="c-row"><span class="tag amber">槽位</span>一/三/五 20:30-21:00 超轻量槽 ｜ 二/四/日 英语日 14:30-14:50（也可直接用当天精读挑的那句难句）</div>
+        <div class="c-row"><span class="tag blue">63 天</span>Day1-14 词法地基（2016/2017 全篇＋讲义例句）→ Day15-28 从句与语序（2018-2020）→ Day29-42 特殊结构（2021/2010/2011）→ Day43-63 整篇限时（2012-2015 新做＋2016-2021 二刷）</div>
+        <div class="c-row"><span class="tag gray">净新增≈0</span>真题生词本合并(−10min)＋单词第 2 轮提速(−20min)＋完型固定放周日</div>
+        <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每日一练」</b>→ 自动显示今天该做 Day 几＋题目＋解析＋自评分打卡</div>
+        <div class="c-row"><span class="tag amber">红线</span>先做后看，绝不先翻答案｜译文必须写成<b>完整的一整句中文</b>｜明显扭曲原意 → 该句最多 0.5 分</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词（低压力滚动）</p>
       <div class="c-card"><div class="c-title">闪过：新背 1 个 list ＋ 滚动 1 个 list</div>
@@ -1167,12 +1382,72 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📅 每天英语怎么排</p>
       <table>
         <tr><th>日型</th><th>任务</th></tr>
-        <tr><td>英语日<br>(二/四/日)</td><td>精读 1 篇 1.5h → 完型 1 篇（先做后听）1h → <b>写作：20min 微训练 ＋ 整篇（按周表）</b> ／翻译<br>单词：新背 1 list ＋ 滚动 1 list ｜ 生词本：当天摘 ≤10min</td></tr>
-        <tr><td>自控日<br>(一/三/五)</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>写作微训练 20min</b>（有余量再做限时 1 篇/5-6 题）<br>单词：新背 1 list ＋ 滚动 1 list ｜ 生词本照做</td></tr>
+        <tr><td>英语日<br>(二/四/日)</td><td><b>14:30-14:50 🈶 翻译每日一练 20min</b> → 精读（周二/周四 2 篇·周日 1 篇＋完型 1 篇）→ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>单词：新背 1 list ＋ 滚动 1 list ｜ 生词本：与翻译热身题合并 ≤10min</td></tr>
+        <tr><td>自控日<br>(一/三/五)</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>🈶 翻译每日一练 20min ＋ ✍️ 写作句卡 1 个 10min</b><br>单词：新背 1 list ＋ 滚动 1 list ｜ 生词本照做</td></tr>
       </table>
       <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 精读模式：英语日＝完整 1.5h（14:30-18:00 纯块内含）｜自控日＝晚间超轻量 30min（20:30-21:00）｜<b>漏了不补</b></p>
       <p style="font-size:11px;color:var(--text3);">📌 总时长不变：理论课日整块背词·常规日 30min×2（午复习＋晚新词）·不额外加时</p>
       <p style="font-size:12px;color:var(--text3);">🎯 目标 70 ｜ ROI：阅读 60% &gt; 写作 20% &gt; 新题型 8% &gt; 翻译 7% &gt; 完型 5% ｜ 10月＝23句句卡＋每周3篇＋翻译 ｜ 11月＝每周3篇(只写真题)＋模考 2021-2026 ｜ 12月＝每天默写＋每周2套限时</p>`
+  },
+  {
+    title: "🈶 翻译每日一练（柴荣 · 每天20min）",
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每天 1 句 20min · 63 天（10.4 → 12.5）｜唐静已弃用</b></p>
+      <div class="c-card"><div class="c-title">🎯 目标 6-7 分（满分 10·历年平均 3.89）</div>
+        <div class="c-row"><span class="tag red">每天 5 步</span>① 词义热身 3 题(3min) → ② 断句找主干(4min) → ③ 整句翻译(8min) → ④ 采分点自评(4min) → ⑤ 昨日回译(1min)</div>
+        <div class="c-row"><span class="tag amber">铁律</span><b>先做后看，绝不先翻答案</b>·必须动手写出<b>完整的一整句中文</b>（卷面不会骗人）</div>
+        <div class="c-row"><span class="tag blue">槽位</span>一/三/五 20:30-21:00 → 翻译 20min ＋ 写作句卡 1 个 ｜ 二/四/日 英语日 14:30-14:50 → 翻译 20min 再进精读</div>
+        <div class="c-row"><span class="tag gray">净新增≈0</span>真题生词本合并(−10min) ＋ 单词第 2 轮提速(−20min) ＋ 完型固定放周日</div></div>
+
+      <div id="fanyiToday"></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📐 采分点自评标准（柴荣评分标准）</p>
+      <div class="c-card">
+        <div class="c-row"><span class="tag red">计分</span>5 小题 × 2 分 = 10 分 · <b>按采分点给分</b>（每句 4 个采分点 × 0.5 分）</div>
+        <div class="c-row"><span class="tag amber">红线</span><b>译文明显扭曲原文意思 → 该句最多 0.5 分</b></div>
+        <div class="c-row"><span class="tag gray">错别字</span>不个别扣分，满三个错别字扣 0.5 分（不影响意思的前提下）</div>
+        <div class="c-row"><span class="tag blue">三问</span>① 意思对了吗（准确）② 句子完整吗（完整）③ 像人话吗（通顺）</div>
+        <div class="c-row"><span class="tag red">档位</span>单句 <b>1.2-1.4 分</b> = 及格线 ｜ <b>1.5 分以上</b> = 6-7 分总目标的水平</div></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔍 你的真实短板排序（不是"多背单词"）</p>
+      <div class="c-card">
+        <div class="c-row"><span class="tag red">① 词义选择</span>单词都认识、选错语境义。柴荣 2007 案例：preserve=律师的特权（不是"保留"）、equipment=知识体系（不是"知识设备"）</div>
+        <div class="c-row"><span class="tag amber">② 句子结构</span>定语从句挂错人、读不出主干 → 译文不成句</div>
+        <div class="c-row"><span class="tag blue">③ 技巧没用上</span>被动没变主动、后置定语没调序、代词没还原</div>
+        <div class="c-row"><span class="tag gray">④ 词汇量</span>考场三级策略：结合语境+逻辑猜 → 去掉不译 → 瞎译一个</div></div>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 63 天排期（10.4 → 12.5）</p>
+      <table>
+        <tr><th>阶段</th><th>时间</th><th>天数</th><th>重点 / 素材</th></tr>
+        <tr><td><b>一 · 词法地基</b></td><td>10.4-10.17</td><td>Day 1-14</td><td>断句6把刀 / 词义选择 / 代词指代 / 词性转换 / 增词减词<br>Day1-5=2016全篇 ｜ Day6-13=2017全篇 ｜ Day8-10=讲义短例句 ｜ Day14=2018-46</td></tr>
+        <tr><td><b>二 · 从句与语序</b></td><td>10.18-10.31</td><td>Day 15-28</td><td>名词性从句 / 定语从句（前置·后置·状译）/ 状语从句<br>Day15-18=2018全篇 ｜ Day19-23=2019全篇 ｜ Day24-28=2020全篇</td></tr>
+        <tr><td><b>三 · 特殊结构</b></td><td>11.1-11.14</td><td>Day 29-42</td><td>宾语后置 / 隔离 / 比较 / 倒装 / 否定 ＋ 被动 ＋ 时态<br>Day29-31=2021前3句 ｜ Day32-36=2010全篇 ｜ Day37-41=2011全篇 ｜ Day42=2012-46</td></tr>
+        <tr><td><b>四 · 整篇限时</b></td><td>11.15-12.5</td><td>Day 43-63</td><td>每 2 天 1 篇：限时 20min 做 5 句 → 自评 → 复盘<br>2012→2015 新做 ｜ 2016→2021 二刷提速 ｜ Day63 总复盘</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--text2);">📌 12.6-12.19：只做套卷里的翻译（2022-2026 五篇）＋ 错句本回看，不练新句</p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（解决阅读/作文/翻译抢时间）</p>
+      <table>
+        <tr><th>日型</th><th>时段</th><th>内容</th></tr>
+        <tr><td>一/三/五<br>自控日</td><td>20:30-21:00</td><td>🈶 <b>翻译每日一练 20min</b> ＋ ✍️ 写作句卡 1 个 10min</td></tr>
+        <tr><td>二/四/日<br>英语日</td><td>14:30-14:50</td><td>🈶 <b>翻译每日一练 20min</b>（用当天精读挑的那句难句也行）→ 再进精读</td></tr>
+        <tr><td>二 周二</td><td>14:50-18:00</td><td>精读 2 篇 → 大作文整篇 30min → 单词滚动 40min</td></tr>
+        <tr><td>四 周四</td><td>14:50-18:00</td><td>精读 2 篇 → 重写周二那篇 30min → 写作微训练 20min → 单词 40min</td></tr>
+        <tr><td>日 周日</td><td>14:50-18:00</td><td>精读 1 篇 → 完型 1 篇（先限时 18min 再听讲解）→ 小作文 20min → 单词 40min</td></tr>
+        <tr><td>六 铁休</td><td>—</td><td>只花 10min 把本周错句重译一遍</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译只做 ①词义热身 ＋ ②断句找主干（8min），不做整句翻译，<b>不算欠账、绝不补债</b></p>
+
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📚 配套柴荣语法课（哪句栽了看哪节）</p>
+      <table>
+        <tr><th>翻译技巧</th><th>语法课</th></tr>
+        <tr><td>断句、找主干、并列句</td><td>第 6 节 / 第 7-8 节</td></tr>
+        <tr><td>主语从句 / 宾语从句（含 it 形式主语/宾语）</td><td>第 9 节</td></tr>
+        <tr><td>表语从句 / 同位语从句</td><td>第 10 节</td></tr>
+        <tr><td>定语从句（前置 / 后置 / 状译）</td><td>第 11 节 / 第 12 节</td></tr>
+        <tr><td>状语从句</td><td>第 12 节 / 第 13 节</td></tr>
+        <tr><td>特殊结构（宾语后置/隔离/比较/倒装/否定）</td><td>第 13 节 / 第 14 节</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--text3);">📄 打印版：F:/考研/英语翻译/（总纲 · 第1/2/3周 题目本＋解析本 · MD＋PDF）｜题库数据：F:/考研/英语翻译/fanyi_days.js</p>`
   },
   {
     title: "📜 政治（张修齐主线 ＋ 肖1000 三刷）",
@@ -1269,7 +1544,7 @@ const DRAWER_SECTIONS = [
         <tr><th>科目</th><th>复盘动作</th></tr>
         <tr><td>🔢 数学 25-30min</td><td>本周 ⭐/△ 题只看思路·卡住的重新做 ｜ 没咋了题型口头复述 ｜ 选填技巧卡＋计算错误点清单读一遍</td></tr>
         <tr><td>⚙️ 828 10-15min</td><td>777/俞立课后错题重看错因 ＋ 核心公式默写（自控：梅森/稳态误差/朱利/伯德K ｜ 现控：e^At/能控能观/极点配置/观测器）</td></tr>
-        <tr><td>📝 英语 10min</td><td>错 ≥2 题篇章错因归类（定位/同义替换/细节）＋新题型/完型错因＋本周生词</td></tr>
+        <tr><td>📝 英语 10min</td><td>错 ≥2 题篇章错因归类（定位/同义替换/细节）＋新题型/完型错因＋本周生词＋<b>🈶 本周翻译错句重译一遍（面板有打卡记录，看哪几天掉到 1 分以下）</b></td></tr>
         <tr><td>📜 政治 10min</td><td>本周肖1000/苍盾错题＋帽子题抄本（带背听到哪＝记到哪）</td></tr>
         <tr><td>🧭 总复盘 5min</td><td>只问"这周学会了哪 3 件事"＋下周最该保的 1 件事</td></tr>
       </table>
@@ -1793,6 +2068,195 @@ function toggleTask(key, el) {
 // DRAWER
 // ═══════════════════════════════════════
 
+
+// ═══════════════════════════════════════
+// 英一翻译 · 每日一练（柴荣体系）
+// ═══════════════════════════════════════
+
+const FANYI_START = '2026-10-04';
+const FANYI_TOTAL = 63;
+let fanyiDay = null;
+let fanyiShowSplit = false;
+let fanyiShowAns = false;
+
+function fanyiTodayIndex() {
+  const now = new Date();
+  const t0 = new Date(FANYI_START + 'T00:00:00');
+  const d0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((d0 - t0) / 86400000) + 1;
+}
+
+function fanyiData(day) {
+  if (typeof FANYI_DAYS === 'undefined') return null;
+  return FANYI_DAYS.find(function (x) { return x.d === day; }) || null;
+}
+
+function fanyiGet(k) {
+  try { return localStorage.getItem('fanyi:' + k); } catch (e) { return null; }
+}
+function fanyiSet(k, v) {
+  try { localStorage.setItem('fanyi:' + k, v); } catch (e) {}
+}
+
+function fanyiSetDay(i) {
+  fanyiDay = Math.max(1, Math.min(FANYI_TOTAL, i));
+  fanyiShowSplit = false;
+  fanyiShowAns = false;
+  renderFanyi();
+}
+function fanyiGoToday() { fanyiSetDay(fanyiTodayIndex()); }
+function fanyiToggleSplit() { fanyiShowSplit = !fanyiShowSplit; renderFanyi(); }
+function fanyiToggleAns() { fanyiShowAns = !fanyiShowAns; renderFanyi(); }
+
+function fanyiPick(qi, oi, correct) {
+  const el = document.getElementById('fq_' + qi + '_' + oi);
+  if (!el) return;
+  if (oi === correct) {
+    el.style.background = '#e6f0e4';
+    el.style.borderColor = '#a3b899';
+    el.innerHTML = '✅ ' + el.dataset.t;
+  } else {
+    el.style.background = '#f6e3e3';
+    el.style.borderColor = '#c8a8a8';
+    el.innerHTML = '❌ ' + el.dataset.t;
+    const ok = document.getElementById('fq_' + qi + '_' + correct);
+    if (ok) {
+      ok.style.background = '#e6f0e4';
+      ok.style.borderColor = '#a3b899';
+      ok.innerHTML = '✅ ' + ok.dataset.t;
+    }
+  }
+}
+
+function fanyiSaveAns(day, val) { fanyiSet('ans:' + day, val); }
+
+function fanyiScore(day, v) {
+  fanyiSet('score:' + day, String(v));
+  renderFanyi();
+}
+
+function fanyiStats() {
+  let done = 0, sum = 0;
+  for (let i = 1; i <= FANYI_TOTAL; i++) {
+    const s = fanyiGet('score:' + i);
+    if (s !== null && s !== '') { done++; sum += parseFloat(s) || 0; }
+  }
+  return { done: done, avg: done ? (sum / done) : 0 };
+}
+
+function fanyiBtn(label, onclick, color) {
+  return '<button onclick="' + onclick + '" style="margin:2px 4px 2px 0;padding:4px 10px;border-radius:8px;border:1px solid ' + (color || '#e0d8cc') + ';background:#fff;font-size:12px;font-family:inherit;cursor:pointer;color:#3d3929;">' + label + '</button>';
+}
+
+function renderFanyi() {
+  const box = document.getElementById('fanyiToday');
+  if (!box) return;
+  const todayIdx = fanyiTodayIndex();
+  if (fanyiDay === null) fanyiDay = Math.max(1, Math.min(FANYI_TOTAL, todayIdx));
+  const day = fanyiDay;
+  const data = fanyiData(day);
+  const st = fanyiStats();
+
+  let h = '';
+
+  // 顶部：今天该做 Day 几
+  let head = '';
+  if (todayIdx < 1) head = '距开练还有 ' + (1 - todayIdx) + ' 天';
+  else if (todayIdx > FANYI_TOTAL) head = '✅ 63 天已走完（12.5 之后）→ 转做套卷翻译';
+  else head = '今天该做 <b>Day ' + todayIdx + '</b>';
+
+  h += '<div class="c-card"><div class="c-title">🈶 翻译每日一练 · ' + head + '</div>';
+  h += '<div class="c-row"><span class="tag red">进度</span>已打卡 <b>' + st.done + '</b> / ' + FANYI_TOTAL + ' 天 ｜ 平均自评分 <b>' + st.avg.toFixed(2) + '</b> / 2</div>';
+  h += '<div style="margin-top:6px;">' + fanyiBtn('‹ 上一天', 'fanyiSetDay(' + (day - 1) + ')')
+     + fanyiBtn('回到今天', 'fanyiGoToday()', '#c4a882')
+     + fanyiBtn('下一天 ›', 'fanyiSetDay(' + (day + 1) + ')') + '</div>';
+  h += '<div style="font-size:11px;color:var(--text3);margin-top:4px;">当前显示：Day ' + day + '（' + (data ? data.date : '待生成') + '）</div></div>';
+
+  if (!data) {
+    h += '<div class="c-card"><div class="c-title">Day ' + day + ' · 题目生成中</div>';
+    h += '<div class="c-row"><span class="tag gray">说明</span>Day 1-21 题目与解析已上线；Day 22-42（从句/特殊结构）与 Day 43-63（整篇限时）正在逐周生成，会陆续补进来。</div>';
+    h += '<div class="c-row"><span class="tag blue">这段时间</span>可以先把已上线的 Day 1-21 二刷，或按解析本的《下周预告》方向自己拿真题练。</div></div>';
+    box.innerHTML = h;
+    return;
+  }
+
+  // 今日任务卡
+  h += '<div class="c-card"><div class="c-title">Day ' + day + ' · ' + data.src + ' · ' + data.skill + '</div>';
+  h += '<div class="c-row"><span class="tag blue">主旨</span>' + data.topic + '</div>';
+  h += '<div class="c-row"><span class="tag gray">配套语法课</span>' + data.gram + '</div></div>';
+
+  // ① 词义热身
+  h += '<div class="c-card"><div class="c-title">① 词义热身（3min·点选项即判对错）</div>';
+  for (let qi = 0; qi < data.q.length; qi++) {
+    const q = data.q[qi];
+    h += '<div style="margin-top:6px;"><b style="font-size:13px;">' + (qi + 1) + '. ' + q[0] + '</b><div style="margin-top:3px;">';
+    for (let oi = 0; oi < q[1].length; oi++) {
+      h += '<button id="fq_' + qi + '_' + oi + '" data-t="' + q[1][oi].replace(/"/g, '') + '" onclick="fanyiPick(' + qi + ',' + oi + ',' + q[2] + ')" style="display:block;width:100%;text-align:left;margin:3px 0;padding:5px 9px;border-radius:8px;border:1px solid #e6ded2;background:#fdfbf8;font-size:12.5px;font-family:inherit;cursor:pointer;color:#2b2b2b;">' + q[1][oi] + '</button>';
+    }
+    h += '</div></div>';
+  }
+  h += '</div>';
+
+  // ② 断句
+  h += '<div class="c-card"><div class="c-title">② 断句 + 找主干（4min）</div>';
+  h += '<div class="c-row"><span class="tag red">原句</span></div>';
+  h += '<div style="font-size:13px;line-height:1.9;color:#2b2b2b;background:#fdfbf8;border:1px dashed #e0d8cc;border-radius:8px;padding:8px 10px;">' + data.sent + '</div>';
+  h += '<div style="margin-top:6px;">' + fanyiBtn(fanyiShowSplit ? '收起断句答案' : '看断句答案', 'fanyiToggleSplit()', '#c4a882') + '</div>';
+  if (fanyiShowSplit) {
+    h += '<div style="font-size:12.5px;line-height:1.9;background:#f7f4ef;border:1px solid #e6ded2;border-radius:8px;padding:8px 10px;margin-top:4px;white-space:pre-wrap;">' + data.sp + '</div>';
+    h += '<div class="c-row" style="margin-top:6px;"><span class="tag blue">主干</span>' + data.main + '</div>';
+  }
+  h += '</div>';
+
+  // ③ 翻译书写区
+  const saved = fanyiGet('ans:' + day) || '';
+  h += '<div class="c-card"><div class="c-title">③ 整句翻译（8min·写完整一整句中文）</div>';
+  h += '<textarea id="fanyiTa" oninput="fanyiSaveAns(' + day + ', this.value)" placeholder="在这里写你的译文（自动保存）…" style="width:100%;min-height:92px;border:1px solid #e6ded2;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.8;font-family:inherit;background:#fdfbf8;color:#2b2b2b;box-sizing:border-box;resize:vertical;">' + saved + '</textarea>';
+  h += '<div style="margin-top:6px;">' + fanyiBtn(fanyiShowAns ? '收起答案' : '④ 对答案（参考译文＋采分点）', 'fanyiToggleAns()', '#c4a882') + '</div>';
+  if (fanyiShowAns) {
+    h += '<div class="c-row" style="margin-top:8px;"><span class="tag red">参考译文（柴荣版）</span></div>';
+    h += '<div style="font-size:13px;line-height:1.9;background:#fdf8f4;border-left:3px solid #c4a882;border-radius:0 8px 8px 0;padding:8px 10px;color:#3d3929;">' + data.ref + '</div>';
+    h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;">采分点（每点 0.5 分）</div><table style="font-size:12px;">';
+    for (let pi = 0; pi < data.pts.length; pi++) {
+      h += '<tr><td style="width:52%;">' + data.pts[pi][0] + '</td><td>' + data.pts[pi][1] + '</td></tr>';
+    }
+    h += '</table>';
+    h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;">⑤ 技巧复盘</div><ul style="font-size:12px;line-height:1.75;margin:4px 0 0 16px;padding:0;">';
+    for (let ti = 0; ti < data.tech.length; ti++) h += '<li>' + data.tech[ti] + '</li>';
+    h += '</ul>';
+    h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;color:var(--rose);">⚠️ 易错预警</div><ul style="font-size:12px;line-height:1.75;margin:4px 0 0 16px;padding:0;">';
+    for (let xi = 0; xi < data.trap.length; xi++) h += '<li>' + data.trap[xi] + '</li>';
+    h += '</ul>';
+  }
+  h += '</div>';
+
+  // 自评分
+  const cur = fanyiGet('score:' + day);
+  h += '<div class="c-card"><div class="c-title">④ 自评分打卡（点击即记录）</div>';
+  h += '<div>';
+  const grades = [2, 1.5, 1, 0.5, 0];
+  for (let gi = 0; gi < grades.length; gi++) {
+    const g = grades[gi];
+    const active = (cur !== null && parseFloat(cur) === g);
+    h += '<button onclick="fanyiScore(' + day + ',' + g + ')" style="margin:2px 4px 2px 0;padding:5px 12px;border-radius:8px;border:1px solid ' + (active ? '#c4a882' : '#e0d8cc') + ';background:' + (active ? '#f3ece2' : '#fff') + ';font-size:12.5px;font-family:inherit;cursor:pointer;color:#3d3929;">' + g + ' 分</button>';
+  }
+  h += '</div>';
+  h += '<div style="font-size:11px;color:var(--text3);margin-top:4px;">当前记录：' + (cur === null ? '未打卡' : cur + ' 分') + '　（1.2-1.4 及格线 ｜ ≥1.5 是 6-7 分目标水平）</div>';
+  // 最近 7 天
+  h += '<div style="margin-top:8px;font-size:11px;color:var(--text2);">最近 7 天：';
+  for (let k = day - 6; k <= day; k++) {
+    if (k < 1) { h += '<span style="color:#ccc;">·&nbsp;</span>'; continue; }
+    const s = fanyiGet('score:' + k);
+    const col = (s === null) ? '#e0d8cc' : (parseFloat(s) >= 1.5 ? '#a3b899' : (parseFloat(s) >= 1 ? '#d4b896' : '#c8a8a8'));
+    h += '<span title="Day ' + k + (s === null ? ' 未打卡' : ' ' + s + '分') + '" style="display:inline-block;width:14px;height:14px;border-radius:4px;background:' + col + ';margin-right:3px;vertical-align:middle;"></span>';
+  }
+  h += '</div></div>';
+
+  h += '<p style="font-size:11px;color:var(--text2);">📌 做完记得点「下一天 ›」提前看明天；状态差就只做 ①②（8min），<b>不算欠账</b>。</p>';
+
+  box.innerHTML = h;
+}
+
 function buildDrawer() {
   const body = document.getElementById('drawerBody');
   body.innerHTML = DRAWER_SECTIONS.map((sec, i) => `
@@ -1813,6 +2277,7 @@ function toggleAccordion(i) {
 }
 
 function openDrawer() {
+  renderFanyi();
   document.getElementById('drawer').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
