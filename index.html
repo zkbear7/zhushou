@@ -619,7 +619,7 @@ const AUTOCTRL_DAY = [  // 一三五 · 自控日（v29·9.4改：7:30起·8:30�
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-  { t:"20:30-21:00", l:"📝 英语轻量（🈶翻译20min＋✍️写作句卡）", s:"eng" },
+  { t:"20:30-21:00", l:"📝 英语轻量（✍️写作20min＋单词生词本）", s:"eng" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -627,7 +627,7 @@ const ENGLISH_DAY = [  // 二四日 · 英语日（v29·9.4改：7:30起·8:30�
   { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-  { t:"14:30-18:00", l:"📝 英语（14:30 🈶翻译20min → 精读/写作）", s:"eng" },
+  { t:"14:30-18:00", l:"📝 英语（14:30 🈶翻译15min → 精读/写作）", s:"eng" },
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
@@ -834,20 +834,20 @@ function getDailyEngTask(date) {
     return (cloze ? cloze + ' ＋ ' : '') + '柴荣写作方法论热身1节（9.23起·每周2-3节）＋ 精读1篇';
   }
   if (key <= '2026-10-05') {
-    return (cloze ? cloze + '(每周1篇收尾) ＋ ' : '') + '写作：23句句卡＋每天20min微训练 ＋ 🈶翻译每日一练(20min·柴荣体系) ＋ 精读1篇';
+    return (cloze ? cloze + '(每周1篇收尾) ＋ ' : '') + '写作：23句句卡＋每天20min微训练 ＋ 🈶翻译15min(每周3次) ＋ 精读1篇';
   }
   if (key <= '2026-10-10') {
-    return '写作：23句句卡＋每天20min微训练（第1周题目）＋ 🈶翻译每日一练(20min) ＋ 精读1篇';
+    return '写作：23句句卡＋每天20min微训练（第1周题目）＋ 🈶翻译15min(每周3次) ＋ 精读1篇';
   }
   if (key <= '2026-10-31') {
-    return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·周二大作文/周四重写/周日新题+小作文) ＋ 🈶翻译每日一练(每天20min·面板自动排 Day) ＋ 精读1篇';
+    return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·周二大作文/周四重写/周日新题+小作文) ＋ 🈶翻译15min(每周3次·面板自动排次) ＋ 精读1篇';
   }
   if (key <= '2026-11-30') return '写作：每天20min微训练＋每周3篇整篇(只写真题·从2016往前) ／ 整卷模考2021-2026(周末3h) ＋ 新题型留用篇 ＋ 翻译保温';
   return '写作：每天15min默写＋每周2套限时(大30min+小20min) ＋ 阅读保温(2天1篇) ＋ 翻译错题回看';
 }
 
 function getDailyEngLightTask() {
-  return '🈶翻译每日一练1句(20min)＋✍️写作句卡1个(10min)（20:30-21:00）';
+  return '✍️写作20min＋单词生词本10min（20:30-21:00）｜翻译只在二/四/日';
 }
 
 // ── Drawer content ──
@@ -932,7 +932,7 @@ const FANYI_DAYS = [
  tech:["代词指代：them / they → 还原为“汽车”（有歧义必须还原）","词义选择：offend（违规排污）、disable（使无法行驶）、hosted（主持）","定语从句后置：that will disable them 前置会变成“将使汽车无法行驶的污染监控器”——判为 ✗，改后置","状语从句调整语序：when they offend 提到主句前","时态增词：There will be → 中文补“届时”"],
  trap:["them/they 直接照抄成“它们” → 指代歧义，扣分","定语从句硬用前置 → “将使汽车无法行驶的污染监控器”，中文不成立","offend 译“冒犯” → 词义选择错"]},
 
-{d:9,date:"10.12",wd:"一",src:"2014-48",topic:"音乐（贝多芬）",skill:"词性转换（名词→动词）+ 被动语态",gram:"语法课第6节",
+{d:9,date:"10.12",wd:"一",src:"2014-48（讲义例句）",topic:"音乐（贝多芬）",skill:"词性转换（名词→动词）+ 被动语态",gram:"语法课第6节",
  q:[["volume",["体积","音量","卷（书）"],1],["passage",["通道；走廊","通过（法案）","乐段；乐句"],2],["intensity",["强度；力度","紧张","强烈感情"],0]],
  sent:"Beethoven's habit of increasing the volume with an extreme intensity and then abruptly following it with a sudden soft passage was only rarely used by composers before him.",
  sp:"Beethoven's habit //of increasing the volume //with an extreme intensity //and then abruptly following it //with a sudden soft passage was only rarely used by composers //before him.",
@@ -942,7 +942,7 @@ const FANYI_DAYS = [
  tech:["词性转换（名词→动词）：Beethoven's habit of … = “贝多芬习惯……”。这是本句最大的技巧分","被动变主动：was rarely used by composers → “（在）作曲家中极为罕见”","词义选择：volume（音量）、passage（乐段）、composer（作曲家）","并列结构：increasing … and then following … 两个动名词并列，都归 habit"],
  trap:["habit 不转动词 → “贝多芬的……的习惯很少被使用”，生硬且丢失采分点①","passage 译成“通道/段落” → 词义选择错","it 指代不清 → 指前文“增大音量”的动作，译时可省略或处理成“接续”"]},
 
-{d:10,date:"10.13",wd:"二",src:"2012-46",topic:"科学追求普遍原则",skill:"增词减词（抽象→具体）+ 调整语序",gram:"语法课第10节",
+{d:10,date:"10.13",wd:"二",src:"2012-46（讲义例句）",topic:"科学追求普遍原则",skill:"增词减词（抽象→具体）+ 调整语序",gram:"语法课第10节",
  q:[["approach",["接近（动词）","方法；做法","途径（道路）"],1],["impulse",["冲动；驱动力","脉冲（物理）","推动力（机械）"],0],["generative",["生成的；能生成的","有创造力的","世代的（生物）"],0]],
  sent:"In physics, one approach takes this impulse for unification to its extreme, and seeks a theory of everything—a single generative equation for all we see.",
  sp:"In physics, //one approach takes this impulse //for unification to its extreme, //and seeks a theory of everything //—a single generative equation for all //we see.",
@@ -1060,7 +1060,126 @@ const FANYI_DAYS = [
  ref:"（科学界）已做出尝试来遏制这一趋势，例如，试图将某种数量和质量衡量标准纳入申请者论文评估活动中。",
  pts:[["Attempts have been made to curb this tendency","已做出尝试来遏制这一趋势"],["for example, by trying to incorporate","例如，试图在……中加入"],["some measure of quality as well as quantity","某种数量和质量衡量标准"],["into the assessment of an applicant's papers","纳入申请者论文的评估当中"]],
  tech:["被动语态 + 增主语：Attempts have been made 直译“尝试已经被做出”很生硬 → 增加主语（我们/科学界）→ “（科学界）已做出尝试”","incorporate A into B 语序调换：英语是 incorporate A into B，中文习惯说“在 B 中加入 A”。三个等价说法：把 A 包含进 B / 把 A 加入到 B / 在 B 中加入 A","as well as = 以及（不是“也”）","插入语 for example：保持原位，用逗号隔开即可","词义选择：measure（衡量标准）、assessment（评估）"],
- trap:["“尝试已经被做出”照抄 → 通顺分丢。英一翻译里“被”字是头号敌人（Day 17 也出现一次，高频雷区）","measure 译“措施” → some measure of quality 变成“质量的措施”，不通","as well as quantity 位置弄错 → 别漏掉“数量和质量”任一个，漏一个扣 0.5"]}
+ trap:["“尝试已经被做出”照抄 → 通顺分丢。英一翻译里“被”字是头号敌人（Day 17 也出现一次，高频雷区）","measure 译“措施” → some measure of quality 变成“质量的措施”，不通","as well as quantity 位置弄错 → 别漏掉“数量和质量”任一个，漏一个扣 0.5"]},
+{d:22,date:"",wd:"",src:"2019-49",topic:"为何劣质科学论文能发表",skill:"状语从句 + 同位语从句 + 语序调整",gram:"语法课第10/13节",
+ q:[["reasonable",["合理的","有道理的（人）","适度的"],0],["cite",["引用；引证","列举","传唤"],0],["associates",["同事；同行","副手（职位）","关联物"],0],["in return for",["作为回报","为了换取（条件）","反过来"],0]],
+ sent:"This would be reasonable if it were not for the fact that scientists can easily arrange to cite themselves in their future publications, or get associates to do so for them in return for similar favours.",
+ sp:"This would be reasonable //if it were not for the fact //that scientists can easily arrange to cite themselves //in their future publications, //or get associates to do so //for them //in return for similar favours.",
+ main:"主干：This would be reasonable。（这是结果）if it were not for the fact that…＝如果不是因为……这一事实（这是条件）。事实内容＝两个动作并列：cite themselves… ／ get associates to do so…",
+ ref:"如果不是因为科学家极有可能会在其未来的出版作品中引用自己的论文，或是让同事为了回报类似的帮助而引用自己论文，这倒也合理。",
+ pts:[["This would be reasonable","这（倒）是合理的"],["if it were not for the fact that…","如果不是因为……这一事实"],["scientists can easily arrange to cite themselves in their future publications","科学家很容易在其未来论文中引用自己（的论文）"],["or get associates to do so for them in return for similar favours","或者让同事为了回报类似的帮助而替他们这么做"]],
+ tech:["语序调整（本句核心）：英语先出结果（would be reasonable）再说条件（if it were not for…）；中文习惯先说条件再说结果 → 译文要整句倒过来","增词：cite themselves 引用的对象是“论文”，中文必须补出（引用自己“的论文”），否则不成话","固定搭配：get sb. to do sth.（让某人做某事）、in return for（作为回报）","词义选择：cite（引用）、associates（同事）、favours（帮助，不是“恩惠”）"],
+ trap:["按英文语序直译成“这会是合理的，如果不是因为……” → 中文不地道，采分点①②的顺序会被判乱","cite themselves 译成“引用他们自己” → 缺“论文”，意思走偏","fact that 直接译“事实那个” → 该用“……这一事实”接住"]},
+
+{d:23,date:"",wd:"",src:"2019-50",topic:"为何劣质科学论文能发表",skill:"条件状语从句 + 宾语从句",gram:"语法课第9/12节",
+ q:[["serious about",["认真对待；真心想","严肃（表情）","严重（病情）"],0],["reproducible",["可复制的；可重复的","可生产的","可繁殖的"],0],["institutions",["制度；机构","协会","建立（动词）"],0],["encourage",["激励；鼓励","助长（贬义）","支持（资金）"],0]],
+ sent:"If we are serious about ensuring that our science is both meaningful and reproducible, we must ensure that our institutions encourage that kind of science.",
+ sp:"If we are serious about ensuring //that our science is both meaningful and reproducible, //we must ensure //that our institutions encourage that kind of science.",
+ main:"主干：we must ensure that…。If we are serious about ensuring that… 是条件状语从句；两个 that 都是宾语从句（ensuring that… ／ ensure that…）。",
+ ref:"如果我们真想确保科学既有意义又具可复制性，我们就必须确保我们的制度激励这种科学才行。",
+ pts:[["If we are serious about ensuring","如果我们真想确保"],["that our science is both meaningful and reproducible","我们的科学既有意义又具可复制性"],["we must ensure","我们就必须确保"],["that our institutions encourage that kind of science","我们的制度（机构）激励这种科学"]],
+ tech:["状语从句调整语序：if 从句英语在前，中文也放前，但“serious about ensuring”要转成动词“真想确保”","词义选择：institution 是多义词（制度／机构／协会／建立）——本句谈科研体系，取“制度”最顺；encourage 在这句里是“激励”","增词：both…and… → “既……又……”；句末补“才行”让语气完整","结构：ensure that A ／ must ensure that B，两个 that 从句都是宾语，别把第一个当主语"],
+ trap:["serious about 译“认真对待” → 拗口；“真想（确保）”更贴","institutions 译“机构” → 意思也通但不如“制度”贴本篇（谈科研评价体系）","漏掉 that kind of science 的指代（指的是“既有意义又可复制的科学”） → 译成泛指的“那种科学”会丢分"]},
+
+{d:24,date:"",wd:"",src:"2020-46",topic:"文艺复兴",skill:"被动语态 + 专有名词约定俗成",gram:"语法课第11节",
+ q:[["Church",["教会","教堂（建筑）","礼拜"],0],["teachings",["教义；学说","教学工作","教导（个人）"],0],["eclipsed",["使黯然失色；遮蔽","日食","超越（成绩）"],0],["bridge（动词）",["弥合；消除（差距）","架桥","跨越（河流）"],0]],
+ sent:"With the Church's teachings and ways of thinking being eclipsed by the Renaissance, the gap between the Medieval and modern periods had been bridged, leading to new and unexplored intellectual territories.",
+ sp:"With the Church's teachings //and ways of thinking being eclipsed //by the Renaissance, //the gap //between the Medieval and modern periods had been bridged, //leading to new and unexplored intellectual territories.",
+ main:"主干：the gap … had been bridged。（主句是被动）With … being eclipsed by … 是 with 复合结构表原因/伴随；leading to … 是结果状语。",
+ ref:"随着文艺复兴使教会的教义和思维方式黯然失色，中世纪与现代时期之间的鸿沟得以弥合，从而出现了新的、未被探索的知识领域。",
+ pts:[["With the Church's teachings and ways of thinking being eclipsed by the Renaissance","随着文艺复兴使教会的教义和思维方式黯然失色"],["the gap between the Medieval and modern periods","中世纪与现代时期之间的鸿沟"],["had been bridged","得以弥合（已被填平）"],["leading to new and unexplored intellectual territories","从而出现了新的、未被探索的知识领域"]],
+ tech:["被动变主动（本句重点）：being eclipsed by the Renaissance → “文艺复兴使……黯然失色”（反过来让文艺复兴当主语）；had been bridged → “得以弥合”（用“得以”消掉“被”字）","专有名词约定俗成：the Church＝教会（不是“教堂”）、the Renaissance＝文艺复兴、the Medieval＝中世纪。柴荣提醒：这些“别人都认识你不认识就扣分”","词性/主宾转换：eclipse 直译“被遮蔽”→ 中文更常“黯然失色”","增词（逻辑）：leading to… 前面补“从而”"],
+ trap:["Church 译“教堂” → 教堂是一栋建筑，“教会的教义”才成立","being eclipsed by 硬译“被……遮蔽” → 与“教义/思维方式”搭配不自然","had been bridged 直译“被架起了桥” → 应“得以弥合/被填平”（gap 搭配“弥合”）"]},
+
+{d:25,date:"",wd:"",src:"2020-47",topic:"文艺复兴",skill:"同位语从句 + 抽象名词转动词",gram:"语法课第10节",
+ q:[["revelations",["揭示的真相；揭露","启示（宗教）","意外发现"],0],["sustained",["沿袭；延续","支撑（重量）","遭受（损失）"],0],["geocentric",["地心的；以地球为中心的","地球的","几何中心的"],0],["ancient",["古老的；旧的","古代的（历史分期）","过时的"],0]],
+ sent:"Before each of their revelations, many thinkers at the time had sustained more ancient ways of thinking, including the geocentric view that the Earth was at the centre of our universe.",
+ sp:"Before each of their revelations, //many thinkers //at the time had sustained more ancient ways of thinking, //including the geocentric view //that the Earth was at the centre //of our universe.",
+ main:"主干：many thinkers … had sustained more ancient ways of thinking。including the geocentric view that… 是补充说明；that… 是同位语从句，解释 geocentric view。",
+ ref:"在他们揭示每一个（科学）真理之前，当时的许多思想家一直沿袭着更古老的思维方式，包括认为地球位于宇宙中心的“地心说”。",
+ pts:[["Before each of their revelations","在他们揭示每一个（科学）真理之前"],["many thinkers at the time had sustained more ancient ways of thinking","当时的许多思想家一直沿袭着更古老的思维方式"],["including the geocentric view","包括“地心说”（以地球为中心的理论）"],["that the Earth was at the centre of our universe","即地球位于宇宙的中心"]],
+ tech:["抽象名词转动词：revelation（揭示/真相）→ “揭示”；proposal/decision 这类词同理","词义选择：sustained 在这是“沿袭/延续”，不是“支撑”；ancient 是“更古老/旧的”","专有名词：geocentric view 要说约定俗成的“地心说”（柴荣给的对照：heliocentric＝日心说）","同位语从句处理成“即……”（顺译，加“即”或冒号）","时态增词：had sustained 是过去完成 → 补“当时/一直”"],
+ trap:["revelation 只译“启示” → 本句谈科学，取“揭示的真相/揭示”","sustained 译“维持” → “维持思维方式”别扭，该“沿袭”","geocentric view 直译“以地球为中心的观点” → 不够专业，尽量写“地心说”（写全“即以地球为中心的理论”也可）"]},
+
+{d:26,date:"",wd:"",src:"2020-48",topic:"文艺复兴",skill:"定语从句 + 被动语态去被字",gram:"语法课第11-13节",
+ q:[["suppress",["镇压；压制","隐瞒（消息）","抑制（反应）"],0],["logicians",["逻辑学家","后勤人员","物流专家"],0],["rationalists",["理性主义者","合理化者","有理数（数学）"],0],["at a rate",["以……的速度","按比例","以某种价格"],0]],
+ sent:"Despite attempts by the Church to suppress this new generation of logicians and rationalists, more explanations for how the universe functioned were being made at a rate that the people could no longer ignore.",
+ sp:"Despite attempts //by the Church //to suppress this new generation //of logicians and rationalists, //more explanations //for how the universe functioned were being made //at a rate //that the people could no longer ignore.",
+ main:"主干：more explanations … were being made。Despite attempts by the Church to suppress… 是让步状语；for how the universe functioned 修饰 explanations；at a rate that… 是状语＋定语从句（修饰 rate）。",
+ ref:"尽管教会试图压制新一代的逻辑学家和理性主义者，但关于宇宙如何运转的阐释却层出不穷，其速度之快让人们再也不能忽视。",
+ pts:[["Despite attempts by the Church to suppress this new generation of logicians and rationalists","尽管教会试图压制新一代的逻辑学家和理性主义者"],["more explanations for how the universe functioned were being made","关于宇宙如何运转的阐释越来越多（不断涌现）"],["at a rate","以……的速度"],["that the people could no longer ignore","人们再也无法忽视的"]],
+ tech:["被动变主动／去被字：were being made 直译“正在被做出”→ 柴荣4.0版“层出不穷／涌现／正在出现”（这一步是本句最大的通顺分）","定语从句前置：at a rate that the people could no longer ignore → “人们再也无法忽视的速度”，中文常写成“其速度之快让人难以忽视”","让步状语：Despite＝尽管，中文补“但”","词性转变：to suppress 该译为动词“压制”（源文本这里是 suppress，不是 suppress… 的派生名词）"],
+ trap:["were being made 译“正在被做出” → 生硬；换“涌现/层出不穷”","local 局部不通顺时的处理顺序：先调语序，再改措辞（柴荣原话）","suppress 译“镇压” → 对“人”可以说镇压，但对“学派/思潮”用“压制”更贴"]},
+
+{d:27,date:"",wd:"",src:"2020-49",topic:"文艺复兴",skill:"as 引导状语从句 + 破折号同位语",gram:"语法课第12节",
+ q:[["took on the duty",["承担……的责任","接受任务（军事）","上岗值班"],0],["integrate A into B",["把 A 融入 B","把 A 与 B 区分","把 A 换算成 B"],0],["philosophies",["理念；信条","哲学（学科）","人生观"],0],["era",["时代","纪元（地质）","年龄"],0]],
+ sent:"As many took on the duty of trying to integrate reasoning and scientific philosophies into the world, the Renaissance was over and it was time for a new era — the Age of Reason.",
+ sp:"As many took on the duty //of trying to integrate reasoning and scientific philosophies //into the world, //the Renaissance was over //and it was time for a new era //— the Age of Reason.",
+ main:"主干：the Renaissance was over and it was time for a new era。（两个并列分句）As many took on the duty of… 是时间/原因状语从句。破折号后 the Age of Reason 是同位语。",
+ ref:"当许多人肩负起把理性推理和科学信条融入世界的责任时，文艺复兴时代结束了，一个崭新的时代——理性时代——开始了。",
+ pts:[["As many took on the duty of trying to integrate reasoning and scientific philosophies into the world","当许多人肩负起试图把理性推理和科学信条融入世界的责任时"],["the Renaissance was over","文艺复兴（时代）结束了"],["and it was time for a new era","一个新时代到来了"],["— the Age of Reason","——即理性时代"]],
+ tech:["as 判断：as + 完整句子 ＝ 连词 → “当……时／随着”（不是“作为”）","固定搭配：take on the duty of（承担……的责任）、integrate A into B（把 A 融入 B）","词义选择：philosophies 在这不是“哲学”而是“理念/信条”；reasoning 是“理性推理”","it was time for… 直译“是时候了”→ 中文更顺“……到来了”","破折号同位语用“——即……”接住"],
+ trap:["as 译“作为” → 后面是完整句子，结构判断错","philosophies 译“哲学” → “科学哲学”跑偏，该“科学理念/信条”","漏掉破折号后的 the Age of Reason → 采分点④全丢（它是“理性时代”，本篇的题眼）"]},
+
+{d:28,date:"",wd:"",src:"2020-50",topic:"文艺复兴",skill:"V-ed 被动 + 非英语照抄不译",gram:"语法课第9节",
+ q:[["captured",["（用文字）概括；描绘","捕捉（抓住）","占领（军事）"],0],["phrase",["短语；说法","阶段（phase 易混）","措辞（风格）"],0],["sapere aude",["拉丁语·照抄不译","音译“萨佩雷奥德”","意译“智慧勇气”"],0]],
+ sent:"Such actions to seek knowledge and to understand what information we already knew were captured by the Latin phrase 'sapere aude' or 'dare to know'.",
+ sp:"Such actions //(to seek knowledge //and to understand //what information we already knew) were captured //by the Latin phrase 'sapere aude' //or 'dare to know'.",
+ main:"主干：Such actions … were captured by the Latin phrase 'sapere aude'。to seek knowledge and to understand what… 是修饰 actions 的后置定语；or 'dare to know' 是同位语（解释拉丁短语）。",
+ ref:"这种寻求知识、了解已知信息的行为，被拉丁短语“sapere aude”，亦即“敢于求知”，描绘得淋漓尽致。",
+ pts:[["Such actions to seek knowledge and to understand what information we already knew","这种寻求知识、了解已知信息的行为"],["were captured by the Latin phrase 'sapere aude'","被拉丁短语“sapere aude”所概括（描绘）"],["or 'dare to know'","亦即“敢于求知”"]],
+ tech:["非英语照抄不译：sapere aude 是拉丁语，柴荣的处理＝原样保留；后面的 'dare to know' 是它的英文释义 → 同位语，用“即/亦即”接住（六种同位语结构里的 A or B）","词义选择：capture 在这不是“捕捉”，而是“概括／诠释／描绘”（柴荣：主干“被……捕捉了”不通顺 → 换措辞）","后置定语前置：to seek knowledge and to understand… → “寻求知识、了解已知信息的”","被动语态：were captured 保留“被”可以接受（“被……描绘得淋漓尽致”），比硬去被字更顺"],
+ trap:["sapere aude 音译成“萨佩雷奥德” → 柴荣讲过：非英语（拉丁语/意大利语）照抄不译","capture 译“捕捉” → “行为被短语捕捉了”完全不通","漏译 or 'dare to know' → 采分点③丢；这句的题眼就是“敢于求知”"]},
+
+{d:29,date:"",wd:"",src:"2021-46",topic:"二战后高等教育的发展",skill:"定语从句 + 时间状语语序（本篇最难）",gram:"语法课第11节",
+ q:[["enrollment",["入学；入学人数","注册（报名动作）","招募"],0],["roughly",["大约；大致","粗略地（贬义）","粗暴地"],0],["constant",["恒定的；维持不变的","持续的（不停）","忠诚的"],0],["relevant age groups",["适龄群体","相关年龄段（统计口径）","对口人群"],0]],
+ sent:"Those societies came out of the war with levels of enrollment that had been roughly constant at 3-5% of the relevant age groups during the decades before the war.",
+ sp:"Those societies came out of the war //with levels of enrollment //that had been roughly constant //at 3-5% //of the relevant age groups //during the decades //before the war.",
+ main:"主干：Those societies came out of the war with levels of enrollment。that had been roughly constant… 是定语从句修饰 enrollment。",
+ ref:"战争结束后，这些社会的适龄群体入学率仍是战前几十年的水平，大约维持在 3%-5%。",
+ pts:[["Those societies came out of the war","这些社会从战争中走出来（战争结束后）"],["with levels of enrollment","入学率是……的水平"],["that had been roughly constant at 3-5%","大约维持在 3%-5%"],["of the relevant age groups during the decades before the war","在战前几十年间（适龄群体的）"]],
+ tech:["柴荣原话：“本篇第1句最难，考场半天写不出来就先写下一句。”","定语从句内的状语归属：柴荣的规则——“一般写在定从内的状语优先考虑为从句的状语”。所以 during the decades before the war 划给从句，不是主句","调整语序：柴荣5.0版＝“战争结束后，这些社会的适龄群体的入学率仍是战争前几十年间的水平，大约维持在 3-5%”（最通顺＝最容易理解）","词义选择：constant 是“维持不变/恒定”（constant at 3-5%＝稳定在），不是“持续不断”","本质逻辑：对比（战前 vs 战后，入学率没变）——抓住对比，语序自然就顺了"],
+ trap:["把 during the decades before the war 挂到主句 → 语序全乱（这就是那句“半天写不出来”的原因）","constant 译“持续不断的” → 该“维持不变/恒定”","漏掉 roughly（大约） → 3-5% 是约数，漏了就是精度错"]},
+
+{d:30,date:"",wd:"",src:"2021-47",topic:"二战后高等教育的发展",skill:"结构提炼：the demand (that A) extended to (that B)",gram:"语法课第11节",
+ q:[["entry",["进入；入学","入口（门）","条目（记录）"],0],["higher education",["高等教育","继续教育","成人教育"],0],["extended to",["延伸到；波及","延长（时间）","扩展（体积）"],0],["thought of",["想到；考虑过","认为（评价）","想起（回忆）"],0]],
+ sent:"And the demand that rose in those societies for entry to higher education extended to groups and social classes that had not thought of attending a university before the war.",
+ sp:"And the demand //(that rose //in those societies //for entry to higher education) extended to groups and social classes //(that had not thought of attending a university //before the war.)",
+ main:"结构提炼：the demand (that A) extended to groups and social classes (that B)。翻译骨架：（……的）需求延伸到了一些（……的）群体和社会阶层。",
+ ref:"这些社会中，人们对接受高等教育的需求日益增长，甚至延伸到了战前从未想过上大学的群体和社会阶层。",
+ pts:[["the demand that rose in those societies for entry to higher education","这些社会中不断上升的（对接受高等教育的）需求"],["extended to groups and social classes","延伸到了群体和社会阶层"],["that had not thought of attending a university","（战前）从未想过上大学的"],["before the war","在战争之前"]],
+ tech:["结构提炼（本句命门）：先抓骨架 the demand (that A) extended to groups (that B)，再往两个括号里填","定语从句前置（首选）：两个 that 从句都不长，前置成“……的”最省事","调整语序：that rose in those societies for entry to higher education 里的 in those societies 是地点状语、for entry 是 demand 的搭配 → 中文合成“这些社会中（对）接受高等教育的（需求）上升了”","增词：中文补“人们”当主语（demand 是抽象名词，中文更常说“人们的需求”）"],
+ trap:["把两个 that 从句认成同一层 → 结构崩（第一个修饰 demand，第二个修饰 groups and social classes）","attending a university 直译“参加大学” → 是“上大学”","漏译 before the war 的位置 → 它是第二个定从的时间，不是主句的"]},
+
+{d:31,date:"",wd:"",src:"2021-48",topic:"二战后高等教育的发展",skill:"倍数翻译 + within/in/by 三小词",gram:"语法课第6节",
+ q:[["doubled",["翻了一番；翻倍","加倍努力","双重的"],0],["within five-year periods",["在五年之内（每五年）","五年之后","持续五年"],0],["by the middle of",["截止到……中期","在……中间","被……中段（被动）"],0],["higher education",["高等教育","高中教育","进修"],0]],
+ sent:"in many countries of Western Europe, the numbers of students in higher education doubled within five-year periods during the 1960s and doubled again in seven, eight, or 10 years by the middle of the 1970s.",
+ sp:"in many countries //of Western Europe, //the numbers //of students //in higher education doubled //within five-year periods //during the 1960s //and doubled again //in seven, eight, or 10 years //by the middle of the 1970s.",
+ main:"结构梳理：the numbers of A doubled and doubled again。（A 的数量翻了一番，又翻了一番）",
+ ref:"在许多西欧国家，20 世纪 60 年代高校学生人数每 5 年便翻一番；到 70 年代中期，这一人数又在 7 年、8 年或 10 年内翻了一番。",
+ pts:[["in many countries of Western Europe","在许多西欧国家"],["the numbers of students in higher education doubled within five-year periods during the 1960s","20 世纪 60 年代，高校学生人数每 5 年翻一番"],["and doubled again in seven, eight, or 10 years","并在 7 年、8 年或 10 年内又翻了一番"],["by the middle of the 1970s","到 70 年代中期"]],
+ tech:["倍数翻译：the numbers of A double ＝ “A 的数量翻了一番／翻倍／翻一番”","within / in / by 三小词必须分清（柴荣专门讲过）：within five years＝在五年之内；in five years＝看时态（过去＝在五年内／将来＝五年后）；by the time of…＝截止到……；for five years＝持续五年；over five years＝超过五年","调整语序：本句时间状语多，中文习惯“先说时间再说动作” → “20 世纪 60 年代，……每 5 年翻一番”","并列：doubled … and doubled again … 两个动作都要译出，别合成一个"],
+ trap:["倍数译成“翻了两倍” → 中文“翻一番＝×2”，“翻两倍”有歧义，统一用“翻一番”","within 译成“五年后” → 该是“在五年之内”","漏掉第二段 doubled again → 采分点③全丢"]},
+
+{d:32,date:"",wd:"",src:"2021-49",topic:"二战后高等教育的发展",skill:"状语从句 when + 集体名词词义选择",gram:"语法课第12节",
+ q:[["staff",["（全体）教职工；教员","员工（泛指）","手杖"],0],["predominantly",["主要地；占多数地","完全地","优势地（比较）"],0],["fresh from",["刚从……（毕业/出来）","新鲜的（食物）","清新的（空气）"],0],["faculty",["院系；（大学的）学院","全体教员","才能；能力"],0]],
+ sent:"and when the new staff are predominantly young men and women fresh from postgraduate study, they largely define the norms of academic life in that faculty.",
+ sp:"and when the new staff are predominantly young men and women //fresh from postgraduate study, //they largely define the norms //of academic life //in that faculty.",
+ main:"结构提炼：when…, they largely define the norms。when 引导时间/条件状语从句；they 指 the new staff；fresh from… 是后置定语修饰 men and women。",
+ ref:"而当新进教职工主要是刚从研究生院毕业的青年男女时，他们会在很大程度上决定该院系的学术生活规范。",
+ pts:[["and when the new staff are predominantly young men and women","而当新进教职工主要是青年男女时"],["fresh from postgraduate study","刚从研究生院毕业的"],["they largely define the norms of academic life","他们在很大程度上确定（定义）学术生活的规范"],["in that faculty","在该院系"]],
+ tech:["词义选择：staff＝（全体）教职工/教员（集体名词，谓语用复数 are 就是这个信号）；faculty 在这＝“院系/学院”，不是“全体教员”——两个词在这句里都不要译成“员工/才能”","后置定语前置：fresh from postgraduate study → “刚从研究生院毕业的”（fresh from＝刚从……出来，不是“新鲜的”）","状语从句调整语序：when 从句放前，中文加“而”承接上文","词性转变：define the norms → “确定/决定……规范”"],
+ trap:["staff 与 faculty 都译“教职工” → 两个词撞车且丢分（faculty 这里指院系）","fresh from 译“新鲜地从” → 应是“刚从……毕业”","largely 译“大量地” → 该是“在很大程度上（主要地）”"]},
+
+{d:33,date:"",wd:"",src:"2021-50",topic:"二战后高等教育的发展",skill:"定语从句 by which（前置更优）+ 被动",gram:"语法课第11节",
+ q:[["chances",["可能性；（成功的）机会","偶然（chance 单数）","运气"],0],["weakened",["削弱；弱化","使变弱（身体）","松动（螺丝）"],0],["admitted into",["获准进入；被接纳","承认（错误）","招收（主动）"],0],["community of scholars",["学者团体；学术界","学术社区（网络）","学者协会（机构名）"],0]],
+ sent:"High growth rates increased the chances for academic innovation; they also weakened the forms and processes by which teachers and students are admitted into a community of scholars during periods of stability or slow growth.",
+ sp:"High growth rates increased the chances //for academic innovation; //they also weakened the forms and processes //by which teachers and students are admitted into a community //of scholars //during periods of stability //or slow growth.",
+ main:"结构提炼：X 增加了 A；也削弱了 B。by which teachers and students are admitted into a community of scholars 是定语从句修饰 the forms and processes。",
+ ref:"高增长率增加了学术创新的可能性；同时也弱化了在稳定期或缓慢增长期，教师和学生获准加入某学者团体所需的形式和程序。",
+ pts:[["High growth rates increased the chances for academic innovation","高增长率增加了学术创新的可能性"],["they also weakened the forms and processes","它们也弱化了一些形式和程序"],["by which teachers and students are admitted into a community of scholars","通过这些形式和程序，师生得以获准加入学者团体"],["during periods of stability or slow growth","在稳定期或缓慢增长期"]],
+ tech:["定语从句前置/后置对比（柴荣给了两版）：后置＝“削弱了一些形式和过程，通过这些形式和过程，在稳定或低增长时期，师生被准许进入学者团体”；前置＝“削弱了一些（在稳定或低增长时期，师生被准许进入学者团体所需要的）形式和过程”——柴荣判定：**本句 4.0 版（前置）更好**","被动语态：are admitted into → “获准加入”（比“被准许进入”更简洁）","词义选择：chances for＝可能性（不是“机会”）；community of scholars＝学者团体","增词（逻辑）：中文补“同样/与此同时”衔接两个分句；补“所需”让“形式和程序”有归属","代词指代：they＝high growth rates（增长率），不是别的"],
+ trap:["by which 里的 by 表示“通过/凭借”，别译成“被”","chances 译“机会” → 这里是“可能性”","定从后置＋定语太长 → 中文散掉；本题首选前置"]}
 ];
 
 const DRAWER_SECTIONS = [
@@ -1321,14 +1440,14 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "📝 英语一（阅读 / 三小课 / 写作 / 单词）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每日一练（每天 20min·唐静已弃用）</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每次一练（每周 3 次·每次 15min·共 33 次·唐静已弃用）</b></p>
       <table>
         <tr><th>板块</th><th>老师</th><th>策略</th></tr>
         <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td>强化课 7 节✅·每日 1 篇精读（1.5h）·错 ≥2 题才深翻</td></tr>
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
         <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>每天 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
-        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每天 1 句 · 20min · 63 天（10.4→12.5）</b>·五步：词义热身→断句找主干→整句翻译→采分点自评→昨日回译｜一/三/五 20:30 槽 ＋ 二/四/日 英语日 14:30｜<b>唐静已弃用</b></td></tr>
+        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每周 3 次（英语日 二/四/日）· 每次 15min · 共 33 次（10.4→12.17）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜只做 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句｜<b>唐静已弃用</b></td></tr>
         <tr><td>📖 单词</td><td><b>真题生词本</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读精读/完型/翻译热身 3 题/新题型）·10min 封顶·<b>不做标记、不分轮次</b>｜闪过退为辅助（有余量才滚）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
@@ -1352,13 +1471,13 @@ const DRAWER_SECTIONS = [
       <p style="font-size:11px;color:var(--rose);margin-top:4px;">📌 三条铁规：① 每周 ≥1 篇必须拿到批改 ② 每篇必须有第二遍（重写或默写）③ 只写真题·模拟题不写</p>
       <p style="font-size:11px;color:var(--text2);">🎯 大作文命题趋势：<b>2023 图画 → 2024 图画＋柱状图 → 2025 表格 → 2026 双图表</b>——图表必练，但三段论结构不变，只换第一段的描述方式</p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🈶 翻译节奏（柴荣·10 分·每天 20min·已定档）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🈶 翻译节奏（柴荣·10 分·已减重定档）</p>
       <div class="c-card">
-        <div class="c-row"><span class="tag red">每天 1 句 20min</span>① 词义热身 3 题(3min) → ② 断句找主干(4min) → ③ 整句翻译(8min) → ④ 采分点自评(4min) → ⑤ 昨日回译(1min)</div>
-        <div class="c-row"><span class="tag amber">槽位</span>一/三/五 20:30-21:00 超轻量槽 ｜ 二/四/日 英语日 14:30-14:50（也可直接用当天精读挑的那句难句）</div>
-        <div class="c-row"><span class="tag blue">63 天</span>Day1-14 词法地基（2016/2017 全篇＋讲义例句）→ Day15-28 从句与语序（2018-2020）→ Day29-42 特殊结构（2021/2010/2011）→ Day43-63 整篇限时（2012-2015 新做＋2016-2021 二刷）</div>
-        <div class="c-row"><span class="tag gray">净新增≈0</span>单词主线＝真题生词本（已与翻译热身题合并·不再排标注/轮次）＋ 完型固定放周日</div>
-        <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每日一练」</b>→ 自动显示今天该做 Day 几＋题目＋解析＋自评分打卡</div>
+        <div class="c-row"><span class="tag red">定位</span>翻译 10 分、历年平均 <b>3.89</b>，柴荣原话"<b>性价比低</b>、整张卷子最后做" → <b>不抢阅读/写作/新题型</b>，只占英语时间 ~6%</div>
+        <div class="c-row"><span class="tag amber">频次</span><b>每周 3 次</b>（英语日 二/四/日）·<b>每次 15min</b>：① 词义热身 3 题(2min) → ② 断句找主干(3min) → ③ 整句翻译(6min) → ④ 采分点自评(3min)</div>
+        <div class="c-row"><span class="tag blue">总量</span><b>共 33 次</b>（10.4 → 12.17，初试前 2 天收尾）＝ 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句。<b>2010-2015 整篇全砍</b>（柴荣："可直接放弃"）；2022-2026 留 12 月套卷做</div>
+        <div class="c-row"><span class="tag gray">回译</span>不再每天做 → 挪到周六 10min（本周错句重译）｜每篇末的周六用 20min 限时整篇回顾（全期 6 次）</div>
+        <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每次一练」</b>→ 自动算"今天/下一次该做第几次"＋题目＋解析＋自评分打卡</div>
         <div class="c-row"><span class="tag amber">红线</span>先做后看，绝不先翻答案｜译文必须写成<b>完整的一整句中文</b>｜明显扭曲原意 → 该句最多 0.5 分</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词（主线＝真题生词本·不排轮次·不做标记）</p>
@@ -1378,23 +1497,31 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📅 每天英语怎么排</p>
       <table>
         <tr><th>日型</th><th>任务</th></tr>
-        <tr><td>英语日<br>(二/四/日)</td><td><b>14:30-14:50 🈶 翻译每日一练 20min</b> → 精读（周二/周四 2 篇·周日 1 篇＋完型 1 篇）→ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>单词：<b>生词本 10min</b>（就摘当天精读/完型里不认识的词）</td></tr>
-        <tr><td>自控日<br>(一/三/五)</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>🈶 翻译每日一练 20min ＋ ✍️ 写作句卡 1 个 10min</b><br>单词：<b>生词本 10min</b>（翻译面板的词义热身 3 题＋当天新题）</td></tr>
+        <tr><td>英语日<br>(二/四/日)</td><td><b>14:30-14:45 🈶 翻译 15min</b> → 精读（周二/周四 2 篇·周日 1 篇＋完型 1 篇）→ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>单词：<b>生词本 10min</b>（就摘当天精读/完型里不认识的词）</td></tr>
+        <tr><td>自控日<br>(一/三/五)</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>✍️ 写作 20min</b>（v94 原定档·翻译不再占此槽）＋ 单词生词本 10min<br>翻译只在 二/四/日 做，不排自控日</td></tr>
       </table>
       <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 精读模式：英语日＝完整 1.5h（14:30-18:00 纯块内含）｜自控日＝晚间超轻量 30min（20:30-21:00）｜<b>漏了不补</b></p>
       <p style="font-size:11px;color:var(--text3);">📌 单词=真题生词本（当天新题里摘）·10min 封顶·不做标记不分轮次；闪过只当有余量时的补充</p>
       <p style="font-size:12px;color:var(--text3);">🎯 目标 70 ｜ ROI：阅读 60% &gt; 写作 20% &gt; 新题型 8% &gt; 翻译 7% &gt; 完型 5% ｜ 10月＝23句句卡＋每周3篇＋翻译 ｜ 11月＝每周3篇(只写真题)＋模考 2021-2026 ｜ 12月＝每天默写＋每周2套限时</p>`
   },
   {
-    title: "🈶 翻译每日一练（柴荣 · 每天20min）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每天 1 句 20min · 63 天（10.4 → 12.5）｜唐静已弃用</b></p>
-      <div class="c-card"><div class="c-title">🎯 目标 6-7 分（满分 10·历年平均 3.89）</div>
-        <div class="c-row"><span class="tag red">每天 5 步</span>① 词义热身 3 题(3min) → ② 断句找主干(4min) → ③ 整句翻译(8min) → ④ 采分点自评(4min) → ⑤ 昨日回译(1min)</div>
-        <div class="c-row"><span class="tag amber">铁律</span><b>先做后看，绝不先翻答案</b>·必须动手写出<b>完整的一整句中文</b>（卷面不会骗人）</div>
-        <div class="c-row"><span class="tag blue">槽位</span>一/三/五 20:30-21:00 → 翻译 20min ＋ 写作句卡 1 个 ｜ 二/四/日 英语日 14:30-14:50 → 翻译 20min 再进精读</div>
-        <div class="c-row"><span class="tag gray">净新增≈0</span>单词主线＝真题生词本（已与翻译热身题合并·不再排标注/轮次）＋ 完型固定放周日</div></div>
+    title: "🈶 翻译每次一练（柴荣 · 每周3次·15min）",
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每周 3 次（英语日 二/四/日）· 每次 15min · 共 33 次（10.4 → 12.17）｜已减重定档</b></p>
+      <div class="c-card"><div class="c-title">🎯 定位：翻译只占英语时间 ~6%（不抢阅读/写作/新题型）</div>
+        <div class="c-row"><span class="tag red">为什么减重</span>翻译 10 分，历年平均只有 <b>3.89</b>，柴荣原话就是"<b>性价比低</b>、整张卷子最后做"。它不值得每天 20min 抢主线。</div>
+        <div class="c-row"><span class="tag amber">原方案的问题</span>每天 20min ＝ 2.3h/周 ≈ <b>英语时间的 14%</b>，是它 ROI 权重的两倍。</div>
+        <div class="c-row"><span class="tag blue">改后</span>每周 3 次 × 15min ＝ 45min/周（＋每篇末一次限时回顾）≈ <b>1h/周 ≈ 6%</b>。目标仍是 6-7 分，方法不变、只是不再堆量。</div>
+        <div class="c-row"><span class="tag gray">为什么不砍掉</span>翻译是<b>确定性加分</b>（固定套路：词义选择＋调语序），而且"拆长难句"直接迁移到阅读精读和新题型——所以挂靠在英语日，不单开时段。</div></div>
 
       <div id="fanyiToday"></div>
+
+      <div class="c-card"><div class="c-title">📐 每次 15 分钟 · 四步（回译挪到周六）</div>
+        <div class="c-row"><span class="tag red">① 词义热身</span>3 题 · 2min —— 点选项即判对错</div>
+        <div class="c-row"><span class="tag amber">② 断句·找主干</span>3min —— 只画 // 和主干，不写译文</div>
+        <div class="c-row"><span class="tag blue">③ 整句翻译</span>6min —— 必须写出<b>完整的一整句中文</b></div>
+        <div class="c-row"><span class="tag blue">④ 采分点自评</span>3min —— 对照 4 个采分点数得分</div>
+        <div class="c-row"><span class="tag gray">⑤ 昨日回译</span>取消日常化 → 挪到<b>周六复盘 10min</b>（本周错句重译一遍）</div>
+        <div class="c-row"><span class="tag red">限时回顾</span>每做完一篇 5 句，那个周六用 20min 把这篇连起来限时重做（练流程和卷面）——全期共 6 次</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📐 采分点自评标准（柴荣评分标准）</p>
       <div class="c-card">
@@ -1411,27 +1538,26 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag blue">③ 技巧没用上</span>被动没变主动、后置定语没调序、代词没还原</div>
         <div class="c-row"><span class="tag gray">④ 词汇量</span>考场三级策略：结合语境+逻辑猜 → 去掉不译 → 瞎译一个</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 63 天排期（10.4 → 12.5）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 33 次排期（10.4 → 12.17·初试前 2 天收尾）</p>
       <table>
-        <tr><th>阶段</th><th>时间</th><th>天数</th><th>重点 / 素材</th></tr>
-        <tr><td><b>一 · 词法地基</b></td><td>10.4-10.17</td><td>Day 1-14</td><td>断句6把刀 / 词义选择 / 代词指代 / 词性转换 / 增词减词<br>Day1-5=2016全篇 ｜ Day6-13=2017全篇 ｜ Day8-10=讲义短例句 ｜ Day14=2018-46</td></tr>
-        <tr><td><b>二 · 从句与语序</b></td><td>10.18-10.31</td><td>Day 15-28</td><td>名词性从句 / 定语从句（前置·后置·状译）/ 状语从句<br>Day15-18=2018全篇 ｜ Day19-23=2019全篇 ｜ Day24-28=2020全篇</td></tr>
-        <tr><td><b>三 · 特殊结构</b></td><td>11.1-11.14</td><td>Day 29-42</td><td>宾语后置 / 隔离 / 比较 / 倒装 / 否定 ＋ 被动 ＋ 时态<br>Day29-31=2021前3句 ｜ Day32-36=2010全篇 ｜ Day37-41=2011全篇 ｜ Day42=2012-46</td></tr>
-        <tr><td><b>四 · 整篇限时</b></td><td>11.15-12.5</td><td>Day 43-63</td><td>每 2 天 1 篇：限时 20min 做 5 句 → 自评 → 复盘<br>2012→2015 新做 ｜ 2016→2021 二刷提速 ｜ Day63 总复盘</td></tr>
+        <tr><th>批次</th><th>次</th><th>内容</th></tr>
+        <tr><td><b>一 · 词法地基</b></td><td>01-07</td><td>2016 全篇（5 句）＋ 2017 前 2 句</td></tr>
+        <tr><td><b>二 · 词法＋语序</b></td><td>08-14</td><td>讲义词法 3 句（代词指代/词性转换/增词减词）＋ 2017 后 3 句 ＋ 2018-46</td></tr>
+        <tr><td><b>三 · 从句</b></td><td>15-21</td><td>2018 剩余 4 句 ＋ 2019 前 3 句</td></tr>
+        <tr><td><b>四 · 从句＋特殊结构</b></td><td>22-28</td><td>2019 后 2 句 ＋ 2020 全篇 5 句（文艺复兴）</td></tr>
+        <tr><td><b>五 · 综合</b></td><td>29-33</td><td>2021 全篇 5 句（二战后高等教育）</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--text2);">📌 12.6-12.19：只做套卷里的翻译（2022-2026 五篇）＋ 错句本回看，不练新句</p>
+      <p style="font-size:11px;color:var(--text2);">📌 总量＝<b>2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句 = 33 次</b>。柴荣原话：2010-2015"可直接放弃"、2016-2021"选择性放弃"、时间多才练 2016-2026 → 所以老真题整篇全部砍掉。<b>2022-2026 五篇留到 12 月套卷里做</b>（套卷里的翻译就是最好的限时训练）。</p>
+      <p style="font-size:11px;color:var(--text3);">🗓️ 日历：每周 3 次＝周日 / 周二 / 周四（英语日）。第1周 10.4-10.8 → 第11周 12.13-12.17，12.19-12.20 初试。</p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（解决阅读/作文/翻译抢时间）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（翻译减重后）</p>
       <table>
         <tr><th>日型</th><th>时段</th><th>内容</th></tr>
-        <tr><td>一/三/五<br>自控日</td><td>20:30-21:00</td><td>🈶 <b>翻译每日一练 20min</b> ＋ ✍️ 写作句卡 1 个 10min</td></tr>
-        <tr><td>二/四/日<br>英语日</td><td>14:30-14:50</td><td>🈶 <b>翻译每日一练 20min</b>（用当天精读挑的那句难句也行）→ 再进精读</td></tr>
-        <tr><td>二 周二</td><td>14:50-18:00</td><td>精读 2 篇 → 大作文整篇 30min → 生词本 10min</td></tr>
-        <tr><td>四 周四</td><td>14:50-18:00</td><td>精读 2 篇 → 重写周二那篇 30min → 写作微训练 20min → 生词本 10min</td></tr>
-        <tr><td>日 周日</td><td>14:50-18:00</td><td>精读 1 篇 → 完型 1 篇（先限时 18min 再听讲解）→ 小作文 20min → 生词本 10min</td></tr>
-        <tr><td>六 铁休</td><td>—</td><td>只花 10min 把本周错句重译一遍</td></tr>
+        <tr><td>二/四/日<br>英语日</td><td>14:30-14:45</td><td>🈶 <b>翻译 15min</b>（也可直接用当天精读挑的那句难句）→ 再进精读</td></tr>
+        <tr><td>一/三/五<br>自控日</td><td>20:30-21:00</td><td>✍️ <b>写作 20min</b>（句卡/微训练，v94 原定档）＋ 单词生词本 10min —— <b>翻译不再占这个槽</b></td></tr>
+        <tr><td>六 复盘日</td><td>10min</td><td>🈶 本周翻译错句重译 1 遍（每篇末的周六改 20min 限时整篇回顾）</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译只做 ①词义热身 ＋ ②断句找主干（8min），不做整句翻译，<b>不算欠账、绝不补债</b></p>
+      <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译直接跳过，<b>不算欠账、绝不补债</b>；反正翻译是最后做、且只占 6%。</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📚 配套柴荣语法课（哪句栽了看哪节）</p>
       <table>
@@ -1443,7 +1569,7 @@ const DRAWER_SECTIONS = [
         <tr><td>状语从句</td><td>第 12 节 / 第 13 节</td></tr>
         <tr><td>特殊结构（宾语后置/隔离/比较/倒装/否定）</td><td>第 13 节 / 第 14 节</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--text3);">📄 打印版：F:/考研/英语翻译/（总纲 · 第1/2/3周 题目本＋解析本 · MD＋PDF）｜题库数据：F:/考研/英语翻译/fanyi_days.js</p>`
+      <p style="font-size:11px;color:var(--text3);">📄 打印版：F:/考研/英语翻译/（总纲 · 练习1-5册 题目本＋解析本 · MD＋PDF）｜题库数据：F:/考研/英语翻译/fanyi_days.js</p>`
   },
   {
     title: "📜 政治（张修齐主线 ＋ 肖1000 三刷）",
@@ -1540,7 +1666,7 @@ const DRAWER_SECTIONS = [
         <tr><th>科目</th><th>复盘动作</th></tr>
         <tr><td>🔢 数学 25-30min</td><td>本周 ⭐/△ 题只看思路·卡住的重新做 ｜ 没咋了题型口头复述 ｜ 选填技巧卡＋计算错误点清单读一遍</td></tr>
         <tr><td>⚙️ 828 10-15min</td><td>777/俞立课后错题重看错因 ＋ 核心公式默写（自控：梅森/稳态误差/朱利/伯德K ｜ 现控：e^At/能控能观/极点配置/观测器）</td></tr>
-        <tr><td>📝 英语 10min</td><td>错 ≥2 题篇章错因归类（定位/同义替换/细节）＋新题型/完型错因＋本周生词＋<b>🈶 本周翻译错句重译一遍（面板有打卡记录，看哪几天掉到 1 分以下）</b></td></tr>
+        <tr><td>📝 英语 10min</td><td>错 ≥2 题篇章错因归类（定位/同义替换/细节）＋新题型/完型错因＋本周生词＋<b>🈶 本周翻译错句重译一遍（面板有打卡记录，看哪几次掉到 1 分以下）</b></td></tr>
         <tr><td>📜 政治 10min</td><td>本周肖1000/苍盾错题＋帽子题抄本（带背听到哪＝记到哪）</td></tr>
         <tr><td>🧭 总复盘 5min</td><td>只问"这周学会了哪 3 件事"＋下周最该保的 1 件事</td></tr>
       </table>
@@ -2064,41 +2190,86 @@ function toggleTask(key, el) {
 
 
 // ═══════════════════════════════════════
-// 英一翻译 · 每日一练（柴荣体系）
+// ═══════════════════════════════════════
+// 英一翻译 · 每次一练（柴荣体系·每周3次）
 // ═══════════════════════════════════════
 
 const FANYI_START = '2026-10-04';
-const FANYI_TOTAL = 63;
+const FANYI_TOTAL = 33;
 let fanyiDay = null;
 let fanyiShowSplit = false;
 let fanyiShowAns = false;
 
+function fanyiIsEngDay(d) {
+  const w = d.getDay();               // 0=周日 2=周二 4=周四 → 英语日
+  return (w === 0 || w === 2 || w === 4);
+}
+function fanyiMidnight(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+function fanyiStartDate() {
+  return new Date(FANYI_START + 'T00:00:00');
+}
+// 第 n 次练习的日期
+function fanyiDateForIndex(n) {
+  const d = fanyiStartDate();
+  let c = 0;
+  for (let guard = 0; guard < 400; guard++) {
+    if (fanyiIsEngDay(d)) { c++; if (c === n) return d; }
+    d.setDate(d.getDate() + 1);
+  }
+  return null;
+}
+// 截至 date（含）已经过了多少次翻译日；早于起点返回 0
+function fanyiIndexForDate(date) {
+  const t0 = fanyiStartDate();
+  const d = fanyiMidnight(date);
+  if (d < t0) return 0;
+  let c = 0;
+  const cur = new Date(t0.getTime());
+  while (cur <= d) {
+    if (fanyiIsEngDay(cur)) c++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return c;
+}
 function fanyiTodayIndex() {
-  const now = new Date();
-  const t0 = new Date(FANYI_START + 'T00:00:00');
-  const d0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  return Math.round((d0 - t0) / 86400000) + 1;
+  return Math.min(FANYI_TOTAL, fanyiIndexForDate(new Date()));
+}
+// 今天之后的下一个翻译日（含今天判断）
+function fanyiNextEngDate(afterToday) {
+  const base = fanyiMidnight(new Date());
+  for (let i = (afterToday ? 1 : 0); i <= 8; i++) {
+    const x = new Date(base.getTime());
+    x.setDate(x.getDate() + i);
+    if (fanyiIsEngDay(x)) return x;
+  }
+  return null;
+}
+function fanyiFmtDate(d) {
+  return (d.getMonth() + 1) + '.' + d.getDate();
+}
+function fanyiFmtWd(d) {
+  return '周' + ['日', '一', '二', '三', '四', '五', '六'][d.getDay()];
 }
 
 function fanyiData(day) {
   if (typeof FANYI_DAYS === 'undefined') return null;
   return FANYI_DAYS.find(function (x) { return x.d === day; }) || null;
 }
-
 function fanyiGet(k) {
   try { return localStorage.getItem('fanyi:' + k); } catch (e) { return null; }
 }
 function fanyiSet(k, v) {
   try { localStorage.setItem('fanyi:' + k, v); } catch (e) {}
 }
-
 function fanyiSetDay(i) {
   fanyiDay = Math.max(1, Math.min(FANYI_TOTAL, i));
   fanyiShowSplit = false;
   fanyiShowAns = false;
   renderFanyi();
 }
-function fanyiGoToday() { fanyiSetDay(fanyiTodayIndex()); }
+function fanyiGoToday() { fanyiSetDay(fanyiTodayIndex() || 1); }
 function fanyiToggleSplit() { fanyiShowSplit = !fanyiShowSplit; renderFanyi(); }
 function fanyiToggleAns() { fanyiShowAns = !fanyiShowAns; renderFanyi(); }
 
@@ -2121,13 +2292,8 @@ function fanyiPick(qi, oi, correct) {
     }
   }
 }
-
 function fanyiSaveAns(day, val) { fanyiSet('ans:' + day, val); }
-
-function fanyiScore(day, v) {
-  fanyiSet('score:' + day, String(v));
-  renderFanyi();
-}
+function fanyiScore(day, v) { fanyiSet('score:' + day, String(v)); renderFanyi(); }
 
 function fanyiStats() {
   let done = 0, sum = 0;
@@ -2137,7 +2303,6 @@ function fanyiStats() {
   }
   return { done: done, avg: done ? (sum / done) : 0 };
 }
-
 function fanyiBtn(label, onclick, color) {
   return '<button onclick="' + onclick + '" style="margin:2px 4px 2px 0;padding:4px 10px;border-radius:8px;border:1px solid ' + (color || '#e0d8cc') + ';background:#fff;font-size:12px;font-family:inherit;cursor:pointer;color:#3d3929;">' + label + '</button>';
 }
@@ -2145,55 +2310,63 @@ function fanyiBtn(label, onclick, color) {
 function renderFanyi() {
   const box = document.getElementById('fanyiToday');
   if (!box) return;
+  const today = fanyiMidnight(new Date());
+  const isEng = fanyiIsEngDay(today);
   const todayIdx = fanyiTodayIndex();
-  if (fanyiDay === null) fanyiDay = Math.max(1, Math.min(FANYI_TOTAL, todayIdx));
+  if (fanyiDay === null) fanyiDay = todayIdx > 0 ? todayIdx : 1;
   const day = fanyiDay;
   const data = fanyiData(day);
   const st = fanyiStats();
+  const thisDate = fanyiDateForIndex(day);
+  const next = fanyiNextEngDate(isEng);
 
   let h = '';
 
-  // 顶部：今天该做 Day 几
-  let head = '';
-  if (todayIdx < 1) head = '距开练还有 ' + (1 - todayIdx) + ' 天';
-  else if (todayIdx > FANYI_TOTAL) head = '✅ 63 天已走完（12.5 之后）→ 转做套卷翻译';
-  else head = '今天该做 <b>Day ' + todayIdx + '</b>';
+  // 顶部状态
+  let head;
+  if (today < fanyiStartDate()) head = '还没开始（' + FANYI_START + ' 起）';
+  else if (isEng && todayIdx >= FANYI_TOTAL) head = '✅ 33 次已走完 → 转做套卷翻译';
+  else if (isEng) head = '今天该做 <b>第 ' + todayIdx + ' 次</b>';
+  else head = '今天不是翻译日';
 
-  h += '<div class="c-card"><div class="c-title">🈶 翻译每日一练 · ' + head + '</div>';
-  h += '<div class="c-row"><span class="tag red">进度</span>已打卡 <b>' + st.done + '</b> / ' + FANYI_TOTAL + ' 天 ｜ 平均自评分 <b>' + st.avg.toFixed(2) + '</b> / 2</div>';
-  h += '<div style="margin-top:6px;">' + fanyiBtn('‹ 上一天', 'fanyiSetDay(' + (day - 1) + ')')
+  h += '<div class="c-card"><div class="c-title">🈶 翻译每次一练（每周 3 次 · 每次 15min）· ' + head + '</div>';
+  h += '<div class="c-row"><span class="tag red">进度</span>已打卡 <b>' + st.done + '</b> / ' + FANYI_TOTAL + ' 次 ｜ 平均自评分 <b>' + st.avg.toFixed(2) + '</b> / 2</div>';
+
+  if (!isEng && next) {
+    const nIdx = fanyiIndexForDate(next);
+    h += '<div class="c-row"><span class="tag amber">下一次</span>' + fanyiFmtDate(next) + '（' + fanyiFmtWd(next) + '）→ <b>第 ' + nIdx + ' 次</b>｜翻译只在 周日 / 周二 / 周四 做，其他日子不排（去练写作和阅读）</div>';
+  }
+
+  h += '<div style="margin-top:6px;">' + fanyiBtn('‹ 上一次', 'fanyiSetDay(' + (day - 1) + ')')
      + fanyiBtn('回到今天', 'fanyiGoToday()', '#c4a882')
-     + fanyiBtn('下一天 ›', 'fanyiSetDay(' + (day + 1) + ')') + '</div>';
-  h += '<div style="font-size:11px;color:var(--text3);margin-top:4px;">当前显示：Day ' + day + '（' + (data ? data.date : '待生成') + '）</div></div>';
+     + fanyiBtn('下一次 ›', 'fanyiSetDay(' + (day + 1) + ')') + '</div>';
+  h += '<div style="font-size:11px;color:var(--text3);margin-top:4px;">当前显示：第 ' + day + ' 次' + (thisDate ? '（' + fanyiFmtDate(thisDate) + ' ' + fanyiFmtWd(thisDate) + '）' : '') + '</div></div>';
 
   if (!data) {
-    h += '<div class="c-card"><div class="c-title">Day ' + day + ' · 题目生成中</div>';
-    h += '<div class="c-row"><span class="tag gray">说明</span>Day 1-21 题目与解析已上线；Day 22-42（从句/特殊结构）与 Day 43-63（整篇限时）正在逐周生成，会陆续补进来。</div>';
-    h += '<div class="c-row"><span class="tag blue">这段时间</span>可以先把已上线的 Day 1-21 二刷，或按解析本的《下周预告》方向自己拿真题练。</div></div>';
+    h += '<div class="c-card"><div class="c-title">第 ' + day + ' 次 · 题目生成中</div>';
+    h += '<div class="c-row"><span class="tag gray">说明</span>第 1-33 次的题库已随面板一并上线；若这里显示"待生成"，说明数据未加载，强刷（Ctrl+Shift+R）一次即可。</div></div>';
     box.innerHTML = h;
     return;
   }
 
-  // 今日任务卡
-  h += '<div class="c-card"><div class="c-title">Day ' + day + ' · ' + data.src + ' · ' + data.skill + '</div>';
+  h += '<div class="c-card"><div class="c-title">第 ' + day + ' 次 · ' + data.src + ' · ' + data.skill + '</div>';
   h += '<div class="c-row"><span class="tag blue">主旨</span>' + data.topic + '</div>';
   h += '<div class="c-row"><span class="tag gray">配套语法课</span>' + data.gram + '</div></div>';
 
   // ① 词义热身
-  h += '<div class="c-card"><div class="c-title">① 词义热身（3min·点选项即判对错）</div>';
+  h += '<div class="c-card"><div class="c-title">① 词义热身（2min·点选项即判对错）</div>';
   for (let qi = 0; qi < data.q.length; qi++) {
     const q = data.q[qi];
     h += '<div style="margin-top:6px;"><b style="font-size:13px;">' + (qi + 1) + '. ' + q[0] + '</b><div style="margin-top:3px;">';
     for (let oi = 0; oi < q[1].length; oi++) {
-      h += '<button id="fq_' + qi + '_' + oi + '" data-t="' + q[1][oi].replace(/"/g, '') + '" onclick="fanyiPick(' + qi + ',' + oi + ',' + q[2] + ')" style="display:block;width:100%;text-align:left;margin:3px 0;padding:5px 9px;border-radius:8px;border:1px solid #e6ded2;background:#fdfbf8;font-size:12.5px;font-family:inherit;cursor:pointer;color:#2b2b2b;">' + q[1][oi] + '</button>';
+      h += '<button id="fq_' + qi + '_' + oi + '" data-t="' + String(q[1][oi]).replace(/"/g, '') + '" onclick="fanyiPick(' + qi + ',' + oi + ',' + q[2] + ')" style="display:block;width:100%;text-align:left;margin:3px 0;padding:5px 9px;border-radius:8px;border:1px solid #e6ded2;background:#fdfbf8;font-size:12.5px;font-family:inherit;cursor:pointer;color:#2b2b2b;">' + q[1][oi] + '</button>';
     }
     h += '</div></div>';
   }
   h += '</div>';
 
   // ② 断句
-  h += '<div class="c-card"><div class="c-title">② 断句 + 找主干（4min）</div>';
-  h += '<div class="c-row"><span class="tag red">原句</span></div>';
+  h += '<div class="c-card"><div class="c-title">② 断句 + 找主干（3min）</div>';
   h += '<div style="font-size:13px;line-height:1.9;color:#2b2b2b;background:#fdfbf8;border:1px dashed #e0d8cc;border-radius:8px;padding:8px 10px;">' + data.sent + '</div>';
   h += '<div style="margin-top:6px;">' + fanyiBtn(fanyiShowSplit ? '收起断句答案' : '看断句答案', 'fanyiToggleSplit()', '#c4a882') + '</div>';
   if (fanyiShowSplit) {
@@ -2202,10 +2375,10 @@ function renderFanyi() {
   }
   h += '</div>';
 
-  // ③ 翻译书写区
+  // ③ 译文书写区
   const saved = fanyiGet('ans:' + day) || '';
-  h += '<div class="c-card"><div class="c-title">③ 整句翻译（8min·写完整一整句中文）</div>';
-  h += '<textarea id="fanyiTa" oninput="fanyiSaveAns(' + day + ', this.value)" placeholder="在这里写你的译文（自动保存）…" style="width:100%;min-height:92px;border:1px solid #e6ded2;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.8;font-family:inherit;background:#fdfbf8;color:#2b2b2b;box-sizing:border-box;resize:vertical;">' + saved + '</textarea>';
+  h += '<div class="c-card"><div class="c-title">③ 整句翻译（6min·写完整一整句中文）</div>';
+  h += '<textarea id="fanyiTa" oninput="fanyiSaveAns(' + day + ', this.value)" placeholder="在这里写你的译文（自动保存）…" style="width:100%;min-height:88px;border:1px solid #e6ded2;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.8;font-family:inherit;background:#fdfbf8;color:#2b2b2b;box-sizing:border-box;resize:vertical;">' + saved + '</textarea>';
   h += '<div style="margin-top:6px;">' + fanyiBtn(fanyiShowAns ? '收起答案' : '④ 对答案（参考译文＋采分点）', 'fanyiToggleAns()', '#c4a882') + '</div>';
   if (fanyiShowAns) {
     h += '<div class="c-row" style="margin-top:8px;"><span class="tag red">参考译文（柴荣版）</span></div>';
@@ -2215,7 +2388,7 @@ function renderFanyi() {
       h += '<tr><td style="width:52%;">' + data.pts[pi][0] + '</td><td>' + data.pts[pi][1] + '</td></tr>';
     }
     h += '</table>';
-    h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;">⑤ 技巧复盘</div><ul style="font-size:12px;line-height:1.75;margin:4px 0 0 16px;padding:0;">';
+    h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;">技巧复盘</div><ul style="font-size:12px;line-height:1.75;margin:4px 0 0 16px;padding:0;">';
     for (let ti = 0; ti < data.tech.length; ti++) h += '<li>' + data.tech[ti] + '</li>';
     h += '</ul>';
     h += '<div style="font-size:12.5px;font-weight:600;margin-top:10px;color:var(--rose);">⚠️ 易错预警</div><ul style="font-size:12px;line-height:1.75;margin:4px 0 0 16px;padding:0;">';
@@ -2224,10 +2397,9 @@ function renderFanyi() {
   }
   h += '</div>';
 
-  // 自评分
+  // ④ 自评分
   const cur = fanyiGet('score:' + day);
-  h += '<div class="c-card"><div class="c-title">④ 自评分打卡（点击即记录）</div>';
-  h += '<div>';
+  h += '<div class="c-card"><div class="c-title">④ 自评分打卡（点击即记录）</div><div>';
   const grades = [2, 1.5, 1, 0.5, 0];
   for (let gi = 0; gi < grades.length; gi++) {
     const g = grades[gi];
@@ -2236,20 +2408,20 @@ function renderFanyi() {
   }
   h += '</div>';
   h += '<div style="font-size:11px;color:var(--text3);margin-top:4px;">当前记录：' + (cur === null ? '未打卡' : cur + ' 分') + '　（1.2-1.4 及格线 ｜ ≥1.5 是 6-7 分目标水平）</div>';
-  // 最近 7 天
-  h += '<div style="margin-top:8px;font-size:11px;color:var(--text2);">最近 7 天：';
+  h += '<div style="margin-top:8px;font-size:11px;color:var(--text2);">最近 7 次：';
   for (let k = day - 6; k <= day; k++) {
     if (k < 1) { h += '<span style="color:#ccc;">·&nbsp;</span>'; continue; }
     const s = fanyiGet('score:' + k);
     const col = (s === null) ? '#e0d8cc' : (parseFloat(s) >= 1.5 ? '#a3b899' : (parseFloat(s) >= 1 ? '#d4b896' : '#c8a8a8'));
-    h += '<span title="Day ' + k + (s === null ? ' 未打卡' : ' ' + s + '分') + '" style="display:inline-block;width:14px;height:14px;border-radius:4px;background:' + col + ';margin-right:3px;vertical-align:middle;"></span>';
+    h += '<span title="第 ' + k + ' 次' + (s === null ? ' 未打卡' : ' ' + s + '分') + '" style="display:inline-block;width:14px;height:14px;border-radius:4px;background:' + col + ';margin-right:3px;vertical-align:middle;"></span>';
   }
   h += '</div></div>';
 
-  h += '<p style="font-size:11px;color:var(--text2);">📌 做完记得点「下一天 ›」提前看明天；状态差就只做 ①②（8min），<b>不算欠账</b>。</p>';
+  h += '<p style="font-size:11px;color:var(--text2);">📌 状态差就直接跳过，<b>不算欠账、绝不补债</b>；周末把本周错句重译一遍即可。</p>';
 
   box.innerHTML = h;
 }
+
 
 function buildDrawer() {
   const body = document.getElementById('drawerBody');
