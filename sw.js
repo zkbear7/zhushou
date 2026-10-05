@@ -95,7 +95,7 @@
 //             同步：英语面板写作卡重写 · getDailyEngTask 各阶段文案 · WEEKLY_PLAN eng · 每日英语怎么排表
 // v98 (10.4): 政治定稿=张修齐主线（百日班毛特1-3/新思想速成/道法 ＋ 史纲导学&救命课串讲 → 10.18-10.31 1000题刷题宝典一刷
 //             → 11.06 腿姐手册keywords/多选/帽子题+时政热点 → 11.16 肖八8套+时政模拟 → 12.06 肖四+十页纸+手写2-3道；肖八肖四已购）
-const CACHE_NAME = 'kaoyan-helper-v101';
+const CACHE_NAME = 'kaoyan-helper-v102';
 const urlsToCache = [
   '/',
   '/index.html',
