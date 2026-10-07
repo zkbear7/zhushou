@@ -100,7 +100,7 @@
 //              Lyapunov 第二法公式要会·P 矩阵用于连续+离散判定·V(x) 多用于非线性；判稳优先看题目给的数据
 //              标准型口径细化：传函直写能控 I 型/能观 II 型要会，由 SS 变换求标准型不用深挖
 //              现控进度：第3章（俞立13道✅ + 777 第3章 7道✅）→ 10.7 开第4章
-const CACHE_NAME = 'kaoyan-helper-v105';
+const CACHE_NAME = 'kaoyan-helper-v106';
 const urlsToCache = [
   '/',
   '/index.html',
