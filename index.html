@@ -609,10 +609,10 @@ function genJuneSchedules() {
 const JUNE = genJuneSchedules();
 
 // ── July+ recurring schedules (v5: 按星期几决定自控/英语) ──
-// v115: 休息日不再固定（原"周六铁休"作废）→ 一三五=自控日 · 二四六日=英语日 · 其余连着排
-//       累了就休半天 → 当天/前一天告诉我，把日期写进 REST_DAYS 才显示休息
+// v116: 不看星期几 —— 隔天轮换：一天自控 · 一天英语，从 10.09 连着排到考试（见 isSelfControlDay）
+//       休息日也不固定：累了就休半天 → 当天/前一天告诉我，把日期写进 REST_DAYS 才显示休息
 
-const AUTOCTRL_DAY = [  // 一三五 · 自控日（v29·9.4改：7:30起·8:30到教室·14:30下午·19:00政治·19:30线代·21:30收工）
+const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v29·9.4改：7:30起·8:30到教室·14:30下午·19:00政治·19:30线代·21:30收工）
   { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
@@ -624,7 +624,7 @@ const AUTOCTRL_DAY = [  // 一三五 · 自控日（v29·9.4改：7:30起·8:30�
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
-const ENGLISH_DAY = [  // 二四六日 · 英语日（v29·9.4改：7:30起·8:30到教室·14:30下午·19:00政治·19:30线代·21:30收工）
+const ENGLISH_DAY = [  // 英语日（隔天一次）（v29·9.4改：7:30起·8:30到教室·14:30下午·19:00政治·19:30线代·21:30收工）
   { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
@@ -636,14 +636,14 @@ const ENGLISH_DAY = [  // 二四六日 · 英语日（v29·9.4改：7:30起·8:3
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
-// Helper: is this a self-control day (Mon/Wed/Fri)? 其余（二四六日）＝英语日
+// Helper: v116 —— 不看星期几了，改成"隔天轮换"：一天自控 · 一天英语，从 10.09 起连着排到考试
+// 10.09 自控 → 10.10 英语 → 10.11 自控 → 10.12 英语 → ……（按日期奇偶，不受"休了半天"影响、不会错位）
+const ALT_ANCHOR = '2026-10-09';
 function isSelfControlDay(date) {
-  // v61 历史：9.25 中秋节放假（休息日挪到周五）→ 9.26 周六补一个自控日（下午上828）
-  if (fmtDate(date) === '2026-09-26') return true;
-  // v82 历史：10.3（周六）不休息 → 按学习日排，定成自控日（下午 828）
-  if (fmtDate(date) === '2026-10-03') return true;
-  const d = date.getDay(); // 0=Sun
-  return d === 1 || d === 3 || d === 5; // Mon, Wed, Fri
+  const a = new Date(ALT_ANCHOR + 'T00:00:00');
+  const b = new Date(fmtDate(date) + 'T00:00:00');
+  const off = Math.round((b - a) / 86400000);
+  return off % 2 === 0;   // 偶数偏移＝自控日 · 奇数偏移＝英语日
 }
 
 // v31+v41: 每日打卡清单数据——9.10起概率=李良强化(二四日听课/一三五例题·周一/三=Kira至9.30)；高数18收尾顺延至9.13
@@ -725,9 +725,9 @@ function getDailyLinTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].lin) return DAILY_TASKS[key].lin;
   if (key <= '2026-09-03') return '第6讲（9.1-9.3 三天）';
-  const wd = date.getDay();
-  if (key <= '2026-10-21' && (wd === 1 || wd === 3 || wd === 5)) return '🧵没咋了线代救命课（12h·行列式→矩阵→向量→方程组→相似→二次型）＋🟣0.5h例题';
-  if (wd === 5) return '🟣0.5h 概率例题重做（⭐题·详见筛选表今日行）';
+  // v116: 晚间槽按"当天类型"走（下午重的那天就轻）：自控日＝0.5h 例题 · 英语日＝1h 听课
+  if (key <= '2026-10-21' && isSelfControlDay(date)) return '🧵没咋了线代救命课（12h·行列式→矩阵→向量→方程组→相似→二次型）＋🟣0.5h例题';
+  if (isSelfControlDay(date)) return '🟣0.5h 概率例题重做（⭐题·详见筛选表今日行）';
   return '🟣概率救命课（吃尽天下面·12h）+ 880概率对应章（基础+综合全做·拓展跳过·假设检验整章跳过）';
 }
 
@@ -752,9 +752,9 @@ const PRO_TASKS = {
   '2026-10-14': '第5章续：俞立5章 5.11~5.16（6道·极点配置求K/能控标准形/反求K/输出反馈不能任意配置）→ <b>课后题✅</b> ｜ 777第5章基础前半（5.3、5.6、5.7*、5.8*、5.9*）',
   '2026-10-16': '第6章：听 24 全维观测器（跳26降维）→ 俞立6章 6.1~6.8、6.13（9道）→ <b>课后题✅</b> ｜ 777第6章基础（5.23、5.24、5.26、5.31、5.32）',
   '2026-10-19': '第5-6章收尾：777第5章基础后半（5.14*、5.15*、5.16、5.17、5.18）＋ 前四章错题回看 ＋ 离散补漏（P12/P26 例题）',
-  '2026-10-21': 'A阶段收口＋缓冲：俞立80道必做清点、777现控基础43道清点、状态方程解/Φ(t)手算再练一遍 → 10.23 进强化轮',
+  '2026-10-21': 'A阶段收口＋缓冲：俞立80道必做清点、777现控基础43道清点、状态方程解/Φ(t)手算再练一遍 → 下个自控日进强化轮',
 
-  // v81 (9.30): 强化轮 10.23-11.23 —— 大块日「隔天交替」：一天自控强化 / 一天现控专题
+// v81 (9.30): 强化轮 —— 自控强化 / 现控专题 在"自控日"上交替（v116 起落位到隔天轮换的自控日：10.21→11.20）
   '2026-10-23': '🔥强化轮① <b>自控</b>：777自控强化 第2章 2.13、2.16、2.20、2.22（电气/有源网络建模）＋ 2.27、2.31（直流电机/位置随动完整建模）＝6道',
   '2026-10-26': '🔥强化轮② <b>现控</b>：777现控专题一 1.1、1.4（RLC+机械建模）、1.6、1.7、1.8（结构图→SS 综合）＝5道',
   '2026-10-28': '🔥强化轮③ <b>自控</b>：777自控强化 第3章前半 3.15（综合）、3.17（非单位反馈+前馈）、3.18（极点分布区域）、3.21（主导极点）＝4道',
@@ -779,24 +779,51 @@ const PRO_EXAM_DAYS = {
   '2026-11-07': '2023年',
   '2026-11-14': '2024年',
 };
+
+// v116: 828 的日任务序列原来按"一三五"排；改成隔天轮换后，把原序列按"第 N 个自控日"重新落位（跳过 828真题日）
+const PRO_SEQ = Object.keys(PRO_TASKS).filter(k => k >= '2026-10-09').sort();
+function proSeqIndex(date) {
+  const key = fmtDate(date);
+  if (key < '2026-10-09') return -1;
+  if (!isSelfControlDay(date)) return -1;          // 英语日不排 828 大块
+  if (PRO_EXAM_DAYS[key]) return -1;               // 真题日整天做卷，占位不算序列
+  let n = 0;
+  const cur = new Date(ALT_ANCHOR + 'T00:00:00');
+  const end = new Date(key + 'T00:00:00');
+  while (cur <= end) {
+    const k = fmtDate(cur);
+    if (isSelfControlDay(cur) && !PRO_EXAM_DAYS[k]) {
+      if (k === key) return n;
+      n++;
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+  return -1;
+}
 // 现控排期（阶段A=现控课+俞立课后题 → B=777现控81题 → C/D=真题·错题）
 const PRO_PHASES = [
   { until:'2026-10-05', txt:'第3章收尾：777第3章【基础7道】（俞立13道已于10.3✅）→ 第3章收口｜专题二12道留强化轮' },
   { until:'2026-10-09', txt:'第4章 稳定性（李雅普诺夫一/二法）：听 20、21 讲 ＋ 补浙工大 P26 离散稳定性 ｜ 俞立第4章12道 ＋ 777第4章基础9道｜10.7 开、10.9 收口' },
-  { until:'2026-10-16', txt:'第5-6章：状态反馈+极点配置+全维观测器（听 23、24、25 讲·跳26降维）｜俞立第5章12道 + 第6章9道 ＋ 777第5/6章基础｜10.12 开' },
-  { until:'2026-10-21', txt:'A阶段收口＋缓冲：前四章错题回看 ＋ 离散补漏（P12/P26 例题）＋ Φ(t)/状态响应的手算再练 → 10.23 进强化轮' },
-  { until:'2026-11-23', txt:'🔥强化轮（大块日隔天交替）：<b>奇数块=777自控强化27道（第2/3/5/6章）</b> ↔ <b>偶数块=777现控专题一/二/三33道</b>｜英语日30min推进现控专题｜<b>828真题日</b>=整套真题（10.24 2020→10.31 2021→11.7 2023→11.14 2024，上午做卷·下午订正；25/26 留11月下做第二遍）' },
+  { until:'2026-10-16', txt:'第5-6章：状态反馈+极点配置+全维观测器（听 23、24、25 讲·跳26降维）｜俞立第5章12道 + 第6章9道 ＋ 777第5/6章基础' },
+  { until:'2026-10-21', txt:'A阶段收口＋缓冲：前四章错题回看 ＋ 离散补漏（P12/P26 例题）＋ Φ(t)/状态响应的手算再练 → 下个自控日进强化轮' },
+  { until:'2026-11-21', txt:'🔥强化轮（自控日隔天交替）：<b>奇数块=777自控强化27道（第2/3/5/6章）</b> ↔ <b>偶数块=777现控专题一/二/三33道</b>｜英语日30min推进现控专题｜<b>828真题日</b>=整套真题（10.24 2020→10.31 2021→11.7 2023→11.14 2024，上午做卷·下午订正；25/26 留11月下做第二遍）' },
   { until:'2026-12-05', txt:'真题主线：每周2套（大块日3h全真＋当天订正＋隔天⭐复盘）＋ 强化轮错题回看' },
   { until:'2026-12-18', txt:'近3年精做 ＋ 错题三刷 ＋ 概念/公式默写（伯德K/梅森/稳态误差/朱利/描述函数/极点配置/观测器）' },
   { until:'2026-12-19', txt:'现控错题二刷 ＋ 概念/公式默写' },
 ];
 function getDailyProTask(date) {
   const key = fmtDate(date);
-  if (key in PRO_TASKS) return PRO_TASKS[key];
   if (PRO_EXAM_DAYS[key]) return '📄 828真题 ' + PRO_EXAM_DAYS[key] + ' 整套：上午3h全真（禁计算器）→ 下午订正＋错因归类＋卡壳题合书重做';
+  if (key < '2026-10-09') {                       // 历史日期：仍按原日期键
+    if (key in PRO_TASKS) return PRO_TASKS[key];
+  } else {
+    // v116: 隔天轮换后，828 大块落在"第 N 个自控日"上 → 原始序列不变，只换落位日期
+    const n = proSeqIndex(date);
+    if (n >= 0 && n < PRO_SEQ.length) return PRO_TASKS[PRO_SEQ[n]];
+  }
   const ph = PRO_PHASES.find(p => key <= p.until);
   if (!ph) return '真题/错题保持（考前）';
-  const bigBlock = isSelfControlDay(date); // 一三五=自控日大块，二四六日=30min（v115）
+  const bigBlock = isSelfControlDay(date); // v116: 自控日＝下午828大块 · 英语日＝晚间30min
   return ph.txt + (bigBlock ? '' : '（30min·接着上次）');
 }
 
@@ -814,7 +841,7 @@ function getDailyPolTask(date) {
 const CLOZE_PLAN = {
   '2026-09-17': 2012, '2026-09-20': 2013, '2026-09-22': 2014,
   '2026-09-24': 2015, '2026-09-27': 2016, '2026-09-29': 2017,
-  '2026-10-04': 2018, '2026-10-11': 2019, '2026-10-18': 2020,
+  '2026-10-04': 2018, '2026-10-12': 2019, '2026-10-18': 2020,
 };
 function getClozeTag(key) {
   return CLOZE_PLAN[key] ? '完型' + CLOZE_PLAN[key] + '（先限时做18min→听讲解40min·错因四类）' : '';
@@ -823,8 +850,7 @@ function getClozeTag(key) {
 function getDailyEngTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].eng) return DAILY_TASKS[key].eng;
-  const wd = date.getDay();
-  const isEngDay = (wd === 2 || wd === 4 || wd === 0 || wd === 6); // 二/四/六/日=英语日（v115）
+  const isEngDay = !isSelfControlDay(date); // v116: 英语日＝隔天轮换里非自控的那天
   const cloze = isEngDay ? getClozeTag(key) : '';
   if (key <= '2026-09-08') return '精读1篇（错≥2题深翻）＋新题型方法论收尾';
   if (key <= '2026-09-22') {
@@ -840,14 +866,14 @@ function getDailyEngTask(date) {
     return '写作：23句句卡＋每天20min微训练（第1周题目）＋ 🈶翻译15min(每周3次) ＋ 精读1篇';
   }
   if (key <= '2026-10-31') {
-    return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·周二大作文/周四重写/周日新题+小作文) ＋ 🈶翻译15min(每周3次·面板自动排次) ＋ 精读1篇';
+    return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·大作文→重写→新题+小作文轮换) ＋ 🈶翻译15min(英语日·面板自动排次) ＋ 精读1篇';
   }
   if (key <= '2026-11-30') return '写作：每天20min微训练＋每周3篇整篇(只写真题·从2016往前) ／ 整卷模考2021-2026(周末3h) ＋ 新题型留用篇 ＋ 翻译保温';
   return '写作：每天15min默写＋每周2套限时(大30min+小20min) ＋ 阅读保温(2天1篇) ＋ 翻译错题回看';
 }
 
 function getDailyEngLightTask() {
-  return '✍️写作20min＋单词生词本10min（20:30-21:00）｜翻译只在二/四/日';
+  return '✍️写作20min＋单词生词本10min（20:30-21:00）｜翻译只排英语日';
 }
 
 // ── Drawer content ──
@@ -1417,7 +1443,7 @@ const DRAWER_SECTIONS = [
         <tr><th>阶段</th><th>时间</th><th>任务</th><th>硬节点</th></tr>
         <tr><td>✅ 自控</td><td>至 9.17</td><td>1-8 章飞哥课（第4章不考跳）＋王万良课后题第 3/5/7/8 章精选＋777 自控基础 54 题</td><td>完成</td></tr>
   <tr><td>A 现控课</td><td>9.18-10.21</td><td><b>现控课（飞哥系统课）＋ 俞立课后题必做 80 题</b>（<b>1章18✅/2章16✅/3章13✅</b>/4章12/5章12/6章9）＋ <b>777现控基础 43</b>（<b>第1章✅、第2章✅、第3章✅(10.5)</b>）→ 10.7 开第4章（稳定性）</td><td>10.21</td></tr>
-        <tr><td>B 强化轮</td><td>10.23-11.23</td><td><b>大块日隔天交替</b>：777自控强化 27 ↔ 777现控专题一二三 33 ｜ 828真题日＝整套真题（10.24 2020 → 10.31 2021 → 11.7 2023 → 11.14 2024）</td><td>自控 11.16·现控 11.23</td></tr>
+        <tr><td>B 强化轮</td><td>10.21-11.20</td><td><b>自控日隔天交替</b>：777自控强化 27 ↔ 777现控专题一二三 33 ｜ 828真题日＝整套真题（10.24 2020 → 10.31 2021 → 11.7 2023 → 11.14 2024）</td><td>自控 11.12·现控 11.20</td></tr>
         <tr><td>C 真题</td><td>11.24-12.05</td><td>每周 2 套（大块日 3h 全真＋当天订正＋隔天⭐复盘）＋强化轮错题回看</td><td>每周 2 套</td></tr>
         <tr><td>D 冲刺</td><td>12.06-12.18</td><td>近 3 年精做＋错题三刷＋概念/公式默写（伯德K/梅森/稳态误差/朱利/描述函数/极点配置/观测器）</td><td>—</td></tr>
       </table>
@@ -1434,18 +1460,18 @@ const DRAWER_SECTIONS = [
       </table>
       <p style="font-size:11px;color:var(--text3);">必听 11 讲＝3、4、7‖9、11‖18‖20、21‖23、25‖24（9.3h·1.5x≈6.2h）｜对答案：俞立课后题精讲 70P｜清单：浙工大828_现控听课清单.md</p>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔥 强化轮怎么交替（10.23-11.23·大块日）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔥 强化轮怎么交替（10.21-11.20·落在自控日）</p>
       <div class="c-card">
-        <div class="c-row"><span class="tag red">自控块（6块）</span>10.23 第2章 ｜ 10.28 第3章 ｜ 11.2 第3章 ｜ 11.6 第5章 ｜ 11.11 第5章 ｜ 11.16 第6章 → <b>27 道</b></div>
-        <div class="c-row"><span class="tag amber">现控块（8块）</span>10.26 专题一 ｜ 10.30 专题一 ｜ 11.4 专题二 ｜ 11.9 专题二 ｜ 11.13 专题二 ｜ 11.18 专题三 ｜ 11.20 专题三 ｜ 11.23 专题三 → <b>33 道</b></div>
+        <div class="c-row"><span class="tag red">自控块（6块）</span>10.21 第2章 ｜ 10.25 第3章 ｜ 10.29 第3章 ｜ 11.4 第5章 ｜ 11.8 第5章 ｜ 11.12 第6章 → <b>27 道</b></div>
+        <div class="c-row"><span class="tag amber">现控块（8块）</span>10.23 专题一 ｜ 10.27 专题一 ｜ 11.2 专题二 ｜ 11.6 专题二 ｜ 11.10 专题二 ｜ 11.16 专题三 ｜ 11.18 专题三 ｜ 11.20 专题三 → <b>33 道</b></div>
         <div class="c-row"><span class="tag blue">顺手推</span>英语日 20:30-21:00 那 30min 给现控专题 ｜ 828真题日＝整套真题（10.24 2020 / 10.31 2021 / 11.7 2023 / 11.14 2024）</div>
         <div class="c-row"><span class="tag gray">为什么</span>自控偏建模/频域大题，现控偏跨章综合 → 隔天换脑子比一天硬压两门省力；真题放"828真题日"，不占强化轮大块</div>
       </div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏰ 时间与铁律</p>
       <div class="c-card">
-        <div class="c-row"><span class="tag red">自控日(一三五)</span>14:30-18:00 纯块 3.5h：现控课/俞立课后题/777·大块不碎片</div>
-        <div class="c-row"><span class="tag amber">英语日(二四六日)</span>20:30-21:00 30min：现控课或俞立课后题·保持手感</div>
+        <div class="c-row"><span class="tag red">自控日（隔天）</span>14:30-18:00 纯块 3.5h：现控课/俞立课后题/777·大块不碎片</div>
+        <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：现控课或俞立课后题·保持手感</div>
         <div class="c-row"><span class="tag gray">已砍</span>自控强化课（777替代）·阿祖强化·俞立第7章 LQR·能观标准型(3.23/3.24)·降维观测器(6.9/6.12)</div>
         <div class="c-row"><span class="tag rose">铁律</span>手算不用计算器 ｜ 先俞立教材后 777 ｜ 现控 40-50 分·每题 20 分综合大题·性价比最高 ｜ 真题全大题→动笔写完整过程</div>
         <div class="c-row"><span class="tag blue">大题范式</span>建状态空间 → 转移矩阵/响应 → 能控能观 → 极点配置 K → 观测器 L →（基于观测器的输出反馈）</div>
@@ -1461,14 +1487,14 @@ const DRAWER_SECTIONS = [
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
         <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>每天 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
-        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每周 3 次（英语日 二/四/日）· 每次 15min · 共 33 次（10.4→12.17）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜只做 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句｜<b>唐静已弃用</b></td></tr>
+        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每个英语日 1 次（隔天一次）· 每次 15min · 共 33 次（10.4 起，约 12.07 走完）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜只做 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句｜<b>唐静已弃用</b></td></tr>
         <tr><td>📖 单词</td><td><b>真题生词本</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读精读/完型/翻译热身 3 题/新题型）·10min 封顶·<b>不做标记、不分轮次</b>｜闪过退为辅助（有余量才滚）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 写作练习量（30 分·最大提分板块·已定档）</p>
       <div class="c-card"><div class="c-title">核心：23 句句卡（大作文 14 ＋ 小作文 9）</div>
-        <div class="c-row"><span class="tag red">每天 20min</span>看中文写英文 → 对比参考句 → <b>换内容再写一遍</b>｜一/三/五 20:30-21:00 超轻量槽；二/四/六/日 英语日块开头</div>
+        <div class="c-row"><span class="tag red">每天 20min</span>看中文写英文 → 对比参考句 → <b>换内容再写一遍</b>｜自控日 20:30-21:00 超轻量槽；英语日块开头</div>
         <div class="c-row"><span class="tag amber">底稿原则</span><b>一个功能只留 1 句</b>·句型固定不动只换内容·<b>不写倒装不换高级词</b>（先写对再写花）</div>
         <div class="c-row"><span class="tag gray">小作文三类</span>建议类／理由类／活动类——第二段<b>只有两种写法</b>（First,Second 或 It will be held on）</div>
         <div class="c-row"><span class="tag gray">文件位置</span>F:/考研/英语作文/（万能句库＝句卡 · 第1/2周题目 · 微训练法）</div></div>
@@ -1488,7 +1514,7 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🈶 翻译节奏（柴荣·10 分·已减重定档）</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">定位</span>翻译 10 分、历年平均 <b>3.89</b>，柴荣原话"<b>性价比低</b>、整张卷子最后做" → <b>不抢阅读/写作/新题型</b>，只占英语时间 ~6%</div>
-        <div class="c-row"><span class="tag amber">频次</span><b>每周 3 次</b>（英语日 二/四/日）·<b>每次 15min</b>：① 词义热身 3 题(2min) → ② 断句找主干(3min) → ③ 整句翻译(6min) → ④ 采分点自评(3min)</div>
+        <div class="c-row"><span class="tag amber">频次</span><b>每个英语日 1 次</b>（隔天一次）·<b>每次 15min</b>：① 词义热身 3 题(2min) → ② 断句找主干(3min) → ③ 整句翻译(6min) → ④ 采分点自评(3min)</div>
         <div class="c-row"><span class="tag blue">总量</span><b>共 33 次</b>（10.4 → 12.17，初试前 2 天收尾）＝ 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句。<b>2010-2015 整篇全砍</b>（柴荣："可直接放弃"）；2022-2026 留 12 月套卷做</div>
         <div class="c-row"><span class="tag gray">回译</span>不再每天做 → 挪到休息半天/周五晚 10min（本周错句重译）｜每篇末用 20min 限时整篇回顾（全期 6 次）</div>
         <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每次一练」</b>→ 自动算"今天/下一次该做第几次"＋题目＋解析＋自评分打卡</div>
@@ -1511,8 +1537,8 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📅 每天英语怎么排</p>
       <table>
         <tr><th>日型</th><th>任务</th></tr>
-        <tr><td>英语日<br>(二/四/六/日)</td><td><b>14:30-14:45 🈶 翻译 15min（只在二/四/日）</b> → 精读（周二/周四 2 篇·周日 1 篇＋完型 1 篇）→ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>单词：<b>生词本 10min</b>（就摘当天精读/完型里不认识的词）</td></tr>
-        <tr><td>自控日<br>(一/三/五)</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>✍️ 写作 20min</b>（v94 原定档·翻译不再占此槽）＋ 单词生词本 10min<br>翻译只在 二/四/日 做，不排自控日</td></tr>
+        <tr><td>英语日<br>（隔天）</td><td><b>14:30-14:45 🈶 翻译 15min</b> → 精读（错≥2题深翻）＋完型（按周表）→ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>单词：<b>生词本 10min</b>（就摘当天精读/完型里不认识的词）</td></tr>
+        <tr><td>自控日<br>（隔天）</td><td>828 下午大块 3.5h → 晚间英语超轻量 30min：<b>✍️ 写作 20min</b>（v94 原定档·翻译不再占此槽）＋ 单词生词本 10min<br>翻译只排英语日，不排自控日</td></tr>
       </table>
       <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 精读模式：英语日＝完整 1.5h（14:30-18:00 纯块内含）｜自控日＝晚间超轻量 30min（20:30-21:00）｜<b>漏了不补</b></p>
       <p style="font-size:11px;color:var(--text3);">📌 单词=真题生词本（当天新题里摘）·10min 封顶·不做标记不分轮次；闪过只当有余量时的补充</p>
@@ -1520,11 +1546,11 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "🈶 翻译每次一练（柴荣 · 每周3次·15min）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每周 3 次（英语日 二/四/日）· 每次 15min · 共 33 次（10.4 → 12.17）｜已减重定档</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每个英语日 1 次（隔天一次）· 每次 15min · 共 33 次（10.4 起，约 12.07 走完）｜已减重定档</b></p>
       <div class="c-card"><div class="c-title">🎯 定位：翻译只占英语时间 ~6%（不抢阅读/写作/新题型）</div>
         <div class="c-row"><span class="tag red">为什么减重</span>翻译 10 分，历年平均只有 <b>3.89</b>，柴荣原话就是"<b>性价比低</b>、整张卷子最后做"。它不值得每天 20min 抢主线。</div>
         <div class="c-row"><span class="tag amber">原方案的问题</span>每天 20min ＝ 2.3h/周 ≈ <b>英语时间的 14%</b>，是它 ROI 权重的两倍。</div>
-        <div class="c-row"><span class="tag blue">改后</span>每周 3 次 × 15min ＝ 45min/周（＋每篇末一次限时回顾）≈ <b>1h/周 ≈ 6%</b>。目标仍是 6-7 分，方法不变、只是不再堆量。</div>
+        <div class="c-row"><span class="tag blue">改后</span>英语日 15min（隔天一次 ≈ 3-4 次/周）≈ <b>1h/周 ≈ 6%</b>。目标仍是 6-7 分，方法不变、只是不再堆量。</div>
         <div class="c-row"><span class="tag gray">为什么不砍掉</span>翻译是<b>确定性加分</b>（固定套路：词义选择＋调语序），而且"拆长难句"直接迁移到阅读精读和新题型——所以挂靠在英语日，不单开时段。</div></div>
 
       <div id="fanyiToday"></div>
@@ -1562,13 +1588,13 @@ const DRAWER_SECTIONS = [
         <tr><td><b>五 · 综合</b></td><td>29-33</td><td>2021 全篇 5 句（二战后高等教育）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);">📌 总量＝<b>2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句 = 33 次</b>。柴荣原话：2010-2015"可直接放弃"、2016-2021"选择性放弃"、时间多才练 2016-2026 → 所以老真题整篇全部砍掉。<b>2022-2026 五篇留到 12 月套卷里做</b>（套卷里的翻译就是最好的限时训练）。</p>
-      <p style="font-size:11px;color:var(--text3);">🗓️ 日历：每周 3 次＝周日 / 周二 / 周四（英语日）。第1周 10.4-10.8 → 第11周 12.13-12.17，12.19-12.20 初试。</p>
+      <p style="font-size:11px;color:var(--text3);">🗓️ 日历：每个英语日 1 次（隔天）。第1次 10.4 → 第33次 约 12.07，12.19-12.20 初试。</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（翻译减重后）</p>
       <table>
         <tr><th>日型</th><th>时段</th><th>内容</th></tr>
-        <tr><td>二/四/六/日<br>英语日</td><td>14:30-14:45</td><td>🈶 <b>翻译 15min</b>（只在二/四/日；也可直接用当天精读挑的那句难句）→ 再进精读</td></tr>
-        <tr><td>一/三/五<br>自控日</td><td>20:30-21:00</td><td>✍️ <b>写作 20min</b>（句卡/微训练，v94 原定档）＋ 单词生词本 10min —— <b>翻译不再占这个槽</b></td></tr>
+        <tr><td>英语日<br>（隔天）</td><td>14:30-14:45</td><td>🈶 <b>翻译 15min</b>（也可直接用当天精读挑的那句难句）→ 再进精读</td></tr>
+        <tr><td>自控日<br>（隔天）</td><td>20:30-21:00</td><td>✍️ <b>写作 20min</b>（句卡/微训练，v94 原定档）＋ 单词生词本 10min —— <b>翻译不再占这个槽</b></td></tr>
         <tr><td>休息半天/周五晚</td><td>10min</td><td>🈶 本周翻译错句重译 1 遍（每篇末再用 20min 限时整篇回顾）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译直接跳过，<b>不算欠账、绝不补债</b>；反正翻译是最后做、且只占 6%。</p>
@@ -1625,13 +1651,13 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "🗓️ 节奏 · 复盘 · 应急（砍单顺序 / 容量口径）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>休息日不再固定（累了就休半天·当天/前一天说一声，其余连着排）·7:30 起 · 8:30 到教室 · 21:30 收工 ｜ 每日容量 6.5h 保底 / 7.5h 封顶 ｜ 做不完顺延不补债</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>隔天轮换（一天自控 · 一天英语，从 10.09 连着排到考试）｜休息不固定（累了就休半天·当天/前一天说一声）·7:30 起 · 8:30 到教室 · 21:30 收工 ｜ 每日容量 6.5h 保底 / 7.5h 封顶 ｜ 做不完顺延不补债</b></p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);">⏰ 一天怎么走</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">上午 08:30-12:00</span>高数 3.5h（含微休）</div>
         <div class="c-row"><span class="tag amber">12:00-14:30</span>午饭＋午休＋收拾（休息到 14:00）</div>
-        <div class="c-row"><span class="tag blue">下午 14:30-18:00</span>主科纯块 3.5h：自控日＝⚙️828 · 英语日＝📝英语</div>
+        <div class="c-row"><span class="tag blue">下午 14:30-18:00</span>主科纯块 3.5h：自控日＝⚙️828 · 英语日＝📝英语（隔天换）</div>
         <div class="c-row"><span class="tag green">18:00-19:00</span>晚饭＋散步 1h（离开书）</div>
         <div class="c-row"><span class="tag rose">19:00-19:30</span>政治（每天）</div>
         <div class="c-row"><span class="tag red">19:30-20:30</span>线代/概率（晚槽）</div>
@@ -1694,7 +1720,7 @@ const DRAWER_SECTIONS = [
         <tr><th>时间</th><th>要完成的</th></tr>
         <tr><td>10.8-11.8</td><td>数学分类真题（高数先行→概率/线代板块）｜现控课＋俞立 80 题 10.21 收口 ｜ 英语写作模板＋翻译＋完型收尾 ｜ 政治：百日班＋史纲串讲＋带背先行 → <b>10.31 1000题一刷 ✅</b></td></tr>
         <tr><td>10.9-10.12 / 10.15-10.24</td><td><b>考研预报名 / 正式报名</b>（每日 9:00-22:00）·注意信院与卓工<b>学院编号不同</b></td></tr>
-        <tr><td>10.23-11.23</td><td>828 强化轮（自控 27 ↔ 现控专题 33 隔天交替）＋ 828真题日（10.24 2020·10.31 2021·11.7 2023·11.14 2024）｜ 数学分类真题收尾→套卷</td></tr>
+        <tr><td>10.21-11.20</td><td>828 强化轮（自控 27 ↔ 现控专题 33 在自控日交替）＋ 828真题日（10.24 2020·10.31 2021·11.7 2023·11.14 2024）｜ 数学分类真题收尾→套卷</td></tr>
         <tr><td>11.9-12.19</td><td>数学李林 6+4 套卷 ｜ 828 每周 2 套真题 ｜ 英语整卷模考 2021-2026 ｜ 政治肖八→肖四</td></tr>
         <tr><td>12.06-12.19</td><td>肖四选择＋分析题全背＋十页纸 ｜ 近 3 年真题精做 ｜ 作文默写 ｜ 错题三刷＋公式默写</td></tr>
         <tr><td>12.19-12.20</td><td><b>初试</b></td></tr>
@@ -1871,7 +1897,7 @@ function isHomeWorkoutDay(date) {
 }
 
 // v115: 休息日不再固定——"累了就休半天"，当天/前一天告诉我，我把日期写进这张表才会显示休息
-// 表里没有的日期一律按学习日连着排（一三五自控日 · 二四六日英语日）
+// 表里没有的日期一律按学习日连着排（隔天轮换：一天自控 · 一天英语 → 见 isSelfControlDay）
 const REST_DAYS = {
   '2026-09-25': 'half',   // 历史：中秋节（半天）
   '2026-09-29': 'full',   // 历史：停水停电+出去玩（全休）
@@ -1946,7 +1972,7 @@ function getSchedule(date) {
 
   let schedule, tag, emoji;
   if (isAutoCtrl) {
-    // Mon/Wed/Fri = 自控日
+    // 自控日（v116：隔天轮换）
     schedule = AUTOCTRL_DAY.map(s => ({...s}));  // deep clone
     emoji = '⚙️';
 
@@ -1966,7 +1992,7 @@ function getSchedule(date) {
       });
     }
   } else {
-    // Tue/Thu/Sun = 英语日
+    // 英语日（v116：隔天轮换）
     schedule = ENGLISH_DAY.map(s => ({...s}));  // deep clone
     emoji = '📖';
     tag = '📖 英语日 📝';
@@ -2242,8 +2268,7 @@ let fanyiShowSplit = false;
 let fanyiShowAns = false;
 
 function fanyiIsEngDay(d) {
-  const w = d.getDay();               // 0=周日 2=周二 4=周四 → 英语日
-  return (w === 0 || w === 2 || w === 4);
+  return !isSelfControlDay(d);        // v116: 英语日＝隔天轮换里非自控的那天（不再看星期几）
 }
 function fanyiMidnight(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -2370,12 +2395,12 @@ function renderFanyi() {
   else if (isEng) head = '今天该做 <b>第 ' + todayIdx + ' 次</b>';
   else head = '今天不是翻译日';
 
-  h += '<div class="c-card"><div class="c-title">🈶 翻译每次一练（每周 3 次 · 每次 15min）· ' + head + '</div>';
+  h += '<div class="c-card"><div class="c-title">🈶 翻译每次一练（每个英语日 1 次 · 每次 15min）· ' + head + '</div>';
   h += '<div class="c-row"><span class="tag red">进度</span>已打卡 <b>' + st.done + '</b> / ' + FANYI_TOTAL + ' 次 ｜ 平均自评分 <b>' + st.avg.toFixed(2) + '</b> / 2</div>';
 
   if (!isEng && next) {
     const nIdx = fanyiIndexForDate(next);
-    h += '<div class="c-row"><span class="tag amber">下一次</span>' + fanyiFmtDate(next) + '（' + fanyiFmtWd(next) + '）→ <b>第 ' + nIdx + ' 次</b>｜翻译只在 周日 / 周二 / 周四 做，其他日子不排（去练写作和阅读）</div>';
+    h += '<div class="c-row"><span class="tag amber">下一次</span>' + fanyiFmtDate(next) + '（' + fanyiFmtWd(next) + '）→ <b>第 ' + nIdx + ' 次</b>｜翻译只排在英语日（隔天一次），自控日不排（去练写作和阅读）</div>';
   }
 
   h += '<div style="margin-top:6px;">' + fanyiBtn('‹ 上一次', 'fanyiSetDay(' + (day - 1) + ')')
