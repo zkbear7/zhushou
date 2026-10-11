@@ -636,7 +636,7 @@ const ENGLISH_DAY = [  // 英语日（隔天一次）（v29·9.4改：7:30起·8
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-  { t:"20:30-21:00", l:"⚙️ 828（现控课/课后题）", s:"pro" },
+  { t:"20:30-21:00", l:"🔢 数学（自由时间：补弱项/错题/选填）", s:"math" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -819,7 +819,7 @@ const PRO_PHASES = [
   { until:'2026-10-09', txt:'第4章 稳定性（李雅普诺夫一/二法）：听 20、21 讲 ＋ 补浙工大 P26 离散稳定性 ｜ 俞立第4章12道 ＋ 777第4章基础9道｜10.7 开、10.9 收口' },
   { until:'2026-10-16', txt:'第5-6章：状态反馈+极点配置+全维观测器（听 23、24、25 讲·跳26降维）｜俞立第5章12道 + 第6章9道 ＋ 777第5/6章基础' },
   { until:'2026-10-21', txt:'A阶段收口＋缓冲：前四章错题回看 ＋ 离散补漏（P12/P26 例题）＋ Φ(t)/状态响应的手算再练 → 下个自控日进强化轮' },
-  { until:'2026-11-25', txt:'🔥强化轮（落在自控日·隔天交替）：<b>奇数块=777自控强化27道（第2/3/5/6章）</b> ↔ <b>偶数块=777现控专题一/二/三33道</b>｜英语日30min推进现控专题｜<b>828真题日</b>=整套真题（10.24 2020→10.31 2021→11.7 2023→11.14 2024，上午做卷·下午订正；25/26 留11月下做第二遍）' },
+  { until:'2026-11-25', txt:'🔥强化轮（落在自控日·隔天交替）：<b>奇数块=777自控强化27道（第2/3/5/6章）</b> ↔ <b>偶数块=777现控专题一/二/三33道</b>｜英语日晚槽已改<b>数学自由时间</b>｜<b>828真题日</b>=整套真题（10.24 2020→10.31 2021→11.7 2023→11.14 2024，上午做卷·下午订正；25/26 留11月下做第二遍）' },
   { until:'2026-12-05', txt:'真题主线：每周2套（大块日3h全真＋当天订正＋隔天⭐复盘）＋ 强化轮错题回看' },
   { until:'2026-12-18', txt:'近3年精做 ＋ 错题三刷 ＋ 概念/公式默写（伯德K/梅森/稳态误差/朱利/描述函数/极点配置/观测器）' },
   { until:'2026-12-19', txt:'现控错题二刷 ＋ 概念/公式默写' },
@@ -1477,14 +1477,14 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控块（6块）</span>10.21 第2章 ｜ 10.25 第3章 ｜ 10.29 第3章 ｜ 11.4 第5章 ｜ 11.8 第5章 ｜ 11.12 第6章 → <b>27 道</b></div>
         <div class="c-row"><span class="tag amber">现控块（8块）</span>10.23 专题一 ｜ 10.27 专题一 ｜ 11.2 专题二 ｜ 11.6 专题二 ｜ 11.10 专题二 ｜ 11.16 专题三 ｜ 11.18 专题三 ｜ 11.20 专题三 → <b>33 道</b></div>
-        <div class="c-row"><span class="tag blue">顺手推</span>英语日 20:30-21:00 那 30min 给现控专题 ｜ 828真题日＝整套真题（10.24 2020 / 10.31 2021 / 11.7 2023 / 11.14 2024）</div>
+  <div class="c-row"><span class="tag blue">晚间槽</span><b>英语日 20:30-21:00 已改成数学（自由时间：补弱项/错题/选填）</b>——专业课只在自控日推进 ｜ 828真题日＝整套真题（10.24 2020 / 10.31 2021 / 11.7 2023 / 11.14 2024）</div>
         <div class="c-row"><span class="tag gray">为什么</span>自控偏建模/频域大题，现控偏跨章综合 → 隔天换脑子比一天硬压两门省力；真题放"828真题日"，不占强化轮大块</div>
       </div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏰ 时间与铁律</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控日（隔天）</span>14:30-18:00 纯块 3.5h：现控课/俞立课后题/777·大块不碎片</div>
-        <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：现控课或俞立课后题·保持手感</div>
+  <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：<b>数学自由时间</b>（补弱项/错题/选填）·专业课不再占这个槽</div>
         <div class="c-row"><span class="tag gray">已砍</span>自控强化课（777替代）·阿祖强化·俞立第7章 LQR·能观标准型(3.23/3.24)·降维观测器(6.9/6.12)</div>
         <div class="c-row"><span class="tag rose">铁律</span>手算不用计算器 ｜ 先俞立教材后 777 ｜ 现控 40-50 分·每题 20 分综合大题·性价比最高 ｜ 真题全大题→动笔写完整过程</div>
         <div class="c-row"><span class="tag blue">大题范式</span>建状态空间 → 转移矩阵/响应 → 能控能观 → 极点配置 K → 观测器 L →（基于观测器的输出反馈）</div>
@@ -1674,7 +1674,7 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag green">18:00-19:00</span>晚饭＋散步 1h（离开书）</div>
         <div class="c-row"><span class="tag rose">19:00-19:30</span>政治（每天）</div>
         <div class="c-row"><span class="tag red">19:30-20:30</span>线代/概率（晚槽）</div>
-        <div class="c-row"><span class="tag gray">20:30-21:00</span>自控日＝英语超轻量 · 英语日＝828 现控 30min</div>
+  <div class="c-row"><span class="tag gray">20:30-21:00</span>自控日＝英语超轻量（写作20min+生词本）· <b>英语日＝数学自由时间</b></div>
         <div class="c-row"><span class="tag blue">21:00-21:30</span>复盘＋标 ⭐ → 收工（最迟 21:30，不硬撑）</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔋 休息半天（自己定·累了就休）</p>
@@ -1828,7 +1828,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     rows.push({ s:'eng', label:'英语（超轻量）：' + getDailyEngLightTask() });
   } else {
     rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
-    rows.push({ s:'pro', label:'828：现控课/俞立课后题 30min（20:30-21:00）' });
+    rows.push({ s:'math', label:'🔢 数学（自由时间）：20:30-21:00 补弱项/错题/选填 5-6 题' });
   }
   rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（只写“单词＋真题里那个意思”·≤10min）→ 明天早读回看｜不做标记、不分轮次' });
   rows.push({ s:'pol', label:'政治：' + getDailyPolTask(now) });
