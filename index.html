@@ -223,6 +223,10 @@ body {
 }
 .tl-check::after { content: ''; }
 .timeline-item.done .tl-check::after { content: '✓'; }
+/* v119: 打卡清单里拆出来的"小项"——前面不放圆点，缩进对齐，只保留右侧勾选框 */
+.timeline-item.sub { padding: 5px 12px 5px 34px; }
+.timeline-item.sub .tl-label { font-size: 13.5px; color: var(--text2); }
+.timeline-item.sub .tl-check { width: 18px; height: 18px; font-size: 11px; }
 
 /* ── Drawer Overlay ── */
 .overlay {
@@ -1807,10 +1811,10 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   const period = getPeriodInfo(now);
 
   const rows = [
-    ...getDailyMathTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', label:(k === 0 ? '高数：' : '　└ ') + p.trim() })),
+    ...getDailyMathTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', sub: k > 0, label:(k === 0 ? '高数：' : '') + p.trim() })),
     { s:'math', label:'数学·选填：' + get880XuanTian(now) + '（≤4min/题·卡壳标⭐）＋ 当天⭐题重做' },
     // v118: 晚槽按 ｜ 拆成多条可勾选项，避免再去翻别的文档
-    ...getDailyLinTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', label:(k === 0 ? '概率/线代（晚槽）：' : '　└ ') + p.trim() })),
+    ...getDailyLinTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', sub: k > 0, label:(k === 0 ? '概率/线代（晚槽）：' : '') + p.trim() })),
   ];
   if (isAutoCtrl) {
     const proTask = getDailyProTask(now);
@@ -1835,8 +1839,8 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     const isDone = isToday && doneSet.has(key);
     const click = isToday ? ` onclick="toggleTask('${key}', this)"` : '';
     return `
-      <li class="timeline-item ${isDone ? 'done' : ''}"${click} style="cursor:${isToday ? 'pointer' : 'default'};">
-        <span class="tl-marker ${it.s}"></span>
+      <li class="timeline-item ${isDone ? 'done' : ''}${it.sub ? ' sub' : ''}"${click} style="cursor:${isToday ? 'pointer' : 'default'};">
+        ${it.sub ? '' : `<span class="tl-marker ${it.s}"></span>`}
         <span class="tl-label">${it.label}</span>
         <span class="tl-check"></span>
       </li>`;
