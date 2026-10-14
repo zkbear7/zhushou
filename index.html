@@ -625,7 +625,7 @@ const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v133·10.14：午休不
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
   { t:"20:30-21:10", l:"📝 阅读精读 40min（限时 20min 做题 → 对答案 → 错因四栏）", s:"eng" },
-  { t:"21:10-21:40", l:"📖 闪过单词 30min（每天最后·遮中文说意思·不拼写）", s:"eng" },
+  { t:"21:10-21:40", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
   { t:"21:40-22:00", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -637,7 +637,7 @@ const ENGLISH_DAY = [  // 英语日（隔天一次）（v133·10.14：阅读进�
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-  { t:"20:30-21:00", l:"📖 闪过单词 30min（每天最后·遮中文说意思·不拼写）", s:"eng" },
+  { t:"20:30-21:00", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -887,7 +887,7 @@ function getDailyEngTask(date) {
 }
 
 function getDailyEngLightTask() {
-  return '✍️写作20min＋单词生词本10min（20:30-21:00）｜翻译只排英语日';
+  return '📝 阅读 40min（英语日 14:30 打头 ／ 自控日 20:30-21:10）＋ 📖 单词 30min（每天最后：英语日 20:30-21:00 ／ 自控日 21:10-21:40）｜写作微训练与翻译只排英语日';
 }
 
 // ── Drawer content ──
@@ -1487,14 +1487,14 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控块（6块）</span>10.21 第2章 ｜ 10.25 第3章 ｜ 10.29 第3章 ｜ 11.4 第5章 ｜ 11.8 第5章 ｜ 11.12 第6章 → <b>27 道</b></div>
         <div class="c-row"><span class="tag amber">现控块（8块）</span>10.23 专题一 ｜ 10.27 专题一 ｜ 11.2 专题二 ｜ 11.6 专题二 ｜ 11.10 专题二 ｜ 11.16 专题三 ｜ 11.18 专题三 ｜ 11.20 专题三 → <b>33 道</b></div>
-  <div class="c-row"><span class="tag blue">晚间槽</span><b>英语日 20:30-21:00 已改成数学（自由时间：补弱项/错题/选填）</b>——专业课只在自控日推进 ｜ <b>828 真题 11.20 起</b>（每 2 个自控日 1 套：A日做卷·B日订正）</div>
+  <div class="c-row"><span class="tag blue">晚间槽</span><b>英语日 20:30-21:00 ＝ 单词 30min</b>（阅读已挪到下午块 14:30 打头）——专业课只在自控日推进 ｜ <b>828 真题 11.20 起</b>（每 2 个自控日 1 套：A日做卷·B日订正）</div>
         <div class="c-row"><span class="tag gray">为什么</span>自控偏建模/频域大题，现控偏跨章综合 → 隔天换脑子比一天硬压两门省力；真题放"828真题日"，不占强化轮大块</div>
       </div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏰ 时间与铁律</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控日（隔天）</span>14:30-18:00 纯块 3.5h：现控课/俞立课后题/777·大块不碎片</div>
-  <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：<b>数学自由时间</b>（补弱项/错题/选填）·专业课不再占这个槽</div>
+  <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：<b>单词（闪过 20min ＋ 生词本 10min）</b>·阅读在下午块 14:30 打头·专业课不占这个槽</div>
         <div class="c-row"><span class="tag gray">已砍</span>自控强化课（777替代）·阿祖强化·俞立第7章 LQR·能观标准型(3.23/3.24)·降维观测器(6.9/6.12)</div>
         <div class="c-row"><span class="tag rose">铁律</span>手算不用计算器 ｜ 先俞立教材后 777 ｜ 现控 40-50 分·每题 20 分综合大题·性价比最高 ｜ 真题全大题→动笔写完整过程</div>
         <div class="c-row"><span class="tag blue">大题范式</span>建状态空间 → 转移矩阵/响应 → 能控能观 → 极点配置 K → 观测器 L →（基于观测器的输出反馈）</div>
@@ -1509,16 +1509,16 @@ const DRAWER_SECTIONS = [
         <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td>强化课 7 节✅·<b>每天 1 篇 · 40min</b>（限时 20min 做题 → 对答案 → 错因四栏）·错 ≥2 题才深翻·<b>错因四栏（词／句／定位／逻辑·每题只勾一个）</b>｜英语日在下午大块<b>打头</b>，自控日排晚间单词之前</td></tr>
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
-        <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>每天 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
+        <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>英语日 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
         <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每个英语日 1 次（隔天一次）· 每次 15min · 共 33 次（10.4 起，约 12.07 走完）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜只做 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句｜<b>唐静已弃用</b></td></tr>
-        <tr><td>📖 单词</td><td><b>真题生词本</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读精读/完型/翻译热身 3 题/新题型）·10min 封顶·一篇只收 <b>5-10 个</b>（判据：<b>这个词不认识，会不会让我做错这道题？</b>不会就放过）·<b>卡壳的只打一个 ★</b>、不排轮次｜闪过退为辅助（有余量才滚）</td></tr>
+        <tr><td>📖 单词</td><td><b>真题生词本</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读精读/完型/翻译热身 3 题/新题型）·10min 封顶·一篇只收 <b>5-10 个</b>（判据：<b>这个词不认识，会不会让我做错这道题？</b>不会就放过）·<b>卡壳的只打一个 ★</b>、不排轮次｜闪过＝每天最后 30min 里的约 20min（只轮一轮）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 阅读错因四栏（只用在错≥2 题的篇章）：<b>词</b>（核心词/熟词僻义不认识）｜<b>句</b>（长难句主干没找准）｜<b>定位</b>（找错段/被干扰句带走）｜<b>逻辑</b>（段间转折因果没看懂、或没识破选项陷阱）→ <b>每题只勾一个</b>，连记三天看集中在哪一栏，集中哪栏就补哪栏，别继续盲刷</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 写作练习量（30 分·最大提分板块·已定档）</p>
       <div class="c-card"><div class="c-title">核心：23 句句卡（大作文 14 ＋ 小作文 9）</div>
-        <div class="c-row"><span class="tag red">每天 20min</span>看中文写英文 → 对比参考句 → <b>换内容再写一遍</b>｜自控日 20:30-21:00 超轻量槽；英语日块开头</div>
+        <div class="c-row"><span class="tag red">英语日 20min</span>看中文写英文 → 对比参考句 → <b>换内容再写一遍</b>｜放在英语日大块里（14:30-18:00 内）；自控日晚间让给阅读＋单词，不排写作</div>
         <div class="c-row"><span class="tag amber">底稿原则</span><b>一个功能只留 1 句</b>·句型固定不动只换内容·<b>不写倒装不换高级词</b>（先写对再写花）</div>
         <div class="c-row"><span class="tag gray">小作文三类</span>建议类／理由类／活动类——第二段<b>只有两种写法</b>（First,Second 或 It will be held on）</div>
         <div class="c-row"><span class="tag gray">文件位置</span>F:/考研/英语作文/（万能句库＝句卡 · 第1/2周题目 · 微训练法）</div></div>
@@ -1545,12 +1545,12 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag amber">红线</span>先做后看，绝不先翻答案｜译文必须写成<b>完整的一整句中文</b>｜明显扭曲原意 → 该句最多 0.5 分</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词（双轨：闪过＝补地基 · 真题生词本＝补考点词）</p>
-      <div class="c-card"><div class="c-title">① 闪过（v133 定档：一天 30min·<b>只轮一轮</b>·不追轮次）</div>
-        <div class="c-row"><span class="tag red">量</span><b>每天 30min</b>（能滚多少算多少·约 1 个 list）·<b>只走一轮</b>，不排二轮三轮、不设正确率考核</div>
+      <div class="c-card"><div class="c-title">① 闪过（v134 定档：一天约 20min·<b>只轮一轮</b>·不追轮次）</div>
+        <div class="c-row"><span class="tag red">量</span><b>每天约 20min</b>（能滚多少算多少）·<b>只走一轮</b>，不排二轮三轮、不设正确率考核</div>
         <div class="c-row"><span class="tag amber">为什么按语境背</span>闪过是<b>按语境编排</b>的，一个 list 里的词互为线索 ⇒ 整 list 连读比跳着背好记</div>
         <div class="c-row"><span class="tag blue">动作</span><b>遮住中文 → 看英文自己说意思 → 说不对再看</b>（12-15s/词）·说不出的打 ★，第二天先看 ★</div>
         <div class="c-row"><span class="tag gray">标准</span><b>不拼写、不抄词、不做词卡</b>·只求"看到认得出中文"·低频词眼熟即可</div>
-        <div class="c-row"><span class="tag gray">固定槽</span><b>每天最后时段</b>：自控日 21:10-21:40 ／ 英语日 20:30-21:00——放最后，一天收得干净，不抢午休</div></div>
+        <div class="c-row"><span class="tag gray">固定槽</span><b>每天最后 30min</b>：自控日 21:10-21:40 ／ 英语日 20:30-21:00（闪过 20min ＋ 生词本 10min）——放最后，一天收得干净，不抢午休</div></div>
       <div class="c-card"><div class="c-title">② 真题生词本（每天 10min·只收"高频考点词"）</div>
         <div class="c-row"><span class="tag red">来源</span><b>当天新做的题里不认识的词就是当天的单词表</b>——阅读精读 / 完型 / 🈶翻译每次一练的词义热身题 / 新题型</div>
         <div class="c-row"><span class="tag amber">收哪些</span><b>只收"影响这题做对"的</b>（判据：这个词不认识，会不会让我选错？不会就放过）·<b>一篇 5-10 个</b>·专有名词/低频学术词直接放过</div>
@@ -1569,8 +1569,8 @@ const DRAWER_SECTIONS = [
         <tr><td>英语日<br>（隔天）</td><td>下午大块：<b>① 阅读 40min 打头</b> → ② 完型（按周表）→ ③ <b>🈶 翻译 15min</b> → ④ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>晚间：<b>20:30-21:00 单词 30min</b>（闪过 ＋ 生词本 10min）</td></tr>
         <tr><td>自控日<br>（隔天）</td><td>828 下午大块 3.5h → 晚间：<b>20:30-21:10 阅读 40min</b> → <b>21:10-21:40 单词 30min</b>（闪过 ＋ 生词本）→ 21:40 复盘收工<br>翻译只排英语日；写作微训练留在英语日</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 精读模式：英语日＝完整 1.5h（14:30-18:00 纯块内含）｜自控日＝晚间超轻量 30min（20:30-21:00）｜<b>漏了不补</b></p>
-      <p style="font-size:11px;color:var(--text3);">📌 单词=闪过 30min（每天最后）＋ 真题生词本 10min ｜ 阅读每天 1 篇 40min（英语日在下午大块打头、自控日在晚间单词之前）｜ 错因四栏写在题旁边，周末只统计"哪一栏最多"</p>
+      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 阅读每天 1 篇 40min：英语日＝14:30 大块打头 ｜ 自控日＝晚间 20:30-21:10 ｜ <b>漏了不补</b></p>
+      <p style="font-size:11px;color:var(--text3);">📌 单词＝每天最后 30min（闪过约 20min ＋ 真题生词本 10min）｜ 阅读每天 1 篇 40min（英语日在下午大块打头、自控日在晚间单词之前）｜ 错因四栏写在题旁边，周末只统计"哪一栏最多"</p>
       <p style="font-size:12px;color:var(--text3);">🎯 目标 70 ｜ ROI：阅读 60% &gt; 写作 20% &gt; 新题型 8% &gt; 翻译 7% &gt; 完型 5% ｜ 10月＝23句句卡＋每周3篇＋翻译 ｜ 11月＝每周3篇(只写真题)＋模考 2021-2026 ｜ 12月＝每天默写＋每周2套限时</p>`
   },
   {
@@ -1623,7 +1623,7 @@ const DRAWER_SECTIONS = [
       <table>
         <tr><th>日型</th><th>时段</th><th>内容</th></tr>
         <tr><td>英语日<br>（隔天）</td><td>14:30-14:45</td><td>🈶 <b>翻译 15min</b>（也可直接用当天精读挑的那句难句）→ 再进精读</td></tr>
-        <tr><td>自控日<br>（隔天）</td><td>20:30-21:00</td><td>✍️ <b>写作 20min</b>（句卡/微训练，v94 原定档）＋ 单词生词本 10min —— <b>翻译不再占这个槽</b></td></tr>
+        <tr><td>自控日<br>（隔天）</td><td>20:30-21:10<br>21:10-21:40</td><td>📝 <b>阅读 40min</b> → 📖 <b>单词 30min</b>（闪过 20min ＋ 生词本 10min）；写作微训练只排英语日、<b>不占这个槽</b></td></tr>
         <tr><td>休息半天/周五晚</td><td>10min</td><td>🈶 本周翻译错句重译 1 遍（每篇末再用 20min 限时整篇回顾）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译直接跳过，<b>不算欠账、绝不补债</b>；反正翻译是最后做、且只占 6%。</p>
@@ -1690,8 +1690,9 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag green">18:00-19:00</span>晚饭＋散步 1h（离开书）</div>
         <div class="c-row"><span class="tag rose">19:00-19:30</span>政治（每天）</div>
         <div class="c-row"><span class="tag red">19:30-20:30</span>线代/概率（晚槽）</div>
-  <div class="c-row"><span class="tag gray">20:30-21:00</span>自控日＝英语超轻量（写作20min+生词本）· <b>英语日＝数学自由时间</b></div>
-        <div class="c-row"><span class="tag blue">21:00-21:30</span>复盘＋标 ⭐ → 收工（最迟 21:30，不硬撑）</div></div>
+  <div class="c-row"><span class="tag gray">20:30-21:10</span>自控日＝📝 阅读 40min ／ 英语日＝📖 单词 30min（阅读在下午块）</div>
+  <div class="c-row"><span class="tag gray">21:10-21:40</span>自控日＝📖 单词 30min（闪过＋生词本）</div>
+        <div class="c-row"><span class="tag blue">21:00-21:30</span>英语日＝复盘＋标 ⭐ → 收工（自控日 21:40-22:00；不硬撑）</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔋 休息半天（自己定·累了就休）</p>
       <div class="c-card">
@@ -1732,7 +1733,7 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag blue">③ 明天怎么调</span>只写 1 个具体动作</div>
         <div class="c-row"><span class="tag green">④ 小确幸</span>今天比昨天多专注 15min 也算（长期坚持靠这个）</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 每周复盘（放在当周那次休息半天·30min·这周没休 → 周五晚 21:00-21:30 兜底）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 每周复盘（放在当周那次休息半天·30min·这周没休 → 周五晚兜底：英语日 21:00-21:30 ／ 自控日 21:40-22:00）</p>
       <div class="c-card"><div class="c-title">5 问</div>
         <div class="c-row"><span class="tag red">① 四科进度</span>数学/828/英语/政治：本周学了啥·做题情况·卡在哪</div>
         <div class="c-row"><span class="tag amber">② 典型错误</span>这周反复出现的问题（错题只看答案不复盘？计划太满？刷手机？拖延？）</div>
@@ -1851,7 +1852,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
     rows.push({ s:'eng', label:'📝 阅读精读 40min（下午大块打头·14:30 开）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（每题只勾一个）' });
   }
-  rows.push({ s:'eng', label:'📖 闪过单词 30min（每天最后·遮中文→看英文说意思→说不对再看·不拼写·说不出的打 ★）' });
+  rows.push({ s:'eng', label:'📖 单词 30min（每天最后·闪过20min＋生词本10min：遮中文→说意思→说不对再看·不拼写·说不出的打 ★）' });
   rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（写“搭配＋义项”·一篇 5-10 个·≤10min）→ 明天早读回看｜卡壳的只打一个 ★' });
   rows.push({ s:'pol', label:'政治：' + getDailyPolTask(now) });
   if (period && period.noGym) {
@@ -1982,8 +1983,9 @@ function getSchedule(date) {
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
       { t:"19:30-20:30", l:"🧵 概率/线代（晚槽）", s:"math" },
-      { t:"20:30-21:00", l:"📝 英语轻量（✍️写作20min＋单词生词本）", s:"eng" },
-      { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
+      { t:"20:30-21:10", l:"📝 阅读精读 40min（限时 20min 做题 → 对答案 → 错因四栏）", s:"eng" },
+      { t:"21:10-21:40", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
+      { t:"21:40-22:00", l:"📋 复盘/收工", s:"rest" },
     ]};
   }
 
@@ -2123,7 +2125,7 @@ function cleanOldStorage() {
 // v115: 每周复盘清单 —— 放在"当周那次休息半天"里；这周一直没休 → 周五晚 21:00-21:30 兜底
 function buildWeeklyReviewCard(isFridayFallback) {
   const head = isFridayFallback
-    ? '🗓️ 每周复盘（今天兜底）——本周还没休半天的话，今晚 21:00-21:30 做这 30min'
+    ? '🗓️ 每周复盘（今天兜底）——本周还没休半天的话，今晚做这 30min（英语日 21:00-21:30 ／ 自控日 21:40-22:00）'
     : '🗓️ 每周复盘清单（放在当周那次休息半天 · 30min·挑重点）';
   return `
       <div class="timeline-card" style="margin-top:14px;">
@@ -2135,7 +2137,7 @@ function buildWeeklyReviewCard(isFridayFallback) {
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">📜 政治 10min</td><td style="padding:6px;">本周肖1000/苍盾错题 + 帽子题抄本（带背听到哪＝记到哪）</td></tr>
           <tr><td style="padding:6px;font-weight:600;white-space:nowrap;">🧭 总复盘 5min</td><td style="padding:6px;">只问"这周学会了哪3件事" + 下周最该保的1件事</td></tr>
         </table>
-        <div style="font-size:11px;color:var(--text3);margin-top:4px;">⏰ 流程：先答5问（进度/典型错误/情绪/最大困难/现实干扰）→ 按上表科目复盘 → 写下周最重要的3件事｜这周一直没休 → 周五晚 21:00-21:30 兜底（挪用补漏槽）</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">⏰ 流程：先答5问（进度/典型错误/情绪/最大困难/现实干扰）→ 按上表科目复盘 → 写下周最重要的3件事｜这周一直没休 → 周五晚兜底（英语日 21:00-21:30 ／ 自控日 21:40-22:00）</div>
       </div>`;
 }
 
