@@ -617,7 +617,9 @@ const JUNE = genJuneSchedules();
 //       休息日也不固定：累了就休半天 → 当天/前一天告诉我，把日期写进 REST_DAYS 才显示休息
 
 const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v133·10.14：午休不动；晚间＝阅读40min→单词30min→复盘）
-  { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
+  { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
+  { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
+  { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
   { t:"14:30-18:00", l:"⚙️ 828", s:"pro" },
@@ -630,7 +632,9 @@ const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v133·10.14：午休不
 ];
 
 const ENGLISH_DAY = [  // 英语日（隔天一次）（v133·10.14：阅读进下午大块·晚上只留单词30min）
-  { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
+  { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
+  { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
+  { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
   { t:"14:30-18:00", l:"📝 英语（<b>14:30 先阅读 40min</b> → 完型 → 🈶翻译15min → 写作）", s:"eng" },
@@ -1553,7 +1557,8 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag amber">为什么按语境背</span>闪过是<b>按语境编排</b>的，一个 list 里的词互为线索 ⇒ 整 list 连读比跳着背好记</div>
         <div class="c-row"><span class="tag blue">动作</span><b>遮住中文 → 看英文自己说意思 → 说不对再看</b>（12-15s/词）·说不出的打 ★，第二天先看 ★</div>
         <div class="c-row"><span class="tag gray">标准</span><b>不拼写、不抄词、不做词卡</b>·只求"看到认得出中文"·低频词眼熟即可</div>
-        <div class="c-row"><span class="tag gray">固定槽</span><b>每天最后 30min</b>：自控日 21:10-21:40 ／ 英语日 20:30-21:00（闪过 20min ＋ 生词本 10min）——放最后，一天收得干净，不抢午休</div></div>
+        <div class="c-row"><span class="tag gray">固定槽</span><b>每天最后 30min</b>：自控日 21:10-21:40 ／ 英语日 20:30-21:00（闪过 20min ＋ 生词本 10min）——放最后，一天收得干净，不抢午休</div>
+        <div class="c-row"><span class="tag blue">两个节点（v146）</span><b>晚上背 → 次日早上 07:50-08:05 回顾 15min</b>：早上<b>只过昨天打 ★ 的词 ＋ 真题生词本</b>，<b>不重读整 list</b>（整 list 重读放周末）——睡前记＋晨起检索，是最省力的那一档间隔重复</div></div>
       <div class="c-card"><div class="c-title">② 真题生词本（每天 10min·只收"高频考点词"）</div>
         <div class="c-row"><span class="tag red">来源</span><b>当天新做的题里不认识的词就是当天的单词表</b>——阅读精读 / 完型 / 🈶翻译每次一练的词义热身题 / 新题型</div>
         <div class="c-row"><span class="tag amber">收哪些</span><b>只收"影响这题做对"的</b>（判据：这个词不认识，会不会让我选错？不会就放过）·<b>一篇 5-10 个</b>·专有名词/低频学术词直接放过</div>
@@ -1561,7 +1566,7 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag blue">省时版</span>直接在真题书上荧光笔划词＋旁边写中文·第二天翻回那几段看</div>
         <div class="c-row"><span class="tag gray">封顶</span>10min·<b>卡壳的只打一个 ★（之后只看 ★ 词）·不排轮次、不追进度</b>（🈶翻译面板的词义热身题已与之合并，不重复占时间）</div></div>
       <div class="c-card"><div class="c-title">⚠️ 红线</div>
-        <div class="c-row"><span class="tag rose">占用</span>单词 30min/天 ＋ 阅读 40min/天 ≈ <b>1.2h/天</b>（阅读多篇不加时）。<b>不允许挤掉写作和翻译</b>——真挤到了就先砍闪过的量（30→15min），<b>不砍阅读</b></div>
+        <div class="c-row"><span class="tag rose">占用</span>单词 <b>45min/天</b>（晚上 30 ＋ 早上回顾 15）＋ 阅读 40min/天 ≈ <b>1.4h/天</b>。<b>不允许挤掉写作和翻译</b>——真挤到了先砍早上的回顾（15→跳过）或闪过量（20→10min），<b>不砍阅读</b></div>
         <div class="c-row"><span class="tag gray">不做什么</span>不抄词、不做词卡、不背拼写、不买新课、不换书（换教材＝重新计数，直接吃掉两周）</div></div>
       <div class="c-card"><div class="c-title">柴荣词汇汇总（当复习清单用）</div>
         <div class="c-row"><span class="tag gray">用法</span>当词汇清单过一遍即可；有疑问的词直接进当天真题生词本，不单开轮次</div></div>
@@ -1873,6 +1878,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     rows.push({ s:'eng', label:'📝 阅读精读 40min（下午大块打头·14:30 开）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（每题只勾一个）' });
   }
   rows.push({ s:'eng', label:'📖 单词 30min（每天最后·闪过20min＋生词本10min：遮中文→说意思→说不对再看·不拼写·说不出的打 ★）' });
+  rows.push({ s:'eng', label:'🧠 单词回顾 15min（次日早上 07:50-08:05·只过昨天打 ★ 的词 ＋ 真题生词本·不重读整 list）' });
   rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（写“搭配＋义项”·一篇 5-10 个·≤10min）→ 明天早读回看｜卡壳的只打一个 ★' });
   rows.push({ s:'pol', label:'政治：' + getDailyPolTask(now) });
   if (period && period.noGym) {
@@ -1996,7 +2002,9 @@ function getSchedule(date) {
   const examYear = PRO_EXAM_DAYS[key];
   if (examYear) {
     return { tag: '📄 828真题日 · 上午全真＋下午订正', emoji: '📄', schedule: [
-      { t:"07:30-08:30", l:"🌅 起床/早餐/到教室", s:"rest" },
+      { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
+  { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
+  { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
       { t:"08:30-11:30", l:"⚙️ 828真题 " + examYear + " 整套·全真3h（禁计算器）｜数学今天只保 P0", s:"pro" },
       { t:"11:30-12:00", l:"🍜 收拾一下", s:"rest" },
       { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
