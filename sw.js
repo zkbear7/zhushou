@@ -226,7 +226,7 @@
 // v153 (10.21): 修正写作真题顺序口径——原"从2016往前"语义反了（那会往更老的题走）
 //                改为「2023 → 2022 → … → 2016 倒着写」，2024-2026 已在第1-3周用过
 //                同步：getDailyEngTask(11月) / 英语面板三阶段卡 / WEEKLY_PLAN eng
-const CACHE_NAME = 'kaoyan-helper-v153';
+const CACHE_NAME = 'kaoyan-helper-v140';
 const urlsToCache = [
   '/',
   '/index.html',

@@ -880,10 +880,10 @@ function getDailyEngTask(date) {
     return (cloze ? cloze + ' ＋ ' : '') + '柴荣写作方法论热身1节（9.23起·每周2-3节）＋ 精读1篇';
   }
   if (key <= '2026-10-05') {
-    return (cloze ? cloze + '(每周1篇收尾) ＋ ' : '') + '写作：23句句卡＋每天20min微训练 ＋ 🈶翻译15min(每周3次) ＋ 精读1篇';
+    return (cloze ? cloze + '(每周1篇收尾) ＋ ' : '') + '写作：23句句卡＋每天20min微训练 ＋ 🈶翻译15min(两天一次) ＋ 精读1篇';
   }
   if (key <= '2026-10-10') {
-    return '写作：23句句卡＋每天20min微训练（第1周题目）＋ 🈶翻译15min(每周3次) ＋ 精读1篇';
+    return '写作：23句句卡＋每天20min微训练（第1周题目）＋ 🈶翻译15min(两天一次) ＋ 精读1篇';
   }
   if (key <= '2026-10-31') {
     return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·大作文→重写→新题+小作文轮换) ＋ 🈶翻译15min(英语日·面板自动排次) ＋ 精读1篇';
@@ -898,7 +898,7 @@ function getDailyEngLightTask() {
 
 // ── Drawer content ──
 const FANYI_DAYS = [
-{d:1,date:"10.4",wd:"日",src:"2016-46",topic:"心理健康是天生的",skill:"断句6把刀 + 找主干",gram:"语法课第6节",
+{d:1,date:"10.22",wd:"四",src:"2016-46",topic:"心理健康是天生的",skill:"断句6把刀 + 找主干",gram:"语法课第6节",
  q:[["built into",["建造在……里面","与生俱来；内置","增加到"],1],["heal",["愈合；治愈（伤口）","治疗（需医生介入）","缓解（疼痛）"],0],["mend",["修补（衣服）","修复；长好（骨折/断裂）","改善（关系）"],1]],
  sent:"We don't have to learn how to be mentally healthy; it is built into us in the same way that our bodies know how to heal a cut or mend a broken bone.",
  sp:"We don't have to learn //how to be mentally healthy; //it is built into us //in the same way that our bodies know //how to heal a cut //or mend a broken bone.",
@@ -908,17 +908,7 @@ const FANYI_DAYS = [
  tech:["断句6把刀用了3把：分号（标点）、连词 that、to do 不定式 how to…","词义选择：built into / heal / mend / cut","调整语序：in the same way that… 是后置方式状语 → 中文“正如同……一样”","增词：补出“是”字，句子才完整"],
  trap:["把 in the same way that 拆开译成“在同样的方式里，那个……”→ 不通顺，整体记作“正如同……一样”","built into 直译“建造在里面”→ 明显扭曲原意，该句最多 0.5 分"]},
 
-{d:2,date:"10.5",wd:"一",src:"2016-47",topic:"心理健康是天生的",skill:"词义选择 + 被动变主动",gram:"语法课第6节",
- q:[["go anywhere",["去任何地方","真的消失；离开","传得开"],1],["view",["观点","视野；视线","风景"],1],["restored",["被恢复；重现","被修复（建筑）","被归还"],0]],
- sent:"Our mental health doesn't really go anywhere; like the sun behind a cloud, it can be temporarily hidden from view, but it is fully capable of being restored in an instant.",
- sp:"Our mental health doesn't really go anywhere; //like the sun //behind a cloud, //it can be temporarily hidden from view, //but it is fully capable of being restored //in an instant.",
- main:"分句一：Our mental health doesn't really go anywhere。分句二：it can be … hidden …, but it is … capable of being restored。like the sun behind a cloud 是插入的比喻状语，提到句首处理最顺。",
- ref:"心理健康并没有真的离开；宛如云朵后面的太阳，它虽然可能暂离我们的视线，但完全能在转瞬之间重现。",
- pts:[["Our mental health doesn't really go anywhere","心理健康并没有真的离开（从未远去）"],["like the sun behind a cloud","宛如云朵后面的太阳"],["it can be temporarily hidden from view","它虽然可能暂离我们的视线（暂时隐藏于视线之外）"],["but it is fully capable of being restored in an instant","但完全能在转瞬之间重现"]],
- tech:["被动变主动：being restored 保留被动也能对（“被恢复”），但译“重现”更通顺——尽量被动变主动，怎么通顺怎么来","增词（逻辑词）：but 前的中文补“虽然”","词义选择：view（视线，不是观点）、instant（转瞬）"],
- trap:["“被隐藏远离视野”是柴荣笔记里的 1.0 版错译——语序没调 + 被动没转","temporarily（暂时地）位置要随语序走，不要死贴在 hidden 前面"]},
-
-{d:3,date:"10.6",wd:"二",src:"2016-48",topic:"心理健康是天生的",skill:"状语从句 if + 介词短语转动词",gram:"语法课第12节",
+{d:2,date:"10.24",wd:"六",src:"2016-48",topic:"心理健康是天生的",skill:"状语从句 if + 介词短语转动词",gram:"语法课第12节",
  q:[["view",["观看","看待；对待","视察"],1],["troubles",["麻烦事","困难；苦难","故障"],1],["sympathy",["同情；怜悯","赞同","共鸣"],0]],
  sent:"Mental health allows us to view others with sympathy if they are having troubles, with kindness if they are in pain, and with unconditional love no matter who they are.",
  sp:"Mental health allows us to view others //with sympathy //if they are having troubles, //with kindness //if they are in pain, //and with unconditional love //no matter who they are.",
@@ -928,7 +918,7 @@ const FANYI_DAYS = [
  tech:["词性转换（介→动）：with sympathy 直译“伴随着同情”→ 转成动词“心怀”同情 / “给予”善意，这是本句最大的技巧分","状语从句调整语序：if… 英语在后、中文在前 → “在他人遇到困难时”","并列是整体：三个 with 别只译出一个"],
  trap:["只译出第一个 with 就收尾 → 漏译，采分点③④全丢","直译成“以同情去观看别人” → 不像人话，通顺分丢"]},
 
-{d:4,date:"10.7",wd:"三",src:"2016-49",topic:"心理健康是天生的",skill:"让步状语从句 + as 多义 + 程度副词",gram:"语法课第13节",
+{d:3,date:"10.26",wd:"一",src:"2016-49",topic:"心理健康是天生的",skill:"让步状语从句 + as 多义 + 程度副词",gram:"语法课第13节",
  q:[["cure-all",["万灵药；万能药","疗法","所有治愈手段"],0],["perfectly",["完美地","极其；非常","完全地（无余地）"],1],["as",["作为","因为；由于","当……时"],1]],
  sent:"Although mental health is the cure-all for living our lives, it is perfectly ordinary as you will see that it has been there to direct you through all your difficult decisions.",
  sp:"Although mental health is the cure-all //for living our lives, //it is perfectly ordinary //as you will see //that it has been there //to direct you //through all your difficult decisions.",
@@ -938,7 +928,7 @@ const FANYI_DAYS = [
  tech:["增词（逻辑词）：Although + 主句 → 中文“尽管……但……”，补“但”","词性转换（介→动）：through all your difficult decisions → “完成”所有艰难的抉择","词义选择：perfectly（极其）、cure-all（万灵药）"],
  trap:["perfectly 译成“完美地”→ 词义选择错，采分点②全丢","as 译成“作为”→ 结构判断错。先判词性再判意思：as + 完整句子 = 连词（因为/当/正如）"]},
 
-{d:5,date:"10.8",wd:"四",src:"2016-50",topic:"心理健康是天生的",skill:"动名词并列作主语 + 主干提炼",gram:"语法课第7-8节",
+{d:4,date:"10.28",wd:"三",src:"2016-50",topic:"心理健康是天生的",skill:"动名词并列作主语 + 主干提炼",gram:"语法课第7-8节",
  q:[["come to see",["来看","终将发现；逐渐明白","过来看看"],1],["available",["可以买到的","在场的","一直都有的；无时不在"],2],["slow down to the moment",["减速到这一刻","慢下来，活在当下（回到此刻）","一直等到那一刻"],1]],
  sent:"As you will come to see, knowing that mental health is always available and knowing to trust it allow us to slow down to the moment and live life happily.",
  sp:"As you will come to see, //knowing //that mental health is always available //and knowing to trust it //allow us to slow down //to the moment //and live life happily.",
@@ -948,7 +938,7 @@ const FANYI_DAYS = [
  tech:["主干提炼：全篇最容易栽的一句。看到 allow 找不到主语时，回头往 knowing 找","代词指代 + 增词：中文补上“这”字——“懂得……并懂得……，这能让我们……”","词性转换：to slow down to the moment 的介词短语 → “活在每一刻/当下”"],
  trap:["最大陷阱：读成“你终将发现……这能让我们……”，把 allow 的主语误判成 you。you will come to see 只是句首状语","knowing to trust it 不是“知道去信任”，而是“懂得信赖它”"]},
 
-{d:6,date:"10.9",wd:"五",src:"2017-46",topic:"英语的全球地位在下降",skill:"同位语从句 + there be + 词义选择",gram:"语法课第10节",
+{d:5,date:"10.30",wd:"五",src:"2017-46",topic:"英语的全球地位在下降",skill:"同位语从句 + there be + 词义选择",gram:"语法课第10节",
  q:[["expands",["膨胀","增加；扩大","扩张（领土）"],1],["predominance",["优势；主导地位","优越感","数量优势"],0],["fade",["褪色","衰落；逐渐消失","变淡（气味）"],1]],
  sent:"But even as the number of English speakers expands further there are signs that the global predominance of the language may fade within the foreseeable future.",
  sp:"But //even as the number //of English speakers expands further //there are signs //that the global predominance //of the language may fade //within the foreseeable future.",
@@ -958,7 +948,7 @@ const FANYI_DAYS = [
  tech:["同位语从句：there are signs that… 的中文习惯是“有迹象表明……”。三种处理：① 前置（……的迹象）② 译为“即/：/—” ③ 顺译加动词（表明）","there be 句型 → 存在/有","状语从句调整语序：within the foreseeable future 英语在后，中文挪到“可能衰落”之前最顺"],
  trap:["even as 译成“甚至当”→ 该译“尽管/即使当”，这里是让步","逐字译成“有迹象 那个……” → 缺“表明”，通顺分丢"]},
 
-{d:7,date:"10.10",wd:"六",src:"2017-47",topic:"英语的全球地位在下降",skill:"定语从句 + 结果状语从句 + 否定处理",gram:"语法课第11/13节",
+{d:6,date:"11.1",wd:"日",src:"2017-47",topic:"英语的全球地位在下降",skill:"定语从句 + 结果状语从句 + 否定处理",gram:"语法课第11/13节",
  q:[["end（动词）",["结束","打消；让……不再","终止（合同）"],1],["should",["应该（给建议）","可能（表推测）","竟然"],1],["stable",["稳定的；稳固的","沉稳的（性格）","稳定的（化学）"],0]],
  sent:"His analysis should therefore end any self-contentedness among those who may believe that the global position of English is so stable that the young generations of the United Kingdom do not need additional language capabilities.",
  sp:"His analysis should therefore end any self-contentedness //among those //who may believe //that the global position //of English is so stable //that the young generations //of the United Kingdom do not need additional language capabilities.",
@@ -968,37 +958,7 @@ const FANYI_DAYS = [
  tech:["词义选择：end（打消）、should（可能）——两个都容易直译错","否定处理：do not need 译“无需”更顺","定语从句后置：among those who may believe… 从句太长，用后置法重复先行词“这些人”","结果状语从句增词：so…that… → 中文加“从而”衔接"],
  trap:["两个 that 认成一个 → 整句结构崩。判断方法：第2个 that 前面有 so + 形容词，一定是结果状语从句","end 译成“结束自满” → 搭配不通","全句按英文语序直译会变成“他的分析可能打消任何在那些可能认为……的人当中的自满” → 定语太长，中文不成立"]},
 
-{d:8,date:"10.11",wd:"日",src:"2001（柴荣讲义例句）",topic:"代词指代专项",skill:"代词指代（有歧义必须还原）",gram:"语法课第9节",
- q:[["hosted by",["主办；主持","招待（客人）","承载（数据）"],0],["offend",["冒犯；得罪","违规；违反规定","犯罪"],1],["disable",["使残疾","使无法运转；使失效","关闭（开关）"],1]],
- sent:"There will be television chat shows hosted by robots, and cars with pollution monitors that will disable them when they offend.",
- sp:"There will be television chat shows //hosted by robots, //and cars //with pollution monitors //that will disable them //when they offend.",
- main:"主干：There will be television chat shows …, and cars …（there be 句型 + 两个宾语并列）。them = cars，they = cars。这两个代词直译有歧义（前文有 chat shows 也有 cars），必须还原成“汽车”。",
- ref:"届时，将会出现由机器人主持的电视聊天节目，和（装有污染监控器的）汽车，当汽车违规排污时，污染监控器将使汽车无法行驶。",
- pts:[["There will be television chat shows hosted by robots","届时将会出现由机器人主持的电视聊天节目"],["and cars with pollution monitors","以及装有污染监控器的汽车"],["that will disable them","污染监控器将使汽车无法行驶"],["when they offend","当汽车违规排污时"]],
- tech:["代词指代：them / they → 还原为“汽车”（有歧义必须还原）","词义选择：offend（违规排污）、disable（使无法行驶）、hosted（主持）","定语从句后置：that will disable them 前置会变成“将使汽车无法行驶的污染监控器”——判为 ✗，改后置","状语从句调整语序：when they offend 提到主句前","时态增词：There will be → 中文补“届时”"],
- trap:["them/they 直接照抄成“它们” → 指代歧义，扣分","定语从句硬用前置 → “将使汽车无法行驶的污染监控器”，中文不成立","offend 译“冒犯” → 词义选择错"]},
-
-{d:9,date:"10.12",wd:"一",src:"2014-48（讲义例句）",topic:"音乐（贝多芬）",skill:"词性转换（名词→动词）+ 被动语态",gram:"语法课第6节",
- q:[["volume",["体积","音量","卷（书）"],1],["passage",["通道；走廊","通过（法案）","乐段；乐句"],2],["intensity",["强度；力度","紧张","强烈感情"],0]],
- sent:"Beethoven's habit of increasing the volume with an extreme intensity and then abruptly following it with a sudden soft passage was only rarely used by composers before him.",
- sp:"Beethoven's habit //of increasing the volume //with an extreme intensity //and then abruptly following it //with a sudden soft passage was only rarely used by composers //before him.",
- main:"主干：Beethoven's habit … was only rarely used by composers before him.（主语 = Beethoven's habit，谓语 = was used）。关键动作：先把 of…passage 这一整块括起来（它是 habit 的同位式定语），主干立刻现形。",
- ref:"贝多芬习惯先以极强的力度增大音量，然后出人意料地突然接续一个轻柔舒缓的乐段，这在他之前的作曲家中极为罕见。",
- pts:[["Beethoven's habit of increasing the volume","贝多芬习惯增大音量（名词 habit → 动词“习惯”）"],["with an extreme intensity","以极强的力度"],["and then abruptly following it with a sudden soft passage","然后出人意料地突然接续一个轻柔舒缓的乐段"],["was only rarely used by composers before him","这在他之前的作曲家中极为罕见"]],
- tech:["词性转换（名词→动词）：Beethoven's habit of … = “贝多芬习惯……”。这是本句最大的技巧分","被动变主动：was rarely used by composers → “（在）作曲家中极为罕见”","词义选择：volume（音量）、passage（乐段）、composer（作曲家）","并列结构：increasing … and then following … 两个动名词并列，都归 habit"],
- trap:["habit 不转动词 → “贝多芬的……的习惯很少被使用”，生硬且丢失采分点①","passage 译成“通道/段落” → 词义选择错","it 指代不清 → 指前文“增大音量”的动作，译时可省略或处理成“接续”"]},
-
-{d:10,date:"10.13",wd:"二",src:"2012-46（讲义例句）",topic:"科学追求普遍原则",skill:"增词减词（抽象→具体）+ 调整语序",gram:"语法课第10节",
- q:[["approach",["接近（动词）","方法；做法","途径（道路）"],1],["impulse",["冲动；驱动力","脉冲（物理）","推动力（机械）"],0],["generative",["生成的；能生成的","有创造力的","世代的（生物）"],0]],
- sent:"In physics, one approach takes this impulse for unification to its extreme, and seeks a theory of everything—a single generative equation for all we see.",
- sp:"In physics, //one approach takes this impulse //for unification to its extreme, //and seeks a theory of everything //—a single generative equation for all //we see.",
- main:"主干：one approach takes this impulse … to its extreme, and seeks a theory of everything …（破折号后 a single generative equation 是同位语）",
- ref:"在物理学领域，一种做法把这种寻求大同理论的冲动推向极端，试图寻找包含一切的理论——一个涵括我们所看到的一切的生成性公式。",
- pts:[["In physics","在物理学领域（不是“在物理学”）"],["one approach takes this impulse for unification to its extreme","一种做法把这种寻求大同理论的冲动推向极端"],["and seeks a theory of everything","试图寻找包含一切的理论"],["a single generative equation for all we see","一个涵括我们所看到的一切的生成性公式"]],
- tech:["增词（抽象→具体）是本句核心：In physics → “在物理学领域”；a theory of everything → “包含一切的理论”；for all we see → “涵括我们所看到的一切”","词性转换：impulse for unification 的介词短语 → “寻求大同理论的冲动”","固定搭配：take sth. to its extreme = 把……发挥到极致 / 推向极端","同义替换思维：unification 在本篇对应 universal principles / commonalities / a single explicatory framework，要串起来保持一致"],
- trap:["In physics 直译“在物理学” → 句子开头就不顺，必须增“领域/界”","a theory of everything 直译“一切的理论” → 名词堆，中文不成立","破折号后的同位语别漏译（漏了就是采分点④全丢）"]},
-
-{d:11,date:"10.14",wd:"三",src:"2017-48",topic:"英语的全球地位在下降",skill:"to do 不定式 + 否定结构 + 词义选择",gram:"语法课第12节",
+{d:7,date:"11.3",wd:"二",src:"2017-48",topic:"英语的全球地位在下降",skill:"to do 不定式 + 否定结构 + 词义选择",gram:"语法课第12节",
  q:[["curriculum",["课程体系；课程","简历","教学大纲（单门课）"],0],["fluency",["流利；熟练","流动性","流畅（文风）"],0],["appear",["出现","似乎；看来","露面"],1]],
  sent:"many countries are introducing English into the primary-school curriculum but British schoolchildren and students do not appear to be gaining greater encouragement to achieve fluency in other languages.",
  sp:"many countries are introducing English //into the primary-school curriculum //but British schoolchildren and students do not appear to be gaining greater encouragement //to achieve fluency //in other languages.",
@@ -1008,7 +968,7 @@ const FANYI_DAYS = [
  tech:["词义选择：introduce into（纳入，不是“介绍到”）、achieve fluency（熟练掌握）、appear（似乎）","概括词具体化：schoolchildren and students → 中文习惯说“大、中、小学生”","否定结构：do not appear to be gaining → “似乎没有得到”（否定位置跟着中文语序走）","to do 不定式作目的：to achieve fluency 是目的状语，中文用“去……”"],
  trap:["introduce English into the curriculum 译成“把英语介绍到课程里” → 搭配错，该用“纳入/引入”","achieve fluency in other languages 逐字译“在其他语言上实现流利度” → 不通顺，采分点④会被判错译","but 只是并列转折，不是让步（不能译“尽管”）"]},
 
-{d:12,date:"10.15",wd:"四",src:"2017-49",topic:"英语的全球地位在下降",skill:"主干并列关系判断（to A and to B）",gram:"语法课第7-8节",
+{d:8,date:"11.5",wd:"四",src:"2017-49",topic:"英语的全球地位在下降",skill:"主干并列关系判断（to A and to B）",gram:"语法课第7-8节",
  q:[["identified by",["被识别出","被指出；由……发现","被认证"],1],["present（动词）",["呈现；带来","赠送","介绍"],0],["providers",["供应商；提供者（可指个人或机构）","家庭供养者","提供设备的人"],0]],
  sent:"The changes identified by David Graddol all present clear and major challenges to the UK's providers of English language teaching to people of other countries and to broader education business sectors.",
  sp:"The changes //identified by David Graddol all present clear and major challenges //to the UK's providers //of English language teaching //to people //of other countries //and to broader education business sectors.",
@@ -1018,7 +978,7 @@ const FANYI_DAYS = [
  tech:["V-ed 短语作后置定语：identified by David Graddol → 前置处理成“大卫·格拉多尔所指出的”","主干并列关系判断（本句最大痛点）：to A and to B 是两个并列的宾语，动词是 present。口诀：先抄骨架 The changes present sth. to A and to B，再往 A、B 里填","并列引起的省略：and to broader … 前省略了 present challenges，中文可用“乃至”一笔带过","专有名词：David Graddol → 音译“大卫·格拉多尔”"],
  trap:["把 to the UK's providers 和 to people of other countries 认成同一层并列 → 结构崩。判断方法：providers of English language teaching to people of other countries 是一个整体名词短语","present 译成“呈现”而搭不上“挑战” → 该用“构成/带来”","只译出一个 to 的宾语 → 漏译，采分点④全丢"]},
 
-{d:13,date:"10.16",wd:"五",src:"2017-50",topic:"英语的全球地位在下降",skill:"同位语（a basis…, a basis…）+ 定语从句前置",gram:"语法课第10-11节",
+{d:9,date:"11.7",wd:"六",src:"2017-50",topic:"英语的全球地位在下降",skill:"同位语（a basis…, a basis…）+ 定语从句前置",gram:"语法课第10-11节",
  q:[["meet",["遇见","应对；迎接","满足（需求）"],1],["operating environment",["手术环境","运作环境；经营环境","操作界面"],1],["promote",["促进；推动","晋升","推销"],0]],
  sent:"It gives a basis for all organisations which seek to promote the learning and use of English, a basis for planning to meet the possibilities of what could be a very different operating environment.",
  sp:"It gives a basis //for all organisations //which seek to promote the learning and use //of English, //a basis //for planning to meet the possibilities //of what could be a very different operating environment.",
@@ -1028,7 +988,7 @@ const FANYI_DAYS = [
  tech:["定语从句前置：which seek to promote … → “旨在促进英语学习和使用的所有组织机构”","同位语处理：第二个 a basis 用“该基础用于……”衔接，不要重复成“一个基础”就停","词义选择：meet（应对）、possibilities（各种可能）","代词指代：It = 上文这项研究（this study）"],
  trap:["第二个 a basis 漏译 → 同位语丢失，采分点③被判缺失","which 定语从句后置成“它为所有机构提供了一个基础，这些机构试图促进……，这是一个基础……” → 中文读起来散掉。本句前置更优","全句太长，容易写到一半忘了主句。先写主干“它为所有组织机构提供了一个基础”，再往两边补"]},
 
-{d:14,date:"10.17",wd:"六",src:"2018-46",topic:"莎士比亚时代戏剧发展",skill:"词义选择（passing）+ 并列结构 + 代词指代",gram:"语法课第7-8节",
+{d:10,date:"11.9",wd:"一",src:"2018-46",topic:"莎士比亚时代戏剧发展",skill:"词义选择（passing）+ 并列结构 + 代词指代",gram:"语法课第7-8节",
  q:[["passing（名词）",["经过；通过","消逝；消亡","及格"],1],["incentive",["激励；启发","奖金","动机（犯罪）"],0],["witness",["证人","见证；目睹","证明（法律）"],1]],
  sent:"By the date of his birth Europe was witnessing the passing of the religious drama, and the creation of new forms under the incentive of classical tragedy and comedy.",
  sp:"By the date //of his birth //Europe was witnessing the passing //of the religious drama, //and the creation //of new forms //under the incentive //of classical tragedy and comedy.",
@@ -1038,7 +998,7 @@ const FANYI_DAYS = [
  tech:["词义选择：passing（消亡，不是“经过”）、incentive（启发）、tragedy/comedy（悲剧/喜剧）","介词短语状语调整语序：By the date of his birth 英语在前、under the incentive of… 英语在后，中文都按“状语在前”处理","并列结构识别：witnessing 的两个宾语别只译一个","代词指代：his = 莎士比亚（读首句 Shakespeare's lifetime was coincident with… 就能确定）"],
  trap:["passing 译“经过/通过” → “宗教剧的通过”完全不通","只译出“宗教剧的消亡”漏掉“新形式的诞生” → 采分点③全丢","全句主旨必须从首句读出来——这就是柴荣说的“读首句确定主旨/建立语境”"]},
 
-{d:15,date:"10.18",wd:"日",src:"2018-47",topic:"莎士比亚时代戏剧发展",skill:"否定结构（三步处理）·柴荣的“过关句”",gram:"语法课第14节",
+{d:11,date:"11.11",wd:"三",src:"2018-47",topic:"莎士比亚时代戏剧发展",skill:"否定结构（三步处理）·柴荣的“过关句”",gram:"语法课第14节",
  q:[["ignorant",["无知的","不知道的；不了解的","愚昧的（贬义）"],1],["glory",["光荣；荣耀","壮丽（景色）","赞颂（宗教）"],0],["honor",["荣幸","荣耀；荣誉","敬意"],1]],
  sent:"No boy who went to a grammar school could be ignorant that the drama was a form of literature which gave glory to Greece and Rome and might yet bring honor to England.",
  sp:"No boy //who went to a grammar school could be ignorant //that the drama was a form //of literature //which gave glory //to Greece and Rome //and might yet bring honor //to England.",
@@ -1048,7 +1008,7 @@ const FANYI_DAYS = [
  tech:["否定处理四梯队——1.0 直译“没有……儿童会是无知的” → 2.0 词性转换“不会不知道” → 3.0 否定位置变换“儿童不会不知道” → 4.0 肯定否定转换“儿童都知道”（最通顺）","词义选择：ignorant（不知道）、yet（此处作语气加强“或将也”）","专有名词约定俗成：Greece 希腊 / Rome 罗马 / England 英格兰（英国）","同义替换思维：give = bring、glory = honor → 中文统一用“荣耀/辉煌”"],
  trap:["No boy … could be ignorant 硬译成“没有男孩会是无知的” → 中式英语味极重，采分点①直接掉","yet 认不出来。柴荣提醒 yet 三种用法：① 句首 = but ② not yet = 还未 ③ 补充说明/语气加强（本句）","which 的先行词是 a form of literature（文学形式），不是 drama——定语从句跟着名词走"]},
 
-{d:16,date:"10.19",wd:"一",src:"2018-48",topic:"莎士比亚时代戏剧发展",skill:"as 的判断 + 并列结构 + 词义选择",gram:"语法课第12节",
+{d:12,date:"11.13",wd:"五",src:"2018-48",topic:"莎士比亚时代戏剧发展",skill:"as 的判断 + 并列结构 + 词义选择",gram:"语法课第12节",
  q:[["prospered",["繁荣；兴旺","成功（个人）","发财"],0],["permanent",["永久的；固定的","长期的（合同）","不变的"],0],["as",["因为","作为；视为","当……时"],1]],
  sent:"But the professional companies prospered in their permanent theaters, and university men with literary ambitions were quick to turn to these theaters as offering a means of livelihood.",
  sp:"But the professional companies prospered //in their permanent theaters, //and university men //with literary ambitions were quick to turn to these theaters //as offering a means of livelihood.",
@@ -1058,7 +1018,7 @@ const FANYI_DAYS = [
  tech:["词义选择（本句最大坑）：companies 在这个语境（剧院、演员、戏剧）里是“剧团”，不是“公司”——语境决定词义","as 三步判断法：① as + 句子 = 连词（因为/当/正如）② as + 名词/动名词 = 介词（作为/像）③ 特殊情况（倒装“尽管”、as…as“和……一样”）。本句是第②种","调整语序：quick to turn to → “迅速转向”；as offering a means of livelihood 后置 → 中文用“视其为”接住","增词：中文补“而”体现两个分句的对比"],
  trap:["professional companies 译“专业公司” → 词义选择错，全句语境崩","as 认成“因为” → 结构判断错（后面是动名词不是句子）","quick to do 直译“很快去……” → 应译“迅速（就）……”"]},
 
-{d:17,date:"10.20",wd:"二",src:"2018-49",topic:"莎士比亚时代戏剧发展",skill:"并列结构引起的省略 + 被动语态",gram:"语法课第7-8节",
+{d:13,date:"11.15",wd:"日",src:"2018-49",topic:"莎士比亚时代戏剧发展",skill:"并列结构引起的省略 + 被动语态",gram:"语法课第7-8节",
  q:[["native",["本土的；本国的","天生的","原住民的"],0],["alliance",["联盟；联合","同盟国","婚姻关系"],0],["had been begun",["已经开始了","本来要开始","开始过"],0]],
  sent:"A native literary drama had been created, its alliance with the public playhouses established, and at least some of its great traditions had been begun.",
  sp:"A native literary drama had been created, //its alliance with the public playhouses (had been) established, //and at least some //of its great traditions had been begun.",
@@ -1068,7 +1028,7 @@ const FANYI_DAYS = [
  tech:["并列引起的省略（本句唯一考点）：第二个分句省掉了 had been。看不出来就整句结构崩——做完回读，问自己“这里缺动词吗”","被动语态：三个被动。中文用“已然形成 / 已然建立 / 已然开启”直接消掉“被”字。柴荣小词积累：had been = 已经 = 已然","代词指代：两个 its 都指 a native literary drama，中文用“它”","增词：中文补“也”衔接第三个分句"],
  trap:["看不出省略 → 会把 its alliance … established 当成没有谓语的片段，整句译不出来","坚持译成“被创造、被建立、被开始” → 三个“被”字堆在一起，通顺分丢。英一翻译里“被”字是头号敌人","had been 不译出“已然/已经” → 时态分丢（英文时态看动词变化，中文靠加时间副词）"]},
 
-{d:18,date:"10.21",wd:"三",src:"2018-50",topic:"莎士比亚时代戏剧发展",skill:"宾语从句并列 + 定语从句 + 词义选择（note）",gram:"语法课第11节",
+{d:14,date:"11.17",wd:"二",src:"2018-50",topic:"莎士比亚时代戏剧发展",skill:"宾语从句并列 + 定语从句 + 词义选择（note）",gram:"语法课第11节",
  q:[["note（of note）",["笔记","知名；著名","音符"],1],["hosts of",["主人（复数）","大量；许多","主持人"],1],["survive",["幸存；留存下来","活下来（人）","比……活得长"],0]],
  sent:"To realize how great was the dramatic activity, we must remember further that hosts of plays have been lost, and that probably there is no author of note whose entire work has survived.",
  sp:"To realize //how great was the dramatic activity, //we must remember further //that hosts of plays have been lost, //and that probably there is no author //of note //whose entire work has survived.",
@@ -1078,7 +1038,7 @@ const FANYI_DAYS = [
  tech:["两个 that 宾语从句并列：柴荣反复强调“并列是一个整体”——只译一个，采分点③④必丢其一","后置定语 + 定语从句叠加：no author of note whose entire work has survived → 中文调成“没有哪位知名作家的全部作品幸存至今”","词义选择：note（知名）、hosts of（大量）、further（进一步）","时间增词：was 是过去时 → 中文补“当时的”"],
  trap:["author of note 译成“作者的笔记” → 词义选择崩，采分点④直接 0.5 分没了","how great was the dramatic activity 按倒装直译成“多么伟大是戏剧活动” → 应还原成“戏剧活动是何等繁荣”","后半句 no author … survived 是部分否定，别译成“没有作者的全部作品”"]},
 
-{d:19,date:"10.22",wd:"四",src:"2019-46",topic:"为何劣质科学论文能发表",skill:"定语从句 + 插入语 + 被动语态",gram:"语法课第11-12节",
+{d:15,date:"11.19",wd:"四",src:"2019-46",topic:"为何劣质科学论文能发表",skill:"定语从句 + 插入语 + 被动语态",gram:"语法课第11-12节",
  q:[["nonsense",["无稽之谈；胡言乱语","无意义的事","荒谬（哲学概念）"],0],["lay（形容词）",["放置（动词）","外行的；非专业的","世俗的（宗教）"],1],["press",["按压","新闻业；报刊","紧迫"],1]],
  sent:"There is a great deal of this kind of nonsense in the medical journals which, when taken up by broadcasters and the lay press, generates both health scares and short-lived dietary enthusiasms.",
  sp:"There is a great deal of this kind of nonsense //in the medical journals //which, //when taken up by broadcasters and the lay press, //generates both health scares //and short-lived dietary enthusiasms.",
@@ -1088,7 +1048,7 @@ const FANYI_DAYS = [
  tech:["插入语处理（柴荣给3种）：① 保持位置不变 ② 提到句首 ③ 灵活处理。本句把 when taken up by… 提前处理成“一经……报道”，是第③种","被动变主动：when taken up by broadcasters = “（被）广播公司报道” → 中文用“一经……报道”，一个字都不用“被”","there be 句型：There is a great deal of … → 有/存在/充斥（同义替换清单：有、存在、出现、充斥、充满）","增词（both…and…）：→ “既会引发……又激起……”","词义选择：nonsense（无稽之谈）、lay（外行的）、press（新闻业）、dietary（饮食的）"],
  trap:["lay 认成动词“放置” → 整句崩","taken up 直译“被拿起来” → 该是“（被）报道/采用”","插入语放错位置导致中文读不通——遇到局部不通顺：先调语序，再改措辞"]},
 
-{d:20,date:"10.23",wd:"五",src:"2019-47",topic:"为何劣质科学论文能发表",skill:"比较结构（倍数）+ 后置定语 + 结构提炼",gram:"语法课第13节",
+{d:16,date:"11.21",wd:"六",src:"2019-47",topic:"为何劣质科学论文能发表",skill:"比较结构（倍数）+ 后置定语 + 结构提炼",gram:"语法课第13节",
  q:[["post",["职位；岗位","邮政","柱子"],0],["applying for",["申请","应用","涂抹"],0],["would have been required",["（当时）会被要求；本来需要","将会被要求","一直都被要求"],0]],
  sent:"nowadays anyone applying for a research post has to have published twice the number of papers that would have been required for the same post only 10 years ago.",
  sp:"nowadays anyone //(applying for a research post) has to have published twice the number //of papers //(that would have been required //for the same post //only 10 years ago).",
@@ -1098,7 +1058,7 @@ const FANYI_DAYS = [
  tech:["比较结构的语序（本句核心）：英语先出结果（twice the number），汉语先说比较对象再出结果。英语“总-分”，汉语“分-总”。不能译成“必须已经出版两倍的论文数量……”","后置定语前置：anyone applying for a research post → “申请研究职位的人”","后置定语从句：that would have been required … → 前置成“……所需要的”","虚拟语气增词：would have been required → 中文补“（当时）本来/所需”"],
  trap:["不提炼结构直接顺译 → “如今任何人申请研究职位必须已经出版两倍的论文数量于仅十年前同一职位本来会被要求的”——完全不成句","twice 位置错（放在“发表”前） → 语序分丢","漏译 only（仅/才） → 削弱对比语气，“只 10 年前”是这句话的信息核心"]},
 
-{d:21,date:"10.24",wd:"六",src:"2019-48",topic:"为何劣质科学论文能发表",skill:"被动语态 + to do 不定式 + incorporate A into B",gram:"语法课第6节",
+{d:17,date:"11.23",wd:"一",src:"2019-48",topic:"为何劣质科学论文能发表",skill:"被动语态 + to do 不定式 + incorporate A into B",gram:"语法课第6节",
  q:[["curb",["遏制；抑制","路边","约束（马具）"],0],["measure",["措施","衡量标准；尺度","测量（动词）"],1],["incorporate A into B",["把 A 并入 B","把 A 排除出 B","把 A 与 B 对比"],0]],
  sent:"Attempts have been made to curb this tendency, for example, by trying to incorporate some measure of quality as well as quantity into the assessment of an applicant's papers.",
  sp:"Attempts have been made //to curb this tendency, //for example, //by trying to incorporate some measure //of quality //as well as quantity //into the assessment //of an applicant's papers.",
@@ -1107,7 +1067,8 @@ const FANYI_DAYS = [
  pts:[["Attempts have been made to curb this tendency","已做出尝试来遏制这一趋势"],["for example, by trying to incorporate","例如，试图在……中加入"],["some measure of quality as well as quantity","某种数量和质量衡量标准"],["into the assessment of an applicant's papers","纳入申请者论文的评估当中"]],
  tech:["被动语态 + 增主语：Attempts have been made 直译“尝试已经被做出”很生硬 → 增加主语（我们/科学界）→ “（科学界）已做出尝试”","incorporate A into B 语序调换：英语是 incorporate A into B，中文习惯说“在 B 中加入 A”。三个等价说法：把 A 包含进 B / 把 A 加入到 B / 在 B 中加入 A","as well as = 以及（不是“也”）","插入语 for example：保持原位，用逗号隔开即可","词义选择：measure（衡量标准）、assessment（评估）"],
  trap:["“尝试已经被做出”照抄 → 通顺分丢。英一翻译里“被”字是头号敌人（Day 17 也出现一次，高频雷区）","measure 译“措施” → some measure of quality 变成“质量的措施”，不通","as well as quantity 位置弄错 → 别漏掉“数量和质量”任一个，漏一个扣 0.5"]},
-{d:22,date:"",wd:"",src:"2019-49",topic:"为何劣质科学论文能发表",skill:"状语从句 + 同位语从句 + 语序调整",gram:"语法课第10/13节",
+
+{d:18,date:"11.25",wd:"三",src:"2019-49",topic:"为何劣质科学论文能发表",skill:"状语从句 + 同位语从句 + 语序调整",gram:"语法课第10/13节",
  q:[["reasonable",["合理的","有道理的（人）","适度的"],0],["cite",["引用；引证","列举","传唤"],0],["associates",["同事；同行","副手（职位）","关联物"],0],["in return for",["作为回报","为了换取（条件）","反过来"],0]],
  sent:"This would be reasonable if it were not for the fact that scientists can easily arrange to cite themselves in their future publications, or get associates to do so for them in return for similar favours.",
  sp:"This would be reasonable //if it were not for the fact //that scientists can easily arrange to cite themselves //in their future publications, //or get associates to do so //for them //in return for similar favours.",
@@ -1117,7 +1078,7 @@ const FANYI_DAYS = [
  tech:["语序调整（本句核心）：英语先出结果（would be reasonable）再说条件（if it were not for…）；中文习惯先说条件再说结果 → 译文要整句倒过来","增词：cite themselves 引用的对象是“论文”，中文必须补出（引用自己“的论文”），否则不成话","固定搭配：get sb. to do sth.（让某人做某事）、in return for（作为回报）","词义选择：cite（引用）、associates（同事）、favours（帮助，不是“恩惠”）"],
  trap:["按英文语序直译成“这会是合理的，如果不是因为……” → 中文不地道，采分点①②的顺序会被判乱","cite themselves 译成“引用他们自己” → 缺“论文”，意思走偏","fact that 直接译“事实那个” → 该用“……这一事实”接住"]},
 
-{d:23,date:"",wd:"",src:"2019-50",topic:"为何劣质科学论文能发表",skill:"条件状语从句 + 宾语从句",gram:"语法课第9/12节",
+{d:19,date:"11.27",wd:"五",src:"2019-50",topic:"为何劣质科学论文能发表",skill:"条件状语从句 + 宾语从句",gram:"语法课第9/12节",
  q:[["serious about",["认真对待；真心想","严肃（表情）","严重（病情）"],0],["reproducible",["可复制的；可重复的","可生产的","可繁殖的"],0],["institutions",["制度；机构","协会","建立（动词）"],0],["encourage",["激励；鼓励","助长（贬义）","支持（资金）"],0]],
  sent:"If we are serious about ensuring that our science is both meaningful and reproducible, we must ensure that our institutions encourage that kind of science.",
  sp:"If we are serious about ensuring //that our science is both meaningful and reproducible, //we must ensure //that our institutions encourage that kind of science.",
@@ -1127,7 +1088,7 @@ const FANYI_DAYS = [
  tech:["状语从句调整语序：if 从句英语在前，中文也放前，但“serious about ensuring”要转成动词“真想确保”","词义选择：institution 是多义词（制度／机构／协会／建立）——本句谈科研体系，取“制度”最顺；encourage 在这句里是“激励”","增词：both…and… → “既……又……”；句末补“才行”让语气完整","结构：ensure that A ／ must ensure that B，两个 that 从句都是宾语，别把第一个当主语"],
  trap:["serious about 译“认真对待” → 拗口；“真想（确保）”更贴","institutions 译“机构” → 意思也通但不如“制度”贴本篇（谈科研评价体系）","漏掉 that kind of science 的指代（指的是“既有意义又可复制的科学”） → 译成泛指的“那种科学”会丢分"]},
 
-{d:24,date:"",wd:"",src:"2020-46",topic:"文艺复兴",skill:"被动语态 + 专有名词约定俗成",gram:"语法课第11节",
+{d:20,date:"11.29",wd:"日",src:"2020-46",topic:"文艺复兴",skill:"被动语态 + 专有名词约定俗成",gram:"语法课第11节",
  q:[["Church",["教会","教堂（建筑）","礼拜"],0],["teachings",["教义；学说","教学工作","教导（个人）"],0],["eclipsed",["使黯然失色；遮蔽","日食","超越（成绩）"],0],["bridge（动词）",["弥合；消除（差距）","架桥","跨越（河流）"],0]],
  sent:"With the Church's teachings and ways of thinking being eclipsed by the Renaissance, the gap between the Medieval and modern periods had been bridged, leading to new and unexplored intellectual territories.",
  sp:"With the Church's teachings //and ways of thinking being eclipsed //by the Renaissance, //the gap //between the Medieval and modern periods had been bridged, //leading to new and unexplored intellectual territories.",
@@ -1137,7 +1098,7 @@ const FANYI_DAYS = [
  tech:["被动变主动（本句重点）：being eclipsed by the Renaissance → “文艺复兴使……黯然失色”（反过来让文艺复兴当主语）；had been bridged → “得以弥合”（用“得以”消掉“被”字）","专有名词约定俗成：the Church＝教会（不是“教堂”）、the Renaissance＝文艺复兴、the Medieval＝中世纪。柴荣提醒：这些“别人都认识你不认识就扣分”","词性/主宾转换：eclipse 直译“被遮蔽”→ 中文更常“黯然失色”","增词（逻辑）：leading to… 前面补“从而”"],
  trap:["Church 译“教堂” → 教堂是一栋建筑，“教会的教义”才成立","being eclipsed by 硬译“被……遮蔽” → 与“教义/思维方式”搭配不自然","had been bridged 直译“被架起了桥” → 应“得以弥合/被填平”（gap 搭配“弥合”）"]},
 
-{d:25,date:"",wd:"",src:"2020-47",topic:"文艺复兴",skill:"同位语从句 + 抽象名词转动词",gram:"语法课第10节",
+{d:21,date:"12.1",wd:"二",src:"2020-47",topic:"文艺复兴",skill:"同位语从句 + 抽象名词转动词",gram:"语法课第10节",
  q:[["revelations",["揭示的真相；揭露","启示（宗教）","意外发现"],0],["sustained",["沿袭；延续","支撑（重量）","遭受（损失）"],0],["geocentric",["地心的；以地球为中心的","地球的","几何中心的"],0],["ancient",["古老的；旧的","古代的（历史分期）","过时的"],0]],
  sent:"Before each of their revelations, many thinkers at the time had sustained more ancient ways of thinking, including the geocentric view that the Earth was at the centre of our universe.",
  sp:"Before each of their revelations, //many thinkers //at the time had sustained more ancient ways of thinking, //including the geocentric view //that the Earth was at the centre //of our universe.",
@@ -1147,7 +1108,7 @@ const FANYI_DAYS = [
  tech:["抽象名词转动词：revelation（揭示/真相）→ “揭示”；proposal/decision 这类词同理","词义选择：sustained 在这是“沿袭/延续”，不是“支撑”；ancient 是“更古老/旧的”","专有名词：geocentric view 要说约定俗成的“地心说”（柴荣给的对照：heliocentric＝日心说）","同位语从句处理成“即……”（顺译，加“即”或冒号）","时态增词：had sustained 是过去完成 → 补“当时/一直”"],
  trap:["revelation 只译“启示” → 本句谈科学，取“揭示的真相/揭示”","sustained 译“维持” → “维持思维方式”别扭，该“沿袭”","geocentric view 直译“以地球为中心的观点” → 不够专业，尽量写“地心说”（写全“即以地球为中心的理论”也可）"]},
 
-{d:26,date:"",wd:"",src:"2020-48",topic:"文艺复兴",skill:"定语从句 + 被动语态去被字",gram:"语法课第11-13节",
+{d:22,date:"12.3",wd:"四",src:"2020-48",topic:"文艺复兴",skill:"定语从句 + 被动语态去被字",gram:"语法课第11-13节",
  q:[["suppress",["镇压；压制","隐瞒（消息）","抑制（反应）"],0],["logicians",["逻辑学家","后勤人员","物流专家"],0],["rationalists",["理性主义者","合理化者","有理数（数学）"],0],["at a rate",["以……的速度","按比例","以某种价格"],0]],
  sent:"Despite attempts by the Church to suppress this new generation of logicians and rationalists, more explanations for how the universe functioned were being made at a rate that the people could no longer ignore.",
  sp:"Despite attempts //by the Church //to suppress this new generation //of logicians and rationalists, //more explanations //for how the universe functioned were being made //at a rate //that the people could no longer ignore.",
@@ -1157,7 +1118,7 @@ const FANYI_DAYS = [
  tech:["被动变主动／去被字：were being made 直译“正在被做出”→ 柴荣4.0版“层出不穷／涌现／正在出现”（这一步是本句最大的通顺分）","定语从句前置：at a rate that the people could no longer ignore → “人们再也无法忽视的速度”，中文常写成“其速度之快让人难以忽视”","让步状语：Despite＝尽管，中文补“但”","词性转变：to suppress 该译为动词“压制”（源文本这里是 suppress，不是 suppress… 的派生名词）"],
  trap:["were being made 译“正在被做出” → 生硬；换“涌现/层出不穷”","local 局部不通顺时的处理顺序：先调语序，再改措辞（柴荣原话）","suppress 译“镇压” → 对“人”可以说镇压，但对“学派/思潮”用“压制”更贴"]},
 
-{d:27,date:"",wd:"",src:"2020-49",topic:"文艺复兴",skill:"as 引导状语从句 + 破折号同位语",gram:"语法课第12节",
+{d:23,date:"12.5",wd:"六",src:"2020-49",topic:"文艺复兴",skill:"as 引导状语从句 + 破折号同位语",gram:"语法课第12节",
  q:[["took on the duty",["承担……的责任","接受任务（军事）","上岗值班"],0],["integrate A into B",["把 A 融入 B","把 A 与 B 区分","把 A 换算成 B"],0],["philosophies",["理念；信条","哲学（学科）","人生观"],0],["era",["时代","纪元（地质）","年龄"],0]],
  sent:"As many took on the duty of trying to integrate reasoning and scientific philosophies into the world, the Renaissance was over and it was time for a new era — the Age of Reason.",
  sp:"As many took on the duty //of trying to integrate reasoning and scientific philosophies //into the world, //the Renaissance was over //and it was time for a new era //— the Age of Reason.",
@@ -1167,7 +1128,7 @@ const FANYI_DAYS = [
  tech:["as 判断：as + 完整句子 ＝ 连词 → “当……时／随着”（不是“作为”）","固定搭配：take on the duty of（承担……的责任）、integrate A into B（把 A 融入 B）","词义选择：philosophies 在这不是“哲学”而是“理念/信条”；reasoning 是“理性推理”","it was time for… 直译“是时候了”→ 中文更顺“……到来了”","破折号同位语用“——即……”接住"],
  trap:["as 译“作为” → 后面是完整句子，结构判断错","philosophies 译“哲学” → “科学哲学”跑偏，该“科学理念/信条”","漏掉破折号后的 the Age of Reason → 采分点④全丢（它是“理性时代”，本篇的题眼）"]},
 
-{d:28,date:"",wd:"",src:"2020-50",topic:"文艺复兴",skill:"V-ed 被动 + 非英语照抄不译",gram:"语法课第9节",
+{d:24,date:"12.7",wd:"一",src:"2020-50",topic:"文艺复兴",skill:"V-ed 被动 + 非英语照抄不译",gram:"语法课第9节",
  q:[["captured",["（用文字）概括；描绘","捕捉（抓住）","占领（军事）"],0],["phrase",["短语；说法","阶段（phase 易混）","措辞（风格）"],0],["sapere aude",["拉丁语·照抄不译","音译“萨佩雷奥德”","意译“智慧勇气”"],0]],
  sent:"Such actions to seek knowledge and to understand what information we already knew were captured by the Latin phrase 'sapere aude' or 'dare to know'.",
  sp:"Such actions //(to seek knowledge //and to understand //what information we already knew) were captured //by the Latin phrase 'sapere aude' //or 'dare to know'.",
@@ -1177,7 +1138,7 @@ const FANYI_DAYS = [
  tech:["非英语照抄不译：sapere aude 是拉丁语，柴荣的处理＝原样保留；后面的 'dare to know' 是它的英文释义 → 同位语，用“即/亦即”接住（六种同位语结构里的 A or B）","词义选择：capture 在这不是“捕捉”，而是“概括／诠释／描绘”（柴荣：主干“被……捕捉了”不通顺 → 换措辞）","后置定语前置：to seek knowledge and to understand… → “寻求知识、了解已知信息的”","被动语态：were captured 保留“被”可以接受（“被……描绘得淋漓尽致”），比硬去被字更顺"],
  trap:["sapere aude 音译成“萨佩雷奥德” → 柴荣讲过：非英语（拉丁语/意大利语）照抄不译","capture 译“捕捉” → “行为被短语捕捉了”完全不通","漏译 or 'dare to know' → 采分点③丢；这句的题眼就是“敢于求知”"]},
 
-{d:29,date:"",wd:"",src:"2021-46",topic:"二战后高等教育的发展",skill:"定语从句 + 时间状语语序（本篇最难）",gram:"语法课第11节",
+{d:25,date:"12.9",wd:"三",src:"2021-46",topic:"二战后高等教育的发展",skill:"定语从句 + 时间状语语序（本篇最难）",gram:"语法课第11节",
  q:[["enrollment",["入学；入学人数","注册（报名动作）","招募"],0],["roughly",["大约；大致","粗略地（贬义）","粗暴地"],0],["constant",["恒定的；维持不变的","持续的（不停）","忠诚的"],0],["relevant age groups",["适龄群体","相关年龄段（统计口径）","对口人群"],0]],
  sent:"Those societies came out of the war with levels of enrollment that had been roughly constant at 3-5% of the relevant age groups during the decades before the war.",
  sp:"Those societies came out of the war //with levels of enrollment //that had been roughly constant //at 3-5% //of the relevant age groups //during the decades //before the war.",
@@ -1187,7 +1148,7 @@ const FANYI_DAYS = [
  tech:["柴荣原话：“本篇第1句最难，考场半天写不出来就先写下一句。”","定语从句内的状语归属：柴荣的规则——“一般写在定从内的状语优先考虑为从句的状语”。所以 during the decades before the war 划给从句，不是主句","调整语序：柴荣5.0版＝“战争结束后，这些社会的适龄群体的入学率仍是战争前几十年间的水平，大约维持在 3-5%”（最通顺＝最容易理解）","词义选择：constant 是“维持不变/恒定”（constant at 3-5%＝稳定在），不是“持续不断”","本质逻辑：对比（战前 vs 战后，入学率没变）——抓住对比，语序自然就顺了"],
  trap:["把 during the decades before the war 挂到主句 → 语序全乱（这就是那句“半天写不出来”的原因）","constant 译“持续不断的” → 该“维持不变/恒定”","漏掉 roughly（大约） → 3-5% 是约数，漏了就是精度错"]},
 
-{d:30,date:"",wd:"",src:"2021-47",topic:"二战后高等教育的发展",skill:"结构提炼：the demand (that A) extended to (that B)",gram:"语法课第11节",
+{d:26,date:"12.11",wd:"五",src:"2021-47",topic:"二战后高等教育的发展",skill:"结构提炼：the demand (that A) extended to (that B)",gram:"语法课第11节",
  q:[["entry",["进入；入学","入口（门）","条目（记录）"],0],["higher education",["高等教育","继续教育","成人教育"],0],["extended to",["延伸到；波及","延长（时间）","扩展（体积）"],0],["thought of",["想到；考虑过","认为（评价）","想起（回忆）"],0]],
  sent:"And the demand that rose in those societies for entry to higher education extended to groups and social classes that had not thought of attending a university before the war.",
  sp:"And the demand //(that rose //in those societies //for entry to higher education) extended to groups and social classes //(that had not thought of attending a university //before the war.)",
@@ -1197,7 +1158,7 @@ const FANYI_DAYS = [
  tech:["结构提炼（本句命门）：先抓骨架 the demand (that A) extended to groups (that B)，再往两个括号里填","定语从句前置（首选）：两个 that 从句都不长，前置成“……的”最省事","调整语序：that rose in those societies for entry to higher education 里的 in those societies 是地点状语、for entry 是 demand 的搭配 → 中文合成“这些社会中（对）接受高等教育的（需求）上升了”","增词：中文补“人们”当主语（demand 是抽象名词，中文更常说“人们的需求”）"],
  trap:["把两个 that 从句认成同一层 → 结构崩（第一个修饰 demand，第二个修饰 groups and social classes）","attending a university 直译“参加大学” → 是“上大学”","漏译 before the war 的位置 → 它是第二个定从的时间，不是主句的"]},
 
-{d:31,date:"",wd:"",src:"2021-48",topic:"二战后高等教育的发展",skill:"倍数翻译 + within/in/by 三小词",gram:"语法课第6节",
+{d:27,date:"12.13",wd:"日",src:"2021-48",topic:"二战后高等教育的发展",skill:"倍数翻译 + within/in/by 三小词",gram:"语法课第6节",
  q:[["doubled",["翻了一番；翻倍","加倍努力","双重的"],0],["within five-year periods",["在五年之内（每五年）","五年之后","持续五年"],0],["by the middle of",["截止到……中期","在……中间","被……中段（被动）"],0],["higher education",["高等教育","高中教育","进修"],0]],
  sent:"in many countries of Western Europe, the numbers of students in higher education doubled within five-year periods during the 1960s and doubled again in seven, eight, or 10 years by the middle of the 1970s.",
  sp:"in many countries //of Western Europe, //the numbers //of students //in higher education doubled //within five-year periods //during the 1960s //and doubled again //in seven, eight, or 10 years //by the middle of the 1970s.",
@@ -1207,7 +1168,7 @@ const FANYI_DAYS = [
  tech:["倍数翻译：the numbers of A double ＝ “A 的数量翻了一番／翻倍／翻一番”","within / in / by 三小词必须分清（柴荣专门讲过）：within five years＝在五年之内；in five years＝看时态（过去＝在五年内／将来＝五年后）；by the time of…＝截止到……；for five years＝持续五年；over five years＝超过五年","调整语序：本句时间状语多，中文习惯“先说时间再说动作” → “20 世纪 60 年代，……每 5 年翻一番”","并列：doubled … and doubled again … 两个动作都要译出，别合成一个"],
  trap:["倍数译成“翻了两倍” → 中文“翻一番＝×2”，“翻两倍”有歧义，统一用“翻一番”","within 译成“五年后” → 该是“在五年之内”","漏掉第二段 doubled again → 采分点③全丢"]},
 
-{d:32,date:"",wd:"",src:"2021-49",topic:"二战后高等教育的发展",skill:"状语从句 when + 集体名词词义选择",gram:"语法课第12节",
+{d:28,date:"12.15",wd:"二",src:"2021-49",topic:"二战后高等教育的发展",skill:"状语从句 when + 集体名词词义选择",gram:"语法课第12节",
  q:[["staff",["（全体）教职工；教员","员工（泛指）","手杖"],0],["predominantly",["主要地；占多数地","完全地","优势地（比较）"],0],["fresh from",["刚从……（毕业/出来）","新鲜的（食物）","清新的（空气）"],0],["faculty",["院系；（大学的）学院","全体教员","才能；能力"],0]],
  sent:"and when the new staff are predominantly young men and women fresh from postgraduate study, they largely define the norms of academic life in that faculty.",
  sp:"and when the new staff are predominantly young men and women //fresh from postgraduate study, //they largely define the norms //of academic life //in that faculty.",
@@ -1217,7 +1178,7 @@ const FANYI_DAYS = [
  tech:["词义选择：staff＝（全体）教职工/教员（集体名词，谓语用复数 are 就是这个信号）；faculty 在这＝“院系/学院”，不是“全体教员”——两个词在这句里都不要译成“员工/才能”","后置定语前置：fresh from postgraduate study → “刚从研究生院毕业的”（fresh from＝刚从……出来，不是“新鲜的”）","状语从句调整语序：when 从句放前，中文加“而”承接上文","词性转变：define the norms → “确定/决定……规范”"],
  trap:["staff 与 faculty 都译“教职工” → 两个词撞车且丢分（faculty 这里指院系）","fresh from 译“新鲜地从” → 应是“刚从……毕业”","largely 译“大量地” → 该是“在很大程度上（主要地）”"]},
 
-{d:33,date:"",wd:"",src:"2021-50",topic:"二战后高等教育的发展",skill:"定语从句 by which（前置更优）+ 被动",gram:"语法课第11节",
+{d:29,date:"12.17",wd:"四",src:"2021-50",topic:"二战后高等教育的发展",skill:"定语从句 by which（前置更优）+ 被动",gram:"语法课第11节",
  q:[["chances",["可能性；（成功的）机会","偶然（chance 单数）","运气"],0],["weakened",["削弱；弱化","使变弱（身体）","松动（螺丝）"],0],["admitted into",["获准进入；被接纳","承认（错误）","招收（主动）"],0],["community of scholars",["学者团体；学术界","学术社区（网络）","学者协会（机构名）"],0]],
  sent:"High growth rates increased the chances for academic innovation; they also weakened the forms and processes by which teachers and students are admitted into a community of scholars during periods of stability or slow growth.",
  sp:"High growth rates increased the chances //for academic innovation; //they also weakened the forms and processes //by which teachers and students are admitted into a community //of scholars //during periods of stability //or slow growth.",
@@ -1509,14 +1470,14 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "📝 英语一（阅读 / 三小课 / 写作 / 单词）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每次一练（每周 3 次·每次 15min·共 33 次·唐静已弃用）</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每次一练（10.22 起两天一次·每次 15min·共 29 次·唐静已弃用）</b></p>
       <table>
         <tr><th>板块</th><th>老师</th><th>策略</th></tr>
         <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td>强化课 7 节✅·<b>每天 1 篇 · 40min</b>（限时 20min 做题 → 对答案 → 错因四栏）·错 ≥2 题才深翻·<b>错因四栏（词／句／定位／逻辑·每题只勾一个）</b>｜<b>二选一铁律：两个候选都回原文找依据句，能同义替换的留、找不到依据的才排除——禁止用"感觉过度推断"排除</b></td></tr>
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
         <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>英语日 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
-        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>每个英语日 1 次（隔天一次）· 每次 15min · 共 33 次（10.4 起，约 12.07 走完）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜只做 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句｜<b>唐静已弃用</b></td></tr>
+        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>10.22 起 两天一次 · 每次 15min · 共 29 次（末次 12.17）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜2016（4 句）＋ 2017-2021 全篇（各 5 句）｜<b>唐静已弃用</b></td></tr>
         <tr><td>📖 单词</td><td><b>真题生词本＋选项词表</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读/完型/翻译/新题型）·10min 封顶·一篇只收 <b>5-10 个</b>（判据：<b>这个词不认识，会不会让我做错这道题？</b>不会就放过）｜<b>选项词优先</b>：选项里的词 > 文章里的词（文章读懂却选错的根源就在这）｜<b>选项词表</b>专收身份/评价/动作词（advertisers/developers/regulators/legislators/junk/warrant/curb…）｜闪过＝每天最后 30min 里的约 20min（只轮一轮）</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
@@ -1546,7 +1507,7 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">定位</span>翻译 10 分、历年平均 <b>3.89</b>，柴荣原话"<b>性价比低</b>、整张卷子最后做" → <b>不抢阅读/写作/新题型</b>，只占英语时间 ~6%</div>
         <div class="c-row"><span class="tag amber">频次</span><b>每个英语日 1 次</b>（隔天一次）·<b>每次 15min</b>：① 词义热身 3 题(2min) → ② 断句找主干(3min) → ③ 整句翻译(6min) → ④ 采分点自评(3min)</div>
-        <div class="c-row"><span class="tag blue">总量</span><b>共 33 次</b>（10.4 → 12.17，初试前 2 天收尾）＝ 2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句。<b>2010-2015 整篇全砍</b>（柴荣："可直接放弃"）；2022-2026 留 12 月套卷做</div>
+        <div class="c-row"><span class="tag blue">总量</span><b>共 29 次</b>（10.22 → 12.17，每两天一次）＝ 2016（4 句）＋ 2017-2021 全篇（各 5 句）。原 33 次会排到 12.25，砍掉 3 条讲义例句＋2016-47。<b>2010-2015 整篇全砍</b>（柴荣："可直接放弃"）；2022-2026 留 12 月套卷做</div>
         <div class="c-row"><span class="tag gray">回译</span>不再每天做 → 挪到休息半天/周五晚 10min（本周错句重译）｜每篇末用 20min 限时整篇回顾（全期 6 次）</div>
         <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每次一练」</b>→ 自动算"今天/下一次该做第几次"＋题目＋解析＋自评分打卡</div>
         <div class="c-row"><span class="tag amber">红线</span>先做后看，绝不先翻答案｜译文必须写成<b>完整的一整句中文</b>｜明显扭曲原意 → 该句最多 0.5 分</div></div>
@@ -1602,7 +1563,7 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "🈶 翻译每次一练（柴荣 · 每周3次·15min）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 每个英语日 1 次（隔天一次）· 每次 15min · 共 33 次（10.4 起，约 12.07 走完）｜已减重定档</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 10.22 起 <span style="color:var(--rose);">两天一次</span> · 每次 15min · 共 29 次（末次 12.17，初试前 2 天）</b></p>
       <div class="c-card"><div class="c-title">🎯 定位：翻译只占英语时间 ~6%（不抢阅读/写作/新题型）</div>
         <div class="c-row"><span class="tag red">为什么减重</span>翻译 10 分，历年平均只有 <b>3.89</b>，柴荣原话就是"<b>性价比低</b>、整张卷子最后做"。它不值得每天 20min 抢主线。</div>
         <div class="c-row"><span class="tag amber">原方案的问题</span>每天 20min ＝ 2.3h/周 ≈ <b>英语时间的 14%</b>，是它 ROI 权重的两倍。</div>
@@ -1634,17 +1595,18 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag blue">③ 技巧没用上</span>被动没变主动、后置定语没调序、代词没还原</div>
         <div class="c-row"><span class="tag gray">④ 词汇量</span>考场三级策略：结合语境+逻辑猜 → 去掉不译 → 瞎译一个</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 33 次排期（10.4 → 12.17·初试前 2 天收尾）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 29 次排期（10.22 → 12.17 · 每两天一次）</p>
       <table>
-        <tr><th>批次</th><th>次</th><th>内容</th></tr>
-        <tr><td><b>一 · 词法地基</b></td><td>01-07</td><td>2016 全篇（5 句）＋ 2017 前 2 句</td></tr>
-        <tr><td><b>二 · 词法＋语序</b></td><td>08-14</td><td>讲义词法 3 句（代词指代/词性转换/增词减词）＋ 2017 后 3 句 ＋ 2018-46</td></tr>
-        <tr><td><b>三 · 从句</b></td><td>15-21</td><td>2018 剩余 4 句 ＋ 2019 前 3 句</td></tr>
-        <tr><td><b>四 · 从句＋特殊结构</b></td><td>22-28</td><td>2019 后 2 句 ＋ 2020 全篇 5 句（文艺复兴）</td></tr>
-        <tr><td><b>五 · 综合</b></td><td>29-33</td><td>2021 全篇 5 句（二战后高等教育）</td></tr>
+        <tr><th>年份</th><th>次</th><th>日期</th><th>内容</th></tr>
+        <tr><td><b>2016</b></td><td>01-04</td><td>10.22 - 10.28</td><td>4 句（46/48/49/50）</td></tr>
+        <tr><td><b>2017</b></td><td>05-09</td><td>10.30 - 11.07</td><td>全篇 5 句（英语全球地位）</td></tr>
+        <tr><td><b>2018</b></td><td>10-14</td><td>11.09 - 11.17</td><td>全篇 5 句（莎士比亚戏剧）</td></tr>
+        <tr><td><b>2019</b></td><td>15-19</td><td>11.19 - 11.27</td><td>全篇 5 句（劣质科学论文）</td></tr>
+        <tr><td><b>2020</b></td><td>20-24</td><td>11.29 - 12.07</td><td>全篇 5 句（文艺复兴）</td></tr>
+        <tr><td><b>2021</b></td><td>25-29</td><td>12.09 - 12.17</td><td>全篇 5 句（二战后高等教育）</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--text2);">📌 总量＝<b>2016-2021 六篇真题 30 句 ＋ 讲义词法 3 句 = 33 次</b>。柴荣原话：2010-2015"可直接放弃"、2016-2021"选择性放弃"、时间多才练 2016-2026 → 所以老真题整篇全部砍掉。<b>2022-2026 五篇留到 12 月套卷里做</b>（套卷里的翻译就是最好的限时训练）。</p>
-      <p style="font-size:11px;color:var(--text3);">🗓️ 日历：每个英语日 1 次（隔天）。第1次 10.4 → 第33次 约 12.07，12.19-12.20 初试。</p>
+      <p style="font-size:11px;color:var(--text2);">📌 为什么是 29 次：<b>10.22 到 12.17 每两天一次正好 29 次</b>（12.19 初试）。原 33 次排到 12.25 会晚 5 天，所以砍掉 4 次：3 条讲义例句（词法铺垫，真题里会再练到）＋ 2016-47（2016 保留 4 句，2017-2021 五年全篇完整）。<b>2022-2026 五篇留 12 月套卷做</b>。</p>
+      <p style="font-size:11px;color:var(--text3);">🗓️ 每天做还是不做：<b>两天一次</b>。10.22 第 1 次 → 10.24 第 2 次 → …… → 12.17 第 29 次，中间不再跳日期。错过的不用补，直接接下一次（面板自动算）。</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（翻译减重后）</p>
       <table>
@@ -2374,8 +2336,8 @@ function toggleTask(key, el) {
 // 英一翻译 · 每次一练（柴荣体系·每周3次）
 // ═══════════════════════════════════════
 
-const FANYI_START = '2026-10-04';
-const FANYI_TOTAL = 33;
+const FANYI_START = '2026-10-22';
+const FANYI_TOTAL = 29;
 let fanyiDay = null;
 let fanyiShowSplit = false;
 let fanyiShowAns = false;
@@ -2504,7 +2466,7 @@ function renderFanyi() {
   // 顶部状态
   let head;
   if (today < fanyiStartDate()) head = '还没开始（' + FANYI_START + ' 起）';
-  else if (isEng && todayIdx >= FANYI_TOTAL) head = '✅ 33 次已走完 → 转做套卷翻译';
+  else if (isEng && todayIdx >= FANYI_TOTAL) head = '✅ 29 次已走完 → 转做套卷翻译';
   else if (isEng) head = '今天该做 <b>第 ' + todayIdx + ' 次</b>';
   else head = '今天不是翻译日';
 
@@ -2523,7 +2485,7 @@ function renderFanyi() {
 
   if (!data) {
     h += '<div class="c-card"><div class="c-title">第 ' + day + ' 次 · 题目生成中</div>';
-    h += '<div class="c-row"><span class="tag gray">说明</span>第 1-33 次的题库已随面板一并上线；若这里显示"待生成"，说明数据未加载，强刷（Ctrl+Shift+R）一次即可。</div></div>';
+    h += '<div class="c-row"><span class="tag gray">说明</span>第 1-29 次的题库已随面板一并上线；若这里显示"待生成"，说明数据未加载，强刷（Ctrl+Shift+R）一次即可。</div></div>';
     box.innerHTML = h;
     return;
   }
