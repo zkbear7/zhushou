@@ -226,7 +226,9 @@
 // v153 (10.21): 修正写作真题顺序口径——原"从2016往前"语义反了（那会往更老的题走）
 //                改为「2023 → 2022 → … → 2016 倒着写」，2024-2026 已在第1-3周用过
 //                同步：getDailyEngTask(11月) / 英语面板三阶段卡 / WEEKLY_PLAN eng
-const CACHE_NAME = 'kaoyan-helper-v140';
+// v154 (10.21): 版本号归一——上一提交把「翻译重排」误标成 v140（它在 v153 之后，编号倒退，且与 10.17 的历史 v140 撞号）
+//                现统一为 v154，内容不变：翻译 10.22 起两天一次·共29次(末次12.17) / FANYI_START=10.22·TOTAL=29 / 周包改第1-5周
+const CACHE_NAME = 'kaoyan-helper-v154';
 const urlsToCache = [
   '/',
   '/index.html',
