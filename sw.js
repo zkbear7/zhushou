@@ -230,7 +230,7 @@
 //                现统一为 v154，内容不变：翻译 10.22 起两天一次·共29次(末次12.17) / FANYI_START=10.22·TOTAL=29 / 周包改第1-5周
 // v155 (10.21): 10.21 状态差（专业课作业＋少量概率）→ 概率/线代晚槽整体后移 1 天（10.22 起 ch4 块1），由 10.31 缓冲吸收；
 //               11.02 晚槽归位为「ch6 ⭐题重做」
-const CACHE_NAME = 'kaoyan-helper-v155';
+const CACHE_NAME = 'kaoyan-helper-v141';
 const urlsToCache = [
   '/',
   '/index.html',
