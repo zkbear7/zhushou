@@ -616,7 +616,7 @@ const JUNE = genJuneSchedules();
 // v116: 不看星期几 —— 隔天轮换：一天自控 · 一天英语，从 10.09 连着排到考试（见 isSelfControlDay）
 //       休息日也不固定：累了就休半天 → 当天/前一天告诉我，把日期写进 REST_DAYS 才显示休息
 
-const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v133·10.14：午休不动；晚间＝阅读40min→单词30min→复盘）
+const AUTOCTRL_DAY = [  // 自控日（隔天一次）：晚间旧文阅读40min→单词30min→复盘
   { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
   { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
   { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
@@ -627,21 +627,21 @@ const AUTOCTRL_DAY = [  // 自控日（隔天一次）（v133·10.14：午休不
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽 1h）｜✍️ 需要清醒就先用 20min 写作过渡（做了晚槽缩到 40min·不补）", s:"math" },
   { t:"20:30-21:10", l:"📝 阅读精读 40min（限时 20min 做题 → 对答案 → 错因四栏）", s:"eng" },
-  { t:"21:10-21:40", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
+  { t:"21:10-21:40", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
   { t:"21:40-22:00", l:"📋 复盘/收工", s:"rest" },
 ];
 
-const ENGLISH_DAY = [  // 英语日（隔天一次）（v133·10.14：阅读进下午大块·晚上只留单词30min）
+const ENGLISH_DAY = [  // 英语日（隔天一次）：阅读/作文/小三门进下午，单词首尾各30min
   { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
   { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
   { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
   { t:"08:30-12:00", l:"🔢 高数", s:"math" },
   { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-  { t:"14:30-18:00", l:"📝 英语（<b>14:30 先阅读 40min</b> → 完型 → 🈶翻译15min → 写作）", s:"eng" },
+  { t:"14:30-18:00", l:"📝 英语块：<b>阅读40→作文20→小三门15/30</b>（小三门不含套卷）", s:"eng" },
   { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
   { t:"19:00-19:30", l:"📜 政治", s:"pol" },
   { t:"19:30-20:30", l:"🧵 概率/线代（晚槽 1h）｜✍️ 需要清醒就先用 20min 写作过渡（做了晚槽缩到 40min·不补）", s:"math" },
-  { t:"20:30-21:00", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
+  { t:"20:30-21:00", l:"📖 单词30min（必保）：必修后15＋旧错15", s:"eng" },
   { t:"21:00-21:30", l:"📋 复盘/收工", s:"rest" },
 ];
 
@@ -957,6 +957,64 @@ function getClozeTag(key) {
   return CLOZE_PLAN[key] ? '完型' + CLOZE_PLAN[key] + '（先限时做18min→听讲解40min·错因四类）' : '';
 }
 
+// v190 (11.10): 英语冲刺块——阅读、作文、小三门与三档单词统一排期
+const ENG_SPRINT_READING_PLAN = {
+  '2026-11-11': '2018 Text 1',
+  '2026-11-12': '2018 Text 2',
+  '2026-11-13': '2018 Text 3',
+  '2026-11-14': '2018 Text 4',
+  '2026-11-15': '2025 Text 1',
+  '2026-11-16': '2025 Text 2',
+  '2026-11-17': '2025 Text 3',
+  '2026-11-18': '2025 Text 4',
+};
+const ENG_SPRINT_ORDINARY_DAYS = [
+  '2026-11-11', '2026-11-13', '2026-11-15', '2026-11-17',
+  '2026-11-19', '2026-11-21', '2026-11-23',
+];
+// 小三门不含套卷：完型、新题型、翻译各余3篇，共9篇
+const ENG_SPRINT_SMALL_PLAN = {
+  '2026-11-11': ['完型①'],
+  '2026-11-13': ['新题型①'],
+  '2026-11-15': ['完型②', '翻译①'],
+  '2026-11-17': ['新题型②'],
+  '2026-11-19': ['完型③', '翻译②'],
+  '2026-11-21': ['新题型③'],
+  '2026-11-23': ['翻译③'],
+};
+function isEngSprintRange(key) {
+  return key >= '2026-11-11' && key <= '2026-12-17';
+}
+function getEngSprintReadingTask(date) {
+  const key = fmtDate(date);
+  const mock = SPRINT_MOCK_PLAN[key];
+  if (mock) return '';
+  if (ENG_SPRINT_READING_PLAN[key]) {
+    return '📝 阅读40min：<b>' + ENG_SPRINT_READING_PLAN[key] + '</b>｜20min限时（不查词）→20min核选项依据；错因只记W/S/R/G';
+  }
+  if (key === '2026-11-19') return '📝 阅读回炉40min：不开新篇；回收2018 T1-T4、2025 T1-T4的错项、依据句和选项词';
+  if (key >= '2026-11-20' && key <= '2026-12-10') return '📝 旧文回炉40min：只重做错题与错选项，不再通篇翻译；错因只记W/S/R/G';
+  return '';
+}
+function getEngSprintWordTask(date) {
+  const key = fmtDate(date);
+  if (key < '2026-11-11' || key > '2026-12-17') return '';
+  const mock = SPRINT_MOCK_PLAN[key];
+  if (mock && mock.kind === 'eng') return '📖 单词20-30min：整卷日零覆盖、零新增；只回取旧错词，做完即停';
+  if (key >= '2026-12-15') return '📖 单词20-30min：零新增；只回看高频错词、选项词、熟词僻义和作文词';
+  if (ENG_SPRINT_ORDINARY_DAYS.includes(key)) {
+    return '📖 单词60min：200词覆盖15min＋必修40约30min＋旧错词15min｜首轮≥70%且有剩余时间才加8个冲刺词，不加不补';
+  }
+  return '📖 单词30min：200词覆盖15min＋必修12约10min＋到期旧错词5min｜828日另排旧文阅读40，数学套卷日不排阅读';
+}
+function getEngSprintSupportTask(date) {
+  const key = fmtDate(date);
+  if (!ENG_SPRINT_ORDINARY_DAYS.includes(key)) return '';
+  const smalls = ENG_SPRINT_SMALL_PLAN[key] || [];
+  const smallText = smalls.length ? smalls.join('、') : '回炉最弱一篇';
+  return '✍️ 作文20min＋小三门' + (smalls.length > 1 ? '30' : '15') + 'min：<b>' + smallText + '</b>｜小三门仅做非模考剩余篇；完型、新题型、翻译各余3篇';
+}
+
 function getDailyEngTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].eng) return DAILY_TASKS[key].eng;
@@ -979,14 +1037,14 @@ function getDailyEngTask(date) {
   if (key <= '2026-10-31') {
     return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·大作文→重写→新题+小作文轮换) ＋ 🈶翻译15min(英语日·面板自动排次) ＋ 精读1篇';
   }
-  if (key <= '2026-11-18') return '阶段A：阅读1篇/天（2017→2018→2025 T1-T4）＋ 新题型留用篇（英语日）＋ 作文20min＋翻译15min（英语日）';
+  if (key <= '2026-11-18') return '阶段A：2018 T1-T4、2025 T1-T4八篇阅读＋作文20min＋小三门轮换（英语日）';
   if (key <= '2026-12-05') return '阶段B：整卷按总览日做（2019/21/23/26·3h做＋1.5h订正）＋作文20min＋翻译新题15min（英语日）；不与数学套卷同日';
   if (key <= '2026-12-14') return '阶段B：剩余英语整卷按总览日做＋作文20min；翻译新题已于12.5收口，之后只重译错句15min';
   return '考前收口：作文默写＋错题回看＋阅读保温；12.15起不开新卷';
 }
 
 function getDailyEngLightTask() {
-  return '📝 阅读 40min（英语日 14:30 打头 ／ 自控日 20:30-21:10）＋ 📖 单词 30min（每天最后：英语日 20:30-21:00 ／ 自控日 21:10-21:40）｜写作微训练与翻译只排英语日';
+  return '📖 单词（最高优先级）＋📝 阅读40min；普通英语日再加作文20＋小三门15/30。828日只保单词30＋旧阅读40；整卷日零覆盖零新增';
 }
 
 // ── Drawer content ──
@@ -1244,9 +1302,9 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 总体阶段</p>
       <table>
         <tr><th>时间</th><th>数学</th><th>英语</th><th>828</th><th>政治</th></tr>
-        <tr><td><b>11.6-11.8</b></td><td>证明专项按题型系统过；第一、二章重做卡回炉<br><b>11.7考试日：全天休息日，不排数学/线代/概率，只自主复习考试</b></td><td>阶段A启动：阅读1篇/天＋作文20min；11.7不排英语</td><td>11.6、11.8强化组题</td><td>技巧课剩余/刷题宝典错题；11.7不排</td></tr>
-        <tr><td><b>11.9-11.13</b></td><td><b>线代/概率讲义收口</b>：线代目标11.9、最晚11.10；概率目标11.13。11.13是收口日，不是纯缓冲</td><td>阶段A继续：阅读＋新题型＋作文</td><td>11.10、11.12强化组题</td><td>肖八1-2套</td></tr>
-        <tr><td><b>11.14-11.24</b></td><td><b>线代＋概率分类真题</b>：828日45min、无828日210min（按题单顺延）；高数错题每天1.5h；11.24收口60min</td><td>阶段A收口→阶段B英语整卷启动</td><td>隔天下午4h强化组题</td><td>肖八1-8听讲（不做整套）＋带考营</td></tr>
+        <tr><td><b>11.6-11.8</b></td><td>证明专项按题型系统过；第一、二章重做卡回炉<br><b>11.7考试日：全天休息日，不排数学/线代/概率，只自主复习考试</b></td><td>11.11起执行新英语冲刺块：2018 T1-T4＋2025 T1-T4；11.7不排英语</td><td>11.6、11.8强化组题</td><td>技巧课剩余/刷题宝典错题；11.7不排</td></tr>
+        <tr><td><b>11.9-11.13</b></td><td><b>线代/概率讲义收口</b>：线代目标11.9、最晚11.10；概率目标11.13。11.13是收口日，不是纯缓冲</td><td><b>单词必保＋阅读每天40＋英语日作文20＋小三门15</b>；小三门完型/新题型/翻译各余3篇</td><td>11.10、11.12强化组题</td><td>肖八1-2套</td></tr>
+        <tr><td><b>11.14-11.24</b></td><td><b>线代＋概率分类真题</b>：828日45min、无828日210min（按题单顺延）；高数错题每天1.5h；11.24收口60min</td><td><b>11.18八篇阅读收口，11.19只回炉；11.23小三门9篇清完</b>→阶段B英语整卷</td><td>隔天下午4h强化组题</td><td>肖八1-8听讲（不做整套）＋带考营</td></tr>
         <tr><td><b>11.25-12.14</b></td><td><b>数学8套保底</b>：真题2021-26＋李林2套；每个无828日最多一场</td><td><b>英语4套</b>：2019、2021、2023、2026；不叠数学套卷</td><td><b>8套真题</b>，每两天一套</td><td>肖八十页纸＋肖四预热</td></tr>
         <tr><td><b>12.15-12.18</b></td><td>错题三刷＋公式默写，不开新难题</td><td>作文默写＋错题回看＋阅读保温</td><td>公式/错题/高频题型</td><td>肖四＋十页纸全背，手写2-3题</td></tr>
       </table>
@@ -1299,11 +1357,11 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📝 英语：阶段A → 阶段B</p>
       <table>
         <tr><th>阶段</th><th>安排</th><th>硬节点</th></tr>
-        <tr><td>A｜11.7-11.18</td><td>阅读12篇：2017、2018、2025各T1-T4；新题型只清留用篇；作文20min/天；翻译15min/英语日</td><td>11.18阅读＋新题型清完</td></tr>
-        <tr><td>B｜11.19-12.14</td><td>整卷4套：2019、2021、2023、2026；3h做＋1.5h订正；翻译新题12.5收口，之后只重译错句</td><td>每个无828日最多一场，12.14前收口</td></tr>
-        <tr><td>收尾｜12.15-12.19</td><td>作文默写＋错题回看＋阅读保温</td><td>不开新卷</td></tr>
+        <tr><td>A｜11.11-11.23</td><td><b>单词必保</b>＋阅读8篇：11.11-14做2018 T1-T4，11.15-18做2025 T1-T4，11.19回炉；英语日作文20＋小三门；完型/新题型/翻译各3篇，不含套卷</td><td>11.18八篇阅读清完；11.23小三门9篇清完</td></tr>
+        <tr><td>B｜11.24-12.14</td><td>整卷4套：2019、2021、2023、2026；3h做＋1.5h订正；整卷日零覆盖、零新增，只回旧错词</td><td>每个无828日最多一场，12.14前收口</td></tr>
+        <tr><td>收尾｜12.15-12.19</td><td>作文默写＋错题回看；单词零新增，只回高频错词/选项词/作文词</td><td>不开新卷</td></tr>
       </table>
-      <div class="c-card"><div class="c-row"><span class="tag red">冲突裁决</span>英语整卷只放B日；A日只保阅读40min＋单词，不在828考试日叠新题型/翻译/作文。</div></div>
+      <div class="c-card"><div class="c-row"><span class="tag red">冲突裁决</span><b>优先级：单词＞阅读＞作文＞小三门</b>。828日只保留单词＋旧阅读；数学套卷日只做30min单词；英语整卷日不再加阅读/作文/小三门；小三门9篇只在11.11-11.23英语日完成。</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📜 政治关键节点</p>
       <table>
@@ -1586,14 +1644,14 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控块（6块）</span>10.21 第2章 ｜ 10.25 第3章 ｜ 10.29 第3章 ｜ 11.4 第5章 ｜ 11.8 第5章 ｜ 11.12 第6章 → <b>27 道</b></div>
         <div class="c-row"><span class="tag amber">现控块（8块）</span>10.23 专题一 ｜ 10.27 专题一 ｜ 11.2 专题二 ｜ 11.6 专题二 ｜ 11.10 专题二 ｜ 11.16 专题三 ｜ 11.18 专题三 ｜ 11.20 专题三 → <b>33 道</b></div>
-  <div class="c-row"><span class="tag blue">晚间槽</span><b>英语日 20:30-21:00 ＝ 单词 30min</b>（阅读已挪到下午块 14:30 打头）——专业课只在自控日推进 ｜ <b>828 真题 11.22 起</b>（每个自控日 1 套：上午做卷·下午订正）</div>
+   <div class="c-row"><span class="tag blue">晚间槽</span><b>828日：旧文阅读40→单词30</b>；普通英语日：单词60＋下午阅读/作文/小三门。优先级固定为单词＞阅读＞作文＞小三门</div>
         <div class="c-row"><span class="tag gray">为什么</span>自控偏建模/频域大题，现控偏跨章综合 → 隔天换脑子比一天硬压两门省力；真题放"828真题日"，不占强化轮大块</div>
       </div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏰ 时间与铁律</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">自控日（隔天）</span>14:30-18:00 纯块 3.5h：现控课/俞立课后题/777·大块不碎片</div>
-  <div class="c-row"><span class="tag amber">英语日（隔天）</span>20:30-21:00 30min：<b>单词（闪过 20min ＋ 生词本 10min）</b>·阅读在下午块 14:30 打头·专业课不占这个槽</div>
+   <div class="c-row"><span class="tag amber">英语日（隔天）</span>早上30＋晚上30＝<b>单词60min</b>；下午英语块做阅读40→作文20→小三门15/30。状态差先砍小三门</div>
         <div class="c-row"><span class="tag gray">已砍</span>自控强化课（777替代）·阿祖强化·俞立第7章 LQR·能观标准型(3.23/3.24)·降维观测器(6.9/6.12)</div>
         <div class="c-row"><span class="tag rose">铁律</span>手算不用计算器 ｜ 先俞立教材后 777 ｜ 现控 40-50 分·每题 20 分综合大题·性价比最高 ｜ 真题全大题→动笔写完整过程</div>
         <div class="c-row"><span class="tag blue">大题范式</span>建状态空间 → 转移矩阵/响应 → 能控能观 → 极点配置 K → 观测器 L →（基于观测器的输出反馈）</div>
@@ -1602,15 +1660,15 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "📝 英语一（阅读 / 三小课 / 写作 / 单词）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣阅读 7/7✅ ｜ 新题型方法论 ✅ ｜ 完型·易熙人方法论 ✅＋2010/2011✅ → 10 月起每周 1 篇收尾 ｜ 写作＝23 句句卡＋每天 20min＋每周 3 篇（已定档）｜ 翻译＝柴荣每次一练（10.22 起两天一次·余 23 次·已完成 7 次不重复·唐静已弃用）</b></p>
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>v190英语冲刺：单词必保 ｜ 阅读11.11-18八篇 ｜ 作文英语日20min ｜ 小三门＝完型/新题型/翻译各余3篇，不含套卷，11.23前清完</b></p>
       <table>
         <tr><th>板块</th><th>老师</th><th>策略</th></tr>
-        <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td>强化课 7 节✅·<b>每天 1 篇 · 40min</b>（限时 20min 做题 → 对答案 → 错因四栏）·错 ≥2 题才深翻·<b>错因四栏（词／句／定位／逻辑·每题只勾一个）</b>｜<b>二选一铁律：两个候选都回原文找依据句，能同义替换的留、找不到依据的才排除——禁止用"感觉过度推断"排除</b></td></tr>
+        <tr><td>🔴 阅读</td><td><b>柴荣</b></td><td><b>当前阅读差，阅读和单词都是必保项</b>·<b>每天40min</b>：11.11-14做2018 T1-T4；11.15-18做2025 T1-T4；11.19只回炉；20min限时→20min核选项依据｜每题错因只记 <b>W/S/R/G</b>：W词不认识、S句义错、R推理/答非所问、G定位错</td></tr>
         <tr><td>🟡 新题型</td><td><b>柴荣</b></td><td>方法论 ✅ → 10 月下-11 月每周 1 篇（真题 ≤2020）·<b>每型留 1-2 篇到 11 月底-12 月</b>（1 篇过方法笔记＋1 篇限时练）·2021-2026 留给整卷模考</td></tr>
         <tr><td>⚪ 完型</td><td><b>易熙人</b></td><td><b>顺年份做</b>：2010/2011✅ → 10 月起<b>每周 1 篇</b>（2018-2020 收尾）·<b>先限时 18min → 听讲解 40min</b>·错因四类</td></tr>
         <tr><td>🟡 写作</td><td><b>柴荣</b></td><td><b>23 句核心句卡</b>（大作文 14 句＋小作文 9 句·<b>一个功能只留 1 句</b>）＋<b>英语日 20min 微训练</b>＋<b>每周 3 篇整篇</b>（2 大 1 小＋1 次重写）·<b>扇贝批改每周 ≥1 篇</b></td></tr>
-        <tr><td>🟢 翻译</td><td><b>柴荣</b></td><td><b>10.22 起 两天一次 · 每次 15min · 余 23 次（末次 12.5）</b>·四步：词义热身→断句找主干→整句翻译→采分点自评｜<b>只占英语时间 ~6%</b>（柴荣原话"性价比低"、卷子最后做）｜前 7 次已写（2016＋2017 前两句），从 2017-48 续做｜<b>唐静已弃用</b></td></tr>
-        <tr><td>📖 单词</td><td><b>真题生词本＋选项词表</b></td><td><b>每天从新做的题里摘不认识的词</b>（阅读/完型/翻译/新题型）·10min 封顶·一篇只收 <b>5-10 个</b>（判据：<b>这个词不认识，会不会让我做错这道题？</b>不会就放过）｜<b>选项词优先</b>：选项里的词 > 文章里的词（文章读懂却选错的根源就在这）｜<b>选项词表</b>专收身份/评价/动作词（advertisers/developers/regulators/legislators/junk/warrant/curb…）｜闪过＝每天最后 30min 里的约 20min（只轮一轮）</td></tr>
+        <tr><td>🟢 翻译</td><td><b>小三门</b></td><td><b>冲刺期只做非模考剩余3篇</b>，编进11.11-11.23英语块；不再额外叠加旧的23次每次一练。每篇15min：词义热身→断句找主干→整句翻译→采分点自评</td></tr>
+        <tr><td>📖 单词</td><td><b>必修556＋冲刺56</b></td><td><b>最高优先级：单词＞阅读＞作文＞小三门</b>。普通英语日60min＝200覆盖15＋必修40约30＋旧错15；828/数学日30min＝200覆盖15＋必修12约10＋旧错5；英语整卷日零新增只回旧错。必修556，冲刺最多56，本轮最多612，912仅为远期目标</td></tr>
       </table>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 完型每篇必做：<b>先限时做完再听讲解</b>（只听不做＝白听）。错因归四类：<b>逻辑关系 / 固定搭配 / 词义辨析 / 语法结构</b> → 记进笔记本跟生词本一起滚</p>
       <p style="font-size:11px;color:var(--text2);margin-top:2px;">📌 阅读错因四栏（只用在错≥2 题的篇章）：<b>词</b>（核心词/熟词僻义不认识）｜<b>句</b>（长难句主干没找准）｜<b>定位</b>（找错段/被干扰句带走）｜<b>逻辑</b>（段间转折因果没看懂、或没识破选项陷阱）→ <b>每题只勾一个</b>，连记三天看集中在哪一栏，集中哪栏就补哪栏，别继续盲刷</p>
@@ -1641,26 +1699,24 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🈶 翻译节奏（柴荣·10 分·已减重定档）</p>
       <div class="c-card">
         <div class="c-row"><span class="tag red">定位</span>翻译 10 分、历年平均 <b>3.89</b>，柴荣原话"<b>性价比低</b>、整张卷子最后做" → <b>不抢阅读/写作/新题型</b>，只占英语时间 ~6%</div>
-        <div class="c-row"><span class="tag amber">频次</span><b>每个英语日 1 次</b>（隔天一次）·<b>每次 15min</b>：① 词义热身 3 题(2min) → ② 断句找主干(3min) → ③ 整句翻译(6min) → ④ 采分点自评(3min)</div>
+        <div class="c-row"><span class="tag amber">频次</span><b>只做非模考剩余3篇</b>：11.15翻译①、11.19翻译②、11.23翻译③；每篇15min，方法不变</div>
         <div class="c-row"><span class="tag blue">总量</span>旧第 1 周 7 次（2016 五句＋2017-46/47）<b>已写、不重做</b>；余 <b>23 次</b>（2017-48 → 2021-50），10.22 起两天一次，<b>末次 12.5</b>。12.6 后只做套卷翻译与错句回看。<b>2010-2015 整篇全砍</b>（柴荣："可直接放弃"）；2022-2026 留 12 月套卷做</div>
         <div class="c-row"><span class="tag gray">回译</span>不再每天做 → 挪到休息半天/周五晚 10min（本周错句重译）｜每篇末用 20min 限时整篇回顾（全期 6 次）</div>
         <div class="c-row"><span class="tag red">看板</span><b>打开侧边抽屉「🈶 翻译每次一练」</b>→ 自动算"今天/下一次该做第几次"＋题目＋解析＋自评分打卡</div>
         <div class="c-row"><span class="tag amber">红线</span>先做后看，绝不先翻答案｜译文必须写成<b>完整的一整句中文</b>｜明显扭曲原意 → 该句最多 0.5 分</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词（双轨：闪过＝补地基 · 真题生词本＝补考点词）</p>
-      <div class="c-card"><div class="c-title">① 闪过（v134 定档：一天约 20min·<b>只轮一轮</b>·不追轮次）</div>
-        <div class="c-row"><span class="tag red">量</span><b>每天约 20min</b>（能滚多少算多少）·<b>只走一轮</b>，不排二轮三轮、不设正确率考核</div>
-        <div class="c-row"><span class="tag amber">为什么按语境背</span>闪过是<b>按语境编排</b>的，一个 list 里的词互为线索 ⇒ 整 list 连读比跳着背好记</div>
-        <div class="c-row"><span class="tag blue">动作</span><b>遮住中文 → 看英文自己说意思 → 说不对再看</b>（12-15s/词）·说不出的打 ★，第二天先看 ★</div>
-        <div class="c-row"><span class="tag gray">标准</span><b>不拼写、不抄词、不做词卡</b>·只求"看到认得出中文"·低频词眼熟即可</div>
-        <div class="c-row"><span class="tag gray">固定槽</span><b>每天最后 30min</b>：自控日 21:10-21:40 ／ 英语日 20:30-21:00（闪过 20min ＋ 生词本 10min）——放最后，一天收得干净，不抢午休</div>
-        <div class="c-row"><span class="tag blue">两个节点（v146）</span><b>晚上背 → 次日早上 07:50-08:05 回顾 15min</b>：早上<b>只过昨天打 ★ 的词 ＋ 真题生词本</b>，<b>不重读整 list</b>（整 list 重读放周末）——睡前记＋晨起检索，是最省力的那一档间隔重复</div></div>
-      <div class="c-card"><div class="c-title">② 真题生词本（每天 10min·只收"高频考点词"）</div>
-        <div class="c-row"><span class="tag red">来源</span><b>当天新做的题里不认识的词就是当天的单词表</b>——阅读精读 / 完型 / 🈶翻译每次一练的词义热身题 / 新题型</div>
-        <div class="c-row"><span class="tag amber">收哪些</span><b>只收"影响这题做对"的</b>（判据：这个词不认识，会不会让我选错？不会就放过）·<b>一篇 5-10 个</b>·专有名词/低频学术词直接放过</div>
-        <div class="c-row"><span class="tag amber">摘法</span>只写"<b>搭配 ＋ 义项</b>"（account for，不是 account）·不抄整句·当天摘 → 第二天早读看一次 → 周末只滚 ★ 词</div>
-        <div class="c-row"><span class="tag blue">省时版</span>直接在真题书上荧光笔划词＋旁边写中文·第二天翻回那几段看</div>
-        <div class="c-row"><span class="tag gray">封顶</span>10min·<b>卡壳的只打一个 ★（之后只看 ★ 词）·不排轮次、不追进度</b>（🈶翻译面板的词义热身题已与之合并，不重复占时间）</div></div>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📖 单词冲刺（最高优先级：必修556＋冲刺上限56）</p>
+      <div class="c-card"><div class="c-title">三档执行：任何情况下先保单词</div>
+        <div class="c-row"><span class="tag red">普通英语日</span><b>60min</b>＝200词覆盖15＋必修40约30＋旧错词15；首轮≥70%且有余时才加8个冲刺词</div>
+        <div class="c-row"><span class="tag amber">828/数学日</span><b>30min</b>＝200词覆盖15＋必修12约10＋到期旧错5；状态差也不能整块跳过</div>
+        <div class="c-row"><span class="tag blue">英语整卷日</span><b>20-30min</b>＝零覆盖、零新增，只回取旧错词</div>
+        <div class="c-row"><span class="tag gray">考前12.15-17</span>零新增，只回看高频错词、选项词、熟词僻义、作文词</div>
+        <div class="c-row"><span class="tag red">总量</span><b>必修556 / 冲刺上限56 / 本轮最多612 / 912仅远期目标</b>；不追912，不补11.10</div></div>
+      <div class="c-card"><div class="c-title">记忆动作：闭卷取回，不做词卡</div>
+        <div class="c-row"><span class="tag blue">200覆盖</span>看英文2-4秒说一个中文义；不要求拼写，不抄整表</div>
+        <div class="c-row"><span class="tag amber">40/12必修</span>先说义→再看释义与原选项句→当天打乱复测错词；只收会决定选项对错的词</div>
+        <div class="c-row"><span class="tag gray">旧词</span>按1/3/7/14/28天回取；旧词正确率低于70%时只复习，不把欠账双倍压到次日</div>
+        <div class="c-row"><span class="tag red">冲突</span>时间不够时先砍小三门，再砍作文；<b>单词和阅读都不砍</b></div></div>
       <div class="c-card"><div class="c-title">🎯 英语 50 分结构（v150·10.20 定档·原70下调）</div>
         <div class="c-row"><span class="tag red">怎么来</span>阅读 20-24/40（20题错 8-10·每篇错约 2）＋ 完型 4-5 ＋ 新题型 5-6 ＋ 翻译 4-5 ＋ <b>作文 13-15</b> ≈ <b>46-55</b>（中位 50）</div>
         <div class="c-row"><span class="tag amber">关键</span><b>作文是最大可控分</b>（占目标1/4以上）：模板背熟＋套写10篇 → 13-15；阅读只需"不退步＋慢升"，<b>不必每篇全对</b></div>
@@ -1681,29 +1737,43 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag amber">标准</span>"过度推断"的<b>唯一</b>判据是"原文根本没提"，不是"我觉得说得太满"</div>
         <div class="c-row"><span class="tag gray">记录</span>二选一错掉的题，错因四栏勾<b>逻辑</b>，旁边写一句"我为什么排除了正确的那个"</div></div>
       <div class="c-card"><div class="c-title">⚠️ 红线</div>
-        <div class="c-row"><span class="tag rose">占用</span>单词 <b>45min/天</b>（晚上 30 ＋ 早上回顾 15）＋ 阅读 40min/天 ≈ <b>1.4h/天</b>。<b>不允许挤掉写作和翻译</b>——真挤到了先砍早上的回顾（15→跳过）或闪过量（20→10min），<b>不砍阅读</b></div>
+        <div class="c-row"><span class="tag rose">占用</span>普通英语日：<b>单词60＋阅读40＋作文20＋小三门15/30</b>；828日：<b>单词30＋旧阅读40</b>。时间不够先砍小三门，再砍作文；<b>单词和阅读不砍</b></div>
         <div class="c-row"><span class="tag gray">不做什么</span>不抄词、不做词卡、不背拼写、不买新课、不换书（换教材＝重新计数，直接吃掉两周）</div></div>
       <div class="c-card"><div class="c-title">柴荣词汇汇总（当复习清单用）</div>
         <div class="c-row"><span class="tag gray">用法</span>当词汇清单过一遍即可；有疑问的词直接进当天真题生词本，不单开轮次</div></div>
 
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📚 小三门9篇固定排期（不含套卷）</p>
+      <div class="c-card">
+        <div class="c-row"><span class="tag red">11.11</span>完型①</div>
+        <div class="c-row"><span class="tag amber">11.13</span>新题型①</div>
+        <div class="c-row"><span class="tag blue">11.15</span>完型②＋翻译①（当天英语块用满90min）</div>
+        <div class="c-row"><span class="tag gray">11.17</span>新题型②</div>
+        <div class="c-row"><span class="tag red">11.19</span>完型③＋翻译②</div>
+        <div class="c-row"><span class="tag amber">11.21</span>新题型③</div>
+        <div class="c-row"><span class="tag blue">11.23</span>翻译③ → <b>小三门清完</b></div>
+        <div class="c-row"><span class="tag gray">边界</span>数学套卷日、英语整卷日、828日都不加小三门；未完成不顺延补债</div>
+      </div>
+
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📅 每天英语怎么排</p>
       <table>
         <tr><th>日型</th><th>任务</th></tr>
-        <tr><td>英语日<br>（隔天）</td><td>下午大块：<b>① 阅读 40min 打头</b> → ② 完型（按周表）→ ③ <b>🈶 翻译 15min</b> → ④ <b>写作：20min 微训练 ＋ 整篇（按周表）</b><br>晚间：<b>20:30-21:00 单词 30min</b>（闪过 ＋ 生词本 10min）</td></tr>
-        <tr><td>自控日<br>（隔天）</td><td>828 下午大块 3.5h → 晚间：<b>20:30-21:10 阅读 40min</b> → <b>21:10-21:40 单词 30min</b>（闪过 ＋ 生词本）→ 21:40 复盘收工<br>翻译只排英语日；写作微训练留在英语日</td></tr>
+        <tr><td>普通英语日</td><td><b>单词60min</b>（早上30＋晚上30）＋下午90min：<b>阅读40→作文20→小三门15/30</b>。小三门＝完型、新题型、翻译，各余3篇，11.23前清完；状态差只砍小三门</td></tr>
+        <tr><td>828日</td><td>下午828大块 → 晚间：<b>20:30-21:10旧文阅读40</b>→<b>21:10-21:40单词30</b>→复盘。今天不叠作文、翻译、小三门</td></tr>
+        <tr><td>数学套卷日</td><td>整卷完成后只做<b>单词30min</b>；不排阅读、作文、小三门</td></tr>
+        <tr><td>英语整卷日</td><td>3h整卷＋1.5h订正；只回旧错词20-30min，零覆盖、零新增，不另做阅读/作文/小三门</td></tr>
       </table>
-      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 阅读每天 1 篇 40min：英语日＝14:30 大块打头 ｜ 自控日＝晚间 20:30-21:10 ｜ <b>漏了不补</b></p>
-      <p style="font-size:11px;color:var(--text3);">📌 单词＝每天最后 30min（闪过约 20min ＋ 真题生词本 10min）｜ 阅读每天 1 篇 40min（英语日在下午大块打头、自控日在晚间单词之前）｜ 错因四栏写在题旁边，周末只统计"哪一栏最多"</p>
+      <p style="font-size:12px;color:var(--rose);margin-top:6px;">⚠️ 固定优先级：<b>单词＞阅读＞作文＞小三门</b>。阅读差时不再拿单词时间补别的；当天超时到点停，不补债</p>
+      <p style="font-size:11px;color:var(--text3);">📌 阅读流程固定20min限时＋20min核依据；错因只记W/S/R/G。小三门9篇只在非模考英语日完成，数学套卷和英语整卷日不重复安排</p>
       <p style="font-size:12px;color:var(--text3);">🎯 <b>目标 50（10.20下调·原70）</b> ｜ 结构：阅读20-24 + 完型4-5 + 新题型5-6 + 翻译4-5 + <b>作文13-15</b> ≈46-55（单科线≈38-40·留10分缓冲）｜ 10月＝23句句卡＋每周3篇＋翻译 ｜ 11月＝每周3篇(只写真题)＋模考 <b>2021-2024＋2026</b>（2025拆开单做）｜ 12月＝每天默写＋每周2套限时</p>`
   },
   {
-    title: "🈶 翻译每次一练（柴荣 · 每周3次·15min）",
-    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>柴荣技巧体系 · 10.22 起 <span style="color:var(--rose);">两天一次</span> · 每次 15min · 余 23 次（末次 12.5）｜前 7 次已写，不重复</b></p>
-      <div class="c-card"><div class="c-title">🎯 定位：翻译只占英语时间 ~6%（不抢阅读/写作/新题型）</div>
-        <div class="c-row"><span class="tag red">为什么减重</span>翻译 10 分，历年平均只有 <b>3.89</b>，柴荣原话就是"<b>性价比低</b>、整张卷子最后做"。它不值得每天 20min 抢主线。</div>
-        <div class="c-row"><span class="tag amber">原方案的问题</span>每天 20min ＝ 2.3h/周 ≈ <b>英语时间的 14%</b>，是它 ROI 权重的两倍。</div>
-        <div class="c-row"><span class="tag blue">改后</span>英语日 15min（隔天一次 ≈ 3-4 次/周）≈ <b>1h/周 ≈ 6%</b>。目标仍是 6-7 分，方法不变、只是不再堆量。</div>
-        <div class="c-row"><span class="tag gray">为什么不砍掉</span>翻译是<b>确定性加分</b>（固定套路：词义选择＋调语序），而且"拆长难句"直接迁移到阅读精读和新题型——所以挂靠在英语日，不单开时段。</div></div>
+    title: "🈶 翻译（冲刺版 · 并入小三门）",
+    html: `      <p style="font-size:12px;color:var(--accent);margin-bottom:8px;"><b>v190：只做非模考剩余3篇——11.15翻译①、11.19翻译②、11.23翻译③；每次15min，旧23次长线已冻结</b></p>
+       <div class="c-card"><div class="c-title">🎯 定位：翻译并入小三门，不抢单词/阅读</div>
+        <div class="c-row"><span class="tag red">冲刺口径</span>翻译并入<b>小三门</b>：只做非模考剩余 <b>3 篇</b>，不抢单词和阅读。</div>
+        <div class="c-row"><span class="tag amber">日期</span>翻译① 11.15｜翻译② 11.19｜翻译③ 11.23；每次放在英语块15min</div>
+        <div class="c-row"><span class="tag blue">旧长线冻结</span>原来的23次每次一练不再自动追加、不补债；套卷里的翻译随整卷完成。</div>
+        <div class="c-row"><span class="tag gray">优先级</span><b>单词＞阅读＞作文＞小三门</b>；状态差先跳过小三门。</div></div>
 
       <div id="fanyiToday"></div>
 
@@ -1730,7 +1800,7 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag blue">③ 技巧没用上</span>被动没变主动、后置定语没调序、代词没还原</div>
         <div class="c-row"><span class="tag gray">④ 词汇量</span>考场三级策略：结合语境+逻辑猜 → 去掉不译 → 瞎译一个</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 23 次排期（10.22 → 12.5 · 每两天一次）</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🗓️ 旧23次长线（历史备份，不再进入每日任务）</p>
       <table>
         <tr><th>年份</th><th>次</th><th>日期</th><th>内容</th></tr>
         <tr><td><b>2017</b></td><td>01-03</td><td>10.22 - 10.26</td><td>后 3 句（48/49/50）</td></tr>
@@ -1745,11 +1815,11 @@ const DRAWER_SECTIONS = [
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⏱️ 英语全科时段落位（翻译减重后）</p>
       <table>
         <tr><th>日型</th><th>时段</th><th>内容</th></tr>
-        <tr><td>英语日<br>（隔天）</td><td>14:30-14:45</td><td>🈶 <b>翻译 15min</b>（也可直接用当天精读挑的那句难句）→ 再进精读</td></tr>
-        <tr><td>自控日<br>（隔天）</td><td>20:30-21:10<br>21:10-21:40</td><td>📝 <b>阅读 40min</b> → 📖 <b>单词 30min</b>（闪过 20min ＋ 生词本 10min）；写作微训练只排英语日、<b>不占这个槽</b></td></tr>
-        <tr><td>休息半天/周五晚</td><td>10min</td><td>🈶 本周翻译错句重译 1 遍（每篇末再用 20min 限时整篇回顾）</td></tr>
+        <tr><td>普通英语日</td><td>14:30-16:00</td><td>阅读40→作文20→小三门15/30（翻译只在11.15、19、23）</td></tr>
+        <tr><td>828日</td><td>20:30-21:10<br>21:10-21:40</td><td>📝旧文阅读40min→📖单词30min；不排作文/小三门</td></tr>
+        <tr><td>数学/英语整卷日</td><td>固定槽</td><td>数学卷日只做单词30；英语卷日只回旧错词20-30；均不额外做小三门</td></tr>
       </table>
-      <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：翻译直接跳过，<b>不算欠账、绝不补债</b>；反正翻译是最后做、且只占 6%。</p>
+      <p style="font-size:11px;color:var(--rose);">⚠️ 降载版（状态差）：先跳过当天小三门；单词和阅读保留。未做的篇不补债。</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📚 配套柴荣语法课（哪句栽了看哪节）</p>
       <table>
@@ -1815,8 +1885,8 @@ const DRAWER_SECTIONS = [
         <div class="c-row"><span class="tag green">18:00-19:00</span>晚饭＋散步 1h（离开书）</div>
         <div class="c-row"><span class="tag rose">19:00-19:30</span>政治（每天）</div>
         <div class="c-row"><span class="tag red">19:30-20:30</span>线代/概率（晚槽 1h）｜想清醒就先写 20min 写作过渡（可选·做了晚槽 40min）</div>
-  <div class="c-row"><span class="tag gray">20:30-21:10</span>自控日＝📝 阅读 40min ／ 英语日＝📖 单词 30min（阅读在下午块）</div>
-  <div class="c-row"><span class="tag gray">21:10-21:40</span>自控日＝📖 单词 30min（闪过＋生词本）</div>
+  <div class="c-row"><span class="tag gray">20:30-21:10</span>828日＝📝旧文阅读40min；整卷/套卷日按当日专项</div>
+  <div class="c-row"><span class="tag gray">21:10-21:40</span>828日＝📖单词30min（覆盖15＋必修12约10＋旧错5）</div>
         <div class="c-row"><span class="tag blue">21:00-21:30</span>英语日＝复盘＋标 ⭐ → 收工（自控日 21:40-22:00；不硬撑）</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🔋 休息半天（自己定·累了就休）</p>
@@ -1887,7 +1957,7 @@ const DRAWER_SECTIONS = [
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">🌙 状态崩了怎么降载（失眠／生病／经期）</p>
       <div class="c-card">
-        <div class="c-row"><span class="tag red">当晚没睡好</span><b>第二天不算欠账</b>：只保 <b>P0＝早上一块 90min（或直接休）＋ 阅读 1 篇 ＋ 单词 30min</b>，其余<b>顺延不补</b>——别用"补作业"再熬一晚</div>
+        <div class="c-row"><span class="tag red">当晚没睡好</span><b>第二天不算欠账</b>：只保 <b>单词30min＋旧阅读15-40min</b>；作文和小三门直接跳过，<b>不顺延、不补债</b>——别用"补作业"再熬一晚</div>
         <div class="c-row"><span class="tag amber">连续两晚失眠</span><b>直接按休息日走</b>（前半天睡／办事，下午有劲再说）；这类日子 <b>21:30 收工</b>，阅读/单词提到 20:00-21:00，别拖到 22:00</div>
         <div class="c-row"><span class="tag blue">带背</span>只放<b>白天碎片</b>（走路/吃饭/洗漱）；<b>睡前不听音频</b>——连续 3 天入睡变慢就彻底停夜间音频</div>
         <div class="c-row"><span class="tag gray">只砍量不跳章</span>线概分类掉队只删同型题；<b>11.25套卷起点不动</b>，欠账不双倍补</div>
@@ -1922,27 +1992,27 @@ pol:'张真题选择技巧1-4（网盘11-14·2x≈70min/节·不做题直接听�
   { start:'2026-11-01', end:'2026-11-08', label:'第18周·证明与错题收口',
     math:'证明专项按题型系统过（2017/2019→2016/2020）；第一、二章重做卡按“会/欠一步/不会”分层；11.7整日为考试/休息日，不排数学与线概',
     pro:'11.6三组、11.8现控三组；单题35min到点停',
-    eng:'阶段A启动：阅读1篇/天＋作文20min；828日只保阅读40min＋单词',
+    eng:'11.11起新冲刺块：单词必保＋阅读每天40；英语日作文20＋小三门；828日不叠作文/小三门',
     pol:'11.8 十页纸新变考点(2h→1h)｜选择技巧课收尾/刷题错题' },
   { start:'2026-11-09', end:'2026-11-13', label:'第19周·线代概率收口',
     math:'11.9实验课仅晚学；线代目标11.9、最晚11.10；概率目标11.13。11.10起每天原高数时段固定60min做880选择题（8题＋订正＋错题回炉）',
     pro:'11.10/12强化组题；828日照常，不额外补新题',
-    eng:'阶段A：阅读＋新题型＋作文不断线',
+    eng:'单词必保；11.11-18八篇阅读＋英语日作文/小三门；828日只保单词＋旧阅读',
     pol:'11.9 五中全会回放/政经(选)｜11.10 真题真相(选)｜肖八1-3听讲(不做整套)' },
   { start:'2026-11-14', end:'2026-11-24', label:'第20周·线代概率分类真题',
     math:'线代＋概率分类：828日45min、无828日210min，按题单顺延；高数1.5h＝880选择题60min＋错题30min；11.24收口60min',
     pro:'11.14/16/18/20/22/24强化组题；11.24完成现控20道核心',
-    eng:'阶段A 11.18收口→阶段B英语整卷',
+    eng:'11.18八篇阅读收口；11.19回炉；11.23完型/新题型/翻译各3篇清完→英语整卷',
     pol:'肖八4-8听讲(不做整套)＋11.15时政热点｜11.22十页纸前三页＋背前三页' },
   { start:'2026-11-25', end:'2026-12-14', label:'第21-22周·三科套卷并行',
     math:'8套保底：真题2021-2026＋李林2套；每个无828日最多一场完整套卷；828日数学90min含880选择题维护，数学整卷日不额外叠加',
     pro:'11.26-12.10八套真题隔天做；次日14:30-16:30详细订正，禁止积压到12.12',
-    eng:'4套整卷：2019/21/23/26；3h做＋1.5h订正；不与数学套卷同日叠加',
+    eng:'数学/828日单词30分钟；4套整卷2019/21/23/26；整卷日零覆盖零新增，只回旧错词',
     pol:'11.29全年时政｜12.1-3张三｜12.6中四页｜12.9后三页｜12.7-11肖四｜12.12实战｜12.13选择终极' },
   { start:'2026-12-15', end:'2026-12-18', label:'考前4天·只收口',
     math:'错题三刷＋公式默写＋薄弱第一步；不开新难题',
     pro:'公式/错题/高频题型；手算保持，不攻偏题',
-    eng:'作文默写＋错题回看＋阅读保温；不开新卷',
+    eng:'作文默写＋错题回看；单词零新增，只回高频错词/选项词/作文词；不开新卷',
     pol:'十页纸带背＋肖四背诵＋手写2-3道＋答题卡；不熬夜' },
 ];
 
@@ -2020,6 +2090,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   const dayLabel = ['日','一','二','三','四','五','六'][weekday];
   const dateKey = fmtDate(now);
   const isLabDay = dateKey === '2026-11-09';
+  const engSprintActive = isEngSprintRange(dateKey);
   const engMockToday = SPRINT_MOCK_PLAN[dateKey] && SPRINT_MOCK_PLAN[dateKey].kind === 'eng';
   const mathMockToday = SPRINT_MOCK_PLAN[dateKey] && SPRINT_MOCK_PLAN[dateKey].kind === 'math';
   const isToday = interactive === true;
@@ -2033,6 +2104,10 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     // v118: 晚槽按 ｜ 拆成多条可勾选项，避免再去翻别的文档
     ...getDailyLinTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', sub: k > 0, label:(k === 0 ? '概率/线代（晚槽）：' : '') + p.trim() })),
   ];
+  if (engSprintActive && !isLabDay) {
+    const wordTask = getEngSprintWordTask(now);
+    if (wordTask) rows.push({ s:'eng', label:wordTask + '｜<b>优先级：单词＞阅读＞作文＞小三门</b>' });
+  }
   if (isAutoCtrl) {
     const proTask = getDailyProTask(now);
     if (proTask === null) {
@@ -2040,15 +2115,32 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     } else if (proTask) {
       rows.push({ s:'pro', label:'828：' + proTask });
     }
-    if (!mathMockToday) rows.push({ s:'eng', label:'📝 阅读精读 40min（20:30-21:10）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（词/句/定位/逻辑·每题只勾一个）' });
+    if (engSprintActive) {
+      const reading = getEngSprintReadingTask(now);
+      if (reading) rows.push({ s:'eng', label:reading });
+    } else if (!mathMockToday) {
+      rows.push({ s:'eng', label:'📝 阅读精读 40min（20:30-21:10）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（词/句/定位/逻辑·每题只勾一个）' });
+    }
   } else if (!isLabDay && !mathMockToday) {
-    rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
-    if (!engMockToday) rows.push({ s:'eng', label:'📝 阅读精读 40min（下午大块打头·14:30 开）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（每题只勾一个）' });
+    if (engSprintActive) {
+      if (engMockToday) {
+        rows.push({ s:'eng', label:getDailyEngTask(now) + '｜不再加阅读、作文或小三门' });
+      }
+      const reading = getEngSprintReadingTask(now);
+      if (reading) rows.push({ s:'eng', label:reading });
+      const support = getEngSprintSupportTask(now);
+      if (support) rows.push({ s:'eng', label:support });
+    } else {
+      rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
+      if (!engMockToday) rows.push({ s:'eng', label:'📝 阅读精读 40min（下午大块打头·14:30 开）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（每题只勾一个）' });
+    }
   }
   if (!isLabDay) {
-    rows.push({ s:'eng', label:'📖 单词 30min（每天最后·闪过20min＋生词本10min：遮中文→说意思→说不对再看·不拼写·说不出的打 ★）' });
-    rows.push({ s:'eng', label:'🧠 单词回顾 15min（次日早上 07:50-08:05·只过昨天打 ★ 的词 ＋ 真题生词本·不重读整 list）' });
-    rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（写“搭配＋义项”·一篇 5-10 个·≤10min）→ 明天早读回看｜卡壳的只打一个 ★' });
+    if (!engSprintActive) {
+      rows.push({ s:'eng', label:'📖 单词 30min（每天最后·闪过20min＋生词本10min：遮中文→说意思→说不对再看·不拼写·说不出的打 ★）' });
+      rows.push({ s:'eng', label:'🧠 单词回顾 15min（次日早上 07:50-08:05·只过昨天打 ★ 的词 ＋ 真题生词本·不重读整 list）' });
+      rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（写“搭配＋义项”·一篇 5-10 个·≤10min）→ 明天早读回看｜卡壳的只打一个 ★' });
+    }
     rows.push({ s:'pol', label:'政治：' + getDailyPolTask(now) });
   }
   if (period && period.noGym) {
@@ -2198,43 +2290,45 @@ function getSchedule(date) {
   }
   if (key === '2026-11-11') {
     return { tag: '🟣 概率推进 · 英语日', emoji: '📖', schedule: [
-      { t:"07:30-08:30", l:"🌅 起床/早餐＋单词回顾", s:"rest" },
+      { t:"07:30-08:00", l:"🌅 起床/早餐", s:"rest" },
+      { t:"08:00-08:30", l:"📖 单词30min（必保）：200词覆盖15＋必修40前15", s:"eng" },
       { t:"08:30-09:30", l:"🔢 高数维持1h：默写＋880同型", s:"math" },
       { t:"09:30-12:00", l:"🟣 概率2.5h：后两节视频＋ch5例题", s:"math" },
       { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-      { t:"14:30-16:00", l:"📝 英语阶段A核心1.5h", s:"eng" },
+      { t:"14:30-16:00", l:"📝 英语块90min：<b>2018 T1阅读40</b>→作文20→小三门15（完型①）→余15min优先复测单词错词", s:"eng" },
       { t:"16:00-18:00", l:"🟣 概率2h：ch5例题", s:"math" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
       { t:"19:30-20:00", l:"🟣 概率20min尾项", s:"math" },
-      { t:"20:00-20:30", l:"📖 单词30min", s:"eng" },
+      { t:"20:00-20:30", l:"📖 单词30min（必保）：必修40后15＋旧错词15", s:"eng" },
     ]};
   }
   if (key === '2026-11-12') {
     return { tag: '🟣 概率收口前段 · 828日', emoji: '⚙️', schedule: [
-      { t:"07:30-08:30", l:"🌅 起床/早餐＋单词回顾", s:"rest" },
+      { t:"07:30-08:30", l:"🌅 起床/早餐", s:"rest" },
       { t:"08:30-09:30", l:"🎯 880选择题60min（原高数时段）", s:"math" },
       { t:"09:30-11:30", l:"🟣 概率2h：ch5收尾＋ch6例题", s:"math" },
       { t:"10:30-14:30", l:"🍜 缓冲/午饭/午休", s:"rest" },
       { t:"14:30-18:00", l:"⚙️ 828强化组题", s:"pro" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
-      { t:"20:30-21:10", l:"📝 阅读40min", s:"eng" },
-      { t:"21:10-21:40", l:"📖 单词30min", s:"eng" },
+      { t:"20:30-21:10", l:"📝 阅读40min：<b>2018 T2</b>（20限时→20核选项依据）", s:"eng" },
+      { t:"21:10-21:40", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
     ]};
   }
   if (key === '2026-11-13') {
     return { tag: '🟣 概率收口 · 英语日', emoji: '📖', schedule: [
-      { t:"07:30-08:30", l:"🌅 起床/早餐＋单词回顾", s:"rest" },
+      { t:"07:30-08:00", l:"🌅 起床/早餐", s:"rest" },
+      { t:"08:00-08:30", l:"📖 单词30min（必保）：200词覆盖15＋必修40前15", s:"eng" },
       { t:"08:30-09:30", l:"🎯 880选择题60min", s:"math" },
       { t:"09:30-10:00", l:"🔢 高数错题回炉30min", s:"math" },
       { t:"10:00-12:00", l:"🟣 概率2h：ch5/ch6例题", s:"math" },
       { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-      { t:"14:30-16:00", l:"📝 英语阶段A核心", s:"eng" },
+      { t:"14:30-16:00", l:"📝 英语块90min：<b>2018 T3阅读40</b>→作文20→小三门15（新题型①）→余15min优先复测单词错词", s:"eng" },
       { t:"16:00-18:00", l:"🟣 概率2h收口 → 概率完成", s:"math" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
-      { t:"20:30-21:00", l:"📖 单词30min", s:"eng" },
+      { t:"20:30-21:00", l:"📖 单词30min（必保）：必修40后15＋旧错词15", s:"eng" },
     ]};
   }
 
@@ -2243,7 +2337,7 @@ function getSchedule(date) {
     const cap828 = isSelfControlDay(date);
     const finalReview = key === '2026-11-24';
     return { tag: '📕 线代＋概率分类真题', emoji: '📕', schedule: cap828 ? [
-      { t:"07:30-08:30", l:"🌅 起床/早餐＋单词回顾", s:"rest" },
+      { t:"07:30-08:30", l:"🌅 起床/早餐", s:"rest" },
       { t:"08:30-09:30", l:"🎯 880选择题60min", s:"math" },
       { t:"09:30-10:00", l:"🔢 高数错题回炉30min", s:"math" },
       { t:"10:00-" + (finalReview ? "11:00" : "10:45"), l:"📕 线代/概率分类" + (finalReview ? "60" : "45") + "min（余项顺延次日）", s:"math" },
@@ -2251,19 +2345,20 @@ function getSchedule(date) {
       { t:"14:30-18:00", l:"⚙️ 828强化组题", s:"pro" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
-      { t:"20:30-21:10", l:"📝 阅读40min", s:"eng" },
-      { t:"21:10-21:40", l:"📖 单词30min", s:"eng" },
+      { t:"20:30-21:10", l:"📝 阅读40min：" + (ENG_SPRINT_READING_PLAN[key] || '旧文错题回炉') + "（20限时→20核选项依据）", s:"eng" },
+      { t:"21:10-21:40", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
     ] : [
-      { t:"07:30-08:30", l:"🌅 起床/早餐＋单词回顾", s:"rest" },
+      { t:"07:30-08:00", l:"🌅 起床/早餐", s:"rest" },
+      { t:"08:00-08:30", l:"📖 单词30min（必保）：200覆盖15＋必修40前15", s:"eng" },
       { t:"08:30-09:30", l:"🎯 880选择题60min", s:"math" },
       { t:"09:30-10:00", l:"🔢 高数错题回炉30min", s:"math" },
       { t:"10:00-12:00", l:"📕 线代/概率分类120min", s:"math" },
       { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
-      { t:"14:30-16:00", l:"📝 英语阶段A／阶段B核心", s:"eng" },
+      { t:"14:30-16:00", l:"📝 英语块90min：" + (ENG_SPRINT_READING_PLAN[key] || '旧文错题') + "阅读40→作文20→小三门" + (((ENG_SPRINT_SMALL_PLAN[key] || []).length > 1) ? '30' : '15') + "（" + (ENG_SPRINT_SMALL_PLAN[key] || ['最弱篇回炉']).join('、') + "）" + (((ENG_SPRINT_SMALL_PLAN[key] || []).length > 1) ? '' : '→余15min优先复测单词错词'), s:"eng" },
       { t:"16:00-17:30", l:"📕 分类真题90min", s:"math" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
-      { t:"20:30-21:00", l:"📖 单词30min", s:"eng" },
+      { t:"20:30-21:00", l:"📖 单词30min（必保）：必修40后15＋旧错词15", s:"eng" },
     ]};
   }
 
@@ -2283,9 +2378,7 @@ function getSchedule(date) {
   const examYear = PRO_EXAM_DAYS[key];
   if (examYear) {
     return { tag: '📄 828真题日 · 下午全真＋当晚标错', emoji: '📄', schedule: [
-      { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
-      { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本·不重读整 list）", s:"eng" },
-      { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
+      { t:"07:30-08:30", l:"🌅 起床/早餐/收拾", s:"rest" },
       { t:"08:30-10:00", l:"🔢 数学 90min：公式/错题回炉/证明关键步骤｜今天不叠完整套卷", s:"math" },
       { t:"10:00-12:00", l:"🧾 错题归档/缓冲（不排新套卷）", s:"rest" },
       { t:"12:00-14:30", l:"🍜 午饭/午休", s:"rest" },
@@ -2294,8 +2387,8 @@ function getSchedule(date) {
       { t:"18:30-19:00", l:"🍜 晚饭/收拾", s:"rest" },
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
       { t:"19:30-20:30", l:"🧾 休息/轻量整理（不排数学新任务）", s:"rest" },
-      { t:"20:30-21:10", l:"📝 阅读精读 40min（限时 20min 做题 → 对答案 → 错因四栏）", s:"eng" },
-      { t:"21:10-21:40", l:"📖 单词 30min（闪过 20min ＋ 生词本 10min·遮中文说意思·不拼写）", s:"eng" },
+      { t:"20:30-21:10", l:"📝 旧文回炉40min（20限时→20核选项依据；错因只记W/S/R/G）", s:"eng" },
+      { t:"21:10-21:40", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
       { t:"21:40-22:00", l:"📋 复盘/收工", s:"rest" },
     ]};
   }
@@ -2317,7 +2410,7 @@ function getSchedule(date) {
         { t:"16:00-17:30", l:"📝 英语订正：错因四栏＋作文二稿", s:"eng" },
         { t:"17:30-19:00", l:"🍜 晚饭/散步", s:"rest" },
         { t:"19:00-20:00", l:"📜 政治 1h", s:"pol" },
-        { t:"20:00-20:30", l:"📖 单词 30min", s:"eng" },
+        { t:"20:00-20:30", l:"📖 单词20-30min：整卷日零覆盖、零新增；只回取旧错词", s:"eng" },
         { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
       ]};
     }
@@ -2330,21 +2423,19 @@ function getSchedule(date) {
         { t:"15:30-18:00", l:"📄 数学套卷订正：最卡题重做＋错误点归档", s:"math" },
         { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
         { t:"19:00-20:00", l:"📜 政治 1h", s:"pol" },
-        { t:"20:00-20:30", l:"📖 单词 30min", s:"eng" },
+        { t:"20:00-20:30", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
         { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
       ]};
     }
     return { tag: '📝 828次日 · 上午英语＋下午订正', emoji: '📝', schedule: [
-      { t:"07:30-07:50", l:"🌅 起床/早餐", s:"rest" },
-      { t:"07:50-08:05", l:"🧠 单词回顾 15min（昨天 ★ ＋ 生词本）", s:"eng" },
-      { t:"08:05-08:30", l:"🚶 到教室/收拾", s:"rest" },
-      { t:"08:30-11:30", l:"📝 英语大块：整卷3h，或阅读1篇＋作文＋新题型", s:"eng" },
+      { t:"07:30-08:30", l:"🌅 起床/早餐/收拾", s:"rest" },
+      { t:"08:30-11:30", l:"📝 英语块：阅读40→作文20→小三门（仅普通英语日；整卷日按套卷执行）", s:"eng" },
       { t:"11:30-14:30", l:"🍜 午饭/午休", s:"rest" },
       { t:"14:30-16:30", l:"⚙️ 订正昨日828真题 " + prevExamYear + "：错因归类＋最卡3步复写", s:"pro" },
       { t:"16:30-18:00", l:"📝 英语订正/作文二稿/翻译", s:"eng" },
       { t:"18:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-20:00", l:"📜 政治 1h（当天有效政治时间）", s:"pol" },
-      { t:"20:00-20:30", l:"📖 单词 30min", s:"eng" },
+      { t:"20:00-20:30", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
       { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
     ]};
   }
@@ -2358,7 +2449,7 @@ function getSchedule(date) {
         { t:"14:30-17:00", l:"📄 数学订正：错因归类＋最卡3步复写", s:"math" },
         { t:"17:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
         { t:"19:00-20:00", l:"📜 政治 1h", s:"pol" },
-        { t:"20:00-20:30", l:"📖 单词 30min", s:"eng" },
+        { t:"20:00-20:30", l:"📖 单词30min（必保）：200覆盖15＋必修12约10＋旧错5", s:"eng" },
         { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
       ]};
     }
@@ -2370,7 +2461,7 @@ function getSchedule(date) {
       { t:"16:00-17:00", l:"🔢 数学维持：公式默写＋最弱错题1道", s:"math" },
       { t:"17:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-20:00", l:"📜 政治 1h", s:"pol" },
-      { t:"20:00-20:30", l:"📖 单词 30min", s:"eng" },
+      { t:"20:00-20:30", l:"📖 单词20-30min：整卷日零覆盖、零新增；只回取旧错词", s:"eng" },
       { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
     ]};
   }
@@ -2384,7 +2475,8 @@ function getSchedule(date) {
       { t:"14:30-17:00", l:"📝 英语作文默写＋错题回看／828公式", s:"eng" },
       { t:"17:00-19:00", l:"🍜 晚饭/散步", s:"rest" },
       { t:"19:00-20:30", l:"📜 政治背诵（肖四＋十页纸）", s:"pol" },
-      { t:"20:30-21:00", l:"📋 复盘/早收工", s:"rest" },
+      { t:"20:30-21:00", l:"📖 单词20-30min：零新增，只回看高频错词、选项词、熟词僻义、作文词", s:"eng" },
+      { t:"21:00-21:15", l:"📋 复盘/早收工", s:"rest" },
     ]};
   }
 
@@ -2840,6 +2932,23 @@ function renderFanyi() {
   const box = document.getElementById('fanyiToday');
   if (!box) return;
   const today = fanyiMidnight(new Date());
+  const todayKey = fmtDate(today);
+  if (todayKey >= '2026-11-11' && todayKey <= '2026-12-17') {
+    const plan = [
+      { date:'2026-11-15', label:'翻译①' },
+      { date:'2026-11-19', label:'翻译②' },
+      { date:'2026-11-23', label:'翻译③' },
+    ];
+    const next = plan.find(x => x.date >= todayKey);
+    box.innerHTML = '<div class="c-card"><div class="c-title">🈶 翻译已并入小三门 · 冲刺版</div>'
+      + '<div class="c-row"><span class="tag red">范围</span>只做非模考剩余 <b>3篇</b>，不含套卷中的翻译</div>'
+      + '<div class="c-row"><span class="tag amber">固定日期</span>11.15 翻译①｜11.19 翻译②｜11.23 翻译③；每篇15min</div>'
+      + '<div class="c-row"><span class="tag blue">' + (next ? '下一次' : '状态') + '</span>'
+      + (next ? next.date.slice(5).replace('-', '.') + ' → <b>' + next.label + '</b>，放进当天英语块；其余日期不再做新翻译'
+              : '3篇已排完；之后只回看错句，不新增、不补债')
+      + '</div><div class="c-row"><span class="tag gray">优先级</span>单词＞阅读＞作文＞小三门；状态差先跳过当天小三门</div></div>';
+    return;
+  }
   const isEng = fanyiIsEngDay(today);
   const todayIdx = fanyiTodayIndex();
   if (fanyiDay === null) fanyiDay = todayIdx > 0 ? todayIdx : 1;
