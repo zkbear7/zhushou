@@ -749,9 +749,10 @@ function getDailyMathTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].math) return DAILY_TASKS[key].math;
   if (SPRINT_MOCK_PLAN[key] && SPRINT_MOCK_PLAN[key].kind === 'math') return '📄 <b>数学套卷 ' + SPRINT_MOCK_PLAN[key].paper + '</b>：3h限时→2-2.5h订正；只重做最卡3步';
+  if (SPRINT_MOCK_PLAN[key] && SPRINT_MOCK_PLAN[key].kind === 'eng') return '📄 英语整卷日：数学只留10min错题回忆，不排新题';
   const prevDate = new Date(date);
   prevDate.setDate(prevDate.getDate() - 1);
-  if (PRO_EXAM_DAYS[fmtDate(prevDate)]) return '📄 昨日828真题：数学只做30-60min套卷错题／公式；上午英语，下午先完成828详细订正';
+  if (key < '2026-11-24' && PRO_EXAM_DAYS[fmtDate(prevDate)]) return '📄 昨日828真题：数学只做30-60min套卷错题／公式；上午英语，下午先完成828详细订正';
   const m = date.getMonth(), d = date.getDate();
   // v115: 休息日不再固定（周六也正常排）；只有临时休半天才走"消欠账"逻辑（见 getSchedule 的 REST_DAYS 分支）
   if (PRO_EXAM_DAYS[key]) return '📄 828真题日：08:30-10:00 数学只做90min公式／错题；14:30-17:30 828限时；17:30-18:30 标错因';
@@ -761,8 +762,12 @@ function getDailyMathTask(date) {
   if (m === 9 && d <= 22) return '📕 分类真题 · 高数（真题真刷提高篇·按章推进：每天 2 个"天段"＋每题写一句套路；章表见 真题真刷\\0X_切题表）';
   if (m === 9 || (m === 10 && d <= 3)) return '🟣 分类真题 · 概率板块（真题真刷 09–15 概率题·每天 2-3 道·按考点总结套路）＋ 高数⭐错题回看';
   if (m === 10 && d <= 8) return '🧵 分类真题 · 线代板块（真题真刷 09–20 线代题·按考点总结套路）＋ 三科⭐错题回看';
+  if (key === '2026-12-18') return '🧘 数学最后轻看40min：公式默写＋1-2道基础题；不做新题、不碰难题';
+  if (key === '2026-12-17') return '🧘 数学收口45min：公式＋最常错的基础步骤；17:00后去酒店';
+  if (key === '2026-12-16') return '🧘 数学收口60min：最弱第一步＋基础计算，保持手感';
+  if (key === '2026-12-15') return '🧘 数学收口60min：高频错题回炉＋公式默写，不开新题';
   if (key >= '2026-12-15') return '🧘 考前收口：错题三刷＋公式默写＋最弱第一步；不开新难题';
-  if (key >= '2026-11-25') return '📄 数学套卷／错题复盘：无828日做完整套卷；828真题日只做90min公式与错题，不叠套卷';
+  if (key >= '2026-11-24') return '📐 数学维持30-60min：公式默写＋昨日错题；英语整卷日只做10min错题回忆';
   if (key >= '2026-11-09') return '🧵🟣 线代＋概率分类真题（每天2h·按考点写套路）｜高数维持30-40min：默写10-15min＋880同型/昨日错题1-2道（25min到点停）';
   return '冲刺：李林6+4 + 公式默写 + ⭐错题回看';
 }
@@ -780,36 +785,31 @@ const LINPROB_REVIEW_PLAN = {
   '2026-11-21': { day:7, mins:'209/210', redo:'昨日🟥重做（6min）', today:'2009数一8 ⬜；2012数一7 🟨；2013数一22 🟥；2016数一22 🟨；2020数一22 🟥；2009数一22 🟨；2010数一22 🟥；2011数三（无题号） 🟥；2009数一7 ⬜；2010数一14 🟨；2011数一8 🟨；2011数一14 🟨；2014数一8 🟥；2014数一22 🟨；2015数一8 🟨；2015数一22 🟥；2017数一14 🟨；2017数一22 🟨；2019数一14 🟨；2012数一22 🟥；2018数一22 🟨' },
   '2026-11-22': { day:8, mins:'52/60', redo:'第三章回炉（40min）：题7 F_Z分段、题8 的1/2、题3/5/6 范围类、题1 蒙对、数三条件密度两段', today:'第四章开 4 题（12min）：2009数一7 ⬜；2010数一14 🟨；2011数一8 🟨；2011数一14 🟨' },
   '2026-11-23': { day:9, mins:'123/150', redo:'第四章🟥重做（各 2-6min）', today:'2014数一8 🟥；2014数一22 🟨；2015数一8 🟨；2015数一22 🟥；2017数一14 🟨；2017数一22 🟨；2019数一14 🟨；2012数一22 🟥；2018数一22 🟨；2020数一14 🟨；2011数一22 🟥；2012数一8 🟨；2016数一8 🟨；2020数一8 🟥；2013数一8 🟨；2017数一8 🟥；2015数三（无题号） 🟨；2009数一23 🟨；2011数一23 🟨；2012数一23 🟨；2013数一23 🟨；2014数一23 🟨' },
-  '2026-11-24': { day:10, mins:'52/60', redo:'昨日🟥重做', today:'2015数一23 🟥；2017数一23 🟥；2019数一23 🟨；2020数一23 🟨；2009数一14 🟥' },
-  '2026-11-25': { day:11, mins:'29/30', redo:'无', today:'概率收尾（29min·套卷前后皆可）：2010数一23 🟥；2014数一14 🟨；2016数一14 🟥｜上午照常套卷 2021' },
+  '2026-11-24': { day:10, mins:'81/90', redo:'昨日🟥重做', today:'2015数一23 🟥；2017数一23 🟥；2019数一23 🟨；2020数一23 🟨；2009数一14 🟥；补完概率尾项：2010数一23 🟥；2014数一14 🟨；2016数一14 🟥 → <b>概率真题真刷完成</b>' },
 };
 
 // v186: 11.25-12.14 每个无828日只放一场完整套卷，避免数学/英语套卷互撞
 const SPRINT_MOCK_PLAN = {
   '2026-11-25': { kind:'math', paper:'2021' },
-  '2026-11-27': { kind:'eng', paper:'2019' },
   '2026-11-29': { kind:'math', paper:'2022' },
-  '2026-12-01': { kind:'eng', paper:'2021' },
   '2026-12-03': { kind:'math', paper:'2023' },
   '2026-12-05': { kind:'eng', paper:'2023' },
   '2026-12-07': { kind:'math', paper:'2024' },
-  '2026-12-09': { kind:'eng', paper:'2026' },
+  '2026-12-09': { kind:'eng', paper:'2024' },
   '2026-12-11': { kind:'math', paper:'2025' },
-  '2026-12-12': { kind:'math', paper:'2026' },
-  '2026-12-13': { kind:'math', paper:'李林1' },
-  '2026-12-14': { kind:'math', paper:'李林2' },
+  '2026-12-13': { kind:'eng', paper:'2026' },
+  '2026-12-14': { kind:'math', paper:'2026' },
 };
 
 function getDailyLinTask(date) {
   const key = fmtDate(date);
   if (DAILY_TASKS[key] && DAILY_TASKS[key].lin) return DAILY_TASKS[key].lin;
   if (key <= '2026-09-03') return '第6讲（9.1-9.3 三天）';
-  if (key >= '2026-11-26') return '';
+  if (key >= '2026-11-25') return '';
   const review = LINPROB_REVIEW_PLAN[key];
   if (review) {
     // v195: 11.18 / 11.22 各从 880 借 15min（45→60），用于补 11.14/11.15 丢失的容量
-    const cap = key === '2026-11-25' ? 30
-      : key === '2026-11-24' ? 60
+    const cap = key === '2026-11-24' ? 90
       : (key === '2026-11-18' || key === '2026-11-22') ? 60
       : key === '2026-11-23' ? 150
       : (isSelfControlDay(date) ? 45 : 210);
@@ -873,6 +873,7 @@ const PRO_TASKS = {
 //               现控用2.24替换2.7，只做离散P矩阵判稳；后续自控13道＋现控20道。
 // v189 (11.09): 每天原高数时段固定60min做高数880选择题；剔除旧排题，12天未做题＋之后错题回炉。
 // v191 (11.13): 880选择题降难降量——每天6题（基础为主，最多4道常规综合），综合题3分钟无第一步就跳，不排拔高题。
+// v200 (11.23): 首页只留今日/明日任务；828按“2018补完→19/20各两天→21起当天做订”；数学6套、英语3套，阅读不断线。
 // v182 (11.06): 新增冲刺总览面板；数学11.9-20转线代/概率分类，11.21后开套卷；
 //               828真题日数学只保90min，次日补1.5-2h详细订正；同步英语/政治总节点与止损口径。
 // v183 (11.06): 11.7考试日——上午1.5h考试复习＋1h线代/概率（数学2h让出1h）；考后休息，晚间最多自愿30min。
@@ -881,14 +882,23 @@ const PRO_TASKS = {
 // v186 (11.08): 11.9-13线代/概率收口；11.14-24分类真题（828日45/无828日210；24日收口60）；套卷11.25启动，数学8套＋英语4套。
 //               真题只做近8套，每个自控日下午3h限时＋1h标错，详细订正放到下一个828日。
 const PRO_EXAM_DAYS = {
-  '2026-11-26': '2018',
-  '2026-11-28': '2019',
-  '2026-11-30': '2020',
-  '2026-12-02': '2021',
-  '2026-12-04': '2023',
-  '2026-12-06': '2024',
-  '2026-12-08': '2025',
-  '2026-12-10': '2026',
+  '2026-11-24': '2018（续完剩余部分）',
+  '2026-11-26': '2019（第1/2天：做＋标错）',
+  '2026-11-28': '2019（第2/2天：订正＋回炉）',
+  '2026-11-30': '2020（第1/2天：做＋标错）',
+  '2026-12-02': '2020（第2/2天：订正＋回炉）',
+  '2026-12-04': '2021（当天做＋订正）',
+  '2026-12-06': '2023（当天做＋订正）',
+  '2026-12-08': '2024（当天做＋订正）',
+  '2026-12-10': '2025（当天做＋订正）',
+  '2026-12-12': '2026（当天做＋订正）',
+};
+const PRO_FINAL_REVIEW = {
+  '2026-12-14': '近三套2024/25/26跨卷回炉：只整理重复卡点＋最常错三步',
+  '2026-12-15': '828高频公式默写：梅森/稳态误差/朱利/伯德K/极点配置/观测器',
+  '2026-12-16': '828答题框架：建状态空间→K/L→频域判稳→离散/非线性，只看已做错题',
+  '2026-12-17': '828错题索引：每题只写“第一步＋卡点”，17:00后去酒店，不再开新内容',
+  '2026-12-18': '828最后轻看：一页公式＋两套最熟答题框架；30分钟封顶',
 };
 
 // v116: 828 的日任务序列原来按"一三五"排；改成隔天轮换后，把原序列按"第 N 个自控日"重新落位（跳过 828真题日）
@@ -918,13 +928,20 @@ const PRO_PHASES = [
   { until:'2026-10-16', txt:'第5-6章：状态反馈+极点配置+全维观测器（听 23 状态反馈、24 全维观测器、<b>28 输出反馈</b>、<b>27 技巧课</b>·跳 29 最小维观测器）｜俞立第5章12道 + 第6章9道 ＋ 777第5/6章基础' },
   { until:'2026-10-23', txt:'A阶段收口＋缓冲：前四章错题回看 ＋ 离散补漏（P12/P26 例题）＋ Φ(t)/状态响应的手算再练 → 下个自控日进强化轮' },
   { until:'2026-11-23', txt:'🔥4h执行版强化轮：<b>自控已完成4道，余13道</b>（时域1＋频域4＋前馈2＋离散3＋非线性3）↔ <b>现控20道</b>｜每题≤35min' },
-  { until:'2026-12-14', txt:'📄 828真题8套：真题日14:30-17:30限时，17:30-18:30标错；次日下午1.5-2h详细订正。顺序：18→19→20→21→23→24→25→26（22无公开题）' },
+  { until:'2026-12-14', txt:'📄 828真题8套：11.24补完2018；2019/20各用两个自控日做＋订；12.4起2021/23/24/25/26当天做＋当天订正；12.14跨卷回炉' },
   { until:'2026-12-18', txt:'近3年精做 ＋ 错题三刷 ＋ 概念/公式默写（伯德K/梅森/稳态误差/朱利/描述函数/极点配置/观测器）' },
   { until:'2026-12-19', txt:'现控错题二刷 ＋ 概念/公式默写' },
 ];
 function getDailyProTask(date) {
   const key = fmtDate(date);
-  if (PRO_EXAM_DAYS[key]) return '📄 828真题 ' + PRO_EXAM_DAYS[key] + '：14:30-17:30限时全真（禁计算器）→ 17:30-18:30标错因＋圈出第二天复写步骤；次日下午1.5-2h详细订正';
+  if (PRO_EXAM_DAYS[key]) {
+    const p = PRO_EXAM_DAYS[key];
+    if (p.startsWith('2018')) return '📄 828真题2018：只续做尚未完成的部分，不从头重做；写完后立刻标错因＋圈出最卡3步';
+    if (p.includes('第2/2天')) return '📄 828真题' + p + '：不重新做整卷；订正错因、复写最卡3步，能串起来的知识点做一页归纳';
+    if (p.includes('当天做＋订正')) return '📄 828真题' + p + '：14:30-17:30限时；晚饭后立刻订正，不拖到第二天';
+    return '📄 828真题' + p + '：14:30-17:30限时全真；17:30-18:30标错因＋圈出第二天复写步骤';
+  }
+  if (PRO_FINAL_REVIEW[key]) return '⚙️ ' + PRO_FINAL_REVIEW[key];
   if (key >= '2026-11-26') return '';
   const prevDate = new Date(date);
   prevDate.setDate(prevDate.getDate() - 1);
@@ -974,6 +991,18 @@ const ENG_SPRINT_READING_PLAN = {
   '2026-11-16': '2025 Text 2',
   '2026-11-17': '2025 Text 3',
   '2026-11-18': '2025 Text 4',
+  '2026-11-23': '2020 Text 1',
+  '2026-11-24': '2020 Text 2',
+  '2026-11-25': '2020 Text 3',
+  '2026-11-26': '2020 Text 4',
+  '2026-11-27': '2021 Text 1',
+  '2026-11-28': '2021 Text 2',
+  '2026-11-29': '2021 Text 3',
+  '2026-11-30': '2021 Text 4',
+  '2026-12-01': '2022 Text 1',
+  '2026-12-02': '2022 Text 2',
+  '2026-12-03': '2022 Text 3',
+  '2026-12-04': '2022 Text 4',
 };
 const ENG_SPRINT_ORDINARY_DAYS = [
   '2026-11-11', '2026-11-13', '2026-11-15', '2026-11-17',
@@ -989,33 +1018,44 @@ const ENG_SPRINT_SMALL_PLAN = {
   '2026-11-21': ['新题型③'],
   '2026-11-23': ['翻译③'],
 };
+const ENG_POST23_SUPPORT_PLAN = {
+  '2026-11-24': '✍️ 补写2020小作文20min（两要点各三句；不写第二篇）',
+  '2026-11-25': '✍️ 2021大作文30min＋完型2020 15min',
+  '2026-11-27': '✍️ 2022小作文20min＋翻译2020 15min＋完型2021 15min',
+  '2026-11-29': '✍️ 2022大作文30min＋翻译2021 15min',
+  '2026-12-01': '✍️ 2025小作文20min＋完型2022 15min＋新题型2022 20min',
+  '2026-12-03': '✍️ 2025大作文30min＋翻译2022 15min',
+  '2026-12-07': '✍️ 从2021/2022/2025作文中挑错误最多的一段重写20min',
+  '2026-12-18': '✍️ 作文最后回炉15min：只写大作文骨架＋小作文格式，不新增模板',
+};
 function isEngSprintRange(key) {
-  return key >= '2026-11-11' && key <= '2026-12-17';
+  return key >= '2026-11-11' && key <= '2026-12-18';
 }
 function getEngSprintReadingTask(date) {
   const key = fmtDate(date);
   const mock = SPRINT_MOCK_PLAN[key];
-  if (mock) return '';
+  if (mock && mock.kind === 'eng') return '';
   if (ENG_SPRINT_READING_PLAN[key]) {
     return '📝 阅读40min：<b>' + ENG_SPRINT_READING_PLAN[key] + '</b>｜20min限时（不查词）→20min核选项依据；错因只记W/S/R/G';
   }
   if (key === '2026-11-19') return '📝 阅读回炉40min：不开新篇；回收2018 T1-T4、2025 T1-T4的错项、依据句和选项词';
-  if (key >= '2026-11-20' && key <= '2026-12-10') return '📝 旧文回炉40min：只重做错题与错选项，不再通篇翻译；错因只记W/S/R/G';
+  if (key >= '2026-11-20' && key <= '2026-12-18') return '📝 阅读旧文回炉40min：只重做错题与错选项，不再通篇翻译；错因只记W/S/R/G';
   return '';
 }
 function getEngSprintWordTask(date) {
   const key = fmtDate(date);
-  if (key < '2026-11-11' || key > '2026-12-17') return '';
+  if (key < '2026-11-11' || key > '2026-12-18') return '';
   const mock = SPRINT_MOCK_PLAN[key];
   if (mock && mock.kind === 'eng') return '📖 单词20-30min：整卷日零覆盖、零新增；只回取旧错词，做完即停';
   if (key >= '2026-12-15') return '📖 单词20-30min：零新增；只回看高频错词、选项词、熟词僻义和作文词';
   if (ENG_SPRINT_ORDINARY_DAYS.includes(key)) {
     return '📖 单词60min：200词覆盖15min＋必修40约30min＋旧错词15min｜首轮≥70%且有剩余时间才加8个冲刺词，不加不补';
   }
-  return '📖 单词30min：200词覆盖15min＋必修12约10min＋到期旧错词5min｜828日另排旧文阅读40，数学套卷日不排阅读';
+  return '📖 单词30min：200词覆盖15min＋必修12约10min＋到期旧错词5min';
 }
 function getEngSprintSupportTask(date) {
   const key = fmtDate(date);
+  if (ENG_POST23_SUPPORT_PLAN[key]) return ENG_POST23_SUPPORT_PLAN[key];
   if (!ENG_SPRINT_ORDINARY_DAYS.includes(key)) return '';
   const smalls = ENG_SPRINT_SMALL_PLAN[key] || [];
   const smallText = smalls.length ? smalls.join('、') : '回炉最弱一篇';
@@ -1045,7 +1085,7 @@ function getDailyEngTask(date) {
     return (cloze ? cloze + '(三小课轮换) ＋ ' : '') + '写作：每天20min微训练＋每周3篇整篇(2大1小·大作文→重写→新题+小作文轮换) ＋ 🈶翻译15min(英语日·面板自动排次) ＋ 精读1篇';
   }
   if (key <= '2026-11-18') return '阶段A：2018 T1-T4、2025 T1-T4八篇阅读＋作文20min＋小三门轮换（英语日）';
-  if (key <= '2026-12-05') return '阶段B：整卷按总览日做（2019/21/23/26·3h做＋1.5h订正）＋作文20min＋翻译新题15min（英语日）；不与数学套卷同日';
+  if (key <= '2026-12-05') return '阶段B：阅读每天1篇；12.5 2023整卷；作文与2020/21/22剩余小三门按每日任务推进';
   if (key <= '2026-12-14') return '阶段B：剩余英语整卷按总览日做＋作文20min；翻译新题已于12.5收口，之后只重译错句15min';
   return '考前收口：作文默写＋错题回看＋阅读保温；12.15起不开新卷';
 }
@@ -1312,14 +1352,14 @@ const DRAWER_SECTIONS = [
         <tr><td><b>11.6-11.8</b></td><td>证明专项按题型系统过；第一、二章重做卡回炉<br><b>11.7考试日：全天休息日，不排数学/线代/概率，只自主复习考试</b></td><td>11.11起执行新英语冲刺块：2018 T1-T4＋2025 T1-T4；11.7不排英语</td><td>11.6、11.8强化组题</td><td>技巧课剩余/刷题宝典错题；11.7不排</td></tr>
         <tr><td><b>11.9-11.13</b></td><td><b>线代/概率讲义收口</b>：线代目标11.9、最晚11.10；概率目标11.13。11.13是收口日，不是纯缓冲</td><td><b>单词必保＋阅读每天40＋英语日作文20＋小三门15</b>；小三门完型/新题型/翻译各余3篇</td><td>11.10、11.12强化组题</td><td>肖八1-2套</td></tr>
         <tr><td><b>11.14-11.24</b></td><td><b>线代＋概率分类真题</b>：828日45min、无828日210min（按题单顺延）；高数错题每天1.5h；11.24收口60min</td><td><b>11.18八篇阅读收口，11.19只回炉；11.23小三门9篇清完</b>→阶段B英语整卷</td><td>隔天下午4h强化组题</td><td>肖八1-8听讲（不做整套）＋带考营</td></tr>
-        <tr><td><b>11.25-12.14</b></td><td><b>数学8套保底</b>：真题2021-26＋李林2套；每个无828日最多一场</td><td><b>英语4套</b>：2019、2021、2023、2026；不叠数学套卷</td><td><b>8套真题</b>，每两天一套</td><td>肖八十页纸＋肖四预热</td></tr>
-        <tr><td><b>12.15-12.18</b></td><td>错题三刷＋公式默写，不开新难题</td><td>作文默写＋错题回看＋阅读保温</td><td>公式/错题/高频题型</td><td>肖四＋十页纸全背，手写2-3题</td></tr>
+        <tr><td><b>11.25-12.14</b></td><td><b>数学6套</b>：2021/22诊断，2023/24/25/26后段模考；不做李林</td><td>阅读不断线；12.5 2023、12.9 2024、12.13 2026三套英语整卷</td><td><b>828共8套</b>：2018补完；2019/20各两天；2021起当天做＋当天订正</td><td>肖八十页纸＋肖四预热</td></tr>
+        <tr><td><b>12.15-12.18</b></td><td>12.15-17错题公式基础手感；12.18轻看</td><td>15-18旧阅读不断线；作文只回炉默写</td><td>12.14跨卷回炉，15-18框架与错题</td><td>肖四＋十页纸；12.18四科轻量收口</td></tr>
       </table>
 
       <div class="c-card">
         <div class="c-title">📄 11.25 以后：一个无828日只放一场完整套卷</div>
-        <div class="c-row"><span class="tag red">数学 8 套</span>11.25 2021｜11.29 2022｜12.3 2023｜12.7 2024｜12.11 2025｜12.12 2026｜12.13 李林1｜12.14 李林2</div>
-        <div class="c-row"><span class="tag amber">英语 4 套</span>11.27 2019｜12.1 2021｜12.5 2023｜12.9 2026</div>
+        <div class="c-row"><span class="tag red">数学 6 套</span>11.25 2021｜11.29 2022｜12.3 2023｜12.7 2024｜12.11 2025｜12.14 2026</div>
+        <div class="c-row"><span class="tag amber">英语 3 套</span>12.5 2023｜12.9 2024｜12.13 2026；三套均含完型/新题型/翻译/作文</div>
         <div class="c-row"><span class="tag gray">规则</span>英语整卷日不再叠数学整卷；828真题日下午固定，上午只做90min数学维持</div>
       </div>
 
@@ -1348,25 +1388,25 @@ const DRAWER_SECTIONS = [
       </table>
       <div class="c-card"><div class="c-row"><span class="tag gray">抵扣规则</span>已经做过的组直接划掉，<b>不顺延补新题</b>；单题35分钟到点停。</div></div>
 
-      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⚙️ 828：11.26—12.10 八套真题</p>
+      <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">⚙️ 828：11.24—12.12 八套真题</p>
       <table>
-        <tr><th>做题日</th><th>试卷</th><th>次日必做</th></tr>
-        <tr><td>11.26</td><td>2021</td><td>11.27下午详细订正 1.5-2h</td></tr>
-        <tr><td>11.28</td><td>2024</td><td>11.29下午详细订正</td></tr>
-        <tr><td>11.30</td><td>2025</td><td>12.1下午详细订正</td></tr>
-        <tr><td>12.2</td><td>2023</td><td>12.3下午详细订正</td></tr>
-        <tr><td>12.4</td><td>2026</td><td>12.5下午详细订正</td></tr>
-        <tr><td>12.6</td><td>2020</td><td>12.7下午详细订正</td></tr>
-        <tr><td>12.8</td><td>2019</td><td>12.9下午详细订正</td></tr>
-        <tr><td>12.10</td><td>2018</td><td>12.11下午详细订正</td></tr>
+        <tr><th>日期</th><th>试卷</th><th>处理</th></tr>
+        <tr><td>11.24</td><td>2018</td><td>只续完剩余部分，不从头重做</td></tr>
+        <tr><td>11.26＋11.28</td><td>2019</td><td>两个自控日：第一天做＋标错；第二天订正＋回炉</td></tr>
+        <tr><td>11.30＋12.2</td><td>2020</td><td>两个自控日：第一天做＋标错；第二天订正＋回炉</td></tr>
+        <tr><td>12.4</td><td>2021</td><td>当天做＋当天订正</td></tr>
+        <tr><td>12.6</td><td>2023</td><td>当天做＋当天订正</td></tr>
+        <tr><td>12.8</td><td>2024</td><td>当天做＋当天订正</td></tr>
+        <tr><td>12.10</td><td>2025</td><td>当天做＋当天订正</td></tr>
+        <tr><td>12.12</td><td>2026</td><td>当天做＋当天订正；12.14跨卷回炉</td></tr>
       </table>
-      <div class="c-card"><div class="c-row"><span class="tag red">不能积压</span>每套次日至少完成：错因归类＋最卡3步复写；12.12只做跨套汇总，不再第一次订正八套。</div></div>
+      <div class="c-card"><div class="c-row"><span class="tag red">不能积压</span>2019/20允许两天一套；2021起做完当天订正。12.14只做跨套汇总，不再重新做整套。</div></div>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);margin-top:12px;">📝 英语：阶段A → 阶段B</p>
       <table>
         <tr><th>阶段</th><th>安排</th><th>硬节点</th></tr>
         <tr><td>A｜11.11-11.23</td><td><b>单词必保</b>＋阅读8篇：11.11-14做2018 T1-T4，11.15-18做2025 T1-T4，11.19回炉；英语日作文20＋小三门；完型/新题型/翻译各3篇，不含套卷</td><td>11.18八篇阅读清完；11.23小三门9篇清完</td></tr>
-        <tr><td>B｜11.24-12.14</td><td>整卷4套：2019、2021、2023、2026；3h做＋1.5h订正；整卷日零覆盖、零新增，只回旧错词</td><td>每个无828日最多一场，12.14前收口</td></tr>
+        <tr><td>B｜11.23-12.14</td><td>2020-22每天1篇；2023/24/26三套整卷；2020小、2021大、2022大小、2025大小补完整篇</td><td>12.4前拆完20-22；12.13完成最后整卷</td></tr>
         <tr><td>收尾｜12.15-12.19</td><td>作文默写＋错题回看；单词零新增，只回高频错词/选项词/作文词</td><td>不开新卷</td></tr>
       </table>
       <div class="c-card"><div class="c-row"><span class="tag red">冲突裁决</span><b>优先级：单词＞阅读＞作文＞小三门</b>。828日只保留单词＋旧阅读；数学套卷日只做30min单词；英语整卷日不再加阅读/作文/小三门；小三门9篇只在11.11-11.23英语日完成。</div></div>
@@ -1390,7 +1430,7 @@ const DRAWER_SECTIONS = [
   },
   {
     title: "🔢 数学一 · 110分层 ＋ 做题流程",
-    html: `      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">现状：高数九章分类真题已收口｜<b>11.9-13 线代/概率收口</b>｜<b>11.14-24 线代＋概率分类真题</b>｜<b>11.25 起数学套卷</b>（8套保底，828真题日只保90min）</p>
+    html: `      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">现状：高数九章分类真题已收口｜线代＋概率分类11.24收口｜<b>11.25起数学6套真题</b>：先2套诊断，后4套按错因补漏，不做李林</p>
 
       <p style="font-size:13px;font-weight:600;color:var(--text);">📐 高数 18 讲 · 110 分分级</p>
       <div class="c-card"><div class="c-title">⭐1 函数极限连续</div>
@@ -1575,7 +1615,7 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">套卷</span>上午 3h 全真限时（选填 60-70min·卡住标记跳过·做完先涂卡）→ <b>晚槽 19:30-20:30 订正标⭐</b>（当天共 4.5h·<b>套卷日晚上不排概率/线代</b>）→ 隔天接着复盘错题</div>
         <div class="c-row"><span class="tag rose">考场卡壳三步</span><b>跳过 → 标记 → 回头</b>：任何题超过自定时间（选填 4min／解答 8min）没思路就立刻走，全卷做完再回来；草稿纸按题号写，方便回头查</div>
-        <div class="c-row"><span class="tag amber">套卷顺序</span>11.25起做6套真题（2021-2026）→ 李林2套收口；每个无828日只放一场数学或英语整卷，不能双叠</div>
+        <div class="c-row"><span class="tag amber">套卷顺序</span>2021/22先做诊断，12.3/7/11/14接2023/24/25/26；每套只重做最卡3步，不追分数</div>
         <div class="c-row"><span class="tag amber">大复盘</span>每 3-5 年停一次：回讲义例题思路＋880错题＋练数一二三同类型真题</div>
         <div class="c-row"><span class="tag gray">警示</span>连做 3 套仍很差 → 先停·回强化讲义补漏再回来·别硬刷</div>
         <div class="c-row"><span class="tag blue">草稿</span>分区分题号·大题先脑内过流程再下笔·不跳步；计算错误点整理成一张纸每天看一遍</div></div>
@@ -1914,7 +1954,7 @@ const DRAWER_SECTIONS = [
       <div class="c-card">
         <div class="c-row"><span class="tag red">容量口径</span><b>6.5h 保底 / 7.5h 封顶</b>（阈值在涨）→ <b>掉到 6.5h 那天＝保底达标，不叫落后</b>；只有低于 6.5h 才开节流阀</div>
         <div class="c-row"><span class="tag amber">合格线（判定线）</span><b>今天完成 ＝ 必保（P0/主线）全部做完</b>；可弃项只进加分池，<b>不计入"今天完成与否"</b>·按"题型"打勾推进，别按题数焦虑</div>
-        <div class="c-row"><span class="tag blue">节点底线</span>11.9-13 线概收口 ｜ 11.14-24 线概分类（828日45min/无828日210min）｜ <b>数学套卷 11.25 启动，8套保底</b></div>
+        <div class="c-row"><span class="tag blue">节点底线</span>11.24 概率收口 ｜ 数学6套：11.25/29诊断＋12.3/7/11/14 ｜ 英语整卷只做2023/24/26</div>
         <div class="c-row"><span class="tag gray">课表日</span>周二 13:30、周四上午、周五 10:00 有课 → 这些天高数按 <b>2/3 量</b>算；上午被杂事吃掉就<b>只做 2 个题型算合格</b>，<b>不拿晚槽补</b></div>
         <div class="c-row"><span class="tag green">追进度只动休息半天</span>把欠账清在那天上午/下午，比每天硬撑到半夜划算</div></div>
       <div class="c-card"><div class="c-title">🚧 四条硬纪律（防漂移）</div>
@@ -1976,7 +2016,7 @@ const DRAWER_SECTIONS = [
         <tr><td>10.8-11.8</td><td>数学分类真题（高数先行→概率/线代板块）｜现控课＋俞立 80 题 <b>10.23</b> 收口（10.17 休息 + 10.18 让位数学 → 顺延 1 个自控日） ｜ 英语写作模板＋翻译＋完型收尾 ｜ 政治：百日班＋史纲串讲＋带背先行 → <b>10.31 1000题一刷 ✅</b></td></tr>
         <tr><td>10.9-10.12 / 10.15-10.24</td><td><b>考研预报名 / 正式报名</b>（每日 9:00-22:00）·注意信院与卓工<b>学院编号不同</b></td></tr>
   <tr><td>10.25-11.20</td><td>828 强化轮（自控强化 27 ↔ 现控专题 33 在自控日交替）→ <b>11.22 起 828 真题</b>（每个自控日 1 套·上午全真下午订正；强化轮 11.20 收口）｜ 数学分类真题收尾→套卷（周末真题日归数学）</td></tr>
-        <tr><td>11.9-12.19</td><td>11.9-13线概收口｜11.14-24线概分类｜11.25起数学8套＋英语4套｜828共8套真题｜政治肖八→肖四</td></tr>
+        <tr><td>11.9-12.19</td><td>11.24概率收口｜数学6套＋英语3套｜828共8套真题｜12.18四科轻量收口｜政治肖八→肖四</td></tr>
         <tr><td>12.06-12.19</td><td>肖四选择＋分析题全背＋十页纸 ｜ 近 3 年真题精做 ｜ 作文默写 ｜ 错题三刷＋公式默写</td></tr>
         <tr><td>12.19-12.20</td><td><b>初试</b></td></tr>
       </table>
@@ -2012,14 +2052,14 @@ pol:'张真题选择技巧1-4（网盘11-14·2x≈70min/节·不做题直接听�
     eng:'11.18八篇阅读收口；11.19回炉；11.23完型/新题型/翻译各3篇清完→英语整卷',
     pol:'肖八4-5(11.21-22)｜11.22前三页→11.23看(3h→1.5h)+背前三页｜肖八6(11.25)' },
   { start:'2026-11-25', end:'2026-12-14', label:'第21-22周·三科套卷并行',
-    math:'8套保底：真题2021-2026＋李林2套；每个无828日最多一场完整套卷；828日数学90min含880选择题维护，数学整卷日不额外叠加',
-    pro:'11.26-12.10八套真题隔天做；次日14:30-16:30详细订正，禁止积压到12.12',
-    eng:'数学/828日单词30分钟；4套整卷2019/21/23/26；整卷日零覆盖零新增，只回旧错词',
+    math:'6套数学真题：11.25 2021｜11.29 2022｜12.3 2023｜12.7 2024｜12.11 2025｜12.14 2026；不做李林，数学整卷日不叠828完整卷',
+    pro:'8套828：11.24补完2018；11.26-28做/订2019；11.30-12.2做/订2020；12.4 2021、12.6 2023、12.8 2024、12.10 2025、12.12 2026均当天做＋当天订正',
+    eng:'阅读每天1篇：11.23-12.4拆完2020/21/22；12.5 2023整卷、12.9 2024整卷、12.13 2026整卷；作文和剩余小三门按每日任务',
     pol:'肖八7-8(11.26-27)｜11.27模考→11.28-29｜11.29时政九面2→11.30｜张三→12.2/4/6｜中四页→12.7｜肖四→12.8-12｜后三页→12.10｜实战→12.13｜选择终极→12.14' },
   { start:'2026-12-15', end:'2026-12-18', label:'考前4天·只收口',
-    math:'错题三刷＋公式默写＋薄弱第一步；不开新难题',
-    pro:'公式/错题/高频题型；手算保持，不攻偏题',
-    eng:'作文默写＋错题回看；单词零新增，只回高频错词/选项词/作文词；不开新卷',
+    math:'12.15-17错题三刷＋公式默写＋基础手感；12.18只轻看公式和最弱第一步',
+    pro:'12.14跨卷回炉；12.15-17公式/答题框架/错题索引；12.18只看一页公式＋两套最熟框架',
+    eng:'阅读不断线：15-18每天1篇旧文；作文只默写回炉；12.18作文骨架轻写，不开新题',
     pol:'十页纸带背＋肖四背诵＋手写2-3道＋答题卡；12.19考试' },
 ];
 
@@ -2070,8 +2110,8 @@ function getChoice880Task(date) {
   const key = fmtDate(date);
   if (key < '2026-11-10') return '';
   const mock = SPRINT_MOCK_PLAN[key];
-  if (mock && mock.kind === 'math') return '📄 今日数学整卷：套卷选填段替代当天880选择题，不额外叠加';
-  if (mock && mock.kind === 'eng') return '📄 今日英语整卷：不额外加880；仅保留10min数学错题回忆';
+  if (mock && mock.kind === 'math') return '';
+  if (mock && mock.kind === 'eng') return '';
   if (key >= '2026-12-15') return '🎯 880选择题保温60min：只做错题本中仍会犹豫的6题；不做新题、不做综合拔高';
   const base = new Date('2026-11-10T00:00:00');
   const end = new Date(key + 'T00:00:00');
@@ -2092,10 +2132,11 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   if (!w || !dayInfo) return '';
   if (dayInfo.rest) return '';
 
-  const isAutoCtrl = isSelfControlDay(now);
   const weekday = now.getDay();
   const dayLabel = ['日','一','二','三','四','五','六'][weekday];
   const dateKey = fmtDate(now);
+  const isDec18English = dateKey === '2026-12-18';
+  const isAutoCtrl = isSelfControlDay(now) && !isDec18English;
   const isLabDay = dateKey === '2026-11-09';
   const engSprintActive = isEngSprintRange(dateKey);
   const engMockToday = SPRINT_MOCK_PLAN[dateKey] && SPRINT_MOCK_PLAN[dateKey].kind === 'eng';
@@ -2103,6 +2144,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   const isToday = interactive === true;
   const doneSet = isToday ? getDoneSet() : new Set();
   const period = getPeriodInfo(now);
+  const proTask = getDailyProTask(now);
 
   const rows = [
     ...getDailyMathTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', sub: k > 0, label:(k === 0 ? '数学：' : '') + p.trim() })),
@@ -2116,16 +2158,12 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     if (wordTask) rows.push({ s:'eng', label:wordTask + '｜<b>优先级：单词＞阅读＞作文＞小三门</b>' });
   }
   if (isAutoCtrl) {
-    const proTask = getDailyProTask(now);
     if (proTask === null) {
       rows.push({ s:'math', label:'🔢 数学补进度：下午大块 14:30-18:00（今日本该是828，改补数学·不排828）' });
     } else if (proTask) {
       rows.push({ s:'pro', label:'828：' + proTask });
     }
-    if (engSprintActive) {
-      const reading = getEngSprintReadingTask(now);
-      if (reading) rows.push({ s:'eng', label:reading });
-    } else if (!mathMockToday) {
+    if (!engSprintActive && !mathMockToday) {
       rows.push({ s:'eng', label:'📝 阅读精读 40min（20:30-21:10）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（词/句/定位/逻辑·每题只勾一个）' });
     }
   } else if (!isLabDay && !mathMockToday) {
@@ -2133,14 +2171,19 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
       if (engMockToday) {
         rows.push({ s:'eng', label:getDailyEngTask(now) + '｜不再加阅读、作文或小三门' });
       }
-      const reading = getEngSprintReadingTask(now);
-      if (reading) rows.push({ s:'eng', label:reading });
-      const support = getEngSprintSupportTask(now);
-      if (support) rows.push({ s:'eng', label:support });
     } else {
       rows.push({ s:'eng', label:'英语：' + getDailyEngTask(now) });
       if (!engMockToday) rows.push({ s:'eng', label:'📝 阅读精读 40min（下午大块打头·14:30 开）：限时 20min 做题（不查词）→ 对答案 → 错≥2 题深翻 → 错因四栏（每题只勾一个）' });
     }
+  }
+  if (!isAutoCtrl && dateKey >= '2026-12-15' && dateKey <= '2026-12-18' && proTask) {
+    rows.push({ s:'pro', label:'828：' + proTask });
+  }
+  if (engSprintActive && !isLabDay && !engMockToday) {
+    const reading = getEngSprintReadingTask(now);
+    if (reading) rows.push({ s:'eng', label:reading });
+    const support = getEngSprintSupportTask(now);
+    if (support) rows.push({ s:'eng', label:support });
   }
   if (!isLabDay) {
     if (!engSprintActive) {
@@ -2406,7 +2449,7 @@ function getSchedule(date) {
   // v182: 828真题次日＝上午英语；下午先详细订正828，再订正英语
   const prevExamDate = new Date(date);
   prevExamDate.setDate(prevExamDate.getDate() - 1);
-  const prevExamYear = PRO_EXAM_DAYS[fmtDate(prevExamDate)];
+  const prevExamYear = key < '2026-11-24' ? PRO_EXAM_DAYS[fmtDate(prevExamDate)] : '';
   if (prevExamYear) {
     if (sprint && sprint.kind === 'eng') {
       return { tag: '📝 英语整卷 ' + sprint.paper + ' ＋ 828订正', emoji: '📝', schedule: [
@@ -2471,6 +2514,17 @@ function getSchedule(date) {
       { t:"20:00-20:30", l:"📖 单词20-30min：整卷日零覆盖、零新增；只回取旧错词", s:"eng" },
       { t:"20:30-21:00", l:"📋 复盘/收工", s:"rest" },
     ]};
+  }
+
+  // v200: 17 晚入住酒店；18 四科轻量收口
+  if (key === '2026-12-17') {
+    return { tag: '📖 英语日 · 17:00后去酒店', emoji: '📖', schedule: [] };
+  }
+  if (key === '2026-12-18') {
+    return { tag: '📚 四科轻量收口 · 英语日', emoji: '📚', schedule: [] };
+  }
+  if (key === '2026-12-19') {
+    return { tag: '🎯 初试第1天 · 上午政治 / 下午英语', emoji: '🎯', schedule: [] };
   }
 
   // v186: 考前四天只收口
@@ -2790,15 +2844,8 @@ function render() {
   }
 
   main.innerHTML = `
-    ${nowHTML}
-    <div class="timeline-card">
-      <div class="timeline-title"><span class="dot"></span>${dayInfo.emoji} 今日时间表</div>
-      <ul class="timeline-list">${timelineHTML}</ul>
-    </div>
     ${todayCardHTML}
-    ${tomorrowCardHTML}
-    ${now.getDay() === 5 ? buildWeeklyReviewCard(true) : ''}
-    ${buildWeekCardHTML()}`;
+    ${tomorrowCardHTML}`;
 }
 
 function toggleTask(key, el) {
