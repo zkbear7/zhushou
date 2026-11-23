@@ -2136,6 +2136,7 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   const dayLabel = ['日','一','二','三','四','五','六'][weekday];
   const dateKey = fmtDate(now);
   const isDec18English = dateKey === '2026-12-18';
+  const onlyMathPolToday = dateKey === '2026-11-23';
   const isAutoCtrl = isSelfControlDay(now) && !isDec18English;
   const isLabDay = dateKey === '2026-11-09';
   const engSprintActive = isEngSprintRange(dateKey);
@@ -2153,11 +2154,11 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
     // v118: 晚槽按 ｜ 拆成多条可勾选项，避免再去翻别的文档
     ...getDailyLinTask(now).split(/｜|(?=[①②③④⑤]\s)/).filter(x => x.trim()).map((p, k) => ({ s:'math', sub: k > 0, label:(k === 0 ? '概率/线代（晚槽）：' : '') + p.trim() })),
   ];
-  if (engSprintActive && !isLabDay) {
+  if (!onlyMathPolToday && engSprintActive && !isLabDay) {
     const wordTask = getEngSprintWordTask(now);
     if (wordTask) rows.push({ s:'eng', label:wordTask + '｜<b>优先级：单词＞阅读＞作文＞小三门</b>' });
   }
-  if (isAutoCtrl) {
+  if (isAutoCtrl && !onlyMathPolToday) {
     if (proTask === null) {
       rows.push({ s:'math', label:'🔢 数学补进度：下午大块 14:30-18:00（今日本该是828，改补数学·不排828）' });
     } else if (proTask) {
@@ -2179,14 +2180,14 @@ function buildDailySubjectCard(dayInfo, now, interactive) {
   if (!isAutoCtrl && dateKey >= '2026-12-15' && dateKey <= '2026-12-18' && proTask) {
     rows.push({ s:'pro', label:'828：' + proTask });
   }
-  if (engSprintActive && !isLabDay && !engMockToday) {
+  if (!onlyMathPolToday && engSprintActive && !isLabDay && !engMockToday) {
     const reading = getEngSprintReadingTask(now);
     if (reading) rows.push({ s:'eng', label:reading });
     const support = getEngSprintSupportTask(now);
     if (support) rows.push({ s:'eng', label:support });
   }
   if (!isLabDay) {
-    if (!engSprintActive) {
+    if (!onlyMathPolToday && !engSprintActive) {
       rows.push({ s:'eng', label:'📖 单词 30min（每天最后·闪过20min＋生词本10min：遮中文→说意思→说不对再看·不拼写·说不出的打 ★）' });
       rows.push({ s:'eng', label:'🧠 单词回顾 15min（次日早上 07:50-08:05·只过昨天打 ★ 的词 ＋ 真题生词本·不重读整 list）' });
       rows.push({ s:'eng', label:'单词：真题生词本——当天新做的题里摘不认识的词（写“搭配＋义项”·一篇 5-10 个·≤10min）→ 明天早读回看｜卡壳的只打一个 ★' });
@@ -2380,6 +2381,10 @@ function getSchedule(date) {
       { t:"19:00-19:30", l:"📜 政治", s:"pol" },
       { t:"20:30-21:00", l:"📖 单词30min（必保）：必修40后15＋旧错词15", s:"eng" },
     ]};
+  }
+
+  if (key === '2026-11-23') {
+    return { tag: '🔢 数学＋📜 政治 · 今天只保两项', emoji: '📚', schedule: [] };
   }
 
   // v186: 11.14-11.24 分类真题——828日45min（11.24收口60），无828日210min
@@ -2773,49 +2778,6 @@ function render() {
       ${nextWeekHTML}`;
     return;
   }
-
-  const sched = dayInfo.schedule;
-  const current = getCurrentTask(sched, now);
-
-  // Current task
-  const iconMap = { math:'🔢', eng:'📝', pro:'⚙️', gym:'🏃', rest:'💤', eat:'🍜', pol:'📜' };
-  let nowHTML = '';
-  if (current.type === 'now') {
-    nowHTML = `
-      <div class="now-card">
-        <div class="now-time">现在应该在做…</div>
-        <div class="now-task-icon">${iconMap[current.item.s] || '📌'}</div>
-        <div class="now-task-title">${current.item.l}</div>
-        <div class="now-task-time">${current.item.t}</div>
-      </div>`;
-  } else if (current.type === 'next') {
-    nowHTML = `
-      <div class="now-card">
-        <div class="now-time">接下来…</div>
-        <div class="now-task-icon">⏰</div>
-        <div class="now-task-title">${current.item.l}</div>
-        <div class="now-task-time">${current.item.t}</div>
-      </div>`;
-  } else {
-    nowHTML = `
-      <div class="now-card">
-        <div class="now-time">${current.item.l.includes('结束') ? '🎉' : '✨'}</div>
-        <div class="now-task-title" style="font-size:20px;">${current.item.l}</div>
-      </div>`;
-  }
-
-  // Timeline
-  let timelineHTML = sched.map((item, i) => {
-    const key = `${dateKey}_${i}`;
-    const isDone = doneSet.has(key);
-    return `
-      <li class="timeline-item ${isDone ? 'done' : ''}" onclick="toggleTask('${key}', this)">
-        <span class="tl-marker ${item.s}"></span>
-        <span class="tl-time">${item.t}</span>
-        <span class="tl-label">${item.l}</span>
-        <span class="tl-check"></span>
-      </li>`;
-  }).join('');
 
   // 今日任务卡片（始终显示今天）
   const todayCardHTML = buildDailySubjectCard(dayInfo, now, true);
