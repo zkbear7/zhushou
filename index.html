@@ -745,8 +745,17 @@ const DAILY_TASKS = {
   '2026-11-24': { math:'🎯 <b>高数1.5h＝880选择题60min＋错题回炉30min</b>；线代/概率分类完成综合回炉', },
 };
 
+const MATH_OVERRIDE = {
+  '2026-11-27': '📐 <b>概率专项①（约 75min）</b>：① ch4 黄题 12 道（3min/道·只写起手）36min ② 救命课<b>抽样分布</b> 40min（三分布构造、何时开根号、独立性前提）',
+  '2026-11-28': '📐 <b>概率专项②（828日·90min）</b>：① ch5：2020数一8 🟥（8min）② ch6：2017数一8 🟥（8min）＋2 道黄题 ③ ch7 起手：2009数一14 🟥、2016数一14 🟥（各 8min）＋2010数一23 🟥（26min）',
+  '2026-11-29': '📐 <b>概率专项③＋线代复盘①（约 150min）</b>：① ch7 收口：2015数一23 🟥、2017数一23 🟥（各 26min）② ch8：2018数一8 🟥（8min）→ <b>概率✅</b> ③ 线代回炉第一批 15 条（4min/条）',
+  '2026-11-30': '📐 <b>线代复盘②（828日·90min）</b>：线代回炉第二批 15 条（相似/二次型·4min/条）60min ＋ 概率 ⭐3 道 20min',
+  '2026-12-01': '📐 <b>两科 ⭐ 二刷（约 60min）</b>：概率 ⭐ 全部口述第一步 30min ＋ 线代 ⭐ 抽 8 条重做 30min ｜明天起进套卷',
+};
+
 function getDailyMathTask(date) {
   const key = fmtDate(date);
+  if (MATH_OVERRIDE[key]) return MATH_OVERRIDE[key];
   if (DAILY_TASKS[key] && DAILY_TASKS[key].math) return DAILY_TASKS[key].math;
   if (SPRINT_MOCK_PLAN[key] && SPRINT_MOCK_PLAN[key].kind === 'math') return '📄 <b>数学套卷 ' + SPRINT_MOCK_PLAN[key].paper + '</b>：3h限时→2-2.5h订正；只重做最卡3步';
   if (SPRINT_MOCK_PLAN[key] && SPRINT_MOCK_PLAN[key].kind === 'eng') return '📄 英语整卷日：数学只留10min错题回忆，不排新题';
@@ -791,7 +800,6 @@ const LINPROB_REVIEW_PLAN = {
 // v186: 11.25-12.14 每个无828日只放一场完整套卷，避免数学/英语套卷互撞
 const SPRINT_MOCK_PLAN = {
   '2026-11-25': { kind:'math', paper:'2021' },
-  '2026-11-29': { kind:'math', paper:'2022' },
   '2026-12-03': { kind:'math', paper:'2023' },
   '2026-12-05': { kind:'eng', paper:'2023' },
   '2026-12-07': { kind:'math', paper:'2024' },
